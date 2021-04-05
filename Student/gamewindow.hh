@@ -11,6 +11,8 @@
 #include "gamescene.hh"
 #include "game.h"
 
+#include "../Course/game.h"
+#include "../Course/runner.h"
 
 namespace Ui {
 class GameWindow;
@@ -26,11 +28,14 @@ public:
     void setSize(int width, int height);
     void drawLocations();
 
+    void drawPlayerHand();
+
 
 private:
     Ui::GameWindow *gameui;
     QGraphicsScene *mapScene;
     std::shared_ptr<Interface::Game> courseGameScene = nullptr;
+    std::shared_ptr<Interface::Runner> courseRunner = nullptr;
 
     const std::vector<QString> paikat_ = {"Marketti", "Kirkko", "Taverna", "Kauppiaiden kilta", "Menomesta", "Salapaikka"};
 

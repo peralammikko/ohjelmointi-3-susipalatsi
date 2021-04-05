@@ -1,6 +1,7 @@
 #include "gamewindow.hh"
 #include "ui_gamewindow.h"
 #include "mapitem.hh"
+#include <cmath>
 
 GameWindow::GameWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -10,10 +11,16 @@ GameWindow::GameWindow(QWidget *parent) :
     mapScene = new QGraphicsScene(gameui->graphicsView);
     gameui->graphicsView->setScene(mapScene);
 
+    // Asetetaan graphicViewin ja ikkunan koot staattiseks ensalkuun
+    gameui->graphicsView->setFixedSize(1200, 700);
+    this->setFixedSize(1400, 900);
+
     this->setWindowTitle("SUSIPALATSI: TEH GAME");
 
     courseGameScene = std::make_shared<Interface::Game>();
+    courseRunner = std::make_shared<Interface::Runner>(courseGameScene);
 
+    // Luodaan location-oliot
     for (int i = 0; i < 6; i++) {
         std::shared_ptr<Interface::Location> location = std::make_shared<Interface::Location>(i, paikat_.at(i));
         courseGameScene->addLocation(location);
@@ -32,31 +39,29 @@ void GameWindow::drawLocations()
     std::vector<std::shared_ptr<Interface::Location>> locvec = courseGameScene->locations();
     std::shared_ptr<Interface::Location> currentLocation = nullptr;
 
-    for (int i = 0; i < 1; i++) {
-        for (int j = 0; j < 3; j++) {
-            currentLocation = locvec.at(buildingCtr);
-            mapItem* locationRect = new mapItem(currentLocation);
-            if (j==1) {
-                locationRect->setCoords(-150,j*250);
-            } else {
-                locationRect->setCoords(i*250, j*250);
-            }
-            mapScene->addItem(locationRect);
-            buildingCtr++;
-        }
+
+    // Piirretään rakennukset "ympyrän" kehälle
+    const int xCenter = 0;
+    const int yCenter = 0;
+    const int radius = 200;
+
+    int locationCount = courseGameScene->locations().size();
+    const int degree = 360 / locationCount;
+
+    for (int i = 0; i < locationCount; i++) {
+        currentLocation = locvec.at(buildingCtr);
+        mapItem* locationRect = new mapItem(currentLocation);
+        gameScene->addItem(locationRect);
+
+        // Geometrinen sijainti kehällä
+        int angleDeg = degree * i;
+        float angleRad = angleDeg * M_PI / 180;
+        int x = xCenter + radius * std::cos(angleRad);
+        int y = yCenter + radius * std::sin(angleRad);
+        locationRect->setCoords(x, y);
+
+        buildingCtr++;
     }
 
-    for (int i = 1; i < 2; i++) {
-        for (int j = 2; j >= 0; j--) {
-            currentLocation = locvec.at(buildingCtr);
-            mapItem* locationRect = new mapItem(currentLocation);
-            if (j == 1) {
-                locationRect->setCoords(400,j*250);
-            } else {
-                locationRect->setCoords(250, j*250);
-            }
-            mapScene->addItem(locationRect);
-            buildingCtr++;
-        }
-    }
+
 }

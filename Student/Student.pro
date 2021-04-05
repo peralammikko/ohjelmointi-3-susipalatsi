@@ -6,7 +6,7 @@ QT += core gui widgets network multimedia
 CONFIG += c++14
 
 SOURCES += \
-    agentinterface.cpp \
+    actioncard.cpp \
     agentitem.cpp \
     gamescene.cpp \
     gamewindow.cpp \
@@ -38,6 +38,7 @@ else:unix: PRE_TARGETDEPS += \
     $$OUT_PWD/../course/Course/libCourse.a
 
 HEADERS += \
+    actioncard.hh \
     agentitem.hh \
     gamescene.hh \
     gamewindow.hh \
