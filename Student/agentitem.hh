@@ -4,7 +4,7 @@
 #include "mapitem.hh"
 #include "agentinterface.h"
 
-class agentItem : public mapItem
+class agentItem : public mapItem, public Interface::AgentInterface
 {
 public:
     agentItem(QString name);
@@ -20,6 +20,7 @@ private:
     std::shared_ptr<Interface::AgentInterface> agentObject;
     QString name_;
     int value_;
+    int neuvottelukyky_;
 };
 
 #endif // AGENTITEM_HH

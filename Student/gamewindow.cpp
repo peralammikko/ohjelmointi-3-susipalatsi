@@ -7,8 +7,8 @@ GameWindow::GameWindow(QWidget *parent) :
     gameui(new Ui::GameWindow)
 {
     gameui->setupUi(this);
-    gameScene = new QGraphicsScene(gameui->graphicsView);
-    gameui->graphicsView->setScene(gameScene);
+    mapScene = new QGraphicsScene(gameui->graphicsView);
+    gameui->graphicsView->setScene(mapScene);
 
     this->setWindowTitle("SUSIPALATSI: TEH GAME");
 
@@ -18,7 +18,6 @@ GameWindow::GameWindow(QWidget *parent) :
         std::shared_ptr<Interface::Location> location = std::make_shared<Interface::Location>(i, paikat_.at(i));
         courseGameScene->addLocation(location);
     }
-    qDebug() << "locations added";
     drawLocations();
 }
 
@@ -42,7 +41,7 @@ void GameWindow::drawLocations()
             } else {
                 locationRect->setCoords(i*250, j*250);
             }
-            gameScene->addItem(locationRect);
+            mapScene->addItem(locationRect);
             buildingCtr++;
         }
     }
@@ -56,7 +55,7 @@ void GameWindow::drawLocations()
             } else {
                 locationRect->setCoords(250, j*250);
             }
-            gameScene->addItem(locationRect);
+            mapScene->addItem(locationRect);
             buildingCtr++;
         }
     }

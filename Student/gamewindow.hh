@@ -26,9 +26,10 @@ public:
     void setSize(int width, int height);
     void drawLocations();
 
+
 private:
     Ui::GameWindow *gameui;
-    QGraphicsScene *gameScene;
+    QGraphicsScene *mapScene;
     std::shared_ptr<Interface::Game> courseGameScene = nullptr;
 
     const std::vector<QString> paikat_ = {"Marketti", "Kirkko", "Taverna", "Kauppiaiden kilta", "Menomesta", "Salapaikka"};

@@ -5,6 +5,12 @@
 #include <QObject>
 #include <QWidget>
 #include <QGraphicsScene>
+#include <QGraphicsView>
+#include <QMouseEvent>
+#include <QGraphicsSceneMouseEvent>
+#include <QDebug>
+
+#include "game.h"
 
 class GameScene : public QGraphicsScene
 {
