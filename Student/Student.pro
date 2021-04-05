@@ -7,6 +7,8 @@ CONFIG += c++14
 
 SOURCES += \
     agentitem.cpp \
+    gamescene.cpp \
+    gamewindow.cpp \
     main.cc \
     mapitem.cpp
 
@@ -36,4 +38,9 @@ else:unix: PRE_TARGETDEPS += \
 
 HEADERS += \
     agentitem.hh \
+    gamescene.hh \
+    gamewindow.hh \
     mapitem.hh
+
+FORMS += \
+    gamewindow.ui
