@@ -10,6 +10,8 @@
 
 #include "gamescene.hh"
 #include "game.h"
+#include "playerhand.hh"
+
 
 #include "../Course/game.h"
 #include "../Course/runner.h"
@@ -27,14 +29,18 @@ public:
     ~GameWindow();
     void setSize(int width, int height);
     void drawLocations();
+    
+    void showHand();
 
-    void drawPlayerHand();
+    void enablePlayerHand(std::shared_ptr<Interface::Player> player);
 
 private:
     Ui::GameWindow *gameui;
     QGraphicsScene *gameScene;
     std::shared_ptr<Interface::Game> courseGameScene = nullptr;
     std::shared_ptr<Interface::Runner> courseRunner = nullptr;
+
+    std::map<std::shared_ptr<Interface::Player>, std::shared_ptr<PlayerHand>> hands_;
 
     const std::vector<QString> paikat_ = {"Marketti", "Kirkko", "Taverna", "Kauppiaiden kilta", "Menomesta", "Salapaikka"};
 

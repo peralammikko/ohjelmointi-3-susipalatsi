@@ -3,6 +3,9 @@
 #include "mapitem.hh"
 #include <cmath>
 
+#include "playerhand.hh"
+
+
 GameWindow::GameWindow(QWidget *parent) :
     QMainWindow(parent),
     gameui(new Ui::GameWindow)
@@ -26,9 +29,21 @@ GameWindow::GameWindow(QWidget *parent) :
         courseGameScene->addLocation(location);
     }
 
-
     qDebug() << "locations added";
     drawLocations();
+
+    // luodaan pari pelaajaa
+    for (int i=0; i<2; i++) {
+        courseGameScene->addPlayer(QString::number(i));
+    }
+    // luodaan pelaajille käsialueen luokka
+    for (unsigned int i=0; i<courseGameScene->players().size(); ++i) {
+        std::shared_ptr<Interface::Player> pl = courseGameScene->players().at(i);
+        std::shared_ptr<PlayerHand> hand = std::make_shared<PlayerHand>(gameScene, pl, 0, -100 + 200*i);
+        hands_.insert(make_pair(pl, hand));
+
+    }
+
 }
 
 GameWindow::~GameWindow()

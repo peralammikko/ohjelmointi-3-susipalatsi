@@ -11,7 +11,8 @@ SOURCES += \
     gamescene.cpp \
     gamewindow.cpp \
     main.cc \
-    mapitem.cpp
+    mapitem.cpp \
+    playerhand.cpp
 
 win32:CONFIG(release, debug|release): LIBS += \
     -L$$OUT_PWD/../course/Course/release/ -lCourse
@@ -42,7 +43,8 @@ HEADERS += \
     agentitem.hh \
     gamescene.hh \
     gamewindow.hh \
-    mapitem.hh
+    mapitem.hh \
+    playerhand.hh
 
 FORMS += \
     gamewindow.ui
