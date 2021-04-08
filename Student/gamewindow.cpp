@@ -41,7 +41,7 @@ GameWindow::~GameWindow()
 void GameWindow::drawLocations()
 {
     int buildingCtr = 0;
-    std::vector<std::shared_ptr<Interface::Location>> locvec = courseGameScene->locations();
+    std::vector<std::shared_ptr<Interface::Location>> locvec = getLocations();
     std::shared_ptr<Interface::Location> currentLocation = nullptr;
 
 
@@ -69,6 +69,11 @@ void GameWindow::drawLocations()
     }
 
 
+}
+
+const std::vector<std::shared_ptr<Interface::Location> > GameWindow::getLocations()
+{
+    return courseGameScene->locations();
 }
 /*
 void GameWindow::drawAgents(mapItem *&drawLocation)

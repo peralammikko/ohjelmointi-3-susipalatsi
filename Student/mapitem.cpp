@@ -49,7 +49,6 @@ const std::pair<int, int> mapItem::getCoords()
     return itemCoords;
 }
 
-/*
 void mapItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     if (isSelected == true) {
@@ -61,8 +60,7 @@ void mapItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
         update();
         QGraphicsItem::mousePressEvent(event);
     }
-    clickedLocation = this;
 }
-*/
+
 
 

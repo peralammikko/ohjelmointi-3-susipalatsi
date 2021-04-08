@@ -32,6 +32,8 @@ public:
 
     void drawPlayerHand();
 
+    const std::vector<std::shared_ptr<Interface::Location>> getLocations();
+
 
 private:
     Ui::GameWindow *gameui;

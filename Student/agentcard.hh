@@ -5,7 +5,7 @@
 #include "location.h"
 #include "cardinterface.h"
 
-class agentCard
+class agentCard : public Interface::AgentInterface
 {
 public:
     explicit agentCard(std::shared_ptr<Interface::AgentInterface>);

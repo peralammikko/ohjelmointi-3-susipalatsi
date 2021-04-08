@@ -20,9 +20,11 @@ class GameScene : public QGraphicsScene
     Q_OBJECT
 public:
     GameScene(QWidget* parent = nullptr);
-    agentItem *agentClicked(agentItem* &age);
-    mapItem *locationClicked(mapItem* &loc);
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+
+private:
+    mapItem* selectedLocation = nullptr;
+    agentItem* selectedAgent = nullptr;
 };
 
 #endif // GAMESCENE_HH
