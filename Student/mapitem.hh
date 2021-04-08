@@ -19,10 +19,12 @@ public:
     bool isSelected = false;
     const std::shared_ptr<Interface::Location> getObject();
     const std::pair<int, int> getCoords();
+    /*
     mapItem *clickedLocation = nullptr;
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+    */
 
 private:
     int itemx, itemy;

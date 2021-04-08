@@ -3,13 +3,14 @@
 
 #include "mapitem.hh"
 #include "agentinterface.h"
+#include "agentcard.hh"
 
-class agentItem : public mapItem, public Interface::AgentInterface
+class agentItem : public mapItem
 {
 public:
-    agentItem(QString name);
+    explicit agentItem(std::shared_ptr<agentCard> &obj);
     bool isSelected = false;
-    std::shared_ptr<Interface::AgentInterface> getAgent();
+    std::shared_ptr<agentCard> getObject();
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
@@ -17,10 +18,7 @@ public:
 
 private:
     int itemx, itemy;
-    std::shared_ptr<Interface::AgentInterface> agentObject;
-    QString name_;
-    int value_;
-    int neuvottelukyky_;
+    std::shared_ptr<agentCard> agentCardObject;
 };
 
 #endif // AGENTITEM_HH

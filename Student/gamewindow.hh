@@ -10,6 +10,7 @@
 
 #include "gamescene.hh"
 #include "game.h"
+#include "mapitem.hh"
 
 #include "../Course/game.h"
 #include "../Course/runner.h"
@@ -27,6 +28,7 @@ public:
     ~GameWindow();
     void setSize(int width, int height);
     void drawLocations();
+    // void drawAgents(mapItem* &drawLocation);
 
     void drawPlayerHand();
 

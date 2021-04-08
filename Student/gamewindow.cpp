@@ -1,6 +1,10 @@
 #include "gamewindow.hh"
 #include "ui_gamewindow.h"
 #include "mapitem.hh"
+#include "agentinterface.h"
+#include "agentitem.hh"
+#include "agentcard.hh"
+#include "gamescene.hh"
 #include <cmath>
 
 GameWindow::GameWindow(QWidget *parent) :
@@ -8,7 +12,8 @@ GameWindow::GameWindow(QWidget *parent) :
     gameui(new Ui::GameWindow)
 {
     gameui->setupUi(this);
-    mapScene = new QGraphicsScene(gameui->graphicsView);
+    // mapScene = new QGraphicsScene(gameui->graphicsView);
+    mapScene = new GameScene(gameui->graphicsView);
     gameui->graphicsView->setScene(mapScene);
 
     // Asetetaan graphicViewin ja ikkunan koot staattiseks ensalkuun
@@ -43,7 +48,7 @@ void GameWindow::drawLocations()
     // Piirretään rakennukset "ympyrän" kehälle
     const int xCenter = 0;
     const int yCenter = 0;
-    const int radius = 200;
+    const int radius = 300;
 
     int locationCount = courseGameScene->locations().size();
     const int degree = 360 / locationCount;
@@ -51,7 +56,7 @@ void GameWindow::drawLocations()
     for (int i = 0; i < locationCount; i++) {
         currentLocation = locvec.at(buildingCtr);
         mapItem* locationRect = new mapItem(currentLocation);
-        gameScene->addItem(locationRect);
+        mapScene->addItem(locationRect);
 
         // Geometrinen sijainti kehällä
         int angleDeg = degree * i;
@@ -65,3 +70,31 @@ void GameWindow::drawLocations()
 
 
 }
+/*
+void GameWindow::drawAgents(mapItem *&drawLocation)
+{
+    std::shared_ptr<Interface::Location> loc = drawLocation->getObject();
+    std::set<std::shared_ptr<Interface::AgentInterface>> locAgents = loc->agents();
+    int counter = 0;
+    std::pair<int, int> locationXY = drawLocation->getCoords();
+    const int xCenter = locationXY.first;
+    const int yCenter = locationXY.second;
+    const int radius = 50;
+
+    int agentCount = locAgents.size();
+    const int degree = 360 / agentCount;
+
+    for (auto agent : locAgents) {
+        std::shared_ptr<agentCard> paikkaAgentti = std::make_shared<agentCard>(agent);
+        mapItem* agentRect = new agentItem(paikkaAgentti);
+        mapScene->addItem(agentRect);
+
+        int angleDeg = degree * counter;
+        float angleRad = angleDeg * M_PI / 180;
+        int x = xCenter + radius * std::cos(angleRad);
+        int y = yCenter + radius * std::sin(angleRad);
+        agentRect->setCoords(x, y);
+        counter++;
+    }
+}
+*/

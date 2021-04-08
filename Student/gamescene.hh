@@ -9,14 +9,20 @@
 #include <QMouseEvent>
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
+#include <QList>
 
 #include "game.h"
+#include "agentitem.hh"
+#include "mapitem.hh"
 
 class GameScene : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    GameScene();
+    GameScene(QWidget* parent = nullptr);
+    agentItem *agentClicked(agentItem* &age);
+    mapItem *locationClicked(mapItem* &loc);
+    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
 };
 
 #endif // GAMESCENE_HH

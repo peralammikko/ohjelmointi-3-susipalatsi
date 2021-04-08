@@ -7,6 +7,7 @@ CONFIG += c++14
 
 SOURCES += \
     actioncard.cpp \
+    agentcard.cpp \
     agentitem.cpp \
     gamescene.cpp \
     gamewindow.cpp \
@@ -39,6 +40,7 @@ else:unix: PRE_TARGETDEPS += \
 
 HEADERS += \
     actioncard.hh \
+    agentcard.hh \
     agentitem.hh \
     gamescene.hh \
     gamewindow.hh \

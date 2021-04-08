@@ -3,14 +3,14 @@
 
 #include <QDebug>
 
-agentItem::agentItem(QString name) : mapItem(nullptr), agentObject(nullptr), value_(0)
+agentItem::agentItem(std::shared_ptr<agentCard> &obj) : mapItem(nullptr), agentCardObject(nullptr)
 {
-    name_ = name;
+    agentCardObject = obj;
 }
 
-std::shared_ptr<Interface::AgentInterface> agentItem::getAgent()
+std::shared_ptr<agentCard> agentItem::getObject()
 {
-    return agentObject;
+    return agentCardObject;
 }
 
 QRectF agentItem::boundingRect() const
@@ -46,16 +46,5 @@ void agentItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
     }
     clickedAgent = this;
 
-    // Agentin lähetys sijaintiin (WIP)
-    /*
-    if (clickedAgent->isSelected and mapItem::clickedLocation->isSelected) {
-        qDebug() << "paikka ja agentti valittu";
-        clickedLocation->getObject()->sendAgent(this->getAgent());
-        auto setti = clickedLocation->getObject()->agents();
-        for (auto i : setti) {
-            qDebug() << i->name();
-        }
-    }
-    */
 }
 
