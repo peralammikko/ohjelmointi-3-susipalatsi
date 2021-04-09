@@ -8,6 +8,7 @@ CONFIG += c++14
 SOURCES += \
     actioncard.cpp \
     agentitem.cpp \
+    cardinterface.cpp \
     gamescene.cpp \
     gamewindow.cpp \
     main.cc \

@@ -3,6 +3,8 @@
 #include "mapitem.hh"
 #include <cmath>
 
+#include "actioncard.hh"
+
 #include "playerhand.hh"
 
 
@@ -42,7 +44,19 @@ GameWindow::GameWindow(QWidget *parent) :
         std::shared_ptr<PlayerHand> hand = std::make_shared<PlayerHand>(gameScene, pl, 0, -100 + 200*i);
         hands_.insert(make_pair(pl, hand));
 
+        // Luodaan pari korttia ja annetaan ne pelaajalle
+        for (int j=0; j<4; ++j) {
+            std::shared_ptr<Interface::ActionCard> card = std::make_shared<Interface::ActionCard>();
+
+         //   card = std::shared_ptr<Interface::CardInterface>();
+            pl->addCard(card);
+            //std::make_shared<Interface::CardInterface>();
+            //std::shared_ptr<Interface::CardInterface> card = std::make_shared<Interface::CardInterface>();
+            
+
+        }
     }
+    
 
 }
 
