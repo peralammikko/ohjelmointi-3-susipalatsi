@@ -1,23 +1,38 @@
 #ifndef ACTIONCARD_HH
 #define ACTIONCARD_HH
-#include "../Course/deckinterface.h"
+#include "../Course/cardinterface.h"
 
-#include <QObject>
-#include <QGraphicsItem>
 #include <memory>
 
 namespace Interface {
-    class CardInterface;
-}
 
 
-class ActionCard :public QObject, public QGraphicsItem
+
+class ActionCard : public CardInterface
 {
-    Q_OBJECT
-    Q_INTERFACES(QGraphicsItem)
 public:
-    explicit ActionCard(int width, int height, int padding_x, int padding_y, QString name, std::shared_ptr<Interface::CardInterface> card,  QString description = "", QColor color = Qt::white, QObject *parent = nullptr);
+    explicit ActionCard(QString name="NONAME", QString typeName="action", QString title ="");
+    ~ActionCard();
+
+    QString typeName() const override;
+    QString title() const override;
+    QString name() const override;
+
+    std::weak_ptr<Location> location() const override;
+    std::weak_ptr<Player> owner() const override;
+    void setOwner(std::weak_ptr<Player> owner) override;
+
+private:
+    QString name_;
+    QString typeName_;
+    QString title_;
+
+
+    std::weak_ptr<Player> owner_;
+    std::weak_ptr<Location> location_;
+
 
 };
 
 #endif // ACTIONCARD_HH
+} // Interface
