@@ -12,14 +12,26 @@ public:
     LocationItem(const std::shared_ptr<Interface::Location> &location);
 
     // MapItem overridet
+
+    // Asetetaan koordinaatit itemille
     void setCoords(int x, int y) override;
-    QRectF boundingRect() const override;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
-    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+
+    // Haetaan itemin koordinaatit
     const std::pair<int, int> getCoords() override;
+
+    // Luodaan itemille muoto (neliö)
+    QRectF boundingRect() const override;
+
+    // Piirretään neliöt ja nimet + maalataan jos valittuna
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
+
+    // Klikkauksesta tapahtuva metodi
+    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
 
 
     bool isSelected = false;
+
+    // Haetaan itemin kantaluokka (Location)
     const std::shared_ptr<Interface::Location> getObject();
 
 private:

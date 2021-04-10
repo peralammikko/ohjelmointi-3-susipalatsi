@@ -18,12 +18,6 @@ public:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) = 0;
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) = 0;
     virtual const std::pair<int, int> getCoords() = 0;
-    const std::shared_ptr<Interface::Location> getObject();
-
-    bool isSelected = false;
-
-private:
-    int itemx, itemy;
 };
 
 #endif // MAPITEM_HH

@@ -35,8 +35,6 @@ public:
 
     void enablePlayerHand(std::shared_ptr<Interface::Player> player);
 
-
-
 private:
     Ui::GameWindow *gameui;
     GameScene *mapScene;

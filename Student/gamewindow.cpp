@@ -39,12 +39,12 @@ GameWindow::GameWindow(QWidget *parent) :
 
     // luodaan pari pelaajaa
     for (int i=0; i<2; i++) {
-        courseGameScene->addPlayer(QString::number(i));
+        gameboard->addPlayer(QString::number(i));
     }
     // luodaan pelaajille käsialueen luokka
-    for (unsigned int i=0; i<courseGameScene->players().size(); ++i) {
-        std::shared_ptr<Interface::Player> pl = courseGameScene->players().at(i);
-        std::shared_ptr<PlayerHand> hand = std::make_shared<PlayerHand>(gameScene, pl, 0, -100 + 200*i);
+    for (unsigned int i=0; i<gameboard->players().size(); ++i) {
+        std::shared_ptr<Interface::Player> pl = gameboard->players().at(i);
+        std::shared_ptr<PlayerHand> hand = std::make_shared<PlayerHand>(mapScene, pl, 0, -100 + 200*i);
         hands_.insert(make_pair(pl, hand));
 
         // Luodaan pari korttia ja annetaan ne pelaajalle
@@ -56,11 +56,8 @@ GameWindow::GameWindow(QWidget *parent) :
             //std::make_shared<Interface::CardInterface>();
             //std::shared_ptr<Interface::CardInterface> card = std::make_shared<Interface::CardInterface>();
             
-
         }
     }
-    
-
 }
 
 GameWindow::~GameWindow()
@@ -70,6 +67,7 @@ GameWindow::~GameWindow()
 
 void GameWindow::drawLocations()
 {
+    //
     std::vector<std::shared_ptr<Interface::Location>> locvec = getLocations();
     std::shared_ptr<Interface::Location> currentLocation = nullptr;
     mapScene->drawLocations(locvec);

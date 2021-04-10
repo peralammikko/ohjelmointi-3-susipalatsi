@@ -18,6 +18,9 @@ QRectF LocationItem::boundingRect() const
 
 void LocationItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    // Piirretään paikat ja niiden nime.
+    // Maalataan punaiseksi jos "valittu"
+
     QRectF rect = boundingRect();
     QPoint pos(itemx+35, itemy-5);
     QString placeName = this->getObject()->name();
