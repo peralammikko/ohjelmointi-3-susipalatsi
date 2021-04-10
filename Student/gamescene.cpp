@@ -16,9 +16,16 @@ void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
         if (locItem) {
             locItem->mousePressEvent(event);
             selectedLocation = locItem;
-            qDebug() << selectedLocation->getObject()->name();
+            std::shared_ptr<Interface::AgentInterface> pointerAgent = nullptr;
+            agentItem* age = new agentItem(pointerAgent);
+            age->testPrint();
         } else {
             selectedLocation = nullptr;
         }
     }
+}
+
+void GameScene::drawLocations()
+{
+
 }

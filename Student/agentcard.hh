@@ -11,11 +11,6 @@ public:
     explicit agentCard(std::shared_ptr<Interface::AgentInterface>);
 
 
-private:
-    std::shared_ptr<Interface::AgentInterface> agentObject_;
-    QString agentName_;
-    int value_;
-    int negSkill_;
 };
 
 #endif // AGENTCARD_HH

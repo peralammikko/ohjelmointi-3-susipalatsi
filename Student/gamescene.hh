@@ -21,6 +21,7 @@ class GameScene : public QGraphicsScene
 public:
     GameScene(QWidget* parent = nullptr);
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+    void drawLocations();
 
 private:
     mapItem* selectedLocation = nullptr;

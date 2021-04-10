@@ -3,14 +3,14 @@
 
 #include <QDebug>
 
-agentItem::agentItem(std::shared_ptr<agentCard> &obj) : mapItem(nullptr), agentCardObject(nullptr)
+agentItem::agentItem(std::shared_ptr<Interface::AgentInterface> &obj) : mapItem(nullptr), agentObject_(nullptr), agentConnections_(0)
 {
-    agentCardObject = obj;
+    agentObject_ = obj;
 }
 
-std::shared_ptr<agentCard> agentItem::getObject()
+std::shared_ptr<Interface::AgentInterface> agentItem::getObject()
 {
-    return agentCardObject;
+    return agentObject_;
 }
 
 QRectF agentItem::boundingRect() const
@@ -46,5 +46,65 @@ void agentItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
     }
     clickedAgent = this;
 
+}
+
+bool agentItem::isCommon() const
+{
+    return true;
+}
+
+unsigned short agentItem::connections() const
+{
+    return agentConnections_;
+}
+
+void agentItem::modifyConnections(short change)
+{
+    agentConnections_ += change;
+}
+
+std::weak_ptr<Interface::Location> agentItem::placement() const
+{
+    return locationAt_;
+}
+
+void agentItem::setConnections(unsigned short connections)
+{
+    agentConnections_ = 0 + connections;
+}
+
+void agentItem::setPlacement(std::weak_ptr<Interface::Location> placement)
+{
+    locationAt_ = placement;
+}
+
+QString agentItem::typeName() const
+{
+    return "Agentti";
+}
+
+QString agentItem::name() const
+{
+    return agentName_;
+}
+
+QString agentItem::title() const
+{
+
+}
+
+std::weak_ptr<Interface::Location> agentItem::location() const
+{
+    return locationAt_;
+}
+
+std::weak_ptr<Interface::Player> agentItem::owner() const
+{
+    return agentOwner_;
+}
+
+void agentItem::setOwner(std::weak_ptr<Interface::Player>)
+{
+    qDebug() << "set owner to ";
 }
 

@@ -3,7 +3,6 @@
 #include <QtDebug>
 #include <string>
 #include "gamewindow.hh"
-#include "agentcard.hh"
 
 #include <QApplication>
 
@@ -23,15 +22,6 @@ int main(int argc, char *argv[])
 
     GameWindow win;
     win.show();
-    /*
-    std::shared_ptr<agentCard> testiagentti = nullptr;
-    std::shared_ptr<agentCard> makke(testiagentti);
-
-    mapItem* clicked = mapItem::clickedLocation;
-    std::shared_ptr<Interface::Location> selectedLoc = clicked->getObject();
-    selectedLoc->sendAgent(ageMake);
-    win.drawAgents(clicked);
-    */
 
     return a.exec();
 }

@@ -1,6 +1,6 @@
 #include "agentcard.hh"
 
-agentCard::agentCard(std::shared_ptr<Interface::AgentInterface>) : agentObject_(nullptr), agentName_(""), value_(2), negSkill_(1)
+agentCard::agentCard(std::shared_ptr<Interface::AgentInterface>)
 {
-    agentObject_ = nullptr;
+
 }

@@ -3,7 +3,6 @@
 #include "mapitem.hh"
 #include "agentinterface.h"
 #include "agentitem.hh"
-#include "agentcard.hh"
 #include "gamescene.hh"
 #include <cmath>
 
@@ -75,6 +74,7 @@ const std::vector<std::shared_ptr<Interface::Location> > GameWindow::getLocation
 {
     return courseGameScene->locations();
 }
+
 /*
 void GameWindow::drawAgents(mapItem *&drawLocation)
 {
@@ -90,16 +90,16 @@ void GameWindow::drawAgents(mapItem *&drawLocation)
     const int degree = 360 / agentCount;
 
     for (auto agent : locAgents) {
-        std::shared_ptr<agentCard> paikkaAgentti = std::make_shared<agentCard>(agent);
-        mapItem* agentRect = new agentItem(paikkaAgentti);
-        mapScene->addItem(agentRect);
+        agentItem* agenttismies = new agentItem(agent);
+        mapScene->addItem(agenttismies);
 
         int angleDeg = degree * counter;
         float angleRad = angleDeg * M_PI / 180;
         int x = xCenter + radius * std::cos(angleRad);
         int y = yCenter + radius * std::sin(angleRad);
-        agentRect->setCoords(x, y);
+        agenttismies->setCoords(x, y);
         counter++;
     }
 }
 */
+
