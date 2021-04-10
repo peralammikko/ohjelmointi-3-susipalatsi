@@ -3,7 +3,7 @@
 
 #include <QDebug>
 
-agentItem::agentItem(std::shared_ptr<Interface::AgentInterface> &obj) : mapItem(nullptr), agentObject_(nullptr), agentConnections_(0)
+agentItem::agentItem(std::shared_ptr<Interface::AgentInterface> &obj) : agentObject_(nullptr), agentConnections_(0)
 {
     agentObject_ = obj;
 }
@@ -48,6 +48,18 @@ void agentItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 }
 
+void agentItem::setCoords(int x, int y)
+{
+    itemx = x;
+    itemy = y;
+}
+
+const std::pair<int, int> agentItem::getCoords()
+{
+    std::pair<int, int> itemCoords (itemx, itemy);
+    return itemCoords;
+}
+
 bool agentItem::isCommon() const
 {
     return true;
@@ -90,7 +102,7 @@ QString agentItem::name() const
 
 QString agentItem::title() const
 {
-
+    return "Agentti";
 }
 
 std::weak_ptr<Interface::Location> agentItem::location() const

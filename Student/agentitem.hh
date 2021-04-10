@@ -14,10 +14,14 @@ public:
     std::shared_ptr<Interface::AgentInterface> getObject();
     agentItem *clickedAgent = nullptr;
 
+    // MapItem overridet
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+    void setCoords(int x, int y) override;
+    const std::pair<int, int> getCoords() override;
 
+    // AgentInterface overridet
     bool isCommon() const override;
     unsigned short connections() const override;
     void modifyConnections(short change) override;
@@ -25,6 +29,7 @@ public:
     void setConnections(unsigned short connections) override;
     void setPlacement(std::weak_ptr<Interface::Location> placement) override;
 
+    // CardInterface overridet
     QString typeName() const override;
     QString name() const override;
     QString title() const override;

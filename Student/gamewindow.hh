@@ -26,19 +26,19 @@ class GameWindow : public QMainWindow
 public:
     explicit GameWindow(QWidget *parent = nullptr);
     ~GameWindow();
+    const std::vector<std::shared_ptr<Interface::Location>> getLocations();
     void setSize(int width, int height);
     void drawLocations();
-    // void drawAgents(mapItem* &drawLocation);
+    void drawItem(mapItem* item);
 
     void drawPlayerHand();
 
-    const std::vector<std::shared_ptr<Interface::Location>> getLocations();
 
 
 private:
     Ui::GameWindow *gameui;
-    QGraphicsScene *mapScene;
-    std::shared_ptr<Interface::Game> courseGameScene = nullptr;
+    GameScene *mapScene;
+    std::shared_ptr<Interface::Game> gameboard = nullptr;
     std::shared_ptr<Interface::Runner> courseRunner = nullptr;
 
     const std::vector<QString> paikat_ = {"Marketti", "Kirkko", "Taverna", "Kauppiaiden kilta", "Menomesta", "Salapaikka"};

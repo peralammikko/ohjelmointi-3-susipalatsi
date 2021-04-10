@@ -11,6 +11,7 @@ SOURCES += \
     agentitem.cpp \
     gamescene.cpp \
     gamewindow.cpp \
+    locationitem.cpp \
     main.cc \
     mapitem.cpp
 
@@ -44,6 +45,7 @@ HEADERS += \
     agentitem.hh \
     gamescene.hh \
     gamewindow.hh \
+    locationitem.hh \
     mapitem.hh
 
 FORMS += \

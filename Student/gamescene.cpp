@@ -2,6 +2,8 @@
 #include "gamewindow.hh"
 #include "agentitem.hh"
 #include "mapitem.hh"
+#include "locationitem.hh"
+#include <cmath>
 
 GameScene::GameScene(QWidget *parent) : QGraphicsScene(parent)
 {
@@ -12,20 +14,48 @@ void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
         QGraphicsItem* itemClicked = itemAt(event->scenePos(),QTransform());
-        mapItem* locItem = qgraphicsitem_cast<mapItem*>(itemClicked);
+        LocationItem* locItem = qgraphicsitem_cast<LocationItem*>(itemClicked);
         if (locItem) {
             locItem->mousePressEvent(event);
             selectedLocation = locItem;
             std::shared_ptr<Interface::AgentInterface> pointerAgent = nullptr;
             agentItem* age = new agentItem(pointerAgent);
-            age->testPrint();
+            qDebug() << locItem->getObject()->name();
         } else {
+            qDebug() << "tyhjä";
             selectedLocation = nullptr;
         }
     }
 }
 
-void GameScene::drawLocations()
+void GameScene::drawLocations(std::vector<std::shared_ptr<Interface::Location>> &locvec)
 {
+    std::shared_ptr<Interface::Location> currentLocation = nullptr;
 
+    // Piirretään rakennukset "ympyrän" kehälle
+    const int xCenter = 0;
+    const int yCenter = 0;
+    const int radius = 300;
+
+    int locationCount = locvec.size();
+    const int degree = 360 / locationCount;
+
+    for (int i = 0; i < locationCount; i++) {
+        currentLocation = locvec.at(i);
+        LocationItem* locationRect = new LocationItem(currentLocation);
+
+        // Geometrinen sijainti kehällä
+        int angleDeg = degree * i;
+        float angleRad = angleDeg * M_PI / 180;
+        int x = xCenter + radius * std::cos(angleRad);
+        int y = yCenter + radius * std::sin(angleRad);
+        locationRect->setCoords(x, y);
+        // mapScene->addItem(locationRect);
+        drawItem(locationRect);
+    }
+}
+
+void GameScene::drawItem(mapItem *item)
+{
+    addItem(item);
 }

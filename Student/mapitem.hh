@@ -12,18 +12,18 @@
 class mapItem : public QGraphicsItem
 {
 public:
-    mapItem(const std::shared_ptr<Interface::Location> &obj);
-    void setCoords(int x, int y);
-    QRectF boundingRect() const override;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
-    bool isSelected = false;
+    // mapItem(const std::shared_ptr<Interface::Location> &obj);
+    virtual void setCoords(int x, int y) = 0;
+    virtual QRectF boundingRect() const = 0;
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) = 0;
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) = 0;
+    virtual const std::pair<int, int> getCoords() = 0;
     const std::shared_ptr<Interface::Location> getObject();
-    const std::pair<int, int> getCoords();
-    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+
+    bool isSelected = false;
 
 private:
     int itemx, itemy;
-    const std::shared_ptr<Interface::Location> locationObject;
 };
 
 #endif // MAPITEM_HH

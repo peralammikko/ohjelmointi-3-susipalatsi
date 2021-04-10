@@ -1,6 +1,7 @@
 #include "gamewindow.hh"
 #include "ui_gamewindow.h"
 #include "mapitem.hh"
+#include "locationitem.hh"
 #include "agentinterface.h"
 #include "agentitem.hh"
 #include "gamescene.hh"
@@ -21,13 +22,13 @@ GameWindow::GameWindow(QWidget *parent) :
 
     this->setWindowTitle("SUSIPALATSI: TEH GAME");
 
-    courseGameScene = std::make_shared<Interface::Game>();
-    courseRunner = std::make_shared<Interface::Runner>(courseGameScene);
+    gameboard = std::make_shared<Interface::Game>();
+    courseRunner = std::make_shared<Interface::Runner>(gameboard);
 
     // Luodaan location-oliot
     for (int i = 0; i < 6; i++) {
         std::shared_ptr<Interface::Location> location = std::make_shared<Interface::Location>(i, paikat_.at(i));
-        courseGameScene->addLocation(location);
+        gameboard->addLocation(location);
     }
     drawLocations();
 }
@@ -39,40 +40,19 @@ GameWindow::~GameWindow()
 
 void GameWindow::drawLocations()
 {
-    int buildingCtr = 0;
     std::vector<std::shared_ptr<Interface::Location>> locvec = getLocations();
     std::shared_ptr<Interface::Location> currentLocation = nullptr;
+    mapScene->drawLocations(locvec);
+}
 
-
-    // Piirretään rakennukset "ympyrän" kehälle
-    const int xCenter = 0;
-    const int yCenter = 0;
-    const int radius = 300;
-
-    int locationCount = courseGameScene->locations().size();
-    const int degree = 360 / locationCount;
-
-    for (int i = 0; i < locationCount; i++) {
-        currentLocation = locvec.at(buildingCtr);
-        mapItem* locationRect = new mapItem(currentLocation);
-        mapScene->addItem(locationRect);
-
-        // Geometrinen sijainti kehällä
-        int angleDeg = degree * i;
-        float angleRad = angleDeg * M_PI / 180;
-        int x = xCenter + radius * std::cos(angleRad);
-        int y = yCenter + radius * std::sin(angleRad);
-        locationRect->setCoords(x, y);
-
-        buildingCtr++;
-    }
-
-
+void GameWindow::drawItem(mapItem *item)
+{
+    mapScene->drawItem(item);
 }
 
 const std::vector<std::shared_ptr<Interface::Location> > GameWindow::getLocations()
 {
-    return courseGameScene->locations();
+    return gameboard->locations();
 }
 
 /*
