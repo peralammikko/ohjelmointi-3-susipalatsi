@@ -10,6 +10,7 @@
 #include "actioncard.hh"
 
 #include "playerhand.hh"
+#include "playerclass.hh"
 
 
 GameWindow::GameWindow(QWidget *parent) :
@@ -22,8 +23,8 @@ GameWindow::GameWindow(QWidget *parent) :
     gameui->graphicsView->setScene(mapScene);
 
     // Asetetaan graphicViewin ja ikkunan koot staattiseks ensalkuun
-    gameui->graphicsView->setFixedSize(1200, 700);
-    this->setFixedSize(1400, 900);
+    gameui->graphicsView->setFixedSize(1200, 900);
+    this->setFixedSize(1400, 1200);
 
     this->setWindowTitle("SUSIPALATSI: TEH GAME");
 
@@ -36,6 +37,21 @@ GameWindow::GameWindow(QWidget *parent) :
         gameboard->addLocation(location);
     }
     drawLocations();
+
+    player1 = std::make_shared<Interface::Player>(gameboard, 1, "RED");
+    player2 = std::make_shared<Interface::Player>(gameboard, 2, "BLUE");
+
+    /*
+    std::shared_ptr<Playerclass> p1 = std::make_shared<Playerclass>(player1);
+    std::shared_ptr<Playerclass> p2 = std::make_shared<Playerclass>(player2);
+    */
+    Playerclass p1(player1);
+    Playerclass p2(player2);
+
+    for (int i = 0 ; i < 3; i++) {
+        p1.spawnAgent();
+    }
+    drawPlayerAgents(p1);
 
     // luodaan pari pelaajaa
     for (int i=0; i<2; i++) {
@@ -58,6 +74,8 @@ GameWindow::GameWindow(QWidget *parent) :
             
         }
     }
+
+
 }
 
 GameWindow::~GameWindow()
@@ -73,9 +91,20 @@ void GameWindow::drawLocations()
     mapScene->drawLocations(locvec);
 }
 
+void GameWindow::drawPlayerAgents(Playerclass &p)
+{
+    std::vector<agentItem*> agents = p.getAgents();
+    mapScene->drawAgents(agents);
+}
+
 void GameWindow::drawItem(mapItem *item)
 {
     mapScene->drawItem(item);
+}
+
+void GameWindow::sendAgentTo(LocationItem *loc)
+{
+    return;
 }
 
 const std::vector<std::shared_ptr<Interface::Location> > GameWindow::getLocations()

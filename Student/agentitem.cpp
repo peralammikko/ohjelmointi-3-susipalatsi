@@ -15,14 +15,30 @@ std::shared_ptr<Interface::AgentInterface> agentItem::getObject()
 
 QRectF agentItem::boundingRect() const
 {
-    return QRectF(itemx, itemy, 50,100);
+    return QRectF(itemx, itemy, 50,50);
 }
 
 void agentItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    /*
     QRectF rect = boundingRect();
 
-    if (this->isSelected) {
+    if (isSelected) {
+        QPen pen(Qt::red, 2);
+        painter->setPen(pen);
+        painter->drawRect(rect);
+    } else {
+        QPen pen(Qt::black, 2);
+        painter->setPen(pen);
+        painter->drawRect(rect);
+    }
+    */
+
+    QRectF rect = boundingRect();
+    QPoint lowerpos(itemx+5, itemy+60);
+    painter->drawText(lowerpos, "Agentti");
+
+    if (isSelected) {
         QPen pen(Qt::red, 2);
         painter->setPen(pen);
         painter->drawRect(rect);
@@ -35,17 +51,15 @@ void agentItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
 void agentItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    if (this->isSelected == true) {
-        this->isSelected = false;
+    if (isSelected == true) {
+        isSelected = false;
         update();
         QGraphicsItem::mousePressEvent(event);
     } else {
-        this->isSelected = true;
+        isSelected = true;
         update();
         QGraphicsItem::mousePressEvent(event);
     }
-    clickedAgent = this;
-
 }
 
 void agentItem::setCoords(int x, int y)

@@ -10,11 +10,13 @@ SOURCES += \
     agentcard.cpp \
     agentitem.cpp \
     cardinterface.cpp \
+    commonresource.cpp \
     gamescene.cpp \
     gamewindow.cpp \
     locationitem.cpp \
     main.cc \
     mapitem.cpp \
+    playerclass.cpp \
     playerhand.cpp
 
 win32:CONFIG(release, debug|release): LIBS += \
@@ -45,10 +47,12 @@ HEADERS += \
     actioncard.hh \
     agentcard.hh \
     agentitem.hh \
+    commonresource.hh \
     gamescene.hh \
     gamewindow.hh \
     locationitem.hh \
     mapitem.hh \
+    playerclass.hh \
     playerhand.hh
 
 FORMS += \

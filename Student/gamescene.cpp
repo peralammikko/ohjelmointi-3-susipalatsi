@@ -4,6 +4,7 @@
 #include "mapitem.hh"
 #include "locationitem.hh"
 #include <cmath>
+#include "playerclass.hh"
 
 GameScene::GameScene(QWidget *parent) : QGraphicsScene(parent)
 {
@@ -14,15 +15,16 @@ void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
         QGraphicsItem* itemClicked = itemAt(event->scenePos(),QTransform());
-        LocationItem* locItem = qgraphicsitem_cast<LocationItem*>(itemClicked);
-        if (locItem) {
-            locItem->mousePressEvent(event);
-            selectedLocation = locItem;
-            std::shared_ptr<Interface::AgentInterface> pointerAgent = nullptr;
-            agentItem* age = new agentItem(pointerAgent);
-            qDebug() << locItem->getObject()->name();
+        LocationItem* locationClicked = qgraphicsitem_cast<LocationItem*>(itemClicked);
+        agentItem* agentClicked = qgraphicsitem_cast<agentItem*>(itemClicked);
+        if (locationClicked) {
+            locationClicked->mousePressEvent(event);
+            selectedLocation = locationClicked;
+            qDebug() << locationClicked->getObject()->name();
+        } else if (agentClicked) {
+            qDebug() << "agentti";
         } else {
-            qDebug() << "tyhjä";
+            selectedAgent = nullptr;
             selectedLocation = nullptr;
         }
     }
@@ -50,7 +52,6 @@ void GameScene::drawLocations(std::vector<std::shared_ptr<Interface::Location>> 
         int x = xCenter + radius * std::cos(angleRad);
         int y = yCenter + radius * std::sin(angleRad);
         locationRect->setCoords(x, y);
-        // mapScene->addItem(locationRect);
         drawItem(locationRect);
     }
 }
@@ -58,4 +59,14 @@ void GameScene::drawLocations(std::vector<std::shared_ptr<Interface::Location>> 
 void GameScene::drawItem(mapItem *item)
 {
     addItem(item);
+}
+
+void GameScene::drawAgents(std::vector<agentItem *> &agents)
+{
+    int agentsCount = agents.size();
+    for (int i = 0; i < agentsCount; i++) {
+        agentItem* current = agents.at(i);
+        current->setCoords(400+i*80, 400);
+        drawItem(current);
+    }
 }

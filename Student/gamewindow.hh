@@ -12,9 +12,11 @@
 #include "game.h"
 #include "mapitem.hh"
 #include "playerhand.hh"
+#include "locationitem.hh"
 
 #include "../Course/game.h"
 #include "../Course/runner.h"
+#include "playerclass.hh"
 
 namespace Ui {
 class GameWindow;
@@ -30,8 +32,10 @@ public:
     const std::vector<std::shared_ptr<Interface::Location>> getLocations();
     void setSize(int width, int height);
     void drawLocations();
+    void drawPlayerAgents(Playerclass &p);
     void drawItem(mapItem* item);
     void showHand();
+    void sendAgentTo(LocationItem* loc);
 
     void enablePlayerHand(std::shared_ptr<Interface::Player> player);
 
@@ -46,6 +50,8 @@ private:
     const std::vector<QString> paikat_ = {"Marketti", "Kirkko", "Taverna", "Kauppiaiden kilta", "Menomesta", "Salapaikka"};
 
     int current_round;
+    std::shared_ptr<Interface::Player> player1 = nullptr;
+    std::shared_ptr<Interface::Player> player2 = nullptr;
 
 };
 

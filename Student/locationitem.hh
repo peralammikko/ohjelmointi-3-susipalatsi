@@ -34,9 +34,12 @@ public:
     // Haetaan itemin kantaluokka (Location)
     const std::shared_ptr<Interface::Location> getObject();
 
+    int getBasevalue();
+
 private:
     int itemx, itemy;
     const std::shared_ptr<Interface::Location> locationObject_;
+    int basevalue_;
 };
 
 #endif // LOCATIONITEM_HH

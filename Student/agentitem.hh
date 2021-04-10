@@ -12,7 +12,6 @@ public:
     explicit agentItem(std::shared_ptr<Interface::AgentInterface> &obj);
     bool isSelected = false;
     std::shared_ptr<Interface::AgentInterface> getObject();
-    agentItem *clickedAgent = nullptr;
 
     // MapItem overridet
     QRectF boundingRect() const override;

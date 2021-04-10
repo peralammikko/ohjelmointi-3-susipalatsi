@@ -23,6 +23,7 @@ public:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void drawLocations(std::vector<std::shared_ptr<Interface::Location>> &locvec);
     void drawItem(mapItem* item);
+    void drawAgents(std::vector<agentItem*> &agents);
 
 private:
     mapItem* selectedLocation = nullptr;
