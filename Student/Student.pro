@@ -11,6 +11,7 @@ SOURCES += \
     agentitem.cpp \
     cardinterface.cpp \
     commonresource.cpp \
+    carditem.cpp \
     gamescene.cpp \
     gamewindow.cpp \
     locationitem.cpp \
@@ -48,6 +49,7 @@ HEADERS += \
     agentcard.hh \
     agentitem.hh \
     commonresource.hh \
+    carditem.hh \
     gamescene.hh \
     gamewindow.hh \
     locationitem.hh \

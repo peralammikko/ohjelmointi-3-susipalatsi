@@ -1,6 +1,7 @@
 #ifndef ACTIONCARD_HH
 #define ACTIONCARD_HH
 #include "../Course/cardinterface.h"
+#include "carditem.hh"
 
 #include <memory>
 
@@ -18,15 +19,20 @@ public:
     QString title() const override;
     QString name() const override;
 
+    std::shared_ptr<CardItem> getCardItem();
+
     std::weak_ptr<Location> location() const override;
     std::weak_ptr<Player> owner() const override;
     void setOwner(std::weak_ptr<Player> owner) override;
+
 
 private:
     QString name_;
     QString typeName_;
     QString title_;
 
+
+    std::shared_ptr<CardItem> cardItem_;
 
     std::weak_ptr<Player> owner_;
     std::weak_ptr<Location> location_;

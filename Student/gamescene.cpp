@@ -15,14 +15,11 @@ void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
         QGraphicsItem* itemClicked = itemAt(event->scenePos(),QTransform());
-        LocationItem* locationClicked = qgraphicsitem_cast<LocationItem*>(itemClicked);
-        agentItem* agentClicked = qgraphicsitem_cast<agentItem*>(itemClicked);
-        if (locationClicked) {
-            locationClicked->mousePressEvent(event);
-            selectedLocation = locationClicked;
-            qDebug() << locationClicked->getObject()->name();
-        } else if (agentClicked) {
-            qDebug() << "agentti";
+        LocationItem* locItem = qgraphicsitem_cast<LocationItem*>(itemClicked);
+        if (locItem and locItem->typeOf() == "locationitem") {
+            locItem->mousePressEvent(event);
+            selectedLocation = locItem;
+            qDebug() << locItem->getObject()->name();
         } else {
             selectedAgent = nullptr;
             selectedLocation = nullptr;

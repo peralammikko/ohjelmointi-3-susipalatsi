@@ -10,6 +10,7 @@ ActionCard::ActionCard(QString name, QString typeName, QString title){
     name_ = name;
     typeName_ = typeName;
     title_ = title;
+    cardItem_ = nullptr;
 
 
 }
@@ -45,5 +46,6 @@ void ActionCard::setOwner(std::weak_ptr<Player> owner)
 {
     owner_ = owner;
 }
+
 
 } // Interface

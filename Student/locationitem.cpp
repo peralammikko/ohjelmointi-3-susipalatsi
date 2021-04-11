@@ -68,3 +68,8 @@ void LocationItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
         QGraphicsItem::mousePressEvent(event);
     }
 }
+
+const QString LocationItem::typeOf()
+{
+    return "locationitem";
+}

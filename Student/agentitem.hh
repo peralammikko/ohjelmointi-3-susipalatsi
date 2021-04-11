@@ -17,8 +17,8 @@ public:
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
-    void setCoords(int x, int y) override;
-    const std::pair<int, int> getCoords() override;
+    void setCoords(int x, int y); //override;
+    const std::pair<int, int> getCoords(); // override;
 
     // AgentInterface overridet
     bool isCommon() const override;
@@ -37,6 +37,8 @@ public:
     void setOwner(std::weak_ptr<Interface::Player>) override;
 
     void testPrint() {qDebug() << "Tämä on agentti";}
+
+    const QString typeOf() override;
 
 private:
     int itemx, itemy;
