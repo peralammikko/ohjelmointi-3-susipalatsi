@@ -26,11 +26,11 @@ GameWindow::GameWindow(QWidget *parent) :
     mapScene = new GameScene(gameui->graphicsView);
     gameui->graphicsView->setScene(mapScene);
 
-    setMouseTracking(true);
     gameui->graphicsView->setMouseTracking(true);
 
     // Asetetaan graphicViewin ja ikkunan koot staattiseks ensalkuun
-    gameui->graphicsView->setFixedSize(1200, 700);
+    gameui->graphicsView->setFixedSize(1400, 900);
+   // mapScene->setSceneRect(-600,600,-350,350);
     this->setFixedSize(1400, 900);
 
     this->setWindowTitle("SUSIPALATSI: TEH GAME");
@@ -52,36 +52,51 @@ GameWindow::GameWindow(QWidget *parent) :
     // luodaan pelaajille käsialueen luokka
     for (unsigned int i=0; i<gameboard->players().size(); ++i) {
         std::shared_ptr<Interface::Player> pl = gameboard->players().at(i);
-       // std::shared_ptr<PlayerHand> hand = std::make_shared<PlayerHand>(mapScene, pl, 0, -100 + 200*i);
-       // hands_.insert(make_pair(pl, hand));
-
-        QGraphicsLinearLayout *nuhand = new QGraphicsLinearLayout;
+        QGraphicsLinearLayout *hand = new QGraphicsLinearLayout;
 
         // Luodaan pari korttia ja annetaan ne pelaajalle
         for (int j=0; j<4; ++j) {
             std::shared_ptr<Interface::ActionCard> card = std::make_shared<Interface::ActionCard>();
             pl->addCard(card);
+
+
+        }
+        // Tehdäänkin cardItemit vain silloin kun niitä tarvitaan. saatta aiheuttaa lagia mut ihan sama
+        /*
             CardItem *carditem = new CardItem(card);
 
             // adds card to the scene
-            mapScene->addItem(carditem);
+            //mapScene->addItem(carditem);
 
             // adds card to layout
-            nuhand->addItem(carditem);
+            hand->addItem(carditem);
         }
+
+
+        // Layout needs a container. Cards are placed in a layout within a container.
         QGraphicsWidget* container = new QGraphicsWidget;
-        container->setLayout(nuhand);
+        container->setX(200*i);
+
+        container->setLayout(hand);
+        container->update();
         mapScene->addItem(container);
-        container->setGeometry(0, i*500, 100, 100);
-        nuhands_.insert(make_pair(pl, container));
+
+
+        //hand->setGeometry(0, i*500, 100, 100);
+
+        //does not work
+        //container->setGeometry(0, i*500, 100, 100);
+
+
+
+        //qDebug() << hand->geometry() << container->layout();
+        playerhands_.insert(make_pair(pl, container));
         //container->setPos();
         //container->setPos(std::make_pair(0, -100 + 200* i));
-        
+        //container->hide();
+        */
     }
-
-
-
-
+    mapScene->createHandCards(gameboard->players().at(0)->cards());
 
 }
 
@@ -106,6 +121,28 @@ void GameWindow::drawItem(mapItem *item)
 const std::vector<std::shared_ptr<Interface::Location> > GameWindow::getLocations()
 {
     return gameboard->locations();
+}
+
+void GameWindow::enablePlayerHand(std::shared_ptr<Interface::Player> player)
+{
+    int handX = 0;
+    int handY = 0;
+
+    std::vector<std::shared_ptr<Interface::Player>> players = gameboard->players();
+    // Player must exist in game class
+    if (player and std::find(players.begin(), players.end(), player) != players.end())
+    {
+        std::vector<std::shared_ptr<Interface::CardInterface>> cards = player->cards();
+        std::vector<CardItem> carditems;
+        for (unsigned int i = 0; i < cards.size(); ++i)
+        {
+            CardItem *carditem = new CardItem(cards.at(i));
+            // adds card to the scene
+            mapScene->addItem(carditem);
+
+        }
+
+    }
 }
 
 /*

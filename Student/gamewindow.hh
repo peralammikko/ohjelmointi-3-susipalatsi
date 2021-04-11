@@ -41,9 +41,10 @@ private:
     std::shared_ptr<Interface::Game> gameboard = nullptr;
     std::shared_ptr<Interface::Runner> courseRunner = nullptr;
 
+
     // Testing for hands
     std::map<std::shared_ptr<Interface::Player>, std::shared_ptr<PlayerHand>> hands_;
-    std::map<std::shared_ptr<Interface::Player>, QGraphicsWidget> nuhands_;
+    std::map<std::shared_ptr<Interface::Player>, QGraphicsWidget> playerhands_;
 
     const std::vector<QString> paikat_ = {"Marketti", "Kirkko", "Taverna", "Kauppiaiden kilta", "Menomesta", "Salapaikka"};
 

@@ -16,11 +16,12 @@ public:
 
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
 
+    // mouse entering and press events. These trigger when cards are in hand
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
 
-    // some cool hovering zoom
+    // some cool hovering stuff
     virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *event) override;
     virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override;
 
@@ -37,11 +38,12 @@ public:
 private:
     int width_;
     int height_;
-    float scale_;
     std::pair<int, int> coords_;
 
     bool isPressed_;
     bool isHovered_;
+
+    std::pair<int,int> coordsBeforeDragging_;
 
     std::weak_ptr<Interface::CardInterface> card_;
 

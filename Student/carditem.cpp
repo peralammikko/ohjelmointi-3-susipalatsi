@@ -5,6 +5,15 @@ CardItem::CardItem(std::weak_ptr<Interface::CardInterface> card, float scale)
     setFlag(ItemIsMovable);
     isPressed_ = false;
     isHovered_ = false;
+    std::pair<int,int> coordsBeforeDragging_;
+
+    // set origo center for scaling
+    QPoint o;
+    float w = boundingRect().width()/2;
+    float y = boundingRect().height()/2;
+    o.setX(o.x() + w);
+    o.setY(o.y() + y);
+    setTransformOriginPoint(o);
 
     // Required for mousehovering magics
     setAcceptHoverEvents(true);
@@ -17,19 +26,19 @@ CardItem::~CardItem()
 
 QRectF CardItem::boundingRect() const
 {
-    return QRectF(0,0,100,200);
+    return QRectF(0,0,150,220);
 }
 
 
 void CardItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     QRectF rec = boundingRect();
-    QBrush brush(Qt::black);
+    QBrush brush(Qt::gray);
     if (isPressed_) {
-        brush.setColor(Qt::red);
+        brush.setColor(Qt::green);
     }
 
-    if (isHovered_) {
+    if (isHovered_ and not isPressed_) {
         brush.setColor(Qt::yellow);
     }
 
@@ -51,8 +60,6 @@ void CardItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     QGraphicsItem::mouseReleaseEvent(event);
 }
 
-
-
 QSizeF CardItem::sizeHint(Qt::SizeHint which, const QSizeF &constraint) const
 {
     Q_UNUSED(which);
@@ -62,7 +69,7 @@ QSizeF CardItem::sizeHint(Qt::SizeHint which, const QSizeF &constraint) const
 
 void CardItem::setGeometry(const QRectF &rect)
 {
-    setPos(rect.topLeft());
+    setPos(rect.center());
 }
 
 
@@ -74,8 +81,9 @@ const QString CardItem::typeOf()
 
 void CardItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
-    qDebug() << "sekx ";
     isHovered_ = true;
+    QPoint o;
+    setScale(1.2);
     update();
     QGraphicsItem::hoverEnterEvent(event);
 }
@@ -83,8 +91,8 @@ void CardItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 
 void CardItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
-    qDebug() << "batang";
     isHovered_ = false;
+    setScale(1);
     update();
     QGraphicsItem::hoverEnterEvent(event);
 }

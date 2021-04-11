@@ -4,16 +4,18 @@
 #include "mapitem.hh"
 #include "locationitem.hh"
 #include <cmath>
+#include "carditem.hh"
 
 GameScene::GameScene(QWidget *parent) : QGraphicsScene(parent)
 {
-
+    handAnchorCoords_ = std::make_pair(0, 400);
+    handCardPadding_ = 5;
 }
 
 void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
-        QGraphicsItem* itemClicked = itemAt(event->scenePos(),QTransform());
+        //QGraphicsItem* itemClicked = itemAt(event->scenePos(),QTransform());
 
         // Tää debugauskohta vaikeutti korttien liikuttelua joten kommentoin sen vaan ulos
         /*
@@ -37,8 +39,9 @@ void GameScene::drawLocations(std::vector<std::shared_ptr<Interface::Location>> 
     std::shared_ptr<Interface::Location> currentLocation = nullptr;
 
     // Piirretään rakennukset "ympyrän" kehälle
-    const int xCenter = 0;
-    const int yCenter = 0;
+    const int xCenter = this->width()/2;
+    const int yCenter = this->height()/2;
+    //qDebug() << "Center:" <<xCenter << yCenter;
     const int radius = 300;
 
     int locationCount = locvec.size();
@@ -63,3 +66,41 @@ void GameScene::drawItem(mapItem *item)
 {
     addItem(item);
 }
+
+void GameScene::createHandCards(std::vector<std::shared_ptr<Interface::CardInterface>> cards)
+{
+    for (unsigned int i = 0; i < cards.size(); ++i) {
+        CardItem *carditem = new CardItem(cards.at(i));
+        // adds card to the scene
+        this->addItem(carditem);
+        carditem->hide();
+        handCards_.push_back(carditem);
+    }
+
+    // Show cards
+    showHandCards();
+}
+
+void GameScene::showHandCards()
+{
+    float widthtotal = 0.0;
+    int xStart;
+    float widthPerCard;
+
+    int count = handCards_.size();
+    if (count) {
+        for (int i = 0; i < count; ++i) {
+            handCards_.at(i)->show();
+            widthtotal += handCards_.at(i)->boundingRect().width();
+        }
+        widthPerCard = (widthtotal + handCardPadding_*count) / count;
+        xStart =  handAnchorCoords_.first - (widthtotal / 2);
+
+        for (int i = 0; i < count; ++i) {
+            int x = (xStart + widthPerCard*i);
+            handCards_.at(i)->setPos(x, handAnchorCoords_.second);
+            qDebug() << handCards_.at(i)->x();
+        }
+    }
+}
+
