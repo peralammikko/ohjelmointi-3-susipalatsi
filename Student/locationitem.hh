@@ -14,10 +14,12 @@ public:
     // MapItem overridet
 
     // Asetetaan koordinaatit itemille
-    void setCoords(int x, int y) override;
+    // tarpeeton, sillä QGraphicsItemillä on jo oma metodi tälle
+    void setCoords(int x, int y); // override;
 
     // Haetaan itemin koordinaatit
-    const std::pair<int, int> getCoords() override;
+    // tarpeeton, sillä QGraphicsItemillä on jo oma metodi tälle
+    const std::pair<int, int> getCoords(); // override;
 
     // Luodaan itemille muoto (neliö)
     QRectF boundingRect() const override;
@@ -33,6 +35,8 @@ public:
 
     // Haetaan itemin kantaluokka (Location)
     const std::shared_ptr<Interface::Location> getObject();
+
+    const QString typeOf() override;
 
 private:
     int itemx, itemy;

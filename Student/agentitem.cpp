@@ -120,3 +120,8 @@ void agentItem::setOwner(std::weak_ptr<Interface::Player>)
     qDebug() << "set owner to ";
 }
 
+
+const QString agentItem::typeOf()
+{
+    return "agentitem";
+}

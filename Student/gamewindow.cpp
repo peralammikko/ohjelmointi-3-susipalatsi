@@ -7,6 +7,11 @@
 #include "gamescene.hh"
 #include <cmath>
 
+// kokeilu käden asettelulle
+#include <QGraphicsLinearLayout>
+#include <QGraphicsWidget>
+
+
 #include "actioncard.hh"
 
 #include "playerhand.hh"
@@ -20,6 +25,9 @@ GameWindow::GameWindow(QWidget *parent) :
     // mapScene = new QGraphicsScene(gameui->graphicsView);
     mapScene = new GameScene(gameui->graphicsView);
     gameui->graphicsView->setScene(mapScene);
+
+    setMouseTracking(true);
+    gameui->graphicsView->setMouseTracking(true);
 
     // Asetetaan graphicViewin ja ikkunan koot staattiseks ensalkuun
     gameui->graphicsView->setFixedSize(1200, 700);
@@ -44,20 +52,37 @@ GameWindow::GameWindow(QWidget *parent) :
     // luodaan pelaajille käsialueen luokka
     for (unsigned int i=0; i<gameboard->players().size(); ++i) {
         std::shared_ptr<Interface::Player> pl = gameboard->players().at(i);
-        std::shared_ptr<PlayerHand> hand = std::make_shared<PlayerHand>(mapScene, pl, 0, -100 + 200*i);
-        hands_.insert(make_pair(pl, hand));
+       // std::shared_ptr<PlayerHand> hand = std::make_shared<PlayerHand>(mapScene, pl, 0, -100 + 200*i);
+       // hands_.insert(make_pair(pl, hand));
+
+        QGraphicsLinearLayout *nuhand = new QGraphicsLinearLayout;
 
         // Luodaan pari korttia ja annetaan ne pelaajalle
         for (int j=0; j<4; ++j) {
             std::shared_ptr<Interface::ActionCard> card = std::make_shared<Interface::ActionCard>();
-
-         //   card = std::shared_ptr<Interface::CardInterface>();
             pl->addCard(card);
-            //std::make_shared<Interface::CardInterface>();
-            //std::shared_ptr<Interface::CardInterface> card = std::make_shared<Interface::CardInterface>();
-            
+            CardItem *carditem = new CardItem(card);
+
+            // adds card to the scene
+            mapScene->addItem(carditem);
+
+            // adds card to layout
+            nuhand->addItem(carditem);
         }
+        QGraphicsWidget* container = new QGraphicsWidget;
+        container->setLayout(nuhand);
+        mapScene->addItem(container);
+        container->setGeometry(0, i*500, 100, 100);
+        nuhands_.insert(make_pair(pl, container));
+        //container->setPos();
+        //container->setPos(std::make_pair(0, -100 + 200* i));
+        
     }
+
+
+
+
+
 }
 
 GameWindow::~GameWindow()

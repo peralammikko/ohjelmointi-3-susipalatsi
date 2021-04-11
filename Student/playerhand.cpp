@@ -1,6 +1,7 @@
 #include "playerhand.hh"
 
-PlayerHand::PlayerHand(QGraphicsScene* scene, std::shared_ptr<Interface::Player> player, int x, int y)
+
+PlayerHand::PlayerHand(QGraphicsScene* scene, std::shared_ptr<Interface::Player> player, QGraphicsItem *parent, int x, int y)
 {
     scene_ = scene;
     xCenterCoord = x;
@@ -9,3 +10,15 @@ PlayerHand::PlayerHand(QGraphicsScene* scene, std::shared_ptr<Interface::Player>
            
 }
 
+void PlayerHand::updateHand()
+{
+    std::vector<std::shared_ptr<Interface::CardInterface>> cards = player_->cards();
+    for (unsigned int i = 0; i < cards.size(); ++i){
+        
+    }
+}
+
+void PlayerHand::renderHand()
+{
+
+}

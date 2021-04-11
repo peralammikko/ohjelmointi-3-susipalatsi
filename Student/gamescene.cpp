@@ -14,8 +14,12 @@ void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
         QGraphicsItem* itemClicked = itemAt(event->scenePos(),QTransform());
+
+        // Tää debugauskohta vaikeutti korttien liikuttelua joten kommentoin sen vaan ulos
+        /*
         LocationItem* locItem = qgraphicsitem_cast<LocationItem*>(itemClicked);
-        if (locItem) {
+        if (locItem and locItem->typeOf() == "locationitem") {
+
             locItem->mousePressEvent(event);
             selectedLocation = locItem;
             std::shared_ptr<Interface::AgentInterface> pointerAgent = nullptr;
@@ -24,7 +28,7 @@ void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
         } else {
             qDebug() << "tyhjä";
             selectedLocation = nullptr;
-        }
+        }*/
     }
 }
 

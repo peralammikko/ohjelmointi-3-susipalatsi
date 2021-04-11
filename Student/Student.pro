@@ -10,6 +10,7 @@ SOURCES += \
     agentcard.cpp \
     agentitem.cpp \
     cardinterface.cpp \
+    carditem.cpp \
     gamescene.cpp \
     gamewindow.cpp \
     locationitem.cpp \
@@ -45,6 +46,7 @@ HEADERS += \
     actioncard.hh \
     agentcard.hh \
     agentitem.hh \
+    carditem.hh \
     gamescene.hh \
     gamewindow.hh \
     locationitem.hh \
