@@ -57,43 +57,7 @@ GameWindow::GameWindow(QWidget *parent) :
         for (int j=0; j<4; ++j) {
             std::shared_ptr<Interface::ActionCard> card = std::make_shared<Interface::ActionCard>();
             pl->addCard(card);
-
-
         }
-        // Tehdäänkin cardItemit vain silloin kun niitä tarvitaan. saatta aiheuttaa lagia mut ihan sama
-        /*
-            CardItem *carditem = new CardItem(card);
-
-            // adds card to the scene
-            //mapScene->addItem(carditem);
-
-            // adds card to layout
-            hand->addItem(carditem);
-        }
-
-
-        // Layout needs a container. Cards are placed in a layout within a container.
-        QGraphicsWidget* container = new QGraphicsWidget;
-        container->setX(200*i);
-
-        container->setLayout(hand);
-        container->update();
-        mapScene->addItem(container);
-
-
-        //hand->setGeometry(0, i*500, 100, 100);
-
-        //does not work
-        //container->setGeometry(0, i*500, 100, 100);
-
-
-
-        //qDebug() << hand->geometry() << container->layout();
-        playerhands_.insert(make_pair(pl, container));
-        //container->setPos();
-        //container->setPos(std::make_pair(0, -100 + 200* i));
-        //container->hide();
-        */
     }
     mapScene->createHandCards(gameboard->players().at(0)->cards());
 
@@ -141,31 +105,4 @@ void GameWindow::enablePlayerHand(std::shared_ptr<Interface::Player> player)
     }
 }
 
-/*
-void GameWindow::drawAgents(mapItem *&drawLocation)
-{
-    std::shared_ptr<Interface::Location> loc = drawLocation->getObject();
-    std::set<std::shared_ptr<Interface::AgentInterface>> locAgents = loc->agents();
-    int counter = 0;
-    std::pair<int, int> locationXY = drawLocation->getCoords();
-    const int xCenter = locationXY.first;
-    const int yCenter = locationXY.second;
-    const int radius = 50;
-
-    int agentCount = locAgents.size();
-    const int degree = 360 / agentCount;
-
-    for (auto agent : locAgents) {
-        agentItem* agenttismies = new agentItem(agent);
-        mapScene->addItem(agenttismies);
-
-        int angleDeg = degree * counter;
-        float angleRad = angleDeg * M_PI / 180;
-        int x = xCenter + radius * std::cos(angleRad);
-        int y = yCenter + radius * std::sin(angleRad);
-        agenttismies->setCoords(x, y);
-        counter++;
-    }
-}
-*/
 

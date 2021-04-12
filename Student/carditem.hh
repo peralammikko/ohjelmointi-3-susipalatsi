@@ -9,12 +9,20 @@ class CardItem : public mapItem
 {
 public:
     // Pelialueella liikuteltava korttibjekti
-    CardItem(std::weak_ptr<Interface::CardInterface> card, float scale=1);
+    CardItem(std::weak_ptr<Interface::CardInterface> card);
     ~CardItem();
 
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
+    // This is called by gamescene when another mapitem is dragged over it
+    void setHighLighted(bool state);
+
+
+    const QString typeOf() override;
+
+
+protected:
     // mouse entering and press events. These trigger when cards are in hand
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
@@ -24,18 +32,6 @@ public:
     // some cool hovering stuff
     virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *event) override;
     virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override;
-
-
-    // This is called by gamescene when another mapitem is dragged over it
-    void setHighLighted(bool state);
-
-
-    const QString typeOf() override;
-
-
-signals:
-    void cardItemMoved(CardItem*);
-    void cardItemDropped(CardItem* me);
 
 private:
     int width_;

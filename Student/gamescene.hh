@@ -35,12 +35,13 @@ public:
     // post: scene has locations drawn on scene
     void drawLocations(std::vector<std::shared_ptr<Interface::Location>> &locvec);
 
-    // creates nice carditem for each cardinterface in vector, calls showHandCards
+    // creates nice carditem for each cardinterface in vector
+    // Post: carditems spawned and calls showHandCards
     void createHandCards(std::vector<std::shared_ptr<Interface::CardInterface>> cards);
 
     // Gets cursor position and displays items under cursors on console
     // TODO: Choose one of thse MapItems as a target. Targeting should be based on CardItem's CardInterFace rules.
-    void onCardDragged(CardItem* card);
+    void onCardDragged(CardItem *card);
 
     // TODO: If there is a valid MapItem stored in this class' pointer, do Card's action where target MapItem is the target.
     void onCardDropped(CardItem* card);
