@@ -43,7 +43,6 @@ public:
     std::shared_ptr<Interface::Game> getGame();
 
 public slots:
-    void onCardDragged(CardItem* card);
 
     // Gets cursor position and displays items under cursors on console
     // TODO: Choose one of thse MapItems as a target. Targeting should be based on CardItem's CardInterFace rules.

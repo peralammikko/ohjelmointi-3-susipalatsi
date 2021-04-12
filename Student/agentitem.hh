@@ -33,7 +33,7 @@ public:
     QString title() const override;
     std::weak_ptr<Interface::Location> location() const override;
     std::weak_ptr<Interface::Player> owner() const override;
-    void setOwner(std::weak_ptr<Interface::Player>) override;
+    void setOwner(std::weak_ptr<Interface::Player> owner) override;
 
     void testPrint() {qDebug() << "Tämä on agentti";}
 
@@ -43,7 +43,7 @@ private:
     int itemx, itemy;
     std::shared_ptr<Interface::AgentInterface> agentObject_;
     std::weak_ptr<Interface::Location> locationAt_;
-    const std::weak_ptr<Interface::Player> agentOwner_;
+    std::weak_ptr<Interface::Player> agentOwner_;
     QString agentName_;
     int value_;
     int negSkill_;

@@ -129,9 +129,9 @@ std::weak_ptr<Interface::Player> agentItem::owner() const
     return agentOwner_;
 }
 
-void agentItem::setOwner(std::weak_ptr<Interface::Player>)
+void agentItem::setOwner(std::weak_ptr<Interface::Player> owner)
 {
-    qDebug() << "set owner to ";
+    agentOwner_ = owner;
 }
 
 

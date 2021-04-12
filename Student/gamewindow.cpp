@@ -31,7 +31,7 @@ GameWindow::GameWindow(QWidget *parent) :
     // Asetetaan graphicViewin ja ikkunan koot staattiseks ensalkuun
     gameui->graphicsView->setFixedSize(1400, 900);
    // mapScene->setSceneRect(-600,600,-350,350);
-    this->setFixedSize(1400, 900);
+    this->setFixedSize(1920, 1080);
     this->setWindowTitle("SUSIPALATSI: TEH GAME");
 
     gameboard = std::make_shared<Interface::Game>();
