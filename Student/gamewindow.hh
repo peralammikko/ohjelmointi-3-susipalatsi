@@ -43,7 +43,13 @@ public:
     std::vector<agentItem *> getAgents(std::shared_ptr<Interface::Player> &player);
     std::shared_ptr<Interface::Player> getPlayerInTurn();
 
+    void changeTurn();
 
+    void listAgents(std::shared_ptr<Interface::Player> player);
+
+
+private slots:
+    void on_passButton_clicked();
 
 private:
     Ui::GameWindow *gameui;

@@ -30,7 +30,7 @@ GameWindow::GameWindow(QWidget *parent) :
 
     // Asetetaan graphicViewin ja ikkunan koot staattiseks ensalkuun
     gameui->graphicsView->setFixedSize(1400, 900);
-   // mapScene->setSceneRect(-600,600,-350,350);
+    // mapScene->setSceneRect(-600,600,-350,350);
     this->setFixedSize(1920, 1080);
     this->setWindowTitle("SUSIPALATSI: TEH GAME");
 
@@ -56,8 +56,6 @@ GameWindow::GameWindow(QWidget *parent) :
     playerAgents_.insert(pair2);
 
     playerInTurn = player1;
-    drawPlayerAgents(playerInTurn);
-    getPlayerInTurn();
 
     for (int i = 0 ; i < 3; i++) {
         spawnAgent(player1);
@@ -65,12 +63,6 @@ GameWindow::GameWindow(QWidget *parent) :
     
     for (int i = 0; i < 5; i++) {
         spawnAgent(player2);
-    }
-
-    if (current_round == 0) {
-        drawPlayerAgents(player1);
-    } else {
-        drawPlayerAgents(player2);
     }
 
     // luodaan pari pelaajaa
@@ -164,6 +156,33 @@ std::shared_ptr<Interface::Player> GameWindow::getPlayerInTurn()
     return playerInTurn;
 }
 
+void GameWindow::changeTurn()
+{
+    if (current_round % 2 == 0) {
+        playerInTurn = player1;
+    } else {
+        playerInTurn = player2;
+    }
+
+    gameui->playerNameLabel->setText(playerInTurn->name());
+    listAgents(playerInTurn);
+
+    current_round++;
+
+    mapScene->turnInfo(current_round, playerInTurn);
+
+    gameui->currentRoundLabel->setText("Current round: " + QString::number(current_round));
+}
+
+void GameWindow::listAgents(std::shared_ptr<Interface::Player> player)
+{
+    gameui->agentListWidget->clear();
+    std::vector<agentItem*> listOfAgents = playerAgents_.at(player);
+    for (auto agent : listOfAgents) {
+        gameui->agentListWidget->addItem(agent->typeName());
+    }
+}
+
 
 /*
 void GameWindow::drawAgents(mapItem *&drawLocation)
@@ -193,3 +212,8 @@ void GameWindow::drawAgents(mapItem *&drawLocation)
 }
 */
 
+
+void GameWindow::on_passButton_clicked()
+{
+    changeTurn();
+}

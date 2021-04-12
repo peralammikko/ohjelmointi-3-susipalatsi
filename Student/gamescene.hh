@@ -40,7 +40,9 @@ public:
     // Post: carditems spawned and calls showHandCards
     void createHandCards(std::vector<std::shared_ptr<Interface::CardInterface>> cards);
 
-    std::shared_ptr<Interface::Game> getGame();
+    std::shared_ptr<Interface::Game> connectGameboard();
+
+    void turnInfo(int turn, std::shared_ptr<Interface::Player> currentplayer);
 
 public slots:
 
@@ -56,6 +58,9 @@ private:
 
     mapItem* selectedLocation = nullptr;
     agentItem* selectedAgent = nullptr;
+
+    int turn_ = 0;
+    std::shared_ptr<Interface::Player> playerInTurn_ = nullptr;
 
     std::vector<CardItem*> handCards_;
     std::pair<int, int> handAnchorCoords_;
