@@ -16,7 +16,6 @@
 
 #include "../Course/game.h"
 #include "../Course/runner.h"
-#include "playerclass.hh"
 
 namespace Ui {
 class GameWindow;
@@ -32,12 +31,18 @@ public:
     const std::vector<std::shared_ptr<Interface::Location>> getLocations();
     void setSize(int width, int height);
     void drawLocations();
-    void drawPlayerAgents(Playerclass &p);
+    void drawPlayerAgents(std::shared_ptr<Interface::Player> &player);
     void drawItem(mapItem* item);
     void showHand();
-    void sendAgentTo(LocationItem* loc);
 
     void enablePlayerHand(std::shared_ptr<Interface::Player> player);
+    void sendAgentTo(const std::shared_ptr<Interface::Location> &loc, std::shared_ptr<Interface::Player> &player);
+
+    void spawnAgent(std::shared_ptr<Interface::Player> &player);
+    std::shared_ptr<Interface::Player> getPlayerObject();
+    std::vector<agentItem *> getAgents(std::shared_ptr<Interface::Player> &player);
+    std::shared_ptr<Interface::Player> getPlayerInTurn();
+
 
 
 private:
@@ -46,16 +51,21 @@ private:
     std::shared_ptr<Interface::Game> gameboard = nullptr;
     std::shared_ptr<Interface::Runner> courseRunner = nullptr;
 
-
     // Testing for hands
     std::map<std::shared_ptr<Interface::Player>, std::shared_ptr<PlayerHand>> hands_;
     std::map<std::shared_ptr<Interface::Player>, QGraphicsWidget> playerhands_;
 
     const std::vector<QString> paikat_ = {"Marketti", "Kirkko", "Taverna", "Kauppiaiden kilta", "Menomesta", "Salapaikka"};
 
-    int current_round;
+    int current_round = 0;
+    bool gameOver = false;
     std::shared_ptr<Interface::Player> player1 = nullptr;
     std::shared_ptr<Interface::Player> player2 = nullptr;
+
+    std::shared_ptr<Interface::Player> playerInTurn = nullptr;
+    std::map<std::shared_ptr<Interface::Player>, std::vector<agentItem*>> playerAgents_;
+
+
 
     // this variable stores drag and drop targe, ie. what is "under" a draggable card
     mapItem* targetedMapItem_;

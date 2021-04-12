@@ -4,7 +4,6 @@
 
 #include "mapitem.hh"
 #include "agentinterface.h"
-#include "agentcard.hh"
 
 class agentItem : public mapItem, public Interface::AgentInterface
 {

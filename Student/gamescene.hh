@@ -29,6 +29,8 @@ public:
     // creates nice carditem for each cardinterface in vector, calls showHandCards
     void createHandCards(std::vector<std::shared_ptr<Interface::CardInterface>> cards);
 
+    std::shared_ptr<Interface::Game> getGame();
+
 public slots:
     void onCardDragged(CardItem* card);
     void onCardDropped(CardItem* card);
@@ -44,6 +46,10 @@ private:
     // changes state of cards in handCards_ to show and arranges them nicely as a hand centered in handAnchorCoords_
     // also connects drag drop signals with those carditems
     void showHandCards();
+    std::shared_ptr<Interface::Game> gameboard_ = nullptr;
+
+
+
 };
 
 #endif // GAMESCENE_HH

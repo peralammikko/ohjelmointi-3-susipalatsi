@@ -15,7 +15,6 @@
 #include "actioncard.hh"
 
 #include "playerhand.hh"
-#include "playerclass.hh"
 
 
 GameWindow::GameWindow(QWidget *parent) :
@@ -33,7 +32,6 @@ GameWindow::GameWindow(QWidget *parent) :
     gameui->graphicsView->setFixedSize(1400, 900);
    // mapScene->setSceneRect(-600,600,-350,350);
     this->setFixedSize(1400, 900);
-
     this->setWindowTitle("SUSIPALATSI: TEH GAME");
 
     gameboard = std::make_shared<Interface::Game>();
@@ -49,17 +47,31 @@ GameWindow::GameWindow(QWidget *parent) :
     player1 = std::make_shared<Interface::Player>(gameboard, 1, "RED");
     player2 = std::make_shared<Interface::Player>(gameboard, 2, "BLUE");
 
-    /*
-    std::shared_ptr<Playerclass> p1 = std::make_shared<Playerclass>(player1);
-    std::shared_ptr<Playerclass> p2 = std::make_shared<Playerclass>(player2);
-    */
-    Playerclass p1(player1);
-    Playerclass p2(player2);
+    gameboard->addPlayer(player1);
+    gameboard->addPlayer(player2);
+    std::pair<std::shared_ptr<Interface::Player>, std::vector<agentItem*>> pair1(player1, {});
+    std::pair<std::shared_ptr<Interface::Player>, std::vector<agentItem*>> pair2(player2, {});
+
+    playerAgents_.insert(pair1);
+    playerAgents_.insert(pair2);
+
+    playerInTurn = player1;
+    drawPlayerAgents(playerInTurn);
+    getPlayerInTurn();
 
     for (int i = 0 ; i < 3; i++) {
-        p1.spawnAgent();
+        spawnAgent(player1);
     }
-    drawPlayerAgents(p1);
+    
+    for (int i = 0; i < 5; i++) {
+        spawnAgent(player2);
+    }
+
+    if (current_round == 0) {
+        drawPlayerAgents(player1);
+    } else {
+        drawPlayerAgents(player2);
+    }
 
     // luodaan pari pelaajaa
     for (int i=0; i<2; i++) {
@@ -128,20 +140,15 @@ void GameWindow::drawLocations()
     mapScene->drawLocations(locvec);
 }
 
-void GameWindow::drawPlayerAgents(Playerclass &p)
-{
-    std::vector<agentItem*> agents = p.getAgents();
-    mapScene->drawAgents(agents);
-}
+void GameWindow::drawPlayerAgents(std::shared_ptr<Interface::Player> &player)
+ {
+    std::vector<agentItem*> agents = playerAgents_.at(player);
+     mapScene->drawAgents(agents);
+ }
 
 void GameWindow::drawItem(mapItem *item)
 {
     mapScene->drawItem(item);
-}
-
-void GameWindow::sendAgentTo(LocationItem *loc)
-{
-    return;
 }
 
 const std::vector<std::shared_ptr<Interface::Location> > GameWindow::getLocations()
@@ -167,6 +174,32 @@ void GameWindow::enablePlayerHand(std::shared_ptr<Interface::Player> player)
 
     }
 }
+
+void GameWindow::sendAgentTo(const std::shared_ptr<Interface::Location> &loc, std::shared_ptr<Interface::Player> &player)
+{
+    std::vector<agentItem*> listofAgents = playerAgents_.at(player);
+    std::shared_ptr<Interface::AgentInterface> freeAgent = listofAgents.back()->getObject();
+    qDebug() << "agent created";
+    loc->sendAgent(freeAgent);
+    qDebug() << "sent ;)";
+
+}
+
+
+
+void GameWindow::spawnAgent(std::shared_ptr<Interface::Player> &player)
+{
+    std::shared_ptr<Interface::AgentInterface> agentptr = nullptr;
+    agentItem* agentti = new agentItem(agentptr);
+    agentti->setOwner(player);
+    playerAgents_.at(player).push_back(agentti);
+}
+
+std::shared_ptr<Interface::Player> GameWindow::getPlayerInTurn()
+{
+    return playerInTurn;
+}
+
 
 /*
 void GameWindow::drawAgents(mapItem *&drawLocation)

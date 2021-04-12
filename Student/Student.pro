@@ -7,7 +7,6 @@ CONFIG += c++14
 
 SOURCES += \
     actioncard.cpp \
-    agentcard.cpp \
     agentitem.cpp \
     cardinterface.cpp \
     commonresource.cpp \
@@ -17,7 +16,6 @@ SOURCES += \
     locationitem.cpp \
     main.cc \
     mapitem.cpp \
-    playerclass.cpp \
     playerhand.cpp
 
 win32:CONFIG(release, debug|release): LIBS += \
@@ -46,7 +44,6 @@ else:unix: PRE_TARGETDEPS += \
 
 HEADERS += \
     actioncard.hh \
-    agentcard.hh \
     agentitem.hh \
     commonresource.hh \
     carditem.hh \
@@ -54,7 +51,6 @@ HEADERS += \
     gamewindow.hh \
     locationitem.hh \
     mapitem.hh \
-    playerclass.hh \
     playerhand.hh
 
 FORMS += \
