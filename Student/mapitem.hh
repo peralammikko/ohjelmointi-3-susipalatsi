@@ -13,18 +13,17 @@
 class mapItem : public QGraphicsItem
 {
 public:
-    // mapItem(const std::shared_ptr<Interface::Location> &obj);
 
+    // QGraphicsItem overrides liekö edes tarpeellisia tässä?
     virtual QRectF boundingRect() const = 0;
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) = 0;
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) = 0;
 
-    // Eikös nää oo turhia jos QGraphicsItemissä on jo setPos ja getPos?
-    // virtual void setCoords(int x, int y) = 0;
-    // virtual const std::pair<int, int> getCoords() = 0;
-
-    // returns the type of MapItem as a string. Can be at least a Location or an ActionCard.
+    // returns the type of MapItem as a string. Can be at least a location, agent or an actionCard.
+    // technically useless now that we know how to use dynamic_cast
     virtual const QString typeOf() = 0;
+
+    // TODO: MouseHover and drag events go here (currently only CardItem has them, but would be nice that Agents would too!)
 };
 
 #endif // MAPITEM_HH

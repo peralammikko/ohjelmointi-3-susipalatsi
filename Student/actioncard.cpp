@@ -11,8 +11,6 @@ ActionCard::ActionCard(QString name, QString typeName, QString title){
     typeName_ = typeName;
     title_ = title;
     cardItem_ = nullptr;
-
-
 }
 
 ActionCard::~ActionCard(){}

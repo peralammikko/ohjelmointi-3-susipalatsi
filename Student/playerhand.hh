@@ -13,6 +13,9 @@
 class PlayerHand
 {
 public:
+
+    // This class is more or less deprecated and probably requires a removal.
+    // stays here in case we get a nice idea how to use this as a hand display.
     PlayerHand(QGraphicsScene* scene, std::shared_ptr<Interface::Player> player, QGraphicsItem *parent = nullptr, int x=0, int y=0);
 
     void updateHand();

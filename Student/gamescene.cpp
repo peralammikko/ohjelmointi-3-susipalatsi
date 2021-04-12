@@ -19,7 +19,6 @@ void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
 
-        // Tää debugauskohta vaikeutti korttien liikuttelua joten kommentoin sen vaan ulos
         QGraphicsItem* itemClicked = itemAt(event->scenePos(), QTransform());
         LocationItem* locItem = qgraphicsitem_cast<LocationItem*>(itemClicked);
         agentItem* agItem = qgraphicsitem_cast<agentItem*>(itemClicked);
@@ -118,42 +117,49 @@ void GameScene::showHandCards()
 void GameScene::onCardDragged(CardItem* card)
 {
 
-    QRectF cardboundaries = card->boundingRect();
-    cardboundaries.setX(card->x());
-    cardboundaries.setY(card->y());
-    QList<QGraphicsItem*> items(this->items(cardboundaries, Qt::IntersectsItemShape, Qt::AscendingOrder));
+    /*
+    QRectF cardboundaries;
+    cardboundaries = card->mapRectFromScene(card->boundingRect());
+    QPointF newcoords = card->mapToScene(card->pos());
+    cardboundaries.moveTo(newcoords);
+
+    card->setPos(newcoords);
+
+    qDebug() << "cardboundaries "<< cardboundaries;
+
+
+    QRectF cardboundaries = mapitem->boundingRect();
+    cardboundaries.setX(mapitem->x());
+    cardboundaries.setY(mapitem->y());*/
+
+    // Get every item under cardboundaries
+    QList<QGraphicsItem*> items = card->collidingItems();
 
     // TODO: THIS RECT IS VERY BUGGED but at least it works on principle
-    qDebug() << "My boundaries:" << cardboundaries.width() << cardboundaries.x() << cardboundaries.y();
-    qDebug() << items;
+    //qDebug() << "My boundaries:" << cardboundaries.width() << cardboundaries.x() << cardboundaries.y();
+    //qDebug() << items;
     int count =0;
     for (int i = 0; i < items.size(); ++i)
     {
         count +=1;
         if (items.at(i) != card) {
-             qDebug() << i << items.at(i)->x() << items.at(i)->type();
-
              // Followin allows us to get ANY type of interaface data under the rect
              LocationItem* location =dynamic_cast<LocationItem*>(items.at(i));
              if (location != nullptr)
              {
                  qDebug() << "Olen rakennus" << location->getObject()->name();
              }
-
         } else {
             qDebug() << "found myself" << items.at(i)->type();
         }
     }
-    if (count == 0){
-        qDebug() << "BIG ERROR HOW COULD THIS HAPPEN!??!?";
-    }
-
 
 }
 
 
 void GameScene::onCardDropped(CardItem* card)
 {
-     qDebug() << "i am dropped" << card->x() << card->y();
+     qDebug() << "i am dropped" << card->x() << card->y()<<card->mapRectFromScene(card->boundingRect());
+     card->setPos(card->pos());
 }
 

@@ -3,9 +3,9 @@
 
 #include "gamescene.hh"
 
-CardItem::CardItem(std::weak_ptr<Interface::CardInterface> card, float scale)
+CardItem::CardItem(std::weak_ptr<Interface::CardInterface> card)
 {
-    setFlag(ItemIsMovable);
+    setFlags(ItemIsMovable | ItemIsSelectable);
     isPressed_ = false;
     isHovered_ = false;
     std::pair<int,int> coordsBeforeDragging_;
@@ -16,7 +16,7 @@ CardItem::CardItem(std::weak_ptr<Interface::CardInterface> card, float scale)
     float y = boundingRect().height()/2;
     o.setX(o.x() + w);
     o.setY(o.y() + y);
-    setTransformOriginPoint(o);
+    //setTransformOriginPoint(o);
 
     // Required for mousehovering magics
     setAcceptHoverEvents(true);
@@ -31,7 +31,6 @@ QRectF CardItem::boundingRect() const
 {
     return QRectF(0,0,150,220);
 }
-
 
 void CardItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
@@ -57,7 +56,9 @@ void CardItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 }
 
 void CardItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
-{
+{    
+    // TODO: Cards for whatever reason always snap back to either hand or center of graphics view when released and picked up again.
+
     if (isPressed_)
     {
        // qDebug() << "hello i am moved" << mapToScene(mapFromScene(QCursor::pos()))<< "mouse" << mapFromScene(QCursor::pos());
@@ -65,22 +66,37 @@ void CardItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         if (gameScene != nullptr)
         {
             gameScene->onCardDragged(this);
+
         } else
         {
            qDebug() << "error! Card Item did not find parent scene while moving!";
         }
     }
+    update();
     QGraphicsItem::mouseMoveEvent(event);
 }
 
-
 void CardItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
+    // TODO: Cards for whatever reason always snap back to either hand or center of graphics view when released and picked up again.
+    if (isPressed_)
+    {
+
+        GameScene* gameScene = qobject_cast<GameScene*> (scene());
+        if (gameScene != nullptr)
+        {
+            gameScene->onCardDropped(this);
+        } else
+        {
+           qDebug() << "error! Card Item did not find parent scene while moving!";
+        }
+    }
     isPressed_ = false;
     update();
-    QGraphicsItem::mouseReleaseEvent(event);
-}
+    QGraphicsItem::mouseMoveEvent(event);
 
+
+}
 
 void CardItem::setHighLighted(bool state)
 {
@@ -92,18 +108,13 @@ const QString CardItem::typeOf()
     return "carditem";
 }
 
-
 void CardItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     isHovered_ = true;
-    QPoint o;
     setScale(1.2);
     update();
     QGraphicsItem::hoverEnterEvent(event);
 }
-
-
-
 
 void CardItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
