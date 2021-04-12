@@ -32,7 +32,6 @@ QRectF CardItem::boundingRect() const
     return QRectF(0,0,150,220);
 }
 
-
 void CardItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     QRectF rec = boundingRect();
@@ -57,10 +56,8 @@ void CardItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 }
 
 void CardItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
-{
-
-    //update();
-   // QGraphicsItem::mouseMoveEvent(event);
+{    
+    // TODO: Cards for whatever reason always snap back to either hand or center of graphics view when released and picked up again.
 
     if (isPressed_)
     {
@@ -79,13 +76,12 @@ void CardItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     QGraphicsItem::mouseMoveEvent(event);
 }
 
-
 void CardItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
+    // TODO: Cards for whatever reason always snap back to either hand or center of graphics view when released and picked up again.
     if (isPressed_)
     {
 
-       // qDebug() << "hello i am moved" << mapToScene(mapFromScene(QCursor::pos()))<< "mouse" << mapFromScene(QCursor::pos());
         GameScene* gameScene = qobject_cast<GameScene*> (scene());
         if (gameScene != nullptr)
         {
@@ -102,7 +98,6 @@ void CardItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 
 }
 
-
 void CardItem::setHighLighted(bool state)
 {
     isHovered_ = state;
@@ -113,7 +108,6 @@ const QString CardItem::typeOf()
     return "carditem";
 }
 
-
 void CardItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     isHovered_ = true;
@@ -121,7 +115,6 @@ void CardItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
     update();
     QGraphicsItem::hoverEnterEvent(event);
 }
-
 
 void CardItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
