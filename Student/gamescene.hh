@@ -21,18 +21,33 @@ class GameScene : public QGraphicsScene
     Q_OBJECT
 public:
     GameScene(QWidget* parent = nullptr);
+
+    // This is a deprecated method which needs to be replaced or removed
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
-    void drawLocations(std::vector<std::shared_ptr<Interface::Location>> &locvec);
+
+    // Draws mapitems
+    // pre: nothing
+    // post: scene has one more extra mapitem displayed
     void drawItem(mapItem* item);
+
+    // Draws a mapitem for every location (aka buildings or planets)
+    // pre: there are locations stored in locvec
+    // post: scene has locations drawn on scene
+    void drawLocations(std::vector<std::shared_ptr<Interface::Location>> &locvec);
 
     // creates nice carditem for each cardinterface in vector, calls showHandCards
     void createHandCards(std::vector<std::shared_ptr<Interface::CardInterface>> cards);
 
-public slots:
+    // Gets cursor position and displays items under cursors on console
+    // TODO: Choose one of thse MapItems as a target. Targeting should be based on CardItem's CardInterFace rules.
     void onCardDragged(CardItem* card);
+
+    // TODO: If there is a valid MapItem stored in this class' pointer, do Card's action where target MapItem is the target.
     void onCardDropped(CardItem* card);
 
 private:
+    mapItem* targetedMapItem_;
+
     mapItem* selectedLocation = nullptr;
     agentItem* selectedAgent = nullptr;
 
