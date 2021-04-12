@@ -113,7 +113,7 @@ void GameScene::onCardDragged(CardItem* card)
     cardboundaries.setY(card->y());
     QList<QGraphicsItem*> items(this->items(cardboundaries, Qt::IntersectsItemShape, Qt::AscendingOrder));
 
-
+    // TODO: THIS RECT IS VERY BUGGED but at least it works on principle
     qDebug() << "My boundaries:" << cardboundaries.width() << cardboundaries.x() << cardboundaries.y();
     qDebug() << items;
     int count =0;
@@ -122,21 +122,20 @@ void GameScene::onCardDragged(CardItem* card)
         count +=1;
         if (items.at(i) != card) {
              qDebug() << i << items.at(i)->x() << items.at(i)->type();
+
+             // Followin allows us to get ANY type of interaface data under the rect
              LocationItem* location =dynamic_cast<LocationItem*>(items.at(i));
              if (location != nullptr)
              {
                  qDebug() << "Olen rakennus" << location->getObject()->name();
              }
 
-
-
         } else {
             qDebug() << "found myself" << items.at(i)->type();
         }
-
     }
     if (count == 0){
-           qDebug() << "BIG ERROR HOW COULD THIS HAPPEN!??!?";
+        qDebug() << "BIG ERROR HOW COULD THIS HAPPEN!??!?";
     }
 
 

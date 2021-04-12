@@ -12,10 +12,6 @@ public:
     CardItem(std::weak_ptr<Interface::CardInterface> card, float scale=1);
     ~CardItem();
 
-    // Following allows us to flag card item as its own type
-    enum { Type = UserType + 1};
-    int type() const override;
-
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 

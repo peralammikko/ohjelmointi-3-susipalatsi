@@ -92,12 +92,6 @@ const QString CardItem::typeOf()
     return "carditem";
 }
 
-int CardItem::type() const
-{
-    return Type;
-}
-
-
 
 void CardItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
