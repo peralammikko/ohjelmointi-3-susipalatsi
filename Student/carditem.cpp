@@ -1,5 +1,8 @@
 #include "carditem.hh"
 #include "QtDebug"
+
+#include "gamescene.hh"
+
 CardItem::CardItem(std::weak_ptr<Interface::CardInterface> card, float scale)
 {
     setFlag(ItemIsMovable);
@@ -53,6 +56,24 @@ void CardItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
     QGraphicsItem::mousePressEvent(event);
 }
 
+void CardItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
+    if (isPressed_)
+    {
+       // qDebug() << "hello i am moved" << mapToScene(mapFromScene(QCursor::pos()))<< "mouse" << mapFromScene(QCursor::pos());
+        GameScene* gameScene = qobject_cast<GameScene*> (scene());
+        if (gameScene != nullptr)
+        {
+            gameScene->onCardDragged(this);
+        } else
+        {
+           qDebug() << "error! Card Item did not find parent scene while moving!";
+        }
+    }
+    QGraphicsItem::mouseMoveEvent(event);
+}
+
+
 void CardItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     isPressed_ = false;
@@ -60,23 +81,22 @@ void CardItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     QGraphicsItem::mouseReleaseEvent(event);
 }
 
-QSizeF CardItem::sizeHint(Qt::SizeHint which, const QSizeF &constraint) const
-{
-    Q_UNUSED(which);
-    Q_UNUSED(constraint);
-    return boundingRect().size();
-}
 
-void CardItem::setGeometry(const QRectF &rect)
+void CardItem::setHighLighted(bool state)
 {
-    setPos(rect.center());
+    isHovered_ = state;
 }
-
 
 const QString CardItem::typeOf()
 {
     return "carditem";
 }
+
+int CardItem::type() const
+{
+    return Type;
+}
+
 
 
 void CardItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
@@ -87,6 +107,8 @@ void CardItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
     update();
     QGraphicsItem::hoverEnterEvent(event);
 }
+
+
 
 
 void CardItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)

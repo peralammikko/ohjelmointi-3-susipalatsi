@@ -6,6 +6,9 @@
 #include <cmath>
 #include "carditem.hh"
 
+// required for signaling??
+#include <QObject>
+
 GameScene::GameScene(QWidget *parent) : QGraphicsScene(parent)
 {
     handAnchorCoords_ = std::make_pair(0, 400);
@@ -77,7 +80,6 @@ void GameScene::createHandCards(std::vector<std::shared_ptr<Interface::CardInter
         handCards_.push_back(carditem);
     }
 
-    // Show cards
     showHandCards();
 }
 
@@ -99,8 +101,50 @@ void GameScene::showHandCards()
         for (int i = 0; i < count; ++i) {
             int x = (xStart + widthPerCard*i);
             handCards_.at(i)->setPos(x, handAnchorCoords_.second);
-            qDebug() << handCards_.at(i)->x();
         }
     }
+}
+
+void GameScene::onCardDragged(CardItem* card)
+{
+
+    QRectF cardboundaries = card->boundingRect();
+    cardboundaries.setX(card->x());
+    cardboundaries.setY(card->y());
+    QList<QGraphicsItem*> items(this->items(cardboundaries, Qt::IntersectsItemShape, Qt::AscendingOrder));
+
+
+    qDebug() << "My boundaries:" << cardboundaries.width() << cardboundaries.x() << cardboundaries.y();
+    qDebug() << items;
+    int count =0;
+    for (int i = 0; i < items.size(); ++i)
+    {
+        count +=1;
+        if (items.at(i) != card) {
+             qDebug() << i << items.at(i)->x() << items.at(i)->type();
+             LocationItem* location =dynamic_cast<LocationItem*>(items.at(i));
+             if (location != nullptr)
+             {
+                 qDebug() << "Olen rakennus" << location->getObject()->name();
+             }
+
+
+
+        } else {
+            qDebug() << "found myself" << items.at(i)->type();
+        }
+
+    }
+    if (count == 0){
+           qDebug() << "BIG ERROR HOW COULD THIS HAPPEN!??!?";
+    }
+
+
+}
+
+
+void GameScene::onCardDropped(CardItem* card)
+{
+     qDebug() << "i am dropped" << card->x() << card->y();
 }
 

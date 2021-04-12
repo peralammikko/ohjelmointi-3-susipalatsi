@@ -52,7 +52,6 @@ GameWindow::GameWindow(QWidget *parent) :
     // luodaan pelaajille käsialueen luokka
     for (unsigned int i=0; i<gameboard->players().size(); ++i) {
         std::shared_ptr<Interface::Player> pl = gameboard->players().at(i);
-        QGraphicsLinearLayout *hand = new QGraphicsLinearLayout;
 
         // Luodaan pari korttia ja annetaan ne pelaajalle
         for (int j=0; j<4; ++j) {
@@ -125,9 +124,6 @@ const std::vector<std::shared_ptr<Interface::Location> > GameWindow::getLocation
 
 void GameWindow::enablePlayerHand(std::shared_ptr<Interface::Player> player)
 {
-    int handX = 0;
-    int handY = 0;
-
     std::vector<std::shared_ptr<Interface::Player>> players = gameboard->players();
     // Player must exist in game class
     if (player and std::find(players.begin(), players.end(), player) != players.end())

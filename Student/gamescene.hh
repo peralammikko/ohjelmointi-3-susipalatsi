@@ -28,6 +28,10 @@ public:
     // creates nice carditem for each cardinterface in vector, calls showHandCards
     void createHandCards(std::vector<std::shared_ptr<Interface::CardInterface>> cards);
 
+public slots:
+    void onCardDragged(CardItem* card);
+    void onCardDropped(CardItem* card);
+
 private:
     mapItem* selectedLocation = nullptr;
     agentItem* selectedAgent = nullptr;
@@ -37,6 +41,7 @@ private:
     int handCardPadding_;
 
     // changes state of cards in handCards_ to show and arranges them nicely as a hand centered in handAnchorCoords_
+    // also connects drag drop signals with those carditems
     void showHandCards();
 };
 

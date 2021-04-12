@@ -35,6 +35,7 @@ public:
 
     void enablePlayerHand(std::shared_ptr<Interface::Player> player);
 
+
 private:
     Ui::GameWindow *gameui;
     GameScene *mapScene;
@@ -49,6 +50,9 @@ private:
     const std::vector<QString> paikat_ = {"Marketti", "Kirkko", "Taverna", "Kauppiaiden kilta", "Menomesta", "Salapaikka"};
 
     int current_round;
+
+    // this variable stores drag and drop targe, ie. what is "under" a draggable card
+    mapItem* targetedMapItem_;
 
 };
 
