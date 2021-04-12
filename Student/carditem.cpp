@@ -1,10 +1,22 @@
 #include "carditem.hh"
 #include "QtDebug"
+
+#include "gamescene.hh"
+
 CardItem::CardItem(std::weak_ptr<Interface::CardInterface> card, float scale)
 {
     setFlag(ItemIsMovable);
     isPressed_ = false;
     isHovered_ = false;
+    std::pair<int,int> coordsBeforeDragging_;
+
+    // set origo center for scaling
+    QPoint o;
+    float w = boundingRect().width()/2;
+    float y = boundingRect().height()/2;
+    o.setX(o.x() + w);
+    o.setY(o.y() + y);
+    setTransformOriginPoint(o);
 
     // Required for mousehovering magics
     setAcceptHoverEvents(true);
@@ -17,19 +29,19 @@ CardItem::~CardItem()
 
 QRectF CardItem::boundingRect() const
 {
-    return QRectF(0,0,100,200);
+    return QRectF(0,0,150,220);
 }
 
 
 void CardItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     QRectF rec = boundingRect();
-    QBrush brush(Qt::black);
+    QBrush brush(Qt::gray);
     if (isPressed_) {
-        brush.setColor(Qt::red);
+        brush.setColor(Qt::green);
     }
 
-    if (isHovered_) {
+    if (isHovered_ and not isPressed_) {
         brush.setColor(Qt::yellow);
     }
 
@@ -44,6 +56,24 @@ void CardItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
     QGraphicsItem::mousePressEvent(event);
 }
 
+void CardItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
+    if (isPressed_)
+    {
+       // qDebug() << "hello i am moved" << mapToScene(mapFromScene(QCursor::pos()))<< "mouse" << mapFromScene(QCursor::pos());
+        GameScene* gameScene = qobject_cast<GameScene*> (scene());
+        if (gameScene != nullptr)
+        {
+            gameScene->onCardDragged(this);
+        } else
+        {
+           qDebug() << "error! Card Item did not find parent scene while moving!";
+        }
+    }
+    QGraphicsItem::mouseMoveEvent(event);
+}
+
+
 void CardItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     isPressed_ = false;
@@ -52,19 +82,10 @@ void CardItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 }
 
 
-
-QSizeF CardItem::sizeHint(Qt::SizeHint which, const QSizeF &constraint) const
+void CardItem::setHighLighted(bool state)
 {
-    Q_UNUSED(which);
-    Q_UNUSED(constraint);
-    return boundingRect().size();
+    isHovered_ = state;
 }
-
-void CardItem::setGeometry(const QRectF &rect)
-{
-    setPos(rect.topLeft());
-}
-
 
 const QString CardItem::typeOf()
 {
@@ -74,17 +95,20 @@ const QString CardItem::typeOf()
 
 void CardItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
-    qDebug() << "sekx ";
     isHovered_ = true;
+    QPoint o;
+    setScale(1.2);
     update();
     QGraphicsItem::hoverEnterEvent(event);
 }
 
 
+
+
 void CardItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
-    qDebug() << "batang";
     isHovered_ = false;
+    setScale(1);
     update();
     QGraphicsItem::hoverEnterEvent(event);
 }
