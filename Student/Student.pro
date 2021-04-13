@@ -55,3 +55,6 @@ HEADERS += \
 
 FORMS += \
     gamewindow.ui
+
+RESOURCES += \
+    default.jpg

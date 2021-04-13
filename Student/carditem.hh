@@ -9,7 +9,7 @@ class CardItem : public mapItem
 {
 public:
     // Pelialueella liikuteltava korttibjekti
-    CardItem(std::weak_ptr<Interface::CardInterface> card);
+    CardItem(std::shared_ptr<Interface::CardInterface> card);
     ~CardItem();
 
     QRectF boundingRect() const override;
@@ -41,10 +41,12 @@ private:
     bool isPressed_;
     bool isHovered_;
 
+    QPixmap *centerimage_;
+
 
     std::pair<int,int> coordsBeforeDragging_;
 
-    std::weak_ptr<Interface::CardInterface> card_;
+    std::shared_ptr<Interface::CardInterface> card_;
 
 
 };

@@ -3,12 +3,22 @@
 
 #include "gamescene.hh"
 
-CardItem::CardItem(std::weak_ptr<Interface::CardInterface> card)
+CardItem::CardItem(std::shared_ptr<Interface::CardInterface> card)
 {
+    card_ = card;
+
     setFlags(ItemIsMovable | ItemIsSelectable);
     isPressed_ = false;
     isHovered_ = false;
     std::pair<int,int> coordsBeforeDragging_;
+
+    // setting up center sprite
+    centerimage_ = new QPixmap();
+    if (not  centerimage_->load(":default.jpg")) {
+       qDebug() << "Image failed to load";
+    } else {
+        centerimage_ = new QPixmap(":default.jpg");
+    }
 
     // set origo center for scaling
     QPoint o;
@@ -16,10 +26,11 @@ CardItem::CardItem(std::weak_ptr<Interface::CardInterface> card)
     float y = boundingRect().height()/2;
     o.setX(o.x() + w);
     o.setY(o.y() + y);
-    //setTransformOriginPoint(o);
+    setTransformOriginPoint(o);
 
     // Required for mousehovering magics
     setAcceptHoverEvents(true);
+
 }
 
 CardItem::~CardItem()
@@ -46,6 +57,12 @@ void CardItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 
     painter->fillRect(rec, brush);
     painter->drawRect(rec);
+
+    painter->drawText(5,18, card_->name());
+
+    qDebug() << centerimage_->height() << centerimage_->width();
+
+    painter->drawPixmap(0, 20, boundingRect().width(), boundingRect().height()/5 *2.5,  *centerimage_);
 }
 
 void CardItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
