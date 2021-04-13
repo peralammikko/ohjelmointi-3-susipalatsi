@@ -47,6 +47,8 @@ public:
 
     void listAgents(std::shared_ptr<Interface::Player> player);
 
+    void setupPlayerStats();
+
 
 private slots:
     void on_passButton_clicked();
@@ -70,6 +72,7 @@ private:
 
     std::shared_ptr<Interface::Player> playerInTurn = nullptr;
     std::map<std::shared_ptr<Interface::Player>, std::vector<agentItem*>> playerAgents_;
+    std::map<std::shared_ptr<Interface::Player>, int> playerWallets_;
 
 
 

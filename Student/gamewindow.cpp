@@ -55,8 +55,6 @@ GameWindow::GameWindow(QWidget *parent) :
     playerAgents_.insert(pair1);
     playerAgents_.insert(pair2);
 
-    playerInTurn = player1;
-
     for (int i = 0 ; i < 3; i++) {
         spawnAgent(player1);
     }
@@ -80,6 +78,8 @@ GameWindow::GameWindow(QWidget *parent) :
         }
     }
     mapScene->createHandCards(gameboard->players().at(0)->cards());
+    playerInTurn = player1;
+    setupPlayerStats();
 
 }
 
@@ -164,14 +164,9 @@ void GameWindow::changeTurn()
         playerInTurn = player2;
     }
 
-    gameui->playerNameLabel->setText(playerInTurn->name());
-    listAgents(playerInTurn);
-
-    current_round++;
+    setupPlayerStats();
 
     mapScene->turnInfo(current_round, playerInTurn);
-
-    gameui->currentRoundLabel->setText("Current round: " + QString::number(current_round));
 }
 
 void GameWindow::listAgents(std::shared_ptr<Interface::Player> player)
@@ -181,6 +176,14 @@ void GameWindow::listAgents(std::shared_ptr<Interface::Player> player)
     for (auto agent : listOfAgents) {
         gameui->agentListWidget->addItem(agent->typeName());
     }
+}
+
+void GameWindow::setupPlayerStats()
+{
+    current_round++;
+    gameui->currentRoundLabel->setText("Current round: " + QString::number(current_round));
+    gameui->playerNameLabel->setText(playerInTurn->name());
+    listAgents(playerInTurn);
 }
 
 
