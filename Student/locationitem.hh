@@ -29,9 +29,8 @@ public:
 
     // Klikkauksesta tapahtuva metodi
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
-
-
-    bool isSelected = false;
+    void hoverEnterEvent(QGraphicsSceneHoverEvent *event) override;
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override;
 
     // Haetaan itemin kantaluokka (Location)
     const std::shared_ptr<Interface::Location> getObject();
@@ -40,10 +39,14 @@ public:
 
     const QString typeOf() override;
 
+
+
 private:
     int itemx, itemy;
     const std::shared_ptr<Interface::Location> locationObject_;
     int basevalue_;
+    bool isSelected = false;
+    bool isHovered_ = false;
 };
 
 #endif // LOCATIONITEM_HH

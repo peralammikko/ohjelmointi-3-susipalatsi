@@ -45,7 +45,7 @@ void GameScene::drawLocations(std::vector<std::shared_ptr<Interface::Location>> 
     const int xCenter = this->width()/2;
     const int yCenter = this->height()/2;
     // qDebug() << "Center:" <<xCenter << yCenter;
-    const int radius = 300;
+    const int radius = 250;
 
     int locationCount = locvec.size();
     const int degree = 360 / locationCount;

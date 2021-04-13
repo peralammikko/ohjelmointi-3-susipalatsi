@@ -29,9 +29,9 @@ GameWindow::GameWindow(QWidget *parent) :
     gameui->graphicsView->setMouseTracking(true);
 
     // Asetetaan graphicViewin ja ikkunan koot staattiseks ensalkuun
-    gameui->graphicsView->setFixedSize(1400, 900);
+    gameui->graphicsView->setFixedSize(1000,800);
     // mapScene->setSceneRect(-600,600,-350,350);
-    this->setFixedSize(1920, 1080);
+    this->setFixedSize(1440, 900);
     this->setWindowTitle("SUSIPALATSI: TEH GAME");
 
     gameboard = std::make_shared<Interface::Game>();

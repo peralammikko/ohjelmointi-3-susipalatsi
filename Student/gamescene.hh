@@ -29,6 +29,8 @@ public:
     // pre: nothing
     // post: scene has one more extra mapitem displayed
     void drawItem(mapItem* item);
+
+    // Täysin kokeilumielinen funktio, ei kovin "käytännöllinen"
     void drawAgents(std::vector<agentItem*> &agents);
 
     // Draws a mapitem for every location (aka buildings or planets)
@@ -43,6 +45,7 @@ public:
     std::shared_ptr<Interface::Game> connectGameboard();
 
     void turnInfo(int turn, std::shared_ptr<Interface::Player> currentplayer);
+
 
 public slots:
 
