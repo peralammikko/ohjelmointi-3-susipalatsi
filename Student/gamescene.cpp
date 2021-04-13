@@ -1,5 +1,5 @@
-#include "gamescene.hh"
 #include "gamewindow.hh"
+#include "gamescene.hh"
 #include "agentitem.hh"
 #include "mapitem.hh"
 #include "locationitem.hh"
@@ -23,9 +23,14 @@ void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
         LocationItem* locItem = qgraphicsitem_cast<LocationItem*>(itemClicked);
         agentItem* agItem = qgraphicsitem_cast<agentItem*>(itemClicked);
         if (locItem and locItem->typeOf() == "locationitem") {
+            /*
             locItem->mousePressEvent(event);
             selectedLocation = locItem;
             qDebug() << locItem->getObject()->name();
+            */
+            PopupDialog* clickDialog = new PopupDialog(locItem->getObject(), locItem->getBasevalue(), playerInTurn_);
+            clickDialog->show();
+
         } else if (agItem and agItem->typeOf() == "agentitem") {
             selectedAgent = agItem;
             agItem->mousePressEvent(event);

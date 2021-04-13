@@ -16,7 +16,8 @@ SOURCES += \
     locationitem.cpp \
     main.cc \
     mapitem.cpp \
-    playerhand.cpp
+    playerhand.cpp \
+    popupdialog.cpp
 
 win32:CONFIG(release, debug|release): LIBS += \
     -L$$OUT_PWD/../course/Course/release/ -lCourse
@@ -51,7 +52,9 @@ HEADERS += \
     gamewindow.hh \
     locationitem.hh \
     mapitem.hh \
-    playerhand.hh
+    playerhand.hh \
+    popupdialog.hh
 
 FORMS += \
-    gamewindow.ui
+    gamewindow.ui \
+    popupdialog.ui

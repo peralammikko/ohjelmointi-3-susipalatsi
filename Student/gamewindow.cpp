@@ -49,11 +49,8 @@ GameWindow::GameWindow(QWidget *parent) :
 
     gameboard->addPlayer(player1);
     gameboard->addPlayer(player2);
-    std::pair<std::shared_ptr<Interface::Player>, std::vector<agentItem*>> pair1(player1, {});
-    std::pair<std::shared_ptr<Interface::Player>, std::vector<agentItem*>> pair2(player2, {});
 
-    playerAgents_.insert(pair1);
-    playerAgents_.insert(pair2);
+    setupPlayerStash();
 
     for (int i = 0 ; i < 3; i++) {
         spawnAgent(player1);
@@ -79,7 +76,7 @@ GameWindow::GameWindow(QWidget *parent) :
     }
     mapScene->createHandCards(gameboard->players().at(0)->cards());
     playerInTurn = player1;
-    setupPlayerStats();
+    displayPlayerStats();
 
 }
 
@@ -164,7 +161,7 @@ void GameWindow::changeTurn()
         playerInTurn = player2;
     }
 
-    setupPlayerStats();
+    displayPlayerStats();
 
     mapScene->turnInfo(current_round, playerInTurn);
 }
@@ -178,11 +175,29 @@ void GameWindow::listAgents(std::shared_ptr<Interface::Player> player)
     }
 }
 
-void GameWindow::setupPlayerStats()
+void GameWindow::setupPlayerStash()
+{
+    for (auto player : gameboard->players()) {
+
+        // Map for agents each player has to use (empty on initialization)
+        playerAgents_.insert({player, {}});
+
+        // Map for players and their in-game currenty (2 coins on initialization)
+        playerWallets_.insert({player, 2});
+
+        // Map for players and their collected councilor cards (empty on initialization)
+        councilorDecks_.insert({player, {}});
+    }
+
+}
+
+void GameWindow::displayPlayerStats()
 {
     current_round++;
     gameui->currentRoundLabel->setText("Current round: " + QString::number(current_round));
     gameui->playerNameLabel->setText(playerInTurn->name());
+    gameui->playerCoinsLabel->setText(QString::number(playerWallets_.at(playerInTurn)));
+    gameui->councillorNumberLabel->setText(QString::number(councilorDecks_.at(playerInTurn).size()) + " / 6");
     listAgents(playerInTurn);
 }
 

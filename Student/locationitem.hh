@@ -5,6 +5,7 @@
 #include <QObject>
 
 #include "mapitem.hh"
+#include "popupdialog.hh"
 
 class LocationItem : public mapItem
 {

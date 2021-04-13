@@ -13,6 +13,7 @@
 #include "mapitem.hh"
 #include "playerhand.hh"
 #include "locationitem.hh"
+#include "councilor.h"
 
 #include "../Course/game.h"
 #include "../Course/runner.h"
@@ -47,7 +48,8 @@ public:
 
     void listAgents(std::shared_ptr<Interface::Player> player);
 
-    void setupPlayerStats();
+    void setupPlayerStash();
+    void displayPlayerStats();
 
 
 private slots:
@@ -73,6 +75,7 @@ private:
     std::shared_ptr<Interface::Player> playerInTurn = nullptr;
     std::map<std::shared_ptr<Interface::Player>, std::vector<agentItem*>> playerAgents_;
     std::map<std::shared_ptr<Interface::Player>, int> playerWallets_;
+    std::map<std::shared_ptr<Interface::Player>, std::vector<std::shared_ptr<Interface::Councilor>>> councilorDecks_;
 
 
 

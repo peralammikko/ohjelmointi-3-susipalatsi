@@ -13,6 +13,7 @@
 
 #include "game.h"
 #include "agentitem.hh"
+#include "locationitem.hh"
 #include "mapitem.hh"
 #include "carditem.hh"
 

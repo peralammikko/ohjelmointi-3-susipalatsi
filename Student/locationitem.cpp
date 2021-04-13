@@ -60,6 +60,7 @@ const std::pair<int, int> LocationItem::getCoords()
 
 void LocationItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
+    /*
     if (isSelected == true) {
         isSelected = false;
         update();
@@ -69,6 +70,7 @@ void LocationItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
         update();
         QGraphicsItem::mousePressEvent(event);
     }
+    */
 }
 
 void LocationItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
