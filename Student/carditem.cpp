@@ -52,7 +52,7 @@ void CardItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     isPressed_ = true;
     update();
-    QGraphicsItem::mouseMoveEvent(event);
+    QGraphicsItem::mousePressEvent(event);
 }
 
 void CardItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
@@ -93,7 +93,7 @@ void CardItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     }
     isPressed_ = false;
     update();
-    QGraphicsItem::mouseMoveEvent(event);
+    QGraphicsItem::mouseReleaseEvent(event);
 
 
 }
