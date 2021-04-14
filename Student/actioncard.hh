@@ -7,8 +7,6 @@
 
 namespace Interface {
 
-
-
 class ActionCard : public CardInterface
 {
 public:
@@ -18,19 +16,17 @@ public:
     QString typeName() const override;
     QString title() const override;
     QString name() const override;
-
-    std::shared_ptr<CardItem> getCardItem();
-
     std::weak_ptr<Location> location() const override;
     std::weak_ptr<Player> owner() const override;
     void setOwner(std::weak_ptr<Player> owner) override;
 
+    // This is probably useless
+    std::shared_ptr<CardItem> getCardItem();
 
 private:
     QString name_;
     QString typeName_;
     QString title_;
-
 
     std::shared_ptr<CardItem> cardItem_;
 

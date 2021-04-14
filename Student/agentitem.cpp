@@ -1,11 +1,21 @@
 #include "agentitem.hh"
+#include "agent.hh"
 #include "mapitem.hh"
 
 #include <QDebug>
 
-agentItem::agentItem(std::shared_ptr<Interface::AgentInterface> &obj) : agentObject_(nullptr), agentConnections_(0)
+
+agentItem::agentItem(std::shared_ptr<Interface::Agent> &agentInterface) : agentConnections_(0)
 {
-    agentObject_ = obj;
+    agentObject_ = agentInterface;
+    setFlags(ItemIsMovable | ItemIsSelectable);
+
+    setAcceptHoverEvents(true);
+}
+
+agentItem::~agentItem()
+{
+
 }
 
 std::shared_ptr<Interface::AgentInterface> agentItem::getObject()
@@ -15,28 +25,14 @@ std::shared_ptr<Interface::AgentInterface> agentItem::getObject()
 
 QRectF agentItem::boundingRect() const
 {
-    return QRectF(itemx, itemy, 50,50);
+    return QRectF(0, 0, 100, 100);
 }
 
 void agentItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    /*
     QRectF rect = boundingRect();
-
-    if (isSelected) {
-        QPen pen(Qt::red, 2);
-        painter->setPen(pen);
-        painter->drawRect(rect);
-    } else {
-        QPen pen(Qt::black, 2);
-        painter->setPen(pen);
-        painter->drawRect(rect);
-    }
-    */
-
-    QRectF rect = boundingRect();
-    QPoint lowerpos(itemx+5, itemy+60);
-    painter->drawText(lowerpos, "Agentti");
+    // the text should always be withing boundingrect
+    painter->drawText(5,10, agentObject_->name() );
 
     if (isSelected) {
         QPen pen(Qt::red, 2);
@@ -49,93 +45,48 @@ void agentItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     }
 }
 
-void agentItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-    if (isSelected == true) {
-        isSelected = false;
-        update();
-        QGraphicsItem::mousePressEvent(event);
-    } else {
-        isSelected = true;
-        update();
-        QGraphicsItem::mousePressEvent(event);
-    }
-}
 
-void agentItem::setCoords(int x, int y)
-{
-    itemx = x;
-    itemy = y;
-}
-
-const std::pair<int, int> agentItem::getCoords()
-{
-    std::pair<int, int> itemCoords (itemx, itemy);
-    return itemCoords;
-}
-
-bool agentItem::isCommon() const
-{
-    return true;
-}
-
-unsigned short agentItem::connections() const
-{
-    return agentConnections_;
-}
-
-void agentItem::modifyConnections(short change)
-{
-    agentConnections_ += change;
-}
-
-std::weak_ptr<Interface::Location> agentItem::placement() const
-{
-    return locationAt_;
-}
-
-void agentItem::setConnections(unsigned short connections)
-{
-    agentConnections_ = 0 + connections;
-}
-
-void agentItem::setPlacement(std::weak_ptr<Interface::Location> placement)
-{
-    locationAt_ = placement;
-}
-
-QString agentItem::typeName() const
-{
-    return "Agentti";
-}
-
-QString agentItem::name() const
-{
-    return agentName_;
-}
-
-QString agentItem::title() const
-{
-    return "Agentti";
-}
-
-std::weak_ptr<Interface::Location> agentItem::location() const
-{
-    return locationAt_;
-}
-
-std::weak_ptr<Interface::Player> agentItem::owner() const
-{
-    return agentOwner_;
-}
-
-void agentItem::setOwner(std::weak_ptr<Interface::Player> owner)
-{
-    agentOwner_ = owner;
-}
 
 
 const QString agentItem::typeOf()
 {
     return "agentitem";
+}
+
+
+// mouse entering and press events
+
+void agentItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    pressed_ = true;
+    update();
+    QGraphicsItem::mousePressEvent(event);
+}
+
+void agentItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+    pressed_ = false;
+    update();
+    QGraphicsItem::mouseReleaseEvent(event);
+}
+
+void agentItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
+    update();
+    QGraphicsItem::mouseMoveEvent(event);
+}
+
+// some cool hovering stuff
+void agentItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+{
+    isSelected = true;
+    update();
+    QGraphicsItem::hoverEnterEvent(event);
+}
+
+void agentItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
+{
+    isSelected = false;
+    update();
+    QGraphicsItem::hoverLeaveEvent(event);
 }

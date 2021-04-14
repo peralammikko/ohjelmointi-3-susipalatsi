@@ -2,7 +2,7 @@
 #include "ui_gamewindow.h"
 #include "mapitem.hh"
 #include "locationitem.hh"
-#include "agentinterface.h"
+#include "agent.hh"
 #include "agentitem.hh"
 #include "gamescene.hh"
 #include <cmath>
@@ -107,7 +107,7 @@ void GameWindow::drawLocations()
 void GameWindow::drawPlayerAgents(std::shared_ptr<Interface::Player> &player)
  {
     std::vector<agentItem*> agents = playerAgents_.at(player);
-     mapScene->drawAgents(agents);
+    mapScene->drawAgents(agents);
  }
 
 void GameWindow::drawItem(mapItem *item)
@@ -149,14 +149,18 @@ void GameWindow::sendAgentTo(const std::shared_ptr<Interface::Location> &loc, st
 
 }
 
-
-
 void GameWindow::spawnAgent(std::shared_ptr<Interface::Player> &player)
 {
-    std::shared_ptr<Interface::AgentInterface> agentptr = nullptr;
-    agentItem* agentti = new agentItem(agentptr);
-    agentti->setOwner(player);
-    playerAgents_.at(player).push_back(agentti);
+    // Create agent interface, which holds all of the data of the card.
+    // For now we will just use default names
+    QString agname{"Perry"};
+
+    std::shared_ptr<Interface::Agent> agentptr = std::make_shared<Interface::Agent>(agname + player->name(), "Agent");
+
+    agentItem* agenttiesine = new agentItem(agentptr);
+    mapScene->addItem(agenttiesine);
+
+    playerAgents_.at(player).push_back(agenttiesine);
 }
 
 std::shared_ptr<Interface::Player> GameWindow::getPlayerInTurn()

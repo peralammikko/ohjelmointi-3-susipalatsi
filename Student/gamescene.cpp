@@ -28,7 +28,10 @@ void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
             qDebug() << locItem->getObject()->name();
         } else if (agItem and agItem->typeOf() == "agentitem") {
             selectedAgent = agItem;
-            agItem->mousePressEvent(event);
+            // Gamescenen ei tarvitse erikseen huolehtia mousepress eventtejä.
+            // Kaikki mousepressit voidaan käistellä luokkakohtaisesti, joten tavoitteena käyttää niit siellä
+            // Toistaiseksi kommentoin seuraavan alta pois
+            // agItem->mousePressEvent(event);
             agItem->testPrint();
         } else {
             selectedAgent = nullptr;
@@ -73,9 +76,15 @@ void GameScene::drawAgents(std::vector<agentItem *> &agents)
 {
     int agentsCount = agents.size();
     for (int i = 0; i < agentsCount; i++) {
+
         agentItem* current = agents.at(i);
-        current->setCoords(400+i*80, 400);
-        drawItem(current);
+        float x = 200+50*i;
+        std::shared_ptr<Interface::AgentInterface> agent = current->getObject();
+
+        current->setX(x);
+        current->setY(400);
+        //current->setPos(x,400);
+        qDebug() <<x<<current->mapRectFromScene(current->boundingRect());
     }
 }
 
@@ -88,7 +97,6 @@ void GameScene::createHandCards(std::vector<std::shared_ptr<Interface::CardInter
         carditem->hide();
         handCards_.push_back(carditem);
     }
-
     showHandCards();
 }
 
@@ -100,13 +108,14 @@ void GameScene::showHandCards()
 
     int count = handCards_.size();
     if (count) {
+        // Calculate total width of the hand
         for (int i = 0; i < count; ++i) {
             handCards_.at(i)->show();
             widthtotal += handCards_.at(i)->boundingRect().width();
         }
+        // Gets the new coords for cards based on hand width
         widthPerCard = (widthtotal + handCardPadding_*count) / count;
         xStart =  handAnchorCoords_.first - (widthtotal / 2);
-
         for (int i = 0; i < count; ++i) {
             int x = (xStart + widthPerCard*i);
             handCards_.at(i)->setPos(x, handAnchorCoords_.second);
@@ -116,28 +125,9 @@ void GameScene::showHandCards()
 
 void GameScene::onCardDragged(CardItem* card)
 {
-
-    /*
-    QRectF cardboundaries;
-    cardboundaries = card->mapRectFromScene(card->boundingRect());
-    QPointF newcoords = card->mapToScene(card->pos());
-    cardboundaries.moveTo(newcoords);
-
-    card->setPos(newcoords);
-
-    qDebug() << "cardboundaries "<< cardboundaries;
-
-
-    QRectF cardboundaries = mapitem->boundingRect();
-    cardboundaries.setX(mapitem->x());
-    cardboundaries.setY(mapitem->y());*/
-
     // Get every item under cardboundaries
     QList<QGraphicsItem*> items = card->collidingItems();
 
-    // TODO: THIS RECT IS VERY BUGGED but at least it works on principle
-    //qDebug() << "My boundaries:" << cardboundaries.width() << cardboundaries.x() << cardboundaries.y();
-    //qDebug() << items;
     int count =0;
     for (int i = 0; i < items.size(); ++i)
     {
@@ -153,7 +143,6 @@ void GameScene::onCardDragged(CardItem* card)
             qDebug() << "found myself" << items.at(i)->type();
         }
     }
-
 }
 
 

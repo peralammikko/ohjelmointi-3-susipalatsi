@@ -12,21 +12,20 @@ public:
     CardItem(std::weak_ptr<Interface::CardInterface> card);
     ~CardItem();
 
+    // Mandatory overrides
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
     // This is called by gamescene when another mapitem is dragged over it
     void setHighLighted(bool state);
 
-
+    // returns "card". This is useless probably.
     const QString typeOf() override;
 
-
 protected:
-    // mouse entering and press events. These trigger when cards are in hand
+    // mouse entering and press events
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
-
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
 
     // some cool hovering stuff
@@ -34,6 +33,9 @@ protected:
     virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override;
 
 private:
+    // Interface from which this item takes all its data (name, owner etc.)
+    std::weak_ptr<Interface::CardInterface> card_;
+
     int width_;
     int height_;
     std::pair<int, int> coords_;
@@ -42,9 +44,8 @@ private:
     bool isHovered_;
 
 
-    std::pair<int,int> coordsBeforeDragging_;
+    std::pair<float,float> coordsBeforeDragging_;
 
-    std::weak_ptr<Interface::CardInterface> card_;
 
 
 };

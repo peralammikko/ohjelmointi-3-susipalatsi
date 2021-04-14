@@ -8,7 +8,8 @@ CardItem::CardItem(std::weak_ptr<Interface::CardInterface> card)
     setFlags(ItemIsMovable | ItemIsSelectable);
     isPressed_ = false;
     isHovered_ = false;
-    std::pair<int,int> coordsBeforeDragging_;
+    // This will be useful when we want card to be snapped back after dragging
+    std::pair<int,int> coordsBeforeDragging_ = std::make_pair(x(), y());
 
     // set origo center for scaling
     QPoint o;
