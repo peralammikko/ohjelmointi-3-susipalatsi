@@ -3,3 +3,8 @@
 #include "gamewindow.hh"
 
 #include <QDebug>
+
+void mapItem::goHome(int time)
+{
+    setPos(homeCoordinatesOnScene_);
+}

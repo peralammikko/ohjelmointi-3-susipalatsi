@@ -28,17 +28,6 @@ public:
     const QString typeOf() override;
 
 
-    /*
-signals:
-
-    void something() const;
-    void cardMoved(CardItem*);
-    void cardReleased(CardItem*);
-
-    virtual void mapItemMouseReleased(mapItem*) override;
-    virtual void mapItemMouseDragged(mapItem*) override;
-    */
-
 protected:
     // mouse entering and press events
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
@@ -51,19 +40,15 @@ protected:
 
 private:
     // Interface from which this item takes all its data (name, owner etc.)
+    // Can be at least actioninterface
     std::shared_ptr<Interface::CardInterface> card_;
 
     int width_;
     int height_;
-    std::pair<int, int> coords_;
+    //std::pair<float, float> homeCoordinates_;
 
     bool isPressed_;
     bool isHovered_;
-
-
-    std::pair<float,float> coordsBeforeDragging_;
-
-
 
 };
 

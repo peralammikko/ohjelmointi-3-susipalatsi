@@ -31,10 +31,17 @@ public:
     // technically useless now that we know how to use dynamic_cast
     virtual const QString typeOf() = 0;
 
-    // TODO: MouseHover and drag events go here (currently only CardItem has them, but would be nice that Agents would too!)
+    // mapitem is moved to homeCoordinatesOnScene_ in time milliseconds
+     // TODO: animation
+    virtual void goHome(int time=50);
+
+protected:
+    // in goHome the card is moved back to this point on its parent scene
+    QPointF homeCoordinatesOnScene_ = QPointF(0,0);
+
 signals:
-    virtual void mapItemMouseReleased(mapItem*);
-    virtual void mapItemMouseDragged(mapItem*);
+    void mapItemMouseReleased(mapItem*);
+    void mapItemMouseDragged(mapItem*);
 
 };
 

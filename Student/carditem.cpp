@@ -12,7 +12,7 @@ CardItem::CardItem(std::shared_ptr<Interface::CardInterface> card, QObject *pare
     isPressed_ = false;
     isHovered_ = false;
     // This will be useful when we want card to be snapped back after dragging
-    coordsBeforeDragging_ = std::make_pair(x(), y());
+    homeCoordinatesOnScene_ = QPointF(x(), y());
 
     // set origo center for scaling
     QPoint o;
@@ -60,6 +60,8 @@ void CardItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 
 void CardItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
+    // Set home coordinates where the mapitem will return to
+    homeCoordinatesOnScene_ = QPointF(x(), y());
     isPressed_ = true;
     update();
     QGraphicsItem::mousePressEvent(event);

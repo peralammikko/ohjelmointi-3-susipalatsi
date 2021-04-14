@@ -53,26 +53,12 @@ const QString agentItem::typeOf()
     return "agentitem";
 }
 
-
-// mouse entering and press events
-
 void agentItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     pressed_ = true;
+    homeCoordinatesOnScene_ = pos();
     update();
     QGraphicsItem::mousePressEvent(event);
-}
-
-void agentItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
-{
-
-    if (pressed_)
-    {
-        pressed_ = false;
-        //emit mapItemMouseReleased(this);
-    }
-    update();
-    QGraphicsItem::mouseReleaseEvent(event);
 }
 
 void agentItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
@@ -80,6 +66,14 @@ void agentItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     emit mapItemMouseDragged(this);
     update();
     QGraphicsItem::mouseMoveEvent(event);
+}
+
+void agentItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+    pressed_ = false;
+    emit mapItemMouseReleased(this);
+    update();
+    QGraphicsItem::mouseReleaseEvent(event);
 }
 
 // some cool hovering stuff
