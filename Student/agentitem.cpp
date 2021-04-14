@@ -5,6 +5,7 @@
 #include <QDebug>
 
 
+
 agentItem::agentItem(std::shared_ptr<Interface::Agent> &agentInterface) : agentConnections_(0)
 {
     agentObject_ = agentInterface;
@@ -46,35 +47,46 @@ void agentItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 }
 
 
-
-
 const QString agentItem::typeOf()
 {
     return "agentitem";
 }
-
+/*
+ *These have been moved to mapItem and are waiting for safe removal
+ *
 void agentItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    pressed_ = true;
-    homeCoordinatesOnScene_ = pos();
+    // Make sure it is a left button event and the item is not pressed
+    if (event->button() == Qt::LeftButton and not pressed_)
+    {
+        pressed_ = true;
+        homeCoordinatesOnScene_ = pos();
+    }
     update();
     QGraphicsItem::mousePressEvent(event);
 }
 
 void agentItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-    emit mapItemMouseDragged(this);
-    update();
+    if (pressed_)
+    {
+        emit mapItemMouseDragged(this);
+        update();
+    }
     QGraphicsItem::mouseMoveEvent(event);
 }
 
 void agentItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-    pressed_ = false;
-    emit mapItemMouseReleased(this);
+    // Make sure it is a left button event and the item is pressed
+    if (event->button() == Qt::LeftButton and pressed_)
+    {
+        pressed_ = false;
+        emit mapItemMouseReleased(this);
+    }
     update();
     QGraphicsItem::mouseReleaseEvent(event);
-}
+}*/
 
 // some cool hovering stuff
 void agentItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)

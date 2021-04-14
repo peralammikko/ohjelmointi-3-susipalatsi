@@ -110,7 +110,6 @@ void GameScene::createHandCards(std::vector<std::shared_ptr<Interface::CardInter
         this->addItem(carditem);
         carditem->hide();
         handCards_.push_back(carditem);
-        qDebug() << carditem->getCard()->name();
 
         connect(carditem, &mapItem::mapItemMouseDragged, this, &GameScene::onMapItemMouseDragged);
         connect(carditem, &mapItem::mapItemMouseReleased, this, &GameScene::onMapItemMouseDropped);

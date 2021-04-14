@@ -57,12 +57,16 @@ void CardItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     painter->fillRect(rec, brush);
     painter->drawRect(rec);
 }
-
+/*
 void CardItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    // Set home coordinates where the mapitem will return to
-    homeCoordinatesOnScene_ = QPointF(x(), y());
-    isPressed_ = true;
+    // Make sure it is a left button event and the card is not pressed already
+    if (event->button() == Qt::LeftButton and not isPressed_)
+    {
+        // Set home coordinates where the mapitem will return to
+        isPressed_ = true;
+        homeCoordinatesOnScene_ = pos();
+    }
     update();
     QGraphicsItem::mousePressEvent(event);
 }
@@ -97,6 +101,7 @@ void CardItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     update();
     QGraphicsItem::mouseReleaseEvent(event);
 }
+*/
 
 void CardItem::setHighLighted(bool state)
 {

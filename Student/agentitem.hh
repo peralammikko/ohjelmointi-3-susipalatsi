@@ -24,10 +24,15 @@ public:
     const QString typeOf() override;
 
 protected:
+
+    /*
+     * These have been moved to parent class mapitem
+     *
     // mouse entering and press events
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
+    */
 
     // some cool hovering stuff
     virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *event) override;
