@@ -77,7 +77,7 @@ private:
     std::shared_ptr<Interface::Player> player2 = nullptr;
 
     std::shared_ptr<Interface::Player> playerInTurn = nullptr;
-    std::map<std::shared_ptr<Interface::Player>, std::vector<agentItem*>> playerAgents_;
+    std::map<std::shared_ptr<Interface::Player>, std::vector<std::shared_ptr<Interface::Agent>>> playerAgents_;
     std::map<std::shared_ptr<Interface::Player>, int> playerWallets_;
     std::map<std::shared_ptr<Interface::Player>, std::vector<std::shared_ptr<Interface::Councilor>>> councilorCards_;
 

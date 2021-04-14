@@ -19,30 +19,20 @@ GameScene::GameScene(QWidget *parent) : QGraphicsScene(parent)
 
 void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    /*
     if (event->button() == Qt::LeftButton) {
 
         QGraphicsItem* itemClicked = itemAt(event->scenePos(), QTransform());
         LocationItem* locItem = qgraphicsitem_cast<LocationItem*>(itemClicked);
-        agentItem* agItem = qgraphicsitem_cast<agentItem*>(itemClicked);
         if (locItem and locItem->typeOf() == "locationitem") {
             CommonResource res = resMap_.at(locItem->getObject());
             int BV = locItem->getBasevalue();
             PopupDialog* clickDialog = new PopupDialog(locItem->getObject(), BV, res, playerInTurn_);
             clickDialog->show();
-
-        } else if (agItem and agItem->typeOf() == "agentitem") {
-            selectedAgent = agItem;
-            // Gamescenen ei tarvitse erikseen huolehtia mousepress eventtejä.
-            // Kaikki mousepressit voidaan käistellä luokkakohtaisesti, joten tavoitteena käyttää niit siellä
-            // Toistaiseksi kommentoin seuraavan alta pois
-            // agItem->mousePressEvent(event);
-            agItem->testPrint();
         } else {
             selectedAgent = nullptr;
             selectedLocation = nullptr;
         }
-    }*/
+    }
     update();
     QGraphicsScene::mousePressEvent(event);
 }
@@ -54,7 +44,6 @@ void GameScene::drawLocations(std::vector<std::shared_ptr<Interface::Location>> 
     // Piirretään rakennukset "ympyrän" kehälle
     const int xCenter = this->width()/2;
     const int yCenter = this->height()/2;
-    const int radius = 250;
 
     // Needs more elegant implementation, like a global constant and a scaling value
     const int radius = 300;

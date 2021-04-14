@@ -53,19 +53,13 @@ GameWindow::GameWindow(QWidget *parent) :
     gameboard->addPlayer(player2);
 
     setupPlayerStash();
-
     for (int i = 0 ; i < 3; i++) {
         spawnAgent(player1);
-    }
-    
+    }  
     for (int i = 0; i < 5; i++) {
         spawnAgent(player2);
     }
 
-    // luodaan pari pelaajaa
-    for (int i=0; i<2; i++) {
-        gameboard->addPlayer(QString::number(i));
-    }
     // luodaan pelaajille käsialueen luokka
     for (unsigned int i=0; i<gameboard->players().size(); ++i) {
         std::shared_ptr<Interface::Player> pl = gameboard->players().at(i);
@@ -77,13 +71,17 @@ GameWindow::GameWindow(QWidget *parent) :
         }
     }
     mapScene->createHandCards(gameboard->players().at(0)->cards());
+
     playerInTurn = player1;
     displayPlayerStats();
-
     initAreaResources();
     mapScene->resourceInfo(areaResourceMap);
     for (auto pair : areaResourceMap) {
         qDebug() << pair.first->name() << ": " << RESOURCE_NAMES.at(pair.second);
+    }
+
+    for (auto agent : playerAgents_.at(player1)) {
+        qDebug() << agent->name();
     }
 
 }
@@ -95,7 +93,7 @@ GameWindow::~GameWindow()
 
 void GameWindow::drawLocations()
 {
-    //
+
     std::vector<std::shared_ptr<Interface::Location>> locvec = getLocations();
     std::shared_ptr<Interface::Location> currentLocation = nullptr;
     mapScene->drawLocations(locvec);
@@ -103,8 +101,7 @@ void GameWindow::drawLocations()
 
 void GameWindow::drawPlayerAgents(std::shared_ptr<Interface::Player> &player)
  {
-    std::vector<agentItem*> agents = playerAgents_.at(player);
-    mapScene->drawAgents(agents);
+    std::vector<std::shared_ptr<Interface::Agent>> agents = playerAgents_.at(player);
  }
 
 void GameWindow::drawItem(mapItem *item)
@@ -136,11 +133,14 @@ void GameWindow::enablePlayerHand(std::shared_ptr<Interface::Player> player)
 
 void GameWindow::sendAgentTo(const std::shared_ptr<Interface::Location> &loc, std::shared_ptr<Interface::Player> &player)
 {
+    // Vanha funktio, jota ei käytetty. Todnäk turha jos drag&drop toimii jotain
+    /*
     std::vector<agentItem*> listofAgents = playerAgents_.at(player);
     std::shared_ptr<Interface::AgentInterface> freeAgent = listofAgents.back()->getObject();
     qDebug() << "agent created";
     loc->sendAgent(freeAgent);
     qDebug() << "sent ;)";
+    */
 
 }
 
@@ -155,7 +155,7 @@ void GameWindow::spawnAgent(std::shared_ptr<Interface::Player> &player)
     agentItem* agenttiesine = new agentItem(agentptr);
     mapScene->addItem(agenttiesine);
 
-    playerAgents_.at(player).push_back(agenttiesine);
+    playerAgents_.at(player).push_back(agentptr);
 }
 
 std::shared_ptr<Interface::Player> GameWindow::getPlayerInTurn()
@@ -180,9 +180,9 @@ void GameWindow::changeTurn()
 void GameWindow::listAgents(std::shared_ptr<Interface::Player> player)
 {
     gameui->agentListWidget->clear();
-    std::vector<agentItem*> listOfAgents = playerAgents_.at(player);
+    std::vector<std::shared_ptr<Interface::Agent>> listOfAgents = playerAgents_.at(player);
     for (auto agent : listOfAgents) {
-        gameui->agentListWidget->addItem(agent->typeName());
+        gameui->agentListWidget->addItem(agent->name());
     }
 }
 
