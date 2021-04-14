@@ -10,7 +10,7 @@
 #include "../Course/location.h"
 #include "../Course/cardinterface.h"
 
-class mapItem : public QGraphicsItem
+class mapItem : public QObject, public QGraphicsItem
 {
 public:
 
@@ -24,6 +24,10 @@ public:
     virtual const QString typeOf() = 0;
 
     // TODO: MouseHover and drag events go here (currently only CardItem has them, but would be nice that Agents would too!)
+signals:
+    virtual void mapItemMouseReleased(mapItem*);
+    virtual void mapItemMouseDragged(mapItem*);
+
 };
 
 #endif // MAPITEM_HH

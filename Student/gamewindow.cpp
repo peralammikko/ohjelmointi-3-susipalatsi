@@ -130,7 +130,7 @@ void GameWindow::enablePlayerHand(std::shared_ptr<Interface::Player> player)
         std::vector<CardItem> carditems;
         for (unsigned int i = 0; i < cards.size(); ++i)
         {
-            CardItem *carditem = new CardItem(cards.at(i));
+            CardItem *carditem = new CardItem(cards.at(i), this);
             // adds card to the scene
             mapScene->addItem(carditem);
         }

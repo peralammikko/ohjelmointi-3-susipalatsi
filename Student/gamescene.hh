@@ -42,7 +42,7 @@ public:
 
     std::shared_ptr<Interface::Game> getGame();
 
-public slots:
+private slots:
 
     // Gets cursor position and displays items under cursors on console
     // TODO: Choose one of thse MapItems as a target. Targeting should be based on CardItem's CardInterFace rules.
@@ -50,6 +50,9 @@ public slots:
 
     // TODO: If there is a valid MapItem stored in this class' pointer, do Card's action where target MapItem is the target.
     void onCardDropped(CardItem* card);
+
+    void something();
+
 
 private:
     mapItem* targetedMapItem_;

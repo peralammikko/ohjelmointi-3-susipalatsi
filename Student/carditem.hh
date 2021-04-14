@@ -4,13 +4,19 @@
 #include "mapitem.hh"
 #include "../Course/cardinterface.h"
 
+namespace Interface {
+    class CardInterface;
+}
 
 class CardItem : public mapItem
 {
+    Q_OBJECT
 public:
     // Pelialueella liikuteltava korttibjekti
-    CardItem(std::weak_ptr<Interface::CardInterface> card);
+    CardItem(std::shared_ptr<Interface::CardInterface> card, QObject *parent);
     ~CardItem();
+
+    std::shared_ptr<Interface::CardInterface> getCard();
 
     // Mandatory overrides
     QRectF boundingRect() const override;
@@ -21,6 +27,11 @@ public:
 
     // returns "card". This is useless probably.
     const QString typeOf() override;
+
+signals:
+    void something() const;
+    void cardMoved(CardItem*);
+    void cardReleased(CardItem*);
 
 protected:
     // mouse entering and press events
@@ -34,7 +45,7 @@ protected:
 
 private:
     // Interface from which this item takes all its data (name, owner etc.)
-    std::weak_ptr<Interface::CardInterface> card_;
+    std::shared_ptr<Interface::CardInterface> card_;
 
     int width_;
     int height_;

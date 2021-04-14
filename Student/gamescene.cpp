@@ -49,9 +49,10 @@ void GameScene::drawLocations(std::vector<std::shared_ptr<Interface::Location>> 
     // Piirretään rakennukset "ympyrän" kehälle
     const int xCenter = this->width()/2;
     const int yCenter = this->height()/2;
-    //qDebug() << "Center:" <<xCenter << yCenter;
-    const int radius = 300;
 
+    // Needs more elegant implementation, like a global constant and a scaling value
+    const int radius = 300;
+    // by default we have 6 locations
     int locationCount = locvec.size();
     const int degree = 360 / locationCount;
 
@@ -91,13 +92,25 @@ void GameScene::drawAgents(std::vector<agentItem *> &agents)
 void GameScene::createHandCards(std::vector<std::shared_ptr<Interface::CardInterface>> cards)
 {
     for (unsigned int i = 0; i < cards.size(); ++i) {
-        CardItem *carditem = new CardItem(cards.at(i));
+        std::shared_ptr<Interface::CardInterface> carddata = cards.at(i);
+        CardItem *carditem = new CardItem(carddata, this);
         // adds card to the scene
         this->addItem(carditem);
         carditem->hide();
         handCards_.push_back(carditem);
+        qDebug() << carditem->getCard()->name();
+        connect(carditem, &CardItem::something, this, &GameScene::something);
+        connect(carditem, &CardItem::cardMoved, this, &GameScene::onCardDragged);
+        connect(carditem, &CardItem::cardReleased, this, &GameScene::onCardDropped);
+        //connect(handCards_.at(i), &CardItem::something, this, &GameScene::something);
     }
     showHandCards();
+}
+
+
+void GameScene::something()
+{
+    qDebug() << "Hey!";
 }
 
 void GameScene::showHandCards()
