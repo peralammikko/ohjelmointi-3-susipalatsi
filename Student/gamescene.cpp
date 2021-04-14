@@ -38,6 +38,8 @@ void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
             selectedLocation = nullptr;
         }
     }
+    update();
+    QGraphicsScene::mousePressEvent(event);
 }
 
 void GameScene::drawLocations(std::vector<std::shared_ptr<Interface::Location>> &locvec)
@@ -76,11 +78,9 @@ void GameScene::drawAgents(std::vector<agentItem *> &agents)
 {
     int agentsCount = agents.size();
     for (int i = 0; i < agentsCount; i++) {
-
         agentItem* current = agents.at(i);
         float x = 200+50*i;
         std::shared_ptr<Interface::AgentInterface> agent = current->getObject();
-
         current->setX(x);
         current->setY(400);
         //current->setPos(x,400);
@@ -148,7 +148,7 @@ void GameScene::onCardDragged(CardItem* card)
 
 void GameScene::onCardDropped(CardItem* card)
 {
-     qDebug() << "i am dropped" << card->x() << card->y()<<card->mapRectFromScene(card->boundingRect());
-     card->setPos(card->pos());
+     qDebug() << "a card has been dropped" << card->x() << card->y()<<card->mapRectFromScene(card->boundingRect());
+     //card->setPos(card->pos());
 }
 

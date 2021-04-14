@@ -133,9 +133,7 @@ void GameWindow::enablePlayerHand(std::shared_ptr<Interface::Player> player)
             CardItem *carditem = new CardItem(cards.at(i));
             // adds card to the scene
             mapScene->addItem(carditem);
-
         }
-
     }
 }
 
@@ -152,9 +150,9 @@ void GameWindow::sendAgentTo(const std::shared_ptr<Interface::Location> &loc, st
 void GameWindow::spawnAgent(std::shared_ptr<Interface::Player> &player)
 {
     // Create agent interface, which holds all of the data of the card.
-    // For now we will just use default names
+    // Ideally we want this to be handled by carddata class, which would use xml/JSON later on
+    // For now we will just use some default generated stuff
     QString agname{"Perry"};
-
     std::shared_ptr<Interface::Agent> agentptr = std::make_shared<Interface::Agent>(agname + player->name(), "Agent");
 
     agentItem* agenttiesine = new agentItem(agentptr);
@@ -167,33 +165,3 @@ std::shared_ptr<Interface::Player> GameWindow::getPlayerInTurn()
 {
     return playerInTurn;
 }
-
-
-/*
-void GameWindow::drawAgents(mapItem *&drawLocation)
-{
-    std::shared_ptr<Interface::Location> loc = drawLocation->getObject();
-    std::set<std::shared_ptr<Interface::AgentInterface>> locAgents = loc->agents();
-    int counter = 0;
-    std::pair<int, int> locationXY = drawLocation->getCoords();
-    const int xCenter = locationXY.first;
-    const int yCenter = locationXY.second;
-    const int radius = 50;
-
-    int agentCount = locAgents.size();
-    const int degree = 360 / agentCount;
-
-    for (auto agent : locAgents) {
-        agentItem* agenttismies = new agentItem(agent);
-        mapScene->addItem(agenttismies);
-
-        int angleDeg = degree * counter;
-        float angleRad = angleDeg * M_PI / 180;
-        int x = xCenter + radius * std::cos(angleRad);
-        int y = yCenter + radius * std::sin(angleRad);
-        agenttismies->setCoords(x, y);
-        counter++;
-    }
-}
-*/
-
