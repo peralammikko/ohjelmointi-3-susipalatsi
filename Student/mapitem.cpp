@@ -52,3 +52,8 @@ void mapItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     update();
     QGraphicsItem::mouseReleaseEvent(event);
 }
+
+void mapItem::setHome(QPointF newhome)
+{
+    homeCoordinatesOnScene_ = newhome;
+}

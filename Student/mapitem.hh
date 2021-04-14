@@ -35,6 +35,9 @@ public:
      // TODO: animation
     virtual void goHome(int time=50);
 
+    // sets home to somewhere else
+    virtual void setHome(QPointF newhome= QPoint(0,0));
+
 protected:
     // in goHome the card is moved back to this point on its parent scene
     QPointF homeCoordinatesOnScene_ = QPointF(0,0);
@@ -53,6 +56,8 @@ protected:
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
 
     bool isMousePressed_ = 0;
+
+
 
 
 signals:

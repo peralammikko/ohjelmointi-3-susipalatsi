@@ -159,37 +159,30 @@ void GameScene::onMapItemMouseDropped(mapItem* mapitem)
      if (aitem != nullptr)
      {
          QList<QGraphicsItem*> items = mapitem->collidingItems();
-         bool foundValidTarget = false;
          for (int i = 0; i < items.size(); ++i)
          {
              if (items.at(i) != mapitem) {
                  // Followin allows us to get ANY type of interaface data under the rect
                  // todo: prettier class type checking
-                  LocationItem* location = dynamic_cast<LocationItem*>(items.at(i));
-                  if (location != nullptr)
+                  LocationItem* lItem = dynamic_cast<LocationItem*>(items.at(i));
+                  if (lItem != nullptr)
                   {
                       // todo: prettier everything
+                      // these autos were just for debugging. you can do without them.
                       auto aInterface = aitem->getObject();
-                      auto lInterface = location->getObject();
+                      auto lInterface = lItem->getObject();
                       lInterface->sendAgent(aInterface);
+
+                      aitem->setHome(lItem->boundingRect().center());
+
                       qDebug() << lInterface->name() << "... This is your home now," << aInterface->name();
-                      foundValidTarget = true;
                       break;
                   }
              }
          }
-         if (not foundValidTarget)
-         {
-              mapitem->goHome();
-         }
 
-     } else {
-          mapitem->goHome();
      }
+    mapitem->goHome();
 
-
-     // Emit signal which is tied to game logic.
-     // Game logic then calls a public method in gamescene which
-     // makes the card item either go back if illegal or do a legal action.
 }
 
