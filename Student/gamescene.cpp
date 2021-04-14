@@ -99,18 +99,11 @@ void GameScene::createHandCards(std::vector<std::shared_ptr<Interface::CardInter
         carditem->hide();
         handCards_.push_back(carditem);
         qDebug() << carditem->getCard()->name();
-        connect(carditem, &CardItem::something, this, &GameScene::something);
-        connect(carditem, &CardItem::cardMoved, this, &GameScene::onCardDragged);
-        connect(carditem, &CardItem::cardReleased, this, &GameScene::onCardDropped);
-        //connect(handCards_.at(i), &CardItem::something, this, &GameScene::something);
+
+        connect(carditem, &mapItem::mapItemMouseDragged, this, &GameScene::onMapItemMouseDragged);
+        connect(carditem, &mapItem::mapItemMouseReleased, this, &GameScene::onMapItemMouseDropped);
     }
     showHandCards();
-}
-
-
-void GameScene::something()
-{
-    qDebug() << "Hey!";
 }
 
 void GameScene::showHandCards()
@@ -136,32 +129,30 @@ void GameScene::showHandCards()
     }
 }
 
-void GameScene::onCardDragged(CardItem* card)
+void GameScene::onMapItemMouseDragged(mapItem* mapitem)
 {
     // Get every item under cardboundaries
-    QList<QGraphicsItem*> items = card->collidingItems();
+    QList<QGraphicsItem*> items = mapitem->collidingItems();
 
     int count =0;
     for (int i = 0; i < items.size(); ++i)
     {
         count +=1;
-        if (items.at(i) != card) {
+        if (items.at(i) != mapitem) {
              // Followin allows us to get ANY type of interaface data under the rect
              LocationItem* location =dynamic_cast<LocationItem*>(items.at(i));
              if (location != nullptr)
              {
                  qDebug() << "Olen rakennus" << location->getObject()->name();
              }
-        } else {
-            qDebug() << "found myself" << items.at(i)->type();
         }
     }
 }
 
 
-void GameScene::onCardDropped(CardItem* card)
+void GameScene::onMapItemMouseDropped(mapItem* mapitem)
 {
-     qDebug() << "a card has been dropped" << card->x() << card->y()<<card->mapRectFromScene(card->boundingRect());
-     //card->setPos(card->pos());
+    // TODO: implement logic to see if the move is legal
+     qDebug() << "a mapitem has been dropped";
 }
 

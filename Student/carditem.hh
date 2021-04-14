@@ -10,7 +10,6 @@ namespace Interface {
 
 class CardItem : public mapItem
 {
-    Q_OBJECT
 public:
     // Pelialueella liikuteltava korttibjekti
     CardItem(std::shared_ptr<Interface::CardInterface> card, QObject *parent);
@@ -28,10 +27,17 @@ public:
     // returns "card". This is useless probably.
     const QString typeOf() override;
 
+
+    /*
 signals:
+
     void something() const;
     void cardMoved(CardItem*);
     void cardReleased(CardItem*);
+
+    virtual void mapItemMouseReleased(mapItem*) override;
+    virtual void mapItemMouseDragged(mapItem*) override;
+    */
 
 protected:
     // mouse entering and press events

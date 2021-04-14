@@ -77,7 +77,7 @@ void agentItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 
 void agentItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-   // emit mapItemMouseDragged(this);
+    emit mapItemMouseDragged(this);
     update();
     QGraphicsItem::mouseMoveEvent(event);
 }

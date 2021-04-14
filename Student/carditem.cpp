@@ -12,7 +12,7 @@ CardItem::CardItem(std::shared_ptr<Interface::CardInterface> card, QObject *pare
     isPressed_ = false;
     isHovered_ = false;
     // This will be useful when we want card to be snapped back after dragging
-    std::pair<int,int> coordsBeforeDragging_ = std::make_pair(x(), y());
+    coordsBeforeDragging_ = std::make_pair(x(), y());
 
     // set origo center for scaling
     QPoint o;
@@ -71,13 +71,10 @@ void CardItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
     if (isPressed_)
     {
-       // qDebug() << "hello i am moved" << mapToScene(mapFromScene(QCursor::pos()))<< "mouse" << mapFromScene(QCursor::pos());
         GameScene* gameScene = qobject_cast<GameScene*> (scene());
         if (gameScene != nullptr)
         {
-            //gameScene->onCardDragged(this);
-            emit cardMoved(this);
-
+            emit mapItemMouseDragged(this);
         } else
         {
            qDebug() << "error! Card Item did not find parent scene while moving!";
@@ -92,7 +89,7 @@ void CardItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     // TODO: Cards for whatever reason always snap back to either hand or center of graphics view when released and picked up again.
     if (isPressed_)
     {
-        emit cardReleased(this);
+        emit mapItemMouseReleased(this);
         isPressed_ = false;
     }
     update();

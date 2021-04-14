@@ -31,7 +31,7 @@ void Agent::setPlacement(std::weak_ptr<Location> placement)
 
 unsigned short Agent::connections() const
 {
-
+    return 0;
 }
 
 void Agent::setConnections(unsigned short connections)

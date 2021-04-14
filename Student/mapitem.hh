@@ -5,8 +5,8 @@
 #include <QPainter>
 
 #include <memory>
-#include <map>
-#include "../Course/simplemainwindow.hh"
+#include <map>  // what is this for?
+
 #include "../Course/location.h"
 #include "../Course/cardinterface.h"
 
@@ -19,9 +19,10 @@ namespace Interface {
 
 class mapItem : public QObject, public QGraphicsItem
 {
+    Q_OBJECT
 public:
 
-    // QGraphicsItem overrides liekö edes tarpeellisia tässä?
+    // QGraphicsItem overridet liekö edes tarpeellisia tässä?
     virtual QRectF boundingRect() const = 0;
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) = 0;
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) = 0;
@@ -32,8 +33,8 @@ public:
 
     // TODO: MouseHover and drag events go here (currently only CardItem has them, but would be nice that Agents would too!)
 signals:
-   // virtual void mapItemMouseReleased(mapItem*);
-   // virtual void mapItemMouseDragged(mapItem*);
+    virtual void mapItemMouseReleased(mapItem*);
+    virtual void mapItemMouseDragged(mapItem*);
 
 };
 
