@@ -533,6 +533,19 @@
     <string>Return</string>
    </property>
   </widget>
+  <widget class="QLabel" name="areaResourceLabel">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>260</y>
+     <width>171</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>areaResource</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections>

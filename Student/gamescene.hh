@@ -47,6 +47,8 @@ public:
 
     void turnInfo(int turn, std::shared_ptr<Interface::Player> currentplayer);
 
+    void resourceInfo(AreaResources &rmap);
+
 
 public slots:
 
@@ -74,6 +76,8 @@ private:
     // also connects drag drop signals with those carditems
     void showHandCards();
     std::shared_ptr<Interface::Game> gameboard_ = nullptr;
+
+    AreaResources resMap_ = {};
 
 
 

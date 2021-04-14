@@ -1,10 +1,12 @@
-#include "gamewindow.hh"
 #include "gamescene.hh"
+#include "gamewindow.hh"
 #include "agentitem.hh"
 #include "mapitem.hh"
 #include "locationitem.hh"
 #include <cmath>
 #include "carditem.hh"
+#include "popupdialog.hh"
+
 
 // required for signaling??
 #include <QObject>
@@ -23,12 +25,9 @@ void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
         LocationItem* locItem = qgraphicsitem_cast<LocationItem*>(itemClicked);
         agentItem* agItem = qgraphicsitem_cast<agentItem*>(itemClicked);
         if (locItem and locItem->typeOf() == "locationitem") {
-            /*
-            locItem->mousePressEvent(event);
-            selectedLocation = locItem;
-            qDebug() << locItem->getObject()->name();
-            */
-            PopupDialog* clickDialog = new PopupDialog(locItem->getObject(), locItem->getBasevalue(), playerInTurn_);
+            CommonResource res = resMap_.at(locItem->getObject());
+            int BV = locItem->getBasevalue();
+            PopupDialog* clickDialog = new PopupDialog(locItem->getObject(), BV, res, playerInTurn_);
             clickDialog->show();
 
         } else if (agItem and agItem->typeOf() == "agentitem") {
@@ -101,6 +100,11 @@ void GameScene::turnInfo(int turn, std::shared_ptr<Interface::Player> currentpla
 {
     turn_ = turn;
     playerInTurn_ = currentplayer;
+}
+
+void GameScene::resourceInfo(AreaResources &rmap)
+{
+    resMap_ = rmap;
 }
 
 void GameScene::showHandCards()

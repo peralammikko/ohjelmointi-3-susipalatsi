@@ -18,6 +18,8 @@
 #include "../Course/game.h"
 #include "../Course/runner.h"
 
+#include "commonresource.hh"
+
 namespace Ui {
 class GameWindow;
 }
@@ -51,6 +53,8 @@ public:
     void setupPlayerStash();
     void displayPlayerStats();
 
+    void initAreaResources();
+
 
 private slots:
     void on_passButton_clicked();
@@ -75,13 +79,16 @@ private:
     std::shared_ptr<Interface::Player> playerInTurn = nullptr;
     std::map<std::shared_ptr<Interface::Player>, std::vector<agentItem*>> playerAgents_;
     std::map<std::shared_ptr<Interface::Player>, int> playerWallets_;
-    std::map<std::shared_ptr<Interface::Player>, std::vector<std::shared_ptr<Interface::Councilor>>> councilorDecks_;
+    std::map<std::shared_ptr<Interface::Player>, std::vector<std::shared_ptr<Interface::Councilor>>> councilorCards_;
 
 
 
     // this variable stores drag and drop targe, ie. what is "under" a draggable card
     mapItem* targetedMapItem_;
 
+    ResourceMap mappi;
+
+    AreaResources areaResourceMap = {};
 };
 
 #endif // GAMEWINDOW_HH

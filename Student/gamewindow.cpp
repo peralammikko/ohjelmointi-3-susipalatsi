@@ -37,6 +37,8 @@ GameWindow::GameWindow(QWidget *parent) :
     gameboard = std::make_shared<Interface::Game>();
     courseRunner = std::make_shared<Interface::Runner>(gameboard);
 
+    mappi = PLAYER_STARTING_RESOURCES;
+
     // Luodaan location-oliot
     for (int i = 0; i < 6; i++) {
         std::shared_ptr<Interface::Location> location = std::make_shared<Interface::Location>(i, paikat_.at(i));
@@ -77,6 +79,12 @@ GameWindow::GameWindow(QWidget *parent) :
     mapScene->createHandCards(gameboard->players().at(0)->cards());
     playerInTurn = player1;
     displayPlayerStats();
+
+    initAreaResources();
+    mapScene->resourceInfo(areaResourceMap);
+    for (auto pair : areaResourceMap) {
+        qDebug() << pair.first->name() << ": " << RESOURCE_NAMES.at(pair.second);
+    }
 
 }
 
@@ -164,6 +172,7 @@ void GameWindow::changeTurn()
     displayPlayerStats();
 
     mapScene->turnInfo(current_round, playerInTurn);
+
 }
 
 void GameWindow::listAgents(std::shared_ptr<Interface::Player> player)
@@ -186,9 +195,8 @@ void GameWindow::setupPlayerStash()
         playerWallets_.insert({player, 2});
 
         // Map for players and their collected councilor cards (empty on initialization)
-        councilorDecks_.insert({player, {}});
+        councilorCards_.insert({player, {}});
     }
-
 }
 
 void GameWindow::displayPlayerStats()
@@ -197,8 +205,19 @@ void GameWindow::displayPlayerStats()
     gameui->currentRoundLabel->setText("Current round: " + QString::number(current_round));
     gameui->playerNameLabel->setText(playerInTurn->name());
     gameui->playerCoinsLabel->setText(QString::number(playerWallets_.at(playerInTurn)));
-    gameui->councillorNumberLabel->setText(QString::number(councilorDecks_.at(playerInTurn).size()) + " / 6");
+    gameui->councillorNumberLabel->setText(QString::number(councilorCards_.at(playerInTurn).size()) + " / 6");
     listAgents(playerInTurn);
+}
+
+void GameWindow::initAreaResources()
+{
+    int i = 1;
+    for (auto loc : gameboard->locations()) {
+        std::pair<std::shared_ptr<Interface::Location>, CommonResource> areaResourcePair;
+        areaResourcePair = {loc, CommonResource(i)};
+        areaResourceMap.insert(areaResourcePair);
+        i++;
+    }
 }
 
 
