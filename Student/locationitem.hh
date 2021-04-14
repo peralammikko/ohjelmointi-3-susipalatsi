@@ -9,7 +9,7 @@
 class LocationItem : public mapItem
 {
 public:
-    LocationItem(const std::shared_ptr<Interface::Location> &location);
+    LocationItem(const std::shared_ptr<Interface::Location> location);
 
     // MapItem overridet
 

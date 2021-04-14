@@ -17,28 +17,6 @@ GameScene::GameScene(QWidget *parent) : QGraphicsScene(parent)
 
 void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    /*
-    if (event->button() == Qt::LeftButton) {
-
-        QGraphicsItem* itemClicked = itemAt(event->scenePos(), QTransform());
-        LocationItem* locItem = qgraphicsitem_cast<LocationItem*>(itemClicked);
-        agentItem* agItem = qgraphicsitem_cast<agentItem*>(itemClicked);
-        if (locItem and locItem->typeOf() == "locationitem") {
-            locItem->mousePressEvent(event);
-            selectedLocation = locItem;
-            qDebug() << locItem->getObject()->name();
-        } else if (agItem and agItem->typeOf() == "agentitem") {
-            selectedAgent = agItem;
-            // Gamescenen ei tarvitse erikseen huolehtia mousepress eventtejä.
-            // Kaikki mousepressit voidaan käistellä luokkakohtaisesti, joten tavoitteena käyttää niit siellä
-            // Toistaiseksi kommentoin seuraavan alta pois
-            // agItem->mousePressEvent(event);
-            agItem->testPrint();
-        } else {
-            selectedAgent = nullptr;
-            selectedLocation = nullptr;
-        }
-    }*/
     update();
     QGraphicsScene::mousePressEvent(event);
 }
@@ -173,7 +151,43 @@ void GameScene::onMapItemMouseDropped(mapItem* mapitem)
 {
     // TODO: implement logic to see if the move is legal
      qDebug() << "a mapitem has been dropped";
-     mapitem->goHome();
+
+     // For now we just check if agent has been dropped on a building
+     // In a real scenario we can emit a signal which contains dropped mapitem and a vector of colliding items
+     // so they are handled elsewhere
+     agentItem* aitem = dynamic_cast<agentItem*>(mapitem);
+     if (aitem != nullptr)
+     {
+         QList<QGraphicsItem*> items = mapitem->collidingItems();
+         bool foundValidTarget = false;
+         for (int i = 0; i < items.size(); ++i)
+         {
+             if (items.at(i) != mapitem) {
+                 // Followin allows us to get ANY type of interaface data under the rect
+                 // todo: prettier class type checking
+                  LocationItem* location = dynamic_cast<LocationItem*>(items.at(i));
+                  if (location != nullptr)
+                  {
+                      // todo: prettier everything
+                      auto aInterface = aitem->getObject();
+                      auto lInterface = location->getObject();
+                      lInterface->sendAgent(aInterface);
+                      qDebug() << lInterface->name() << "... This is your home now," << aInterface->name();
+                      foundValidTarget = true;
+                      break;
+                  }
+             }
+         }
+         if (not foundValidTarget)
+         {
+              mapitem->goHome();
+         }
+
+     } else {
+          mapitem->goHome();
+     }
+
+
      // Emit signal which is tied to game logic.
      // Game logic then calls a public method in gamescene which
      // makes the card item either go back if illegal or do a legal action.

@@ -3,13 +3,14 @@
 #include "../Course/agentinterface.h"
 
 #include <memory>
+#include <map>
 
 namespace Interface {
 
 class Agent : public AgentInterface
 {
 public:
-    Agent(QString name, QString typeName);
+    Agent(QString name, std::weak_ptr<Player> owner, QString typeName);
     ~Agent();
 
     // AgentInterface overrides
@@ -35,6 +36,9 @@ private:
     QString typeName_;
     QString title_;
     std::weak_ptr<Player> owner_;
+
+    std::map<std::weak_ptr<Interface::Player>, int> gatheredResources_;
+
 };
 
 

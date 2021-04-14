@@ -3,7 +3,7 @@
 namespace Interface {
 
 
-Agent::Agent(QString name, QString typeName)
+Agent::Agent(QString name, std::weak_ptr<Player> owner, QString typeName) : name_(name), owner_(owner), typeName_(typeName)
 {
     name_ = name;
     typeName_ = typeName;

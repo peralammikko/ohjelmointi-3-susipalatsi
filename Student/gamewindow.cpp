@@ -153,7 +153,7 @@ void GameWindow::spawnAgent(std::shared_ptr<Interface::Player> &player)
     // Ideally we want this to be handled by carddata class, which would use xml/JSON later on
     // For now we will just use some default generated stuff
     QString agname{"Perry"};
-    std::shared_ptr<Interface::Agent> agentptr = std::make_shared<Interface::Agent>(agname + player->name(), "Agent");
+    std::shared_ptr<Interface::Agent> agentptr = std::make_shared<Interface::Agent>(agname + player->name(), player, "Agent");
 
     agentItem* agenttiesine = new agentItem(agentptr);
     mapScene->addItem(agenttiesine);
