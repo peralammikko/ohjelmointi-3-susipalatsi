@@ -2,7 +2,7 @@
 #include "ui_gamewindow.h"
 #include "mapitem.hh"
 #include "locationitem.hh"
-#include "agentinterface.h"
+#include "agent.hh"
 #include "agentitem.hh"
 #include "gamescene.hh"
 #include <cmath>
@@ -104,7 +104,7 @@ void GameWindow::drawLocations()
 void GameWindow::drawPlayerAgents(std::shared_ptr<Interface::Player> &player)
  {
     std::vector<agentItem*> agents = playerAgents_.at(player);
-     mapScene->drawAgents(agents);
+    mapScene->drawAgents(agents);
  }
 
 void GameWindow::drawItem(mapItem *item)
@@ -127,12 +127,10 @@ void GameWindow::enablePlayerHand(std::shared_ptr<Interface::Player> player)
         std::vector<CardItem> carditems;
         for (unsigned int i = 0; i < cards.size(); ++i)
         {
-            CardItem *carditem = new CardItem(cards.at(i));
+            CardItem *carditem = new CardItem(cards.at(i), this);
             // adds card to the scene
             mapScene->addItem(carditem);
-
         }
-
     }
 }
 
@@ -146,14 +144,18 @@ void GameWindow::sendAgentTo(const std::shared_ptr<Interface::Location> &loc, st
 
 }
 
-
-
 void GameWindow::spawnAgent(std::shared_ptr<Interface::Player> &player)
 {
-    std::shared_ptr<Interface::AgentInterface> agentptr = nullptr;
-    agentItem* agentti = new agentItem(agentptr);
-    agentti->setOwner(player);
-    playerAgents_.at(player).push_back(agentti);
+    // Create agent interface, which holds all of the data of the card.
+    // Ideally we want this to be handled by carddata class, which would use xml/JSON later on
+    // For now we will just use some default generated stuff
+    QString agname{"Perry"};
+    std::shared_ptr<Interface::Agent> agentptr = std::make_shared<Interface::Agent>(agname + player->name(), "Agent");
+
+    agentItem* agenttiesine = new agentItem(agentptr);
+    mapScene->addItem(agenttiesine);
+
+    playerAgents_.at(player).push_back(agenttiesine);
 }
 
 std::shared_ptr<Interface::Player> GameWindow::getPlayerInTurn()

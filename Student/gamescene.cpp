@@ -19,6 +19,7 @@ GameScene::GameScene(QWidget *parent) : QGraphicsScene(parent)
 
 void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
+    /*
     if (event->button() == Qt::LeftButton) {
 
         QGraphicsItem* itemClicked = itemAt(event->scenePos(), QTransform());
@@ -32,13 +33,18 @@ void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
         } else if (agItem and agItem->typeOf() == "agentitem") {
             selectedAgent = agItem;
-            agItem->mousePressEvent(event);
+            // Gamescenen ei tarvitse erikseen huolehtia mousepress eventtejä.
+            // Kaikki mousepressit voidaan käistellä luokkakohtaisesti, joten tavoitteena käyttää niit siellä
+            // Toistaiseksi kommentoin seuraavan alta pois
+            // agItem->mousePressEvent(event);
             agItem->testPrint();
         } else {
             selectedAgent = nullptr;
             selectedLocation = nullptr;
         }
-    }
+    }*/
+    update();
+    QGraphicsScene::mousePressEvent(event);
 }
 
 void GameScene::drawLocations(std::vector<std::shared_ptr<Interface::Location>> &locvec)
@@ -48,9 +54,11 @@ void GameScene::drawLocations(std::vector<std::shared_ptr<Interface::Location>> 
     // Piirretään rakennukset "ympyrän" kehälle
     const int xCenter = this->width()/2;
     const int yCenter = this->height()/2;
-    // qDebug() << "Center:" <<xCenter << yCenter;
     const int radius = 250;
 
+    // Needs more elegant implementation, like a global constant and a scaling value
+    const int radius = 300;
+    // by default we have 6 locations
     int locationCount = locvec.size();
     const int degree = 360 / locationCount;
 
@@ -75,24 +83,42 @@ void GameScene::drawItem(mapItem *item)
 
 void GameScene::drawAgents(std::vector<agentItem *> &agents)
 {
-    int agentsCount = agents.size();
-    for (int i = 0; i < agentsCount; i++) {
+    for (unsigned int i = 0; i < agents.size(); i++) {
         agentItem* current = agents.at(i);
-        current->setCoords(400+i*80, 400);
-        drawItem(current);
+        //std::shared_ptr<Interface::AgentInterface> agent = current->getObject(); // What is this for ?
+        current->show();
+
+        connect(current, &mapItem::mapItemMouseDragged, this, &GameScene::onMapItemMouseDragged);
+        connect(current, &mapItem::mapItemMouseReleased, this, &GameScene::onMapItemMouseDropped);
+        current->setPos(300+current->boundingRect().width()*i, 300);
+    }
+}
+
+void GameScene::hideAgents(std::vector<agentItem *> &agents)
+{
+    for (unsigned int i = 0; i < agents.size(); i++) {
+        agentItem* current = agents.at(i);
+        current->hide();
+
+        disconnect(current, &mapItem::mapItemMouseDragged, this, &GameScene::onMapItemMouseDragged);
+        disconnect(current, &mapItem::mapItemMouseReleased, this, &GameScene::onMapItemMouseDropped);
+        //current->setPos(300+current->boundingRect().width()*i,300);
     }
 }
 
 void GameScene::createHandCards(std::vector<std::shared_ptr<Interface::CardInterface>> cards)
 {
     for (unsigned int i = 0; i < cards.size(); ++i) {
-        CardItem *carditem = new CardItem(cards.at(i));
+        std::shared_ptr<Interface::CardInterface> carddata = cards.at(i);
+        CardItem *carditem = new CardItem(carddata, this);
         // adds card to the scene
         this->addItem(carditem);
         carditem->hide();
         handCards_.push_back(carditem);
-    }
 
+        connect(carditem, &mapItem::mapItemMouseDragged, this, &GameScene::onMapItemMouseDragged);
+        connect(carditem, &mapItem::mapItemMouseReleased, this, &GameScene::onMapItemMouseDropped);
+    }
     showHandCards();
 }
 
@@ -115,13 +141,14 @@ void GameScene::showHandCards()
 
     int count = handCards_.size();
     if (count) {
+        // Calculate total width of the hand
         for (int i = 0; i < count; ++i) {
             handCards_.at(i)->show();
             widthtotal += handCards_.at(i)->boundingRect().width();
         }
+        // Gets the new coords for cards based on hand width
         widthPerCard = (widthtotal + handCardPadding_*count) / count;
         xStart =  handAnchorCoords_.first - (widthtotal / 2);
-
         for (int i = 0; i < count; ++i) {
             int x = (xStart + widthPerCard*i);
             handCards_.at(i)->setPos(x, handAnchorCoords_.second);
@@ -129,52 +156,42 @@ void GameScene::showHandCards()
     }
 }
 
-void GameScene::onCardDragged(CardItem* card)
+void GameScene::onMapItemMouseDragged(mapItem* mapitem)
 {
-
-    /*
-    QRectF cardboundaries;
-    cardboundaries = card->mapRectFromScene(card->boundingRect());
-    QPointF newcoords = card->mapToScene(card->pos());
-    cardboundaries.moveTo(newcoords);
-
-    card->setPos(newcoords);
-
-    qDebug() << "cardboundaries "<< cardboundaries;
-
-
-    QRectF cardboundaries = mapitem->boundingRect();
-    cardboundaries.setX(mapitem->x());
-    cardboundaries.setY(mapitem->y());*/
-
+    // TODO: Discuss with game logic and highlight/scale up items that are valid targets
+    // ie. when agent is hovered on a building, it scales the closest building up a little, but not carditems or other agentitems.
     // Get every item under cardboundaries
-    QList<QGraphicsItem*> items = card->collidingItems();
+    QList<QGraphicsItem*> items = mapitem->collidingItems();
 
-    // TODO: THIS RECT IS VERY BUGGED but at least it works on principle
-    //qDebug() << "My boundaries:" << cardboundaries.width() << cardboundaries.x() << cardboundaries.y();
-    //qDebug() << items;
     int count =0;
     for (int i = 0; i < items.size(); ++i)
     {
         count +=1;
-        if (items.at(i) != card) {
-             // Followin allows us to get ANY type of interaface data under the rect
-             LocationItem* location =dynamic_cast<LocationItem*>(items.at(i));
+        if (items.at(i) != mapitem) {
+            // Followin allows us to get ANY type of interaface data under the rect
+            // todo: prettier class type checking
+             LocationItem* location = dynamic_cast<LocationItem*>(items.at(i));
              if (location != nullptr)
              {
                  qDebug() << "Olen rakennus" << location->getObject()->name();
+             } else {
+                agentItem* agent = dynamic_cast<agentItem*>(items.at(i));
+                if (agent != nullptr)
+                {
+                    qDebug() << "Olen agentti" << agent->getObject()->name();
+                }
              }
-        } else {
-            qDebug() << "found myself" << items.at(i)->type();
         }
     }
-
 }
 
-
-void GameScene::onCardDropped(CardItem* card)
+void GameScene::onMapItemMouseDropped(mapItem* mapitem)
 {
-     qDebug() << "i am dropped" << card->x() << card->y()<<card->mapRectFromScene(card->boundingRect());
-     card->setPos(card->pos());
+    // TODO: implement logic to see if the move is legal
+     qDebug() << "a mapitem has been dropped";
+     mapitem->goHome();
+     // Emit signal which is tied to game logic.
+     // Game logic then calls a public method in gamescene which
+     // makes the card item either go back if illegal or do a legal action.
 }
 

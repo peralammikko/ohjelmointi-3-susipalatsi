@@ -26,13 +26,24 @@ public:
     // This is a deprecated method which needs to be replaced or removed
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
 
+    // //////////////////////////////////
+    // TODO: maybe merge drawItem, drawLocations, createHand and the like?
+    // Every map item could just have on constructor method to keep thing simple
+    // //////////////////////////////////
     // Draws mapitems
     // pre: nothing
     // post: scene has one more extra mapitem displayed
+    // TODO:Is this useless?
     void drawItem(mapItem* item);
 
-    // Täysin kokeilumielinen funktio, ei kovin "käytännöllinen"
+    // Makes agents visible and places them in a "deployment zone" (?) a hand-like area where agents are
+    // and where they can be dragged to locations
+    // Also connects these agent's onMapItemMouse* events to this scene
+    // TODO: better name showDeployableAgents ?
     void drawAgents(std::vector<agentItem*> &agents);
+
+    // Does the opposite of drawAgents, and hides all agents in vector and disconnects mouse-events
+    void hideAgents(std::vector<agentItem*> &agents);
 
     // Draws a mapitem for every location (aka buildings or planets)
     // pre: there are locations stored in locvec
@@ -50,14 +61,9 @@ public:
     void resourceInfo(AreaResources &rmap);
 
 
-public slots:
-
-    // Gets cursor position and displays items under cursors on console
-    // TODO: Choose one of thse MapItems as a target. Targeting should be based on CardItem's CardInterFace rules.
-    void onCardDragged(CardItem *card);
-
-    // TODO: If there is a valid MapItem stored in this class' pointer, do Card's action where target MapItem is the target.
-    void onCardDropped(CardItem* card);
+private slots:
+    void onMapItemMouseDragged(mapItem *mapitem);
+    void onMapItemMouseDropped(mapItem* mapitem);
 
 private:
     mapItem* targetedMapItem_;

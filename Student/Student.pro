@@ -7,6 +7,7 @@ CONFIG += c++14
 
 SOURCES += \
     actioncard.cpp \
+    agent.cpp \
     agentitem.cpp \
     cardinterface.cpp \
     commonresource.cpp \
@@ -45,6 +46,7 @@ else:unix: PRE_TARGETDEPS += \
 
 HEADERS += \
     actioncard.hh \
+    agent.hh \
     agentitem.hh \
     commonresource.hh \
     carditem.hh \
