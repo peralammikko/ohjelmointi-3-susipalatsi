@@ -29,16 +29,6 @@ public:
 
 
 protected:
-
-    // These have been moved to mapItem
-    /*
-    // mouse entering and press events
-    // virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
-    // virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
-    */
-
-
     // some cool hovering stuff
     virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *event) override;
     virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override;

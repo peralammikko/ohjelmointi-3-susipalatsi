@@ -24,17 +24,8 @@ public:
     const QString typeOf() override;
 
 protected:
-
-    /*
-     * These have been moved to parent class mapitem
-     *
-    // mouse entering and press events
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
-    */
-
-    // some cool hovering stuff
+    // some cool hovering stuff if these are needed.
+    // TODO: these do nothing now
     virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *event) override;
     virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override;
 
@@ -45,13 +36,9 @@ private:
     // not sure if these are useful or not
     std::weak_ptr<Interface::Location> locationAt_;
     std::weak_ptr<Interface::Player> agentOwner_;
-    QString agentName_;
-    int value_;
-    int negSkill_;
-    int agentConnections_;
 
-    // mouse event variables
-    bool pressed_;
+    // This should probably be moved to agent.hh
+    int agentConnections_;
 
 };
 
