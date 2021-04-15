@@ -13,8 +13,8 @@
 
 
 #include "actioncard.hh"
-
 #include "playerhand.hh"
+#include "../Course/manualcontrol.h"
 
 
 GameWindow::GameWindow(QWidget *parent) :
@@ -35,7 +35,8 @@ GameWindow::GameWindow(QWidget *parent) :
     this->setWindowTitle("SUSIPALATSI: TEH GAME");
 
     gameboard = std::make_shared<Interface::Game>();
-    courseRunner = std::make_shared<Interface::Runner>(gameboard);
+    // courseRunner = std::make_shared<Interface::Runner>(gameboard);
+    courseRunner = std::make_shared<GameRunner>(gameboard);
 
     mappi = PLAYER_STARTING_RESOURCES;
 
@@ -51,6 +52,8 @@ GameWindow::GameWindow(QWidget *parent) :
 
     gameboard->addPlayer(player1);
     gameboard->addPlayer(player2);
+
+    initPlayerControls();
 
     setupPlayerStash();
     for (int i = 0 ; i < 3; i++) {
@@ -76,14 +79,6 @@ GameWindow::GameWindow(QWidget *parent) :
     displayPlayerStats();
     initAreaResources();
     mapScene->resourceInfo(areaResourceMap);
-    for (auto pair : areaResourceMap) {
-        qDebug() << pair.first->name() << ": " << RESOURCE_NAMES.at(pair.second);
-    }
-
-    for (auto agent : playerAgents_.at(player1)) {
-        qDebug() << agent->name();
-    }
-
 }
 
 GameWindow::~GameWindow()
@@ -220,6 +215,15 @@ void GameWindow::initAreaResources()
         areaResourceMap.insert(areaResourcePair);
         i++;
     }
+}
+
+void GameWindow::initPlayerControls()
+{
+    std::shared_ptr<Interface::ManualControl> mancontrol;
+    courseRunner->setPlayerControl(player1, mancontrol);
+    courseRunner->setPlayerControl(player2, mancontrol);
+    courseRunner->run();
+    courseRunner->testDebug();
 }
 
 

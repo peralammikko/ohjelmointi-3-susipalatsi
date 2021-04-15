@@ -14,11 +14,14 @@
 #include "playerhand.hh"
 #include "locationitem.hh"
 #include "councilor.h"
+#include "controlinterface.h"
 
 #include "../Course/game.h"
 #include "../Course/runner.h"
 
 #include "commonresource.hh"
+#include "gamerunner.hh"
+#include "influence.h"
 
 namespace Ui {
 class GameWindow;
@@ -55,6 +58,8 @@ public:
 
     void initAreaResources();
 
+    // Needs actions for proper testing and tweaking
+    void initPlayerControls();
 
 private slots:
     void on_passButton_clicked();
@@ -63,7 +68,8 @@ private:
     Ui::GameWindow *gameui;
     GameScene *mapScene;
     std::shared_ptr<Interface::Game> gameboard = nullptr;
-    std::shared_ptr<Interface::Runner> courseRunner = nullptr;
+    // std::shared_ptr<Interface::Runner> courseRunner = nullptr;
+    std::shared_ptr<GameRunner> courseRunner = nullptr;
 
     // Testing for hands
     std::map<std::shared_ptr<Interface::Player>, std::shared_ptr<PlayerHand>> hands_;
@@ -77,9 +83,14 @@ private:
     std::shared_ptr<Interface::Player> player2 = nullptr;
 
     std::shared_ptr<Interface::Player> playerInTurn = nullptr;
+    // Holds info on players and their agents
     std::map<std::shared_ptr<Interface::Player>, std::vector<std::shared_ptr<Interface::Agent>>> playerAgents_;
+    // Holds info on players and their currency
     std::map<std::shared_ptr<Interface::Player>, int> playerWallets_;
+    // Holds info on councilorCards earned by players
     std::map<std::shared_ptr<Interface::Player>, std::vector<std::shared_ptr<Interface::Councilor>>> councilorCards_;
+    // Holds info on influence gained from locations by players
+    std::map<std::shared_ptr<Interface::Player>, std::vector<std::shared_ptr<Interface::Influence>>> playerInfluenceMap_;
 
 
 
