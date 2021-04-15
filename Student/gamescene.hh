@@ -87,7 +87,7 @@ private:
     // changes state of cards in handCards_ to show and arranges them nicely as a hand centered in handAnchorCoords_
     // also connects drag drop signals with those carditems
     void showHandCards();
-    std::shared_ptr<Interface::Game> gameboard_ = nullptr;
+    // std::shared_ptr<Interface::Game> gameboard_ = nullptr;
 
     AreaResources resMap_ = {};
 };

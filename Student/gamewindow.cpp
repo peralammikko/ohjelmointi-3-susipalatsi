@@ -25,8 +25,6 @@ GameWindow::GameWindow(QWidget *parent) :
 
     // Declare the game first before gameScene, so we can give game_ to gameScene's constructor
     game_ = std::make_shared<Interface::Game>();
-    courseRunner = std::make_shared<GameRunner>(game_);
-
 
     gameScene_ = new GameScene(gameui_->graphicsView, game_);
     gameui_->graphicsView->setScene(gameScene_);
@@ -39,15 +37,12 @@ GameWindow::GameWindow(QWidget *parent) :
     this->setFixedSize(1920, 1080);
     this->setWindowTitle("SUSIPALATSI: TEH GAME");
 
-
-    game_ = std::make_shared<Interface::Game>();
-    courseRunner = std::make_shared<GameRunner>(game_);
-
     // Luodaan location-oliot
     for (int i = 0; i < 6; i++) {
         std::shared_ptr<Interface::Location> location = std::make_shared<Interface::Location>(i, paikat_.at(i));
         game_->addLocation(location);
     }
+
     drawLocations();
 
     player1 = std::make_shared<Interface::Player>(game_, 1, "RED");
@@ -56,6 +51,7 @@ GameWindow::GameWindow(QWidget *parent) :
     game_->addPlayer(player1);
     game_->addPlayer(player2);
 
+    courseRunner = std::make_shared<GameRunner>(game_, gameScene_);
     initPlayerControls();
 
     setupPlayerStash();
