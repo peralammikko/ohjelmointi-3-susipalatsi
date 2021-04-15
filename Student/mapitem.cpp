@@ -26,8 +26,6 @@ void mapItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void mapItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-    // TODO: Cards for whatever reason always snap back to either hand or center of graphics view when released and picked up again.
-
     if (isMousePressed_ )
     {
         GameScene* gameScene = qobject_cast<GameScene*> (scene());
@@ -45,12 +43,17 @@ void mapItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
 void mapItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-    // TODO: Cards for whatever reason always snap back to either hand or center of graphics view when released and picked up again.
-    if (isMousePressed_ )
+     // Make sure it is a left button event and the card is pressed already
+    if (event->button() == Qt::LeftButton and isMousePressed_ )
     {
         emit mapItemMouseReleased(this);
         isMousePressed_  = false;
     }
     update();
     QGraphicsItem::mouseReleaseEvent(event);
+}
+
+void mapItem::setHome(QPointF newhome)
+{
+    homeCoordinatesOnScene_ = newhome;
 }

@@ -2,7 +2,7 @@
 
 #include "locationitem.hh"
 
-LocationItem::LocationItem(const std::shared_ptr<Interface::Location> &location) : locationObject_(location), basevalue_(2)
+LocationItem::LocationItem(const std::shared_ptr<Interface::Location> location) : locationObject_(location), basevalue_(2)
 {
     isSelected = false;
     isHovered_ = false;

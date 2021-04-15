@@ -8,13 +8,14 @@
 #include "popupdialog.hh"
 
 
+#include "../Course/game.h"
+
 // required for signaling??
 #include <QObject>
 
-GameScene::GameScene(QWidget *parent) : QGraphicsScene(parent)
+GameScene::GameScene(QWidget *parent, std::weak_ptr<Interface::Game> game) : QGraphicsScene(parent), game_(game), handAnchorCoords_(std::make_pair(0, 400)), handCardPadding_(5)
 {
-    handAnchorCoords_ = std::make_pair(0, 400);
-    handCardPadding_ = 5;
+
 }
 
 void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
@@ -178,9 +179,79 @@ void GameScene::onMapItemMouseDropped(mapItem* mapitem)
 {
     // TODO: implement logic to see if the move is legal
      qDebug() << "a mapitem has been dropped";
-     mapitem->goHome();
-     // Emit signal which is tied to game logic.
-     // Game logic then calls a public method in gamescene which
-     // makes the card item either go back if illegal or do a legal action.
+
+     // check if the game is still going
+     if (!game_.lock())
+     {
+
+         qDebug() << "Fatal error: tried to move map items while there is no game";
+         // TODO: close program?
+         return;
+     }
+
+     // For now we just check if agent has been dropped on a building
+     // In a real scenario we can emit a signal which contains dropped mapitem and a vector of colliding items
+     // so they are handled elsewhere
+     agentItem* aitem = dynamic_cast<agentItem*>(mapitem);
+     if (aitem != nullptr)
+     {
+         QList<QGraphicsItem*> items = mapitem->collidingItems();
+         for (int i = 0; i < items.size(); ++i)
+         {
+             if (items.at(i) != mapitem) {
+                 // Followin allows us to get ANY type of interaface data under the rect
+                 // todo: prettier class type checking
+                  LocationItem* lItem = dynamic_cast<LocationItem*>(items.at(i));
+                  if (lItem != nullptr)
+                  {
+                      // todo: prettier everything
+                      // these autos were just for debugging. you can do without them.
+                      auto aInterface = aitem->getObject();
+                      auto lInterface = lItem->getObject();
+
+                      // if agent is not placed on an empty pointer
+                      if (!aInterface->placement().lock())
+                      {
+                          qDebug() << "I had no home!";
+                          // sends the agent and new "home coords"
+                          lInterface->sendAgent(aInterface);
+                          aitem->setHome(lItem->boundingRect().center());
+                          aitem->setParent(lItem);
+                      } else {
+                          qDebug() << "This was my home" << aInterface->placement().lock()->name() << "trying to move to" << lInterface->name();
+                          // Get every location in the game
+                          auto locs = game_.lock()->locations();
+                          // get itarator of the agent and the itarator of the targeted location in game's locvec
+                          auto targetIt = std::find(locs.begin(), locs.end(), lInterface);
+                          auto startingIt = std::find(locs.begin(), locs.end(), aInterface->placement().lock());
+                          // make sure startingIt location is still in game
+                          if (startingIt != locs.end() and targetIt != locs.end())
+                          {
+                                // Calculate the distances between locations
+                                long dist = abs(std::distance(startingIt, targetIt));
+                                qDebug() << "yay we found me home that is this far away" << dist;
+                                if ( dist == 1 or dist == locs.size()-1 )
+                                {
+                                    qDebug() << "Close enough!";
+                                    qDebug() << lInterface->name() << "... This is your home now," << aInterface->name();
+
+                                    // Removes agent from its previous location, sends the agent to new location and sets new "home coords"
+                                    aInterface->placement().lock()->removeAgent(aInterface);
+                                    lInterface->sendAgent(aInterface);
+                                    aitem->setHome(lItem->boundingRect().center());
+                                    aitem->setParent(lItem);
+                                } else {
+                                    qDebug() << "too far away";
+                                }
+                          }
+                      }
+                      break;
+                  }
+             }
+         }
+
+     }
+    mapitem->goHome();
+
 }
 
