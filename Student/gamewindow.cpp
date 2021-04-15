@@ -25,7 +25,7 @@ GameWindow::GameWindow(QWidget *parent) :
 
     // Declare the game first before gameScene, so we can give game_ to gameScene's constructor
     game_ = std::make_shared<Interface::Game>();
-    courseRunner = std::make_shared<Interface::Runner>(game_);
+    courseRunner = std::make_shared<GameRunner>(game_);
 
 
     gameScene_ = new GameScene(gameui_->graphicsView, game_);
@@ -35,13 +35,13 @@ GameWindow::GameWindow(QWidget *parent) :
 
     // Asetetaan graphicViewin ja ikkunan koot staattiseks ensalkuun
     gameui_->graphicsView->setFixedSize(1400, 900);
-    // mapScene->setSceneRect(-600,600,-350,350);
+    // gameScene_->setSceneRect(-600,600,-350,350);
     this->setFixedSize(1920, 1080);
     this->setWindowTitle("SUSIPALATSI: TEH GAME");
 
 
-    gameboard = std::make_shared<Interface::Game>();
-    courseRunner = std::make_shared<GameRunner>(gameboard);
+    game_ = std::make_shared<Interface::Game>();
+    courseRunner = std::make_shared<GameRunner>(game_);
 
     // Luodaan location-oliot
     for (int i = 0; i < 6; i++) {
@@ -87,7 +87,7 @@ GameWindow::GameWindow(QWidget *parent) :
     playerInTurn = player1;
     displayPlayerStats();
     initAreaResources();
-    mapScene->resourceInfo(areaResourceMap);
+    gameScene_->resourceInfo(areaResourceMap);
 }
 
 GameWindow::~GameWindow()
@@ -166,22 +166,22 @@ void GameWindow::changeTurn()
 
     displayPlayerStats();
 
-    mapScene->turnInfo(current_round, playerInTurn);
+    gameScene_->turnInfo(current_round, playerInTurn);
 
 }
 
 void GameWindow::listAgents(std::shared_ptr<Interface::Player> player)
 {
-    gameui->agentListWidget->clear();
+    gameui_->agentListWidget->clear();
     std::vector<std::shared_ptr<Interface::Agent>> listOfAgents = playerAgents_.at(player);
     for (auto agent : listOfAgents) {
-        gameui->agentListWidget->addItem(agent->name());
+        gameui_->agentListWidget->addItem(agent->name());
     }
 }
 
 void GameWindow::setupPlayerStash()
 {
-    for (auto player : gameboard->players()) {
+    for (auto player : game_->players()) {
 
         // Map for agents each player has to use (empty on initialization)
         playerAgents_.insert({player, {}});
@@ -197,17 +197,17 @@ void GameWindow::setupPlayerStash()
 void GameWindow::displayPlayerStats()
 {
     current_round++;
-    gameui->currentRoundLabel->setText("Current round: " + QString::number(current_round));
-    gameui->playerNameLabel->setText(playerInTurn->name());
-    gameui->playerCoinsLabel->setText(QString::number(playerWallets_.at(playerInTurn)));
-    gameui->councillorNumberLabel->setText(QString::number(councilorCards_.at(playerInTurn).size()) + " / 6");
+    gameui_->currentRoundLabel->setText("Current round: " + QString::number(current_round));
+    gameui_->playerNameLabel->setText(playerInTurn->name());
+    gameui_->playerCoinsLabel->setText(QString::number(playerWallets_.at(playerInTurn)));
+    gameui_->councillorNumberLabel->setText(QString::number(councilorCards_.at(playerInTurn).size()) + " / 6");
     listAgents(playerInTurn);
 }
 
 void GameWindow::initAreaResources()
 {
     int i = 1;
-    for (auto loc : gameboard->locations()) {
+    for (auto loc : game_->locations()) {
         std::pair<std::shared_ptr<Interface::Location>, CommonResource> areaResourcePair;
         areaResourcePair = {loc, CommonResource(i)};
         areaResourceMap.insert(areaResourcePair);

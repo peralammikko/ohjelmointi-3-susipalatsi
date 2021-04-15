@@ -66,10 +66,10 @@ private slots:
 
 private:
 
-    std::shared_ptr<GameRunner> courseRunner = nullptr;
     Ui::GameWindow *gameui_;
     GameScene *gameScene_;
     std::shared_ptr<Interface::Game> game_ = nullptr;
+    std::shared_ptr<GameRunner> courseRunner = nullptr;
 
     // Testing for hands
     std::map<std::shared_ptr<Interface::Player>, std::shared_ptr<PlayerHand>> hands_;
