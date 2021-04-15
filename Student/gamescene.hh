@@ -13,6 +13,7 @@
 
 #include "game.h"
 #include "agentitem.hh"
+#include "locationitem.hh"
 #include "mapitem.hh"
 #include "carditem.hh"
 
@@ -53,7 +54,12 @@ public:
     // Post: carditems spawned and calls showHandCards
     void createHandCards(std::vector<std::shared_ptr<Interface::CardInterface>> cards);
 
-    std::shared_ptr<Interface::Game> getGame();
+    std::shared_ptr<Interface::Game> connectGameboard();
+
+    void turnInfo(int turn, std::shared_ptr<Interface::Player> currentplayer);
+
+    void resourceInfo(AreaResources &rmap);
+
 
 private slots:
     void onMapItemMouseDragged(mapItem *mapitem);
@@ -65,6 +71,9 @@ private:
     mapItem* targetedMapItem_;
     mapItem* selectedLocation = nullptr;
     agentItem* selectedAgent = nullptr;
+
+    int turn_ = 0;
+    std::shared_ptr<Interface::Player> playerInTurn_ = nullptr;
 
     // currently displayed card items that are in a player's hand
     std::vector<CardItem*> handCards_;
@@ -78,7 +87,9 @@ private:
     // changes state of cards in handCards_ to show and arranges them nicely as a hand centered in handAnchorCoords_
     // also connects drag drop signals with those carditems
     void showHandCards();
+    std::shared_ptr<Interface::Game> gameboard_ = nullptr;
 
+    AreaResources resMap_ = {};
 };
 
 #endif // GAMESCENE_HH

@@ -5,6 +5,8 @@
 #include "locationitem.hh"
 #include <cmath>
 #include "carditem.hh"
+#include "popupdialog.hh"
+
 
 #include "../Course/game.h"
 
@@ -18,6 +20,20 @@ GameScene::GameScene(QWidget *parent, std::weak_ptr<Interface::Game> game) : QGr
 
 void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
+    if (event->button() == Qt::LeftButton) {
+
+        QGraphicsItem* itemClicked = itemAt(event->scenePos(), QTransform());
+        LocationItem* locItem = qgraphicsitem_cast<LocationItem*>(itemClicked);
+        if (locItem and locItem->typeOf() == "locationitem") {
+            CommonResource res = resMap_.at(locItem->getObject());
+            int BV = locItem->getBasevalue();
+            PopupDialog* clickDialog = new PopupDialog(locItem->getObject(), BV, res, playerInTurn_);
+            clickDialog->show();
+        } else {
+            selectedAgent = nullptr;
+            selectedLocation = nullptr;
+        }
+    }
     update();
     QGraphicsScene::mousePressEvent(event);
 }
@@ -94,6 +110,17 @@ void GameScene::createHandCards(std::vector<std::shared_ptr<Interface::CardInter
         connect(carditem, &mapItem::mapItemMouseReleased, this, &GameScene::onMapItemMouseDropped);
     }
     showHandCards();
+}
+
+void GameScene::turnInfo(int turn, std::shared_ptr<Interface::Player> currentplayer)
+{
+    turn_ = turn;
+    playerInTurn_ = currentplayer;
+}
+
+void GameScene::resourceInfo(AreaResources &rmap)
+{
+    resMap_ = rmap;
 }
 
 void GameScene::showHandCards()

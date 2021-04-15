@@ -19,8 +19,6 @@ public:
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
-    void testPrint() {qDebug() << "Tämä on agentti";}
-
     const QString typeOf() override;
 
 protected:

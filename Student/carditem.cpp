@@ -39,7 +39,7 @@ std::shared_ptr<Interface::CardInterface> CardItem::getCard()
 
 QRectF CardItem::boundingRect() const
 {
-    return QRectF(0,0,150,220);
+    return QRectF(0,0,80,120);
 }
 
 void CardItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

@@ -13,8 +13,8 @@
 
 
 #include "actioncard.hh"
-
 #include "playerhand.hh"
+#include "../Course/manualcontrol.h"
 
 
 GameWindow::GameWindow(QWidget *parent) :
@@ -25,7 +25,7 @@ GameWindow::GameWindow(QWidget *parent) :
 
     // Declare the game first before gameScene, so we can give game_ to gameScene's constructor
     game_ = std::make_shared<Interface::Game>();
-    courseRunner = std::make_shared<Interface::Runner>(game_);
+    courseRunner = std::make_shared<GameRunner>(game_);
 
 
     gameScene_ = new GameScene(gameui_->graphicsView, game_);
@@ -35,9 +35,13 @@ GameWindow::GameWindow(QWidget *parent) :
 
     // Asetetaan graphicViewin ja ikkunan koot staattiseks ensalkuun
     gameui_->graphicsView->setFixedSize(1400, 900);
-   // mapScene->setSceneRect(-600,600,-350,350);
+    // gameScene_->setSceneRect(-600,600,-350,350);
     this->setFixedSize(1920, 1080);
     this->setWindowTitle("SUSIPALATSI: TEH GAME");
+
+
+    game_ = std::make_shared<Interface::Game>();
+    courseRunner = std::make_shared<GameRunner>(game_);
 
     // Luodaan location-oliot
     for (int i = 0; i < 6; i++) {
@@ -51,20 +55,13 @@ GameWindow::GameWindow(QWidget *parent) :
 
     game_->addPlayer(player1);
     game_->addPlayer(player2);
-    std::pair<std::shared_ptr<Interface::Player>, std::vector<agentItem*>> pair1(player1, {});
-    std::pair<std::shared_ptr<Interface::Player>, std::vector<agentItem*>> pair2(player2, {});
 
-    playerAgents_.insert(pair1);
-    playerAgents_.insert(pair2);
+    initPlayerControls();
 
-    playerInTurn = player1;
-    drawPlayerAgents(playerInTurn);
-    getPlayerInTurn();
-
+    setupPlayerStash();
     for (int i = 0 ; i < 3; i++) {
         spawnAgent(player1);
-    }
-    
+    }  
     for (int i = 0; i < 5; i++) {
         spawnAgent(player2);
     }
@@ -75,10 +72,6 @@ GameWindow::GameWindow(QWidget *parent) :
         drawPlayerAgents(player2);
     }
 
-    // luodaan pari pelaajaa
-    for (int i=0; i<2; i++) {
-        game_->addPlayer(QString::number(i));
-    }
     // luodaan pelaajille käsialueen luokka
     for (unsigned int i=0; i<game_->players().size(); ++i) {
         std::shared_ptr<Interface::Player> pl = game_->players().at(i);
@@ -91,6 +84,10 @@ GameWindow::GameWindow(QWidget *parent) :
     }
     gameScene_->createHandCards(game_->players().at(0)->cards());
 
+    playerInTurn = player1;
+    displayPlayerStats();
+    initAreaResources();
+    gameScene_->resourceInfo(areaResourceMap);
 }
 
 GameWindow::~GameWindow()
@@ -100,7 +97,7 @@ GameWindow::~GameWindow()
 
 void GameWindow::drawLocations()
 {
-    //
+
     std::vector<std::shared_ptr<Interface::Location>> locvec = getLocations();
     std::shared_ptr<Interface::Location> currentLocation = nullptr;
     gameScene_->drawLocations(locvec);
@@ -108,8 +105,9 @@ void GameWindow::drawLocations()
 
 void GameWindow::drawPlayerAgents(std::shared_ptr<Interface::Player> &player)
  {
-    std::vector<agentItem*> agents = playerAgents_.at(player);
-    gameScene_->drawAgents(agents);
+    std::vector<std::shared_ptr<Interface::Agent>> agents = playerAgents_.at(player);
+
+    // gameScene_->drawAgents(agents);
  }
 
 void GameWindow::drawItem(mapItem *item)
@@ -139,16 +137,6 @@ void GameWindow::enablePlayerHand(std::shared_ptr<Interface::Player> player)
     }
 }
 
-void GameWindow::sendAgentTo(const std::shared_ptr<Interface::Location> &loc, std::shared_ptr<Interface::Player> &player)
-{
-    std::vector<agentItem*> listofAgents = playerAgents_.at(player);
-    std::shared_ptr<Interface::AgentInterface> freeAgent = listofAgents.back()->getObject();
-    qDebug() << "agent created";
-    loc->sendAgent(freeAgent);
-    qDebug() << "sent ;)";
-
-}
-
 void GameWindow::spawnAgent(std::shared_ptr<Interface::Player> &player)
 {
     // Create agent interface, which holds all of the data of the card.
@@ -160,10 +148,84 @@ void GameWindow::spawnAgent(std::shared_ptr<Interface::Player> &player)
     agentItem* agenttiesine = new agentItem(agentptr);
     gameScene_->addItem(agenttiesine);
 
-    playerAgents_.at(player).push_back(agenttiesine);
+    playerAgents_.at(player).push_back(agentptr);
 }
 
 std::shared_ptr<Interface::Player> GameWindow::getPlayerInTurn()
 {
     return playerInTurn;
+}
+
+void GameWindow::changeTurn()
+{
+    if (current_round % 2 == 0) {
+        playerInTurn = player1;
+    } else {
+        playerInTurn = player2;
+    }
+
+    displayPlayerStats();
+
+    gameScene_->turnInfo(current_round, playerInTurn);
+
+}
+
+void GameWindow::listAgents(std::shared_ptr<Interface::Player> player)
+{
+    gameui_->agentListWidget->clear();
+    std::vector<std::shared_ptr<Interface::Agent>> listOfAgents = playerAgents_.at(player);
+    for (auto agent : listOfAgents) {
+        gameui_->agentListWidget->addItem(agent->name());
+    }
+}
+
+void GameWindow::setupPlayerStash()
+{
+    for (auto player : game_->players()) {
+
+        // Map for agents each player has to use (empty on initialization)
+        playerAgents_.insert({player, {}});
+
+        // Map for players and their in-game currenty (2 coins on initialization)
+        playerWallets_.insert({player, 2});
+
+        // Map for players and their collected councilor cards (empty on initialization)
+        councilorCards_.insert({player, {}});
+    }
+}
+
+void GameWindow::displayPlayerStats()
+{
+    current_round++;
+    gameui_->currentRoundLabel->setText("Current round: " + QString::number(current_round));
+    gameui_->playerNameLabel->setText(playerInTurn->name());
+    gameui_->playerCoinsLabel->setText(QString::number(playerWallets_.at(playerInTurn)));
+    gameui_->councillorNumberLabel->setText(QString::number(councilorCards_.at(playerInTurn).size()) + " / 6");
+    listAgents(playerInTurn);
+}
+
+void GameWindow::initAreaResources()
+{
+    int i = 1;
+    for (auto loc : game_->locations()) {
+        std::pair<std::shared_ptr<Interface::Location>, CommonResource> areaResourcePair;
+        areaResourcePair = {loc, CommonResource(i)};
+        areaResourceMap.insert(areaResourcePair);
+        i++;
+    }
+}
+
+void GameWindow::initPlayerControls()
+{
+    std::shared_ptr<Interface::ManualControl> mancontrol;
+    courseRunner->setPlayerControl(player1, mancontrol);
+    courseRunner->setPlayerControl(player2, mancontrol);
+    courseRunner->run();
+    courseRunner->testDebug();
+}
+
+
+void GameWindow::on_passButton_clicked()
+{
+    changeTurn();
 }
