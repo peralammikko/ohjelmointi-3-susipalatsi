@@ -10,7 +10,7 @@ namespace Interface {
 class Agent : public AgentInterface
 {
 public:
-    Agent(QString name, std::weak_ptr<Player> owner, QString typeName);
+    Agent(QString name, std::weak_ptr<Player> owner);
     ~Agent();
 
     // AgentInterface overrides
@@ -27,15 +27,15 @@ public:
     virtual QString title() const override;
     virtual std::weak_ptr<Player> owner() const override;
     virtual void setOwner(std::weak_ptr<Player> owner) override;
-
-    // You probably should not use location(), or at least know that it is different to setPlacement and placement.
+    // for our sakes and purposes this method is the same as placement()
     virtual std::weak_ptr<Location> location() const override;
 
 private:
     QString name_;
     QString typeName_;
-    QString title_;
     std::weak_ptr<Player> owner_;
+    std::weak_ptr<Location> placement_;
+    QString title_;
 
     std::map<std::weak_ptr<Interface::Player>, int> gatheredResources_;
 

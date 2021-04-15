@@ -46,9 +46,9 @@ public:
 
 
 private:
-    Ui::GameWindow *gameui;
-    GameScene *mapScene;
-    std::shared_ptr<Interface::Game> gameboard = nullptr;
+    Ui::GameWindow *gameui_;
+    GameScene *gameScene_;
+    std::shared_ptr<Interface::Game> game_ = nullptr;
     std::shared_ptr<Interface::Runner> courseRunner = nullptr;
 
     // Testing for hands

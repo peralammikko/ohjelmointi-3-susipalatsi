@@ -3,10 +3,9 @@
 namespace Interface {
 
 
-Agent::Agent(QString name, std::weak_ptr<Player> owner, QString typeName) : name_(name), owner_(owner), typeName_(typeName)
+Agent::Agent(QString name, std::weak_ptr<Player> owner) : name_(name), owner_(owner), typeName_("agent"), placement_(std::weak_ptr<Location>())
 {
-    name_ = name;
-    typeName_ = typeName;
+    placement_.reset();
 }
 
 Agent::~Agent()
@@ -21,12 +20,12 @@ bool Agent::isCommon() const
 
 std::weak_ptr<Location> Agent::placement() const
 {
-
+    return placement_;
 }
 
 void Agent::setPlacement(std::weak_ptr<Location> placement)
 {
-
+    placement_ = placement;
 }
 
 unsigned short Agent::connections() const
@@ -70,9 +69,10 @@ void Agent::setOwner(std::weak_ptr<Player> owner)
 
 }
 
+
 std::weak_ptr<Location> Agent::location() const
 {
-
+    return placement_;
 }
 
 } // Interface

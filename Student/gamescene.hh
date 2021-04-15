@@ -20,7 +20,7 @@ class GameScene : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    GameScene(QWidget* parent = nullptr);
+    GameScene(QWidget* parent, std::weak_ptr<Interface::Game> game);
 
     // This is a deprecated method which needs to be replaced or removed
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
@@ -60,21 +60,24 @@ private slots:
     void onMapItemMouseDropped(mapItem* mapitem);
 
 private:
-    mapItem* targetedMapItem_;
 
+    // These are deprecated for now and waiting for safe removal
+    mapItem* targetedMapItem_;
     mapItem* selectedLocation = nullptr;
     agentItem* selectedAgent = nullptr;
 
+    // currently displayed card items that are in a player's hand
     std::vector<CardItem*> handCards_;
+    // the point which determines where hand is drawn
     std::pair<int, int> handAnchorCoords_;
+    // Gap between card items in hand
     int handCardPadding_;
+
+    std::weak_ptr<Interface::Game> game_;
 
     // changes state of cards in handCards_ to show and arranges them nicely as a hand centered in handAnchorCoords_
     // also connects drag drop signals with those carditems
     void showHandCards();
-    std::shared_ptr<Interface::Game> gameboard_ = nullptr;
-
-
 
 };
 
