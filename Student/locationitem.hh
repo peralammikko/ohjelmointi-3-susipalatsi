@@ -9,6 +9,7 @@
 
 class LocationItem : public mapItem
 {
+    Q_OBJECT
 public:
     LocationItem(const std::shared_ptr<Interface::Location> location);
 
@@ -40,7 +41,8 @@ public:
 
     const QString typeOf() override;
 
-
+signals:
+    void locationItemPressed(LocationItem*);
 
 private:
     int itemx, itemy;

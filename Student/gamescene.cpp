@@ -15,25 +15,11 @@
 
 GameScene::GameScene(QWidget *parent, std::weak_ptr<Interface::Game> game) : QGraphicsScene(parent), game_(game), handAnchorCoords_(std::make_pair(0, 400)), handCardPadding_(5)
 {
-
+    qDebug() << "Game Scene is alive...";
 }
 
 void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    if (event->button() == Qt::LeftButton) {
-
-        QGraphicsItem* itemClicked = itemAt(event->scenePos(), QTransform());
-        LocationItem* locItem = qgraphicsitem_cast<LocationItem*>(itemClicked);
-        if (locItem and locItem->typeOf() == "locationitem") {
-            CommonResource res = resMap_.at(locItem->getObject());
-            int BV = locItem->getBasevalue();
-            PopupDialog* clickDialog = new PopupDialog(locItem->getObject(), BV, res, playerInTurn_);
-            clickDialog->show();
-        } else {
-            selectedAgent = nullptr;
-            selectedLocation = nullptr;
-        }
-    }
     update();
     QGraphicsScene::mousePressEvent(event);
 }
@@ -54,15 +40,16 @@ void GameScene::drawLocations(std::vector<std::shared_ptr<Interface::Location>> 
 
     for (int i = 0; i < locationCount; i++) {
         currentLocation = locvec.at(i);
-        LocationItem* locationRect = new LocationItem(currentLocation);
+        LocationItem* locItem = new LocationItem(currentLocation);
+        connect(locItem, &LocationItem::locationItemPressed, this, &GameScene::onLocationItemClicked);
 
         // Geometrinen sijainti kehällä
         int angleDeg = degree * i;
         float angleRad = angleDeg * M_PI / 180;
         int x = xCenter + radius * std::cos(angleRad);
         int y = yCenter + radius * std::sin(angleRad);
-        locationRect->setCoords(x, y);
-        drawItem(locationRect);
+        locItem->setCoords(x, y);
+        drawItem(locItem);
     }
 }
 
@@ -71,7 +58,7 @@ void GameScene::drawItem(mapItem *item)
     addItem(item);
 }
 
-void GameScene::drawAgents(std::vector<agentItem *> &agents)
+void GameScene::drawAgents(std::vector<agentItem*> &agents)
 {
     for (unsigned int i = 0; i < agents.size(); i++) {
         agentItem* current = agents.at(i);
@@ -255,3 +242,11 @@ void GameScene::onMapItemMouseDropped(mapItem* mapitem)
 
 }
 
+void GameScene::onLocationItemClicked(LocationItem* locItem)
+{
+    CommonResource res = resMap_.at(locItem->getObject());
+    int BV = locItem->getBasevalue();
+    PopupDialog* clickDialog = new PopupDialog(locItem->getObject(), BV, res, playerInTurn_);
+    clickDialog->show();
+
+}

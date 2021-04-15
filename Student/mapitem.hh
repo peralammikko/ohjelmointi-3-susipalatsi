@@ -11,8 +11,6 @@
 #include "../Course/location.h"
 #include "../Course/cardinterface.h"
 
-
-
 namespace Interface {
     class CardInterface;
 }
@@ -22,11 +20,6 @@ class mapItem : public QObject, public QGraphicsItem
 {
     Q_OBJECT
 public:
-
-    // QGraphicsItem overridet liekö edes tarpeellisia tässä?
-    virtual QRectF boundingRect() const = 0;
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) = 0;
-
     // returns the type of MapItem as a string. Can be at least a location, agent or an actionCard.
     // technically useless now that we know how to use dynamic_cast
     virtual const QString typeOf() = 0;
@@ -56,8 +49,6 @@ protected:
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
 
     bool isMousePressed_ = 0;
-
-
 
 
 signals:

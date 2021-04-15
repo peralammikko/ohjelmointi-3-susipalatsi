@@ -24,7 +24,7 @@
 #include "influence.h"
 
 namespace Ui {
-class GameWindow;
+    class GameWindow;
 }
 
 class GameWindow : public QMainWindow
@@ -37,14 +37,17 @@ public:
     const std::vector<std::shared_ptr<Interface::Location>> getLocations();
     void setSize(int width, int height);
     void drawLocations();
-    void drawPlayerAgents(std::shared_ptr<Interface::Player> &player);
+    void showAgentsForPlayer(std::shared_ptr<Interface::Player> player);
     void drawItem(mapItem* item);
     void showHand();
 
     void enablePlayerHand(std::shared_ptr<Interface::Player> player);
     void sendAgentTo(const std::shared_ptr<Interface::Location> &loc, std::shared_ptr<Interface::Player> &player);
 
+
     void spawnAgent(std::shared_ptr<Interface::Player> &player);
+    void drawPlayerAgents(std::shared_ptr<Interface::Player> &player);
+
     std::shared_ptr<Interface::Player> getPlayerObject();
     std::vector<agentItem *> getAgents(std::shared_ptr<Interface::Player> &player);
     std::shared_ptr<Interface::Player> getPlayerInTurn();
@@ -84,7 +87,7 @@ private:
 
     std::shared_ptr<Interface::Player> playerInTurn = nullptr;
     // Holds info on players and their agents
-    std::map<std::shared_ptr<Interface::Player>, std::vector<std::shared_ptr<Interface::Agent>>> playerAgents_;
+    std::map<std::shared_ptr<Interface::Player>, std::vector<agentItem*>> playerAgentItems_;
     // Holds info on players and their currency
     std::map<std::shared_ptr<Interface::Player>, int> playerWallets_;
     // Holds info on councilorCards earned by players
