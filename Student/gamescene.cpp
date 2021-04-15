@@ -208,7 +208,8 @@ void GameScene::onMapItemMouseDropped(mapItem* mapitem)
                                     qDebug() << "Close enough!";
                                     qDebug() << lInterface->name() << "... This is your home now," << aInterface->name();
 
-                                    // sends the agent and new "home coords"
+                                    // Removes agent from its previous location, sends the agent to new location and sets new "home coords"
+                                    aInterface->placement().lock()->removeAgent(aInterface);
                                     lInterface->sendAgent(aInterface);
                                     aitem->setHome(lItem->boundingRect().center());
                                     aitem->setParent(lItem);
