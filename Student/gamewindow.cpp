@@ -25,6 +25,7 @@ GameWindow::GameWindow(QWidget *parent) :
 
     // Declare the game first before gameScene, so we can give game_ to gameScene's constructor
     game_ = std::make_shared<Interface::Game>();
+    //  courseRunner = std::make_shared<GameRunner>(game_);
 
     gameScene_ = new GameScene(gameui_->graphicsView, game_);
     gameui_->graphicsView->setScene(gameScene_);
@@ -101,9 +102,8 @@ void GameWindow::drawLocations()
 
 void GameWindow::drawPlayerAgents(std::shared_ptr<Interface::Player> &player)
  {
-    std::vector<std::shared_ptr<Interface::Agent>> agents = playerAgents_.at(player);
-
-    // gameScene_->drawAgents(agents);
+    std::vector<agentItem*> agents = playerAgentItems_.at(player);
+    gameScene_->drawAgents(agents);
  }
 
 void GameWindow::drawItem(mapItem *item)
@@ -144,7 +144,7 @@ void GameWindow::spawnAgent(std::shared_ptr<Interface::Player> &player)
     agentItem* agenttiesine = new agentItem(agentptr);
     gameScene_->addItem(agenttiesine);
 
-    playerAgents_.at(player).push_back(agentptr);
+    playerAgentItems_.at(player).push_back(agenttiesine);
 }
 
 std::shared_ptr<Interface::Player> GameWindow::getPlayerInTurn()
@@ -169,9 +169,10 @@ void GameWindow::changeTurn()
 void GameWindow::listAgents(std::shared_ptr<Interface::Player> player)
 {
     gameui_->agentListWidget->clear();
-    std::vector<std::shared_ptr<Interface::Agent>> listOfAgents = playerAgents_.at(player);
+    auto listOfAgents = playerAgentItems_.at(player);
     for (auto agent : listOfAgents) {
-        gameui_->agentListWidget->addItem(agent->name());
+       // Sori tää hajotetaan hetkeksi
+       // gameui_->agentListWidget->addItem(agent->name());
     }
 }
 
@@ -180,7 +181,7 @@ void GameWindow::setupPlayerStash()
     for (auto player : game_->players()) {
 
         // Map for agents each player has to use (empty on initialization)
-        playerAgents_.insert({player, {}});
+        playerAgentItems_.insert({player, {}});
 
         // Map for players and their in-game currenty (2 coins on initialization)
         playerWallets_.insert({player, 2});

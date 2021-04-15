@@ -17,6 +17,9 @@
 #include "mapitem.hh"
 #include "carditem.hh"
 
+class LocationItem;
+
+
 class GameScene : public QGraphicsScene
 {
     Q_OBJECT
@@ -43,7 +46,7 @@ public:
     void drawAgents(std::vector<agentItem*> &agents);
 
     // Does the opposite of drawAgents, and hides all agents in vector and disconnects mouse-events
-    void hideAgents(std::vector<agentItem*> &agents);
+    void hideAgents( std::vector<agentItem*> &agents);
 
     // Draws a mapitem for every location (aka buildings or planets)
     // pre: there are locations stored in locvec
@@ -54,19 +57,16 @@ public:
     // Post: carditems spawned and calls showHandCards
     void createHandCards(std::vector<std::shared_ptr<Interface::CardInterface>> cards);
 
-    std::shared_ptr<Interface::Game> connectGameboard();
-
     void turnInfo(int turn, std::shared_ptr<Interface::Player> currentplayer);
 
     void resourceInfo(AreaResources &rmap);
 
-
 private slots:
-    void onMapItemMouseDragged(mapItem *mapitem);
+    void onMapItemMouseDragged(mapItem* mapitem);
     void onMapItemMouseDropped(mapItem* mapitem);
+    void onLocationItemClicked(LocationItem * locItem);
 
 private:
-
     // These are deprecated for now and waiting for safe removal
     mapItem* targetedMapItem_;
     mapItem* selectedLocation = nullptr;
@@ -87,7 +87,6 @@ private:
     // changes state of cards in handCards_ to show and arranges them nicely as a hand centered in handAnchorCoords_
     // also connects drag drop signals with those carditems
     void showHandCards();
-    // std::shared_ptr<Interface::Game> gameboard_ = nullptr;
 
     AreaResources resMap_ = {};
 };
