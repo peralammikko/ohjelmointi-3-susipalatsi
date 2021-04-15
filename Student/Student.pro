@@ -7,16 +7,19 @@ CONFIG += c++14
 
 SOURCES += \
     actioncard.cpp \
+    agent.cpp \
     agentitem.cpp \
     cardinterface.cpp \
     commonresource.cpp \
     carditem.cpp \
+    gamerunner.cpp \
     gamescene.cpp \
     gamewindow.cpp \
     locationitem.cpp \
     main.cc \
     mapitem.cpp \
-    playerhand.cpp
+    playerhand.cpp \
+    popupdialog.cpp
 
 win32:CONFIG(release, debug|release): LIBS += \
     -L$$OUT_PWD/../course/Course/release/ -lCourse
@@ -44,14 +47,18 @@ else:unix: PRE_TARGETDEPS += \
 
 HEADERS += \
     actioncard.hh \
+    agent.hh \
     agentitem.hh \
     commonresource.hh \
     carditem.hh \
+    gamerunner.hh \
     gamescene.hh \
     gamewindow.hh \
     locationitem.hh \
     mapitem.hh \
-    playerhand.hh
+    playerhand.hh \
+    popupdialog.hh
 
 FORMS += \
-    gamewindow.ui
+    gamewindow.ui \
+    popupdialog.ui

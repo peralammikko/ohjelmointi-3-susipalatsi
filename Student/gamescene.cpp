@@ -5,36 +5,23 @@
 #include "locationitem.hh"
 #include <cmath>
 #include "carditem.hh"
+#include "popupdialog.hh"
+
+
+#include "../Course/game.h"
 
 // required for signaling??
 #include <QObject>
 
-GameScene::GameScene(QWidget *parent) : QGraphicsScene(parent)
+GameScene::GameScene(QWidget *parent, std::weak_ptr<Interface::Game> game) : QGraphicsScene(parent), game_(game), handAnchorCoords_(std::make_pair(0, 400)), handCardPadding_(5)
 {
-    handAnchorCoords_ = std::make_pair(0, 400);
-    handCardPadding_ = 5;
+    qDebug() << "Game Scene is alive...";
 }
 
 void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    if (event->button() == Qt::LeftButton) {
-
-        QGraphicsItem* itemClicked = itemAt(event->scenePos(), QTransform());
-        LocationItem* locItem = qgraphicsitem_cast<LocationItem*>(itemClicked);
-        agentItem* agItem = qgraphicsitem_cast<agentItem*>(itemClicked);
-        if (locItem and locItem->typeOf() == "locationitem") {
-            locItem->mousePressEvent(event);
-            selectedLocation = locItem;
-            qDebug() << locItem->getObject()->name();
-        } else if (agItem and agItem->typeOf() == "agentitem") {
-            selectedAgent = agItem;
-            agItem->mousePressEvent(event);
-            agItem->testPrint();
-        } else {
-            selectedAgent = nullptr;
-            selectedLocation = nullptr;
-        }
-    }
+    update();
+    QGraphicsScene::mousePressEvent(event);
 }
 
 void GameScene::drawLocations(std::vector<std::shared_ptr<Interface::Location>> &locvec)
@@ -44,23 +31,25 @@ void GameScene::drawLocations(std::vector<std::shared_ptr<Interface::Location>> 
     // Piirretään rakennukset "ympyrän" kehälle
     const int xCenter = this->width()/2;
     const int yCenter = this->height()/2;
-    //qDebug() << "Center:" <<xCenter << yCenter;
-    const int radius = 300;
 
+    // Needs more elegant implementation, like a global constant and a scaling value
+    const int radius = 300;
+    // by default we have 6 locations
     int locationCount = locvec.size();
     const int degree = 360 / locationCount;
 
     for (int i = 0; i < locationCount; i++) {
         currentLocation = locvec.at(i);
-        LocationItem* locationRect = new LocationItem(currentLocation);
+        LocationItem* locItem = new LocationItem(currentLocation);
+        connect(locItem, &LocationItem::locationItemPressed, this, &GameScene::onLocationItemClicked);
 
         // Geometrinen sijainti kehällä
         int angleDeg = degree * i;
         float angleRad = angleDeg * M_PI / 180;
         int x = xCenter + radius * std::cos(angleRad);
         int y = yCenter + radius * std::sin(angleRad);
-        locationRect->setCoords(x, y);
-        drawItem(locationRect);
+        locItem->setCoords(x, y);
+        drawItem(locItem);
     }
 }
 
@@ -69,27 +58,56 @@ void GameScene::drawItem(mapItem *item)
     addItem(item);
 }
 
-void GameScene::drawAgents(std::vector<agentItem *> &agents)
+void GameScene::drawAgents(std::vector<agentItem*> &agents)
 {
-    int agentsCount = agents.size();
-    for (int i = 0; i < agentsCount; i++) {
+    for (unsigned int i = 0; i < agents.size(); i++) {
         agentItem* current = agents.at(i);
-        current->setCoords(400+i*80, 400);
-        drawItem(current);
+        //std::shared_ptr<Interface::AgentInterface> agent = current->getObject(); // What is this for ?
+        current->show();
+
+        connect(current, &mapItem::mapItemMouseDragged, this, &GameScene::onMapItemMouseDragged);
+        connect(current, &mapItem::mapItemMouseReleased, this, &GameScene::onMapItemMouseDropped);
+        current->setPos(300+current->boundingRect().width()*i, 300);
+    }
+}
+
+void GameScene::hideAgents(std::vector<agentItem *> &agents)
+{
+    for (unsigned int i = 0; i < agents.size(); i++) {
+        agentItem* current = agents.at(i);
+        current->hide();
+
+        disconnect(current, &mapItem::mapItemMouseDragged, this, &GameScene::onMapItemMouseDragged);
+        disconnect(current, &mapItem::mapItemMouseReleased, this, &GameScene::onMapItemMouseDropped);
+        //current->setPos(300+current->boundingRect().width()*i,300);
     }
 }
 
 void GameScene::createHandCards(std::vector<std::shared_ptr<Interface::CardInterface>> cards)
 {
     for (unsigned int i = 0; i < cards.size(); ++i) {
-        CardItem *carditem = new CardItem(cards.at(i));
+        std::shared_ptr<Interface::CardInterface> carddata = cards.at(i);
+        CardItem *carditem = new CardItem(carddata, this);
         // adds card to the scene
         this->addItem(carditem);
         carditem->hide();
         handCards_.push_back(carditem);
-    }
 
+        connect(carditem, &mapItem::mapItemMouseDragged, this, &GameScene::onMapItemMouseDragged);
+        connect(carditem, &mapItem::mapItemMouseReleased, this, &GameScene::onMapItemMouseDropped);
+    }
     showHandCards();
+}
+
+void GameScene::turnInfo(int turn, std::shared_ptr<Interface::Player> currentplayer)
+{
+    turn_ = turn;
+    playerInTurn_ = currentplayer;
+}
+
+void GameScene::resourceInfo(AreaResources &rmap)
+{
+    resMap_ = rmap;
 }
 
 void GameScene::showHandCards()
@@ -100,13 +118,14 @@ void GameScene::showHandCards()
 
     int count = handCards_.size();
     if (count) {
+        // Calculate total width of the hand
         for (int i = 0; i < count; ++i) {
             handCards_.at(i)->show();
             widthtotal += handCards_.at(i)->boundingRect().width();
         }
+        // Gets the new coords for cards based on hand width
         widthPerCard = (widthtotal + handCardPadding_*count) / count;
         xStart =  handAnchorCoords_.first - (widthtotal / 2);
-
         for (int i = 0; i < count; ++i) {
             int x = (xStart + widthPerCard*i);
             handCards_.at(i)->setPos(x, handAnchorCoords_.second);
@@ -114,52 +133,120 @@ void GameScene::showHandCards()
     }
 }
 
-void GameScene::onCardDragged(CardItem* card)
+void GameScene::onMapItemMouseDragged(mapItem* mapitem)
 {
-
-    /*
-    QRectF cardboundaries;
-    cardboundaries = card->mapRectFromScene(card->boundingRect());
-    QPointF newcoords = card->mapToScene(card->pos());
-    cardboundaries.moveTo(newcoords);
-
-    card->setPos(newcoords);
-
-    qDebug() << "cardboundaries "<< cardboundaries;
-
-
-    QRectF cardboundaries = mapitem->boundingRect();
-    cardboundaries.setX(mapitem->x());
-    cardboundaries.setY(mapitem->y());*/
-
+    // TODO: Discuss with game logic and highlight/scale up items that are valid targets
+    // ie. when agent is hovered on a building, it scales the closest building up a little, but not carditems or other agentitems.
     // Get every item under cardboundaries
-    QList<QGraphicsItem*> items = card->collidingItems();
+    QList<QGraphicsItem*> items = mapitem->collidingItems();
 
-    // TODO: THIS RECT IS VERY BUGGED but at least it works on principle
-    //qDebug() << "My boundaries:" << cardboundaries.width() << cardboundaries.x() << cardboundaries.y();
-    //qDebug() << items;
     int count =0;
     for (int i = 0; i < items.size(); ++i)
     {
         count +=1;
-        if (items.at(i) != card) {
-             // Followin allows us to get ANY type of interaface data under the rect
-             LocationItem* location =dynamic_cast<LocationItem*>(items.at(i));
+        if (items.at(i) != mapitem) {
+            // Followin allows us to get ANY type of interaface data under the rect
+            // todo: prettier class type checking
+             LocationItem* location = dynamic_cast<LocationItem*>(items.at(i));
              if (location != nullptr)
              {
                  qDebug() << "Olen rakennus" << location->getObject()->name();
+             } else {
+                agentItem* agent = dynamic_cast<agentItem*>(items.at(i));
+                if (agent != nullptr)
+                {
+                    qDebug() << "Olen agentti" << agent->getObject()->name();
+                }
              }
-        } else {
-            qDebug() << "found myself" << items.at(i)->type();
         }
     }
-
 }
 
-
-void GameScene::onCardDropped(CardItem* card)
+void GameScene::onMapItemMouseDropped(mapItem* mapitem)
 {
-     qDebug() << "i am dropped" << card->x() << card->y()<<card->mapRectFromScene(card->boundingRect());
-     card->setPos(card->pos());
+    // TODO: implement logic to see if the move is legal
+     qDebug() << "a mapitem has been dropped";
+
+     // check if the game is still going
+     if (!game_.lock())
+     {
+
+         qDebug() << "Fatal error: tried to move map items while there is no game";
+         // TODO: close program?
+         return;
+     }
+
+     // For now we just check if agent has been dropped on a building
+     // In a real scenario we can emit a signal which contains dropped mapitem and a vector of colliding items
+     // so they are handled elsewhere
+     agentItem* aitem = dynamic_cast<agentItem*>(mapitem);
+     if (aitem != nullptr)
+     {
+         QList<QGraphicsItem*> items = mapitem->collidingItems();
+         for (int i = 0; i < items.size(); ++i)
+         {
+             if (items.at(i) != mapitem) {
+                 // Followin allows us to get ANY type of interaface data under the rect
+                 // todo: prettier class type checking
+                  LocationItem* lItem = dynamic_cast<LocationItem*>(items.at(i));
+                  if (lItem != nullptr)
+                  {
+                      // todo: prettier everything
+                      // these autos were just for debugging. you can do without them.
+                      auto aInterface = aitem->getObject();
+                      auto lInterface = lItem->getObject();
+
+                      // if agent is not placed on an empty pointer
+                      if (!aInterface->placement().lock())
+                      {
+                          qDebug() << "I had no home!";
+                          // sends the agent and new "home coords"
+                          lInterface->sendAgent(aInterface);
+                          aitem->setHome(lItem->boundingRect().center());
+                          aitem->setParent(lItem);
+                      } else {
+                          qDebug() << "This was my home" << aInterface->placement().lock()->name() << "trying to move to" << lInterface->name();
+                          // Get every location in the game
+                          auto locs = game_.lock()->locations();
+                          // get itarator of the agent and the itarator of the targeted location in game's locvec
+                          auto targetIt = std::find(locs.begin(), locs.end(), lInterface);
+                          auto startingIt = std::find(locs.begin(), locs.end(), aInterface->placement().lock());
+                          // make sure startingIt location is still in game
+                          if (startingIt != locs.end() and targetIt != locs.end())
+                          {
+                                // Calculate the distances between locations
+                                long dist = abs(std::distance(startingIt, targetIt));
+                                qDebug() << "yay we found me home that is this far away" << dist;
+                                if ( dist == 1 or dist == locs.size()-1 )
+                                {
+                                    qDebug() << "Close enough!";
+                                    qDebug() << lInterface->name() << "... This is your home now," << aInterface->name();
+
+                                    // Removes agent from its previous location, sends the agent to new location and sets new "home coords"
+                                    aInterface->placement().lock()->removeAgent(aInterface);
+                                    lInterface->sendAgent(aInterface);
+                                    aitem->setHome(lItem->boundingRect().center());
+                                    aitem->setParent(lItem);
+                                } else {
+                                    qDebug() << "too far away";
+                                }
+                          }
+                      }
+                      break;
+                  }
+             }
+         }
+
+     }
+    mapitem->goHome();
+
 }
 
+void GameScene::onLocationItemClicked(LocationItem* locItem)
+{
+    CommonResource res = resMap_.at(locItem->getObject());
+    int BV = locItem->getBasevalue();
+    PopupDialog* clickDialog = new PopupDialog(locItem->getObject(), BV, res, playerInTurn_);
+    clickDialog->show();
+
+}
