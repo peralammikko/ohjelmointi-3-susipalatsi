@@ -18,8 +18,8 @@ CardItem::CardItem(std::shared_ptr<Interface::CardInterface> card, QObject *pare
     QPoint o;
     float w = boundingRect().width()/2;
     float y = boundingRect().height()/2;
-    o.setX(o.x() + w);
-    o.setY(o.y() + y);
+  //  o.setX(o.x() + w);
+   // o.setY(o.y() + y);
     //setTransformOriginPoint(o);
 
     // Required for mousehovering magics
@@ -57,51 +57,6 @@ void CardItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     painter->fillRect(rec, brush);
     painter->drawRect(rec);
 }
-/*
-void CardItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-    // Make sure it is a left button event and the card is not pressed already
-    if (event->button() == Qt::LeftButton and not isPressed_)
-    {
-        // Set home coordinates where the mapitem will return to
-        isPressed_ = true;
-        homeCoordinatesOnScene_ = pos();
-    }
-    update();
-    QGraphicsItem::mousePressEvent(event);
-}
-
-void CardItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
-{    
-    // TODO: Cards for whatever reason always snap back to either hand or center of graphics view when released and picked up again.
-
-    if (isPressed_)
-    {
-        GameScene* gameScene = qobject_cast<GameScene*> (scene());
-        if (gameScene != nullptr)
-        {
-            emit mapItemMouseDragged(this);
-        } else
-        {
-           qDebug() << "error! Card Item did not find parent scene while moving!";
-        }
-    }
-    update();
-    QGraphicsItem::mouseMoveEvent(event);
-}
-
-void CardItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
-{
-    // TODO: Cards for whatever reason always snap back to either hand or center of graphics view when released and picked up again.
-    if (isPressed_)
-    {
-        emit mapItemMouseReleased(this);
-        isPressed_ = false;
-    }
-    update();
-    QGraphicsItem::mouseReleaseEvent(event);
-}
-*/
 
 void CardItem::setHighLighted(bool state)
 {

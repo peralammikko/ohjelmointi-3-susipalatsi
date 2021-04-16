@@ -93,7 +93,6 @@ GameWindow::~GameWindow()
 
 void GameWindow::drawLocations()
 {
-
     std::vector<std::shared_ptr<Interface::Location>> locvec = getLocations();
     std::shared_ptr<Interface::Location> currentLocation = nullptr;
     gameScene_->drawLocations(locvec);
@@ -115,23 +114,6 @@ const std::vector<std::shared_ptr<Interface::Location> > GameWindow::getLocation
     return game_->locations();
 }
 
-void GameWindow::enablePlayerHand(std::shared_ptr<Interface::Player> player)
-{
-    std::vector<std::shared_ptr<Interface::Player>> players = game_->players();
-    // Player must exist in game class
-    if (player and std::find(players.begin(), players.end(), player) != players.end())
-    {
-        std::vector<std::shared_ptr<Interface::CardInterface>> cards = player->cards();
-        std::vector<CardItem> carditems;
-        for (unsigned int i = 0; i < cards.size(); ++i)
-        {
-            CardItem *carditem = new CardItem(cards.at(i), this);
-            // adds card to the scene
-            gameScene_->addItem(carditem);
-        }
-    }
-}
-
 void GameWindow::spawnAgent(std::shared_ptr<Interface::Player> &player)
 {
     // Create agent interface, which holds all of the data of the card.
@@ -141,7 +123,9 @@ void GameWindow::spawnAgent(std::shared_ptr<Interface::Player> &player)
     std::shared_ptr<Interface::Agent> agentptr = std::make_shared<Interface::Agent>(agname + player->name(), player);
 
     agentItem* agenttiesine = new agentItem(agentptr);
+
     gameScene_->addItem(agenttiesine);
+    //agenttiesine->setParent(gameScene_);
 
     playerAgentItems_.at(player).push_back(agenttiesine);
 }
@@ -171,7 +155,7 @@ void GameWindow::listAgents(std::shared_ptr<Interface::Player> player)
     auto listOfAgents = playerAgentItems_.at(player);
     for (auto agent : listOfAgents) {
        // Sori tää hajotetaan hetkeksi
-       // gameui_->agentListWidget->addItem(agent->name());
+       //gameui_->agentListWidget->addItem(agent->name());
     }
 }
 

@@ -88,6 +88,12 @@ private:
     // also connects drag drop signals with those carditems
     void showHandCards();
 
+
+    // Sees if aItem can move to newLocation
+    bool canMoveAgent(LocationItem* newLocation, agentItem* aItem);
+    // Moves agent to a new location
+    void moveAgent(LocationItem* newLocItem, agentItem* aItem);
+
     AreaResources resMap_ = {};
 };
 
