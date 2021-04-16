@@ -89,6 +89,12 @@ private:
     void showHandCards();
 
     ResourceMap resMap_;
+
+    // Sees if aItem can move to newLocation
+    bool canMoveAgent(LocationItem* newLocation, agentItem* aItem);
+    // Moves agent to a new location
+    void moveAgent(LocationItem* newLocItem, agentItem* aItem);
+
 };
 
 #endif // GAMESCENE_HH

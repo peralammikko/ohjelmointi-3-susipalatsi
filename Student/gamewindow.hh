@@ -41,9 +41,7 @@ public:
     void drawItem(mapItem* item);
     void showHand();
 
-    void enablePlayerHand(std::shared_ptr<Interface::Player> player);
     void sendAgentTo(const std::shared_ptr<Interface::Location> &loc, std::shared_ptr<Interface::Player> &player);
-
 
     void spawnAgent(std::shared_ptr<Interface::Player> &player);
     void drawPlayerAgents(std::shared_ptr<Interface::Player> &player);

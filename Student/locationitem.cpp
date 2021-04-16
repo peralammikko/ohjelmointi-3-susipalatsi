@@ -2,22 +2,16 @@
 
 #include "locationitem.hh"
 
-LocationItem::LocationItem(const std::shared_ptr<Interface::Location> location) : locationObject_(location), basevalue_(2)
+LocationItem::LocationItem(const std::shared_ptr<Interface::Location> location) : locationObject_(location), basevalue_(2), isSelected(false), isHovered_(false)
 {
-    isSelected = false;
-    isHovered_ = false;
     setAcceptHoverEvents(true);
-}
 
-void LocationItem::setCoords(int x, int y)
-{
-    this->itemx = x;
-    this->itemy = y;
+
 }
 
 QRectF LocationItem::boundingRect() const
 {
-    return QRectF(itemx, itemy, 120,120);
+    return QRectF(0, 0, 120,120);
 }
 
 void LocationItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -26,8 +20,10 @@ void LocationItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     // Maalataan punaiseksi jos "valittu"
 
     QRectF rect = boundingRect();
-    QPoint upperpos(itemx+35, itemy-5);
-    QPoint lowerpos(itemx+30, itemy+160);
+    painter->fillRect(rect, Qt::gray);
+
+    QPoint upperpos(boundingRect().x()+5, 10);
+    QPoint lowerpos(0, boundingRect().height()-10);
     QString placeName = this->getObject()->name();
     QPen pen(Qt::black, 2);
     painter->drawText(upperpos, placeName);
@@ -40,6 +36,7 @@ void LocationItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     }
     painter->setPen(pen);
     painter->drawRect(rect);
+  ;
 }
 
 const std::shared_ptr<Interface::Location> LocationItem::getObject()
@@ -52,12 +49,6 @@ int LocationItem::getBasevalue()
     return basevalue_;
 }
 
-const std::pair<int, int> LocationItem::getCoords()
-{
-    std::pair<int, int> itemCoords (itemx, itemy);
-    return itemCoords;
-}
-
 void LocationItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     emit locationItemPressed(this);
@@ -68,12 +59,17 @@ void LocationItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 void LocationItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     isHovered_ = true;
+    if (childItems().size())
+    {
+        setRotation(rotation()+45);
+    }
     update();
     QGraphicsItem::hoverEnterEvent(event);
 }
 
 void LocationItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
+    setRotation(0);
     isHovered_ = false;
     update();
     QGraphicsItem::hoverLeaveEvent(event);

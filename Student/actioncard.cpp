@@ -11,6 +11,7 @@ ActionCard::ActionCard(QString name, QString typeName, QString title){
     typeName_ = typeName;
     title_ = title;
     cardItem_ = nullptr;
+    description_ = "Olen kortti. Minut pelatessasi tapahtuu jotain (description)";
 }
 
 ActionCard::~ActionCard(){}

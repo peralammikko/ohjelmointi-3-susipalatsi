@@ -31,19 +31,19 @@ QRectF agentItem::boundingRect() const
 
 void agentItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    QPen pen;
     QRectF rect = boundingRect();
     // the text should always be withing boundingrect
     painter->drawText(5,10, agentObject_->name() );
 
     if (isSelected) {
         QPen pen(Qt::red, 2);
-        painter->setPen(pen);
-        painter->drawRect(rect);
     } else {
         QPen pen(Qt::black, 2);
-        painter->setPen(pen);
-        painter->drawRect(rect);
     }
+    painter->setPen(pen);
+    painter->drawRect(rect);
+
 }
 
 
