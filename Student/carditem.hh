@@ -47,10 +47,9 @@ private:
 
     QPixmap *centerimage_;
 
-
     std::pair<int,int> coordsBeforeDragging_;
 
-    std::shared_ptr<Interface::CardInterface> card_;
+
 
 
 };
