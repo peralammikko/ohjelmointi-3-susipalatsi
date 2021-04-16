@@ -1,9 +1,11 @@
 #ifndef AGENT_HH
 #define AGENT_HH
 #include "../Course/agentinterface.h"
+#include "commonresource.hh"
 
 #include <memory>
 #include <map>
+#include <deque>
 
 namespace Interface {
 
@@ -12,6 +14,9 @@ class Agent : public AgentInterface
 public:
     Agent(QString name, std::weak_ptr<Player> owner);
     ~Agent();
+
+    // Initialize agent's backpack for resources to gather
+    void initAgentResources(ResourceMap resMap);
 
     // AgentInterface overrides
     virtual bool isCommon() const override;
@@ -37,7 +42,7 @@ private:
     std::weak_ptr<Location> placement_;
     QString title_;
 
-    std::map<std::weak_ptr<Interface::Player>, int> gatheredResources_;
+    ResourceMap gatheredResources_;
 
 };
 

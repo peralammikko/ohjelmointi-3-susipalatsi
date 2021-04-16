@@ -84,25 +84,23 @@ private:
     bool gameOver = false;
     std::shared_ptr<Interface::Player> player1 = nullptr;
     std::shared_ptr<Interface::Player> player2 = nullptr;
-
     std::shared_ptr<Interface::Player> playerInTurn = nullptr;
+
     // Holds info on players and their agents
     std::map<std::shared_ptr<Interface::Player>, std::vector<agentItem*>> playerAgentItems_;
+
     // Holds info on players and their currency
     std::map<std::shared_ptr<Interface::Player>, int> playerWallets_;
+
     // Holds info on councilorCards earned by players
     std::map<std::shared_ptr<Interface::Player>, std::vector<std::shared_ptr<Interface::Councilor>>> councilorCards_;
-    // Holds info on influence gained from locations by players
-    std::map<std::shared_ptr<Interface::Player>, std::vector<std::shared_ptr<Interface::Influence>>> playerInfluenceMap_;
-
 
 
     // this variable stores drag and drop targe, ie. what is "under" a draggable card
     mapItem* targetedMapItem_;
 
-    ResourceMap mappi;
+    ResourceMap initResourceMap_;
 
-    AreaResources areaResourceMap = {};
 };
 
 #endif // GAMEWINDOW_HH

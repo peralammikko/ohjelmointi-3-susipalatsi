@@ -1,3 +1,5 @@
+#include <QDebug>
+
 #include "agent.hh"
 
 namespace Interface {
@@ -11,6 +13,11 @@ Agent::Agent(QString name, std::weak_ptr<Player> owner) : name_(name), owner_(ow
 Agent::~Agent()
 {
 
+}
+
+void Agent::initAgentResources(ResourceMap resMap)
+{
+    gatheredResources_ = resMap;
 }
 
 bool Agent::isCommon() const

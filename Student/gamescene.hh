@@ -59,7 +59,7 @@ public:
 
     void turnInfo(int turn, std::shared_ptr<Interface::Player> currentplayer);
 
-    void resourceInfo(AreaResources &rmap);
+    void resourceInfo(ResourceMap &rmap);
 
 private slots:
     void onMapItemMouseDragged(mapItem* mapitem);
@@ -88,7 +88,7 @@ private:
     // also connects drag drop signals with those carditems
     void showHandCards();
 
-    AreaResources resMap_ = {};
+    ResourceMap resMap_;
 };
 
 #endif // GAMESCENE_HH

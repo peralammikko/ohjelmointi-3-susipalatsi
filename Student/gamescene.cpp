@@ -105,7 +105,7 @@ void GameScene::turnInfo(int turn, std::shared_ptr<Interface::Player> currentpla
     playerInTurn_ = currentplayer;
 }
 
-void GameScene::resourceInfo(AreaResources &rmap)
+void GameScene::resourceInfo(ResourceMap &rmap)
 {
     resMap_ = rmap;
 }
@@ -244,7 +244,7 @@ void GameScene::onMapItemMouseDropped(mapItem* mapitem)
 
 void GameScene::onLocationItemClicked(LocationItem* locItem)
 {
-    CommonResource res = resMap_.at(locItem->getObject());
+    Interface::CommonResource res = resMap_.at(locItem->getObject());
     int BV = locItem->getBasevalue();
     PopupDialog* clickDialog = new PopupDialog(locItem->getObject(), BV, res, playerInTurn_);
     clickDialog->show();
