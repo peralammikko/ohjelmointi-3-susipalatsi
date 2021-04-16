@@ -7,7 +7,6 @@
 #include "carditem.hh"
 #include "popupdialog.hh"
 
-
 #include "../Course/game.h"
 
 // required for signaling??
@@ -200,48 +199,6 @@ void GameScene::onMapItemMouseDropped(mapItem* mapitem)
                           moveAgent(lItem, aitem);
                           break;
                       }
-                       /*
-                      // todo: prettier everything
-                      // these autos were just for debugging. you can do without them.
-                      auto aInterface = aitem->getObject();
-                      auto lInterface = lItem->getObject();
-
-                      // if agent is not placed on an empty pointer
-                      if (!aInterface->placement().lock())
-                      {
-                          // sends the agent and new "home coords"
-                          lInterface->sendAgent(aInterface);
-                          aitem->setParent(lItem);
-                          aitem->setHome(lItem->mapToScene(lItem->boundingRect().center()));
-                      } else {
-                          // Get every location in the game
-                          auto locs = game_.lock()->locations();
-                          // get itarator of the agent and the itarator of the targeted location in game's locvec
-                          auto targetIt = std::find(locs.begin(), locs.end(), lInterface);
-                          auto startingIt = std::find(locs.begin(), locs.end(), aInterface->placement().lock());
-                          // make sure startingIt location is still in game
-                          if (startingIt != locs.end() and targetIt != locs.end())
-                          {
-                                // Calculate the distances between locations
-                                long dist = abs(std::distance(startingIt, targetIt));
-
-                                if ( dist == 1 or dist == locs.size()-1 )
-                                {
-                                     // Removes agent from its previous location, sends the agent to new location and sets new "home coords"
-                                    aInterface->placement().lock()->removeAgent(aInterface);
-                                    lInterface->sendAgent(aInterface);
-                                    aitem->setParentItem(lItem);
-                                    //aitem->setParent(lItem);
-                                    aitem->setHome(lItem->mapToScene(lItem->boundingRect().center()));
-
-
-
-                                } else {
-                                   // qDebug() << "agent triet to move too far away";
-                                }
-                          }
-                      }*/
-
                   }
              }
          }
