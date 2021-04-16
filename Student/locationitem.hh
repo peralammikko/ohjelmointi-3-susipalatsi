@@ -5,21 +5,15 @@
 #include <QObject>
 
 #include "mapitem.hh"
+#include "popupdialog.hh"
+
+class agentItem;
 
 class LocationItem : public mapItem
 {
+    Q_OBJECT
 public:
-    LocationItem(const std::shared_ptr<Interface::Location> &location);
-
-    // MapItem overridet
-
-    // Asetetaan koordinaatit itemille
-    // tarpeeton, sillä QGraphicsItemillä on jo oma metodi tälle
-    void setCoords(int x, int y); // override;
-
-    // Haetaan itemin koordinaatit
-    // tarpeeton, sillä QGraphicsItemillä on jo oma metodi tälle
-    const std::pair<int, int> getCoords(); // override;
+    LocationItem(const std::shared_ptr<Interface::Location> location);
 
     // Luodaan itemille muoto (neliö)
     QRectF boundingRect() const override;
@@ -29,9 +23,8 @@ public:
 
     // Klikkauksesta tapahtuva metodi
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
-
-
-    bool isSelected = false;
+    void hoverEnterEvent(QGraphicsSceneHoverEvent *event) override;
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override;
 
     // Haetaan itemin kantaluokka (Location)
     const std::shared_ptr<Interface::Location> getObject();
@@ -40,10 +33,18 @@ public:
 
     const QString typeOf() override;
 
+    // Accepts agent as its child
+    // Could change this to bool and return false if this agent is not welcome here
+    void acceptAgent(agentItem* aItem);
+
+signals:
+    void locationItemPressed(LocationItem*);
+
 private:
-    int itemx, itemy;
     const std::shared_ptr<Interface::Location> locationObject_;
     int basevalue_;
+    bool isSelected = false;
+    bool isHovered_ = false;
 };
 
 #endif // LOCATIONITEM_HH

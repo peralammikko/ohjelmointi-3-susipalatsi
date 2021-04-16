@@ -4,39 +4,43 @@
 #include "mapitem.hh"
 #include "../Course/cardinterface.h"
 
+namespace Interface {
+    class CardInterface;
+}
 
 class CardItem : public mapItem
 {
 public:
     // Pelialueella liikuteltava korttibjekti
-    CardItem(std::shared_ptr<Interface::CardInterface> card);
+    CardItem(std::shared_ptr<Interface::CardInterface> card, QObject *parent);
     ~CardItem();
 
+    std::shared_ptr<Interface::CardInterface> getCard();
+
+    // Mandatory overrides
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
     // This is called by gamescene when another mapitem is dragged over it
     void setHighLighted(bool state);
 
-
+    // returns "card". This is useless probably.
     const QString typeOf() override;
 
 
 protected:
-    // mouse entering and press events. These trigger when cards are in hand
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
-
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
-
     // some cool hovering stuff
     virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *event) override;
     virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override;
 
 private:
+    // Interface from which this item takes all its data (name, owner etc.)
+    // Can be at least actioninterface
+    std::shared_ptr<Interface::CardInterface> card_;
+
     int width_;
     int height_;
-    std::pair<int, int> coords_;
+    //std::pair<float, float> homeCoordinates_;
 
     bool isPressed_;
     bool isHovered_;
