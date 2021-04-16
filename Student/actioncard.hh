@@ -28,6 +28,8 @@ private:
     QString typeName_;
     QString title_;
 
+    QString description_;
+
     std::shared_ptr<CardItem> cardItem_;
 
     std::weak_ptr<Player> owner_;

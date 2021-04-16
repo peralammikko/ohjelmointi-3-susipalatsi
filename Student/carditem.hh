@@ -45,6 +45,13 @@ private:
     bool isPressed_;
     bool isHovered_;
 
+    QPixmap *centerimage_;
+
+    std::pair<int,int> coordsBeforeDragging_;
+
+
+
+
 };
 
 #endif // CARDITEM_HH
