@@ -14,6 +14,14 @@ CardItem::CardItem(std::shared_ptr<Interface::CardInterface> card, QObject *pare
     // This will be useful when we want card to be snapped back after dragging
     homeCoordinatesOnScene_ = QPointF(x(), y());
 
+    // setting up center sprite
+    centerimage_ = new QPixmap();
+    if (not  centerimage_->load(":default.jpg")) {
+       qDebug() << "Image failed to load";
+    } else {
+        centerimage_ = new QPixmap(":default.jpg");
+    }
+
     // set origo center for scaling
     QPoint o;
     float w = boundingRect().width()/2;
@@ -24,6 +32,7 @@ CardItem::CardItem(std::shared_ptr<Interface::CardInterface> card, QObject *pare
 
     // Required for mousehovering magics
     setAcceptHoverEvents(true);
+
 }
 
 CardItem::~CardItem()
@@ -56,6 +65,12 @@ void CardItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 
     painter->fillRect(rec, brush);
     painter->drawRect(rec);
+
+    painter->drawText(5,18, card_->name());
+
+    qDebug() << centerimage_->height() << centerimage_->width();
+
+    painter->drawPixmap(0, 20, boundingRect().width(), boundingRect().height()/5 *2.5,  *centerimage_);
 }
 
 void CardItem::setHighLighted(bool state)

@@ -62,3 +62,6 @@ HEADERS += \
 FORMS += \
     gamewindow.ui \
     popupdialog.ui
+
+RESOURCES += \
+    default.jpg
