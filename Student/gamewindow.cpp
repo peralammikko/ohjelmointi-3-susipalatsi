@@ -122,7 +122,7 @@ void GameWindow::spawnAgent(std::shared_ptr<Interface::Player> &player)
     // For now we will just use some default generated stuff
     QString agname{"Perry"};
     std::shared_ptr<Interface::Agent> agentptr = std::make_shared<Interface::Agent>(agname + player->name(), player);
-    agentptr->initAgentResources(initResourceMap_);
+    agentptr->initAgentResources(initAgentBackpack_);
 
     agentItem* agenttiesine = new agentItem(agentptr);
 
@@ -146,6 +146,7 @@ void GameWindow::changeTurn()
     }
 
     displayPlayerStats();
+    rewardResources();
 
     gameScene_->turnInfo(current_round, playerInTurn);
 
@@ -191,8 +192,16 @@ void GameWindow::initAreaResources()
     for (auto loc : game_->locations()) {
         QString resName = loc->name() + " item";
         Interface::CommonResource res(resName, loc, 0);
+
+        // Resource map for locations & runners
         std::pair<std::shared_ptr<Interface::Location>, Interface::CommonResource> pair(loc, res);
         initResourceMap_.insert(pair);
+
+        // Resource map for agents
+        std::pair<std::shared_ptr<Interface::Location>, std::deque<Interface::CommonResource>> pair2;
+        pair2.first = loc;
+        // pair2.second.push_back(res);
+        initAgentBackpack_.insert(pair2);
     }
 }
 
@@ -203,6 +212,26 @@ void GameWindow::initPlayerControls()
     courseRunner->setPlayerControl(player2, mancontrol);
     courseRunner->run();
     courseRunner->testDebug();
+}
+
+void GameWindow::rewardResources()
+{
+    for (auto pair : playerAgentItems_) {
+        for (auto agent : pair.second) {
+            auto agentPtr = agent->getAgentClass();
+            std::shared_ptr<Interface::Location> agentAt = agentPtr->placement().lock();
+            if (!agentAt) {
+                qDebug() << "location not found";
+            } else {
+                Interface::CommonResource res = initResourceMap_.at(agentAt);
+                if (agentAt != nullptr) {
+                    agentPtr->addResource(agentAt, res, 1);
+                } else {
+                    qDebug() << "who am I where am I";
+                }
+            }
+        }
+    }
 }
 
 void GameWindow::on_passButton_clicked()

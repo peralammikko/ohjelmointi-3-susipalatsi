@@ -15,14 +15,28 @@ Agent::~Agent()
 
 }
 
-void Agent::initAgentResources(ResourceMap resMap)
+void Agent::initAgentResources(AgentResourceMap resMap)
 {
     gatheredResources_ = resMap;
 }
 
+AgentResourceMap Agent::getAgentResources()
+{
+    return gatheredResources_;
+}
+/*
 ResourceMap Agent::getResources()
 {
     return gatheredResources_;
+}
+*/
+void Agent::addResource(std::shared_ptr<Interface::Location> agentAt, CommonResource res, int amount)
+{
+    AgentResourceMap::iterator iter = gatheredResources_.find(agentAt);
+    for (int i = 0; i < amount; i++) {
+        iter->second.push_back(res);
+        qDebug() << i << " resources added to " << this->name();
+    }
 }
 
 bool Agent::isCommon() const

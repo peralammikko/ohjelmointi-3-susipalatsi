@@ -6,6 +6,7 @@
 #include "gamescene.hh"
 #include "../Course/runner.h"
 #include "commonresource.hh"
+
 class GameRunner : public Interface::Runner
 {
 public:
@@ -13,7 +14,6 @@ public:
     void testDebug();
     std::shared_ptr<Interface::Game> getGameboard();
     GameScene* getScene();
-    // void setResourceMap(std::map<std::shared_ptr<Interface::Location>, Interface::CommonResource> resMap_);
     void getResourceMap();
 
 private:

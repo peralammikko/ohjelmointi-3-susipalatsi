@@ -33,9 +33,16 @@ AgentDialog::~AgentDialog()
 
 void AgentDialog::listResources()
 {
-    for (auto res : agent_->getResources()) {
-        QString resName = res.second.name();
-        int resAmount = res.second.amount();
-        ui->resourceList->addItem(resName + ": " + QString::number(resAmount));
+    //
+    // NOTE-TO-SELF: Etsi parempi tapa hakea resurssin nimi
+    // Jos resursseia ei ole, ei löydy nimeäkään listaan
+    //
+
+    for (auto res : agent_->getAgentResources()) {
+        int resAmount = res.second.size();
+        if (resAmount > 0) {
+            QString resName = res.second.begin()->name();
+            ui->resourceList->addItem(resName + ": " + QString::number(resAmount));
+        }
     }
 }

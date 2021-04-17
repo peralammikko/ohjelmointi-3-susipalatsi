@@ -16,8 +16,9 @@ public:
     ~Agent();
 
     // Initialize agent's backpack for resources to gather
-    void initAgentResources(ResourceMap resMap);
-    ResourceMap getResources();
+    void initAgentResources(AgentResourceMap agentResMap);
+    AgentResourceMap getAgentResources();
+    void addResource(std::shared_ptr<Location> agentAt, CommonResource res, int amount);
 
     // AgentInterface overrides
     virtual bool isCommon() const override;
@@ -43,7 +44,7 @@ private:
     std::weak_ptr<Location> placement_;
     QString title_;
 
-    ResourceMap gatheredResources_;
+    AgentResourceMap gatheredResources_;
 
 };
 

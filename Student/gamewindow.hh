@@ -62,6 +62,8 @@ public:
     // Needs actions for proper testing and tweaking
     void initPlayerControls();
 
+    void rewardResources();
+
 private slots:
     void on_passButton_clicked();
 
@@ -98,6 +100,8 @@ private:
     mapItem* targetedMapItem_;
 
     ResourceMap initResourceMap_;
+
+    AgentResourceMap initAgentBackpack_;
 
 };
 
