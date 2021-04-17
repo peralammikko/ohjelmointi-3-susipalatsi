@@ -22,6 +22,7 @@
 #include "commonresource.hh"
 #include "gamerunner.hh"
 #include "influence.h"
+#include "random.h"
 
 #include <QTimer>
 
@@ -49,6 +50,7 @@ public:
 
     std::shared_ptr<Interface::Player> getPlayerObject();
     std::vector<agentItem *> getAgents(std::shared_ptr<Interface::Player> &player);
+
     std::shared_ptr<Interface::Player> getPlayerInTurn();
 
     void changeTurn();
@@ -67,6 +69,8 @@ public:
     void rewardResources();
 
     void initCouncillorDemands();
+
+    void calculateRewards();
 
 private slots:
     void on_passButton_clicked();
@@ -108,6 +112,8 @@ private:
     ResourceMap initResourceMap_;
 
     AgentResourceMap initAgentBackpack_;
+
+    ResourceMap councillorDemandsMap_;
 
 };
 

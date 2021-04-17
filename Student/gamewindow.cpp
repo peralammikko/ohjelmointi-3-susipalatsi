@@ -55,6 +55,7 @@ GameWindow::GameWindow(QWidget *parent) :
     gameScene_->resourceInfo(initResourceMap_);
     std::vector<std::shared_ptr<Interface::Location>> locvec = game_->locations();
     gameScene_->drawLocations(locvec);
+    initCouncillorDemands();
 
 
     // Adding test players
@@ -243,6 +244,30 @@ void GameWindow::rewardResources()
 }
 
 void GameWindow::initCouncillorDemands()
+{
+    ResourceMap::iterator it;
+    for (auto pair : initResourceMap_) {
+        auto location = pair.first;
+        auto res = pair.second;
+
+        while (true) {
+            it = initResourceMap_.begin();
+            int num = Interface::Random::RANDOM.uint(5);
+            std::advance(it, num);
+            if (it->first != location) {
+                auto res = it->second;
+                Interface::CommonResource demand(res.name(), location, num);
+                councillorDemandsMap_.insert({location, demand});
+                break;
+            }
+        }
+    }
+    for (auto i : councillorDemandsMap_) {
+        qDebug() << i.first->name() << ": " << i.second.name() << " x" << i.second.amount();
+    }
+}
+
+void GameWindow::calculateRewards()
 {
 
 }

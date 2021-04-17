@@ -26,6 +26,6 @@ void PopupDialog::fillAreaAgentsList()
 {
     std::set<std::shared_ptr<Interface::AgentInterface>> listOfAgents = location_->agents();
     for (auto agent : listOfAgents) {
-            ui->agentListWidget->addItem(agent->name());
+        ui->agentListWidget->addItem(agent->name());
     }
 }

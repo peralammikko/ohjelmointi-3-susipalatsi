@@ -79,6 +79,22 @@ const QString LocationItem::typeOf()
     return "locationitem";
 }
 
+int LocationItem::calculateRewards(std::shared_ptr<Interface::Player> player)
+{
+    int sum = basevalue_;
+    std::shared_ptr<Interface::Location> locPtr = this->getObject();
+    for (auto agent : locPtr->agents()) {
+        std::shared_ptr<Interface::Player> owner = agent->owner().lock();
+        std::shared_ptr<Interface::Location> loc = agent->placement().lock();
+        if (!loc) {
+            qDebug() << "owner not found";
+        } else {
+            qDebug() << "owner found";
+        }
+    }
+
+}
+
 void LocationItem::advance(int phase)
 {
     //qDebug() << "Tick";
