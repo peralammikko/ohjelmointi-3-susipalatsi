@@ -17,6 +17,7 @@ public:
 
     // Initialize agent's backpack for resources to gather
     void initAgentResources(ResourceMap resMap);
+    ResourceMap getResources();
 
     // AgentInterface overrides
     virtual bool isCommon() const override;

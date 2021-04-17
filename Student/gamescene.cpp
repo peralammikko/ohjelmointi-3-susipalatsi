@@ -6,6 +6,7 @@
 #include <cmath>
 #include "carditem.hh"
 #include "popupdialog.hh"
+#include "agentdialog.hh"
 
 #include "../Course/game.h"
 
@@ -64,7 +65,6 @@ void GameScene::drawAgents(std::vector<agentItem*> &agents)
 {
     for (unsigned int i = 0; i < agents.size(); i++) {
         agentItem* current = agents.at(i);
-        //std::shared_ptr<Interface::AgentInterface> agent = current->getObject(); // What is this for ?
         current->show();
         connect(current, &mapItem::mapItemMouseDragged, this, &GameScene::onMapItemMouseDragged);
         connect(current, &mapItem::mapItemMouseReleased, this, &GameScene::onMapItemMouseDropped);
@@ -135,17 +135,6 @@ void GameScene::showHandCards()
             handCards_.at(i)->setPos(x, handAnchorCoords_.second);
         }
     }
-}
-
-void GameScene::turnInfo(int turn, std::shared_ptr<Interface::Player> currentplayer)
-{
-    turn_ = turn;
-    playerInTurn_ = currentplayer;
-}
-
-void GameScene::resourceInfo(AreaResources &rmap)
-{
-    resMap_ = rmap;
 }
 
 void GameScene::onMapItemMouseDragged(mapItem* mapitem)

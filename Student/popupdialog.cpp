@@ -11,7 +11,7 @@ PopupDialog::PopupDialog(std::shared_ptr<Interface::Location> loc, int BV, Inter
 {
     ui->setupUi(this);
     ui->locationNameLabel->setText(location_->name());
-    QString areaResName = res.name();
+    areaResName = res.name();
     ui->areaResourceLabel->setText(QString::number(locationBV_) + "x " + areaResName);
 
     fillAreaAgentsList();

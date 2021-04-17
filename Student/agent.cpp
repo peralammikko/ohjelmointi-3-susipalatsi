@@ -20,6 +20,11 @@ void Agent::initAgentResources(ResourceMap resMap)
     gatheredResources_ = resMap;
 }
 
+ResourceMap Agent::getResources()
+{
+    return gatheredResources_;
+}
+
 bool Agent::isCommon() const
 {
     return 1;

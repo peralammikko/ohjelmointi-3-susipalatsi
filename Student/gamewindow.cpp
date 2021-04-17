@@ -26,7 +26,6 @@ GameWindow::GameWindow(QWidget *parent) :
 
     // Declare the game first before gameScene, so we can give game_ to gameScene's constructor
     game_ = std::make_shared<Interface::Game>();
-    //  courseRunner = std::make_shared<GameRunner>(game_);
 
     gameScene_ = new GameScene(gameui_->graphicsView, game_);
     gameui_->graphicsView->setScene(gameScene_);
@@ -39,22 +38,22 @@ GameWindow::GameWindow(QWidget *parent) :
     this->setFixedSize(1920, 1080);
     this->setWindowTitle("SUSIPALATSI: TEH GAME");
 
-    // Luodaan location-oliot
+    // Luodaan location-oliot ja resurssit
     for (int i = 0; i < 6; i++) {
         std::shared_ptr<Interface::Location> location = std::make_shared<Interface::Location>(i, paikat_.at(i));
         game_->addLocation(location);
     }
     initAreaResources();
     gameScene_->resourceInfo(initResourceMap_);
-
     drawLocations();
 
+    // Adding test players
     player1 = std::make_shared<Interface::Player>(game_, 1, "RED");
     player2 = std::make_shared<Interface::Player>(game_, 2, "BLUE");
-
     game_->addPlayer(player1);
     game_->addPlayer(player2);
 
+    // Setting up game runner
     courseRunner = std::make_shared<GameRunner>(game_, gameScene_, initResourceMap_);
     initPlayerControls();
 
@@ -156,12 +155,10 @@ void GameWindow::listAgents(std::shared_ptr<Interface::Player> player)
 {
     gameui_->agentListWidget->clear();
     auto listOfAgents = playerAgentItems_.at(player);
-    // TO DO: keksi miten agentItemien lista muutetaan shared_ptr<Agent>eiksi tai tee taas uusi map
-    /*
     for (auto agent : listOfAgents) {
-       gameui_->agentListWidget->addItem(agent->name());
+        std::shared_ptr<Interface::Agent> agentPtr = agent->getAgentClass();
+       gameui_->agentListWidget->addItem(agentPtr->name());
     }
-    */
 }
 
 void GameWindow::setupPlayerStash()

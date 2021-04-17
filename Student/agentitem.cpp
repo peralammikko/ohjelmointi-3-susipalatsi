@@ -24,6 +24,11 @@ std::shared_ptr<Interface::AgentInterface> agentItem::getObject()
     return agentObject_;
 }
 
+std::shared_ptr<Interface::Agent> agentItem::getAgentClass()
+{
+    return agentObject_;
+}
+
 QRectF agentItem::boundingRect() const
 {
     return QRectF(0, 0, 100, 100);
@@ -51,16 +56,20 @@ const QString agentItem::typeOf()
 {
     return "agentitem";
 }
+
+void agentItem::spawnDialogue(std::shared_ptr<Interface::Agent> agent)
+{
+    dialog_ = new AgentDialog(agent);
+    dialog_->show();
+}
+
 /*
- *These have been moved to mapItem and are waiting for safe removal
- *
 void agentItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
+
     // Make sure it is a left button event and the item is not pressed
-    if (event->button() == Qt::LeftButton and not pressed_)
+    if (event->button() == Qt::LeftButton)
     {
-        pressed_ = true;
-        homeCoordinatesOnScene_ = pos();
     }
     update();
     QGraphicsItem::mousePressEvent(event);
@@ -93,6 +102,9 @@ void agentItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     isSelected = true;
     update();
+    std::shared_ptr<Interface::Agent> agentPtr = this->getAgentClass();
+    dialog_ = new AgentDialog(agentPtr);
+    dialog_->show();
     QGraphicsItem::hoverEnterEvent(event);
 }
 
@@ -100,5 +112,7 @@ void agentItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
     isSelected = false;
     update();
+    dialog_->close();
+    dialog_ = nullptr;
     QGraphicsItem::hoverLeaveEvent(event);
 }
