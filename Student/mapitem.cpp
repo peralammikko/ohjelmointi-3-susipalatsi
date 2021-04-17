@@ -34,7 +34,7 @@ void mapItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
             emit mapItemMouseDragged(this);
         } else
         {
-           qDebug() << "error! Card Item did not find parent scene while moving!";
+            // Something here if scene was not found
         }
     }
     update();

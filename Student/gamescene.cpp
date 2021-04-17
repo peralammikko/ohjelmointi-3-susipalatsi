@@ -14,12 +14,12 @@
 
 GameScene::GameScene(QWidget *parent, std::weak_ptr<Interface::Game> game) : QGraphicsScene(parent), game_(game), handAnchorCoords_(std::make_pair(0, 400)), handCardPadding_(5)
 {
-    qDebug() << "Game Scene is alive...";
+
 }
 
 void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    qDebug() << event->scenePos();
+    qDebug() << "mouse pos on click:" <<event->scenePos();
     update();
     QGraphicsScene::mousePressEvent(event);
 }
