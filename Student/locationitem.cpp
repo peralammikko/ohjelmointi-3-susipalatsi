@@ -4,7 +4,7 @@
 
 
 
-LocationItem::LocationItem(const std::shared_ptr<Interface::Location> location) : locationObject_(location), basevalue_(2), isSelected(false), isHovered_(false)
+LocationItem::LocationItem(const std::shared_ptr<Interface::Location> location, int mapIndex) : locationObject_(location), mapIndex_(mapIndex), basevalue_(2), isSelected(false), isHovered_(false)
 {
     setAcceptHoverEvents(true);
 
@@ -48,6 +48,16 @@ const std::shared_ptr<Interface::Location> LocationItem::getObject()
 int LocationItem::getBasevalue()
 {
     return basevalue_;
+}
+
+int LocationItem::mapIndex()
+{
+    return mapIndex_;
+}
+
+void LocationItem::setMapIndex(int newIndex)
+{
+    mapIndex_ = newIndex;
 }
 
 void LocationItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
@@ -97,6 +107,7 @@ int LocationItem::calculateRewards(std::shared_ptr<Interface::Player> player)
 
 void LocationItem::advance(int phase)
 {
-    //qDebug() << "Tick";
+    // qDebug() << "Tick";
+    // Proof of concept here
     //setRotation(rotation()+1);
 }

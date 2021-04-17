@@ -6,15 +6,13 @@
 #include <QGraphicsSceneMouseEvent>
 
 #include <memory>
-#include <map>  // what is this for?
 
-#include "../Course/location.h"
+#include "../Course/actioninterface.h"
 #include "../Course/cardinterface.h"
 
 namespace Interface {
     class CardInterface;
 }
-
 
 class mapItem : public QObject, public QGraphicsItem
 {
@@ -45,13 +43,19 @@ protected:
     // Emits mapItemMouseDragged(mapItem*) if moving while isMousePressed_ is true
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
 
+    virtual std::shared_ptr<Interface::ActionInterface> getDragReleaseAction();
+
     // Emits mapItemMouseReleased(mapItem*) if a dragging leftmousebutton is released and isMousePressed
+    // If the item is dragged, triest to send actionDeclared signal
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
 
+    // useless?
     bool isMousePressed_ = 0;
 
 
 signals:
+    virtual void actionDeclared(std::shared_ptr<Interface::ActionInterface>);
+
     void mapItemMouseReleased(mapItem*);
     void mapItemMouseDragged(mapItem*);
 

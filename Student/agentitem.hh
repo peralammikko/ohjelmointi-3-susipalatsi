@@ -8,6 +8,8 @@
 #include "../Course/agentinterface.h"
 #include "agentdialog.hh"
 
+#include "sendagentaction.hh"
+
 class agentItem : public mapItem
 {
 public:
@@ -31,6 +33,12 @@ protected:
     // TODO: these do nothing now
     virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *event) override;
     virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override;
+
+    virtual std::shared_ptr<Interface::ActionInterface> getDragReleaseAction() override;
+
+signals:
+    void actionSent(SendAgentAction action);
+   // Interface::SendAgentAction(LocationItem *newLocItem, agentItem *aItem, LocationItem *oldLocItem=nullptr) asd;
 
 private:
     // The object from which this card takes its data (name, owner etc)

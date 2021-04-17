@@ -1,10 +1,11 @@
 #include "agentitem.hh"
 #include "agent.hh"
 #include "mapitem.hh"
+#include "locationitem.hh"
 
 #include <QDebug>
 
-
+class LocationItem;
 
 agentItem::agentItem(std::shared_ptr<Interface::Agent> &agentInterface) : agentConnections_(0)
 {
@@ -48,9 +49,7 @@ void agentItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     }
     painter->setPen(pen);
     painter->drawRect(rect);
-
 }
-
 
 const QString agentItem::typeOf()
 {
@@ -63,41 +62,6 @@ void agentItem::spawnDialogue(std::shared_ptr<Interface::Agent> agent)
     dialog_->show();
 }
 
-/*
-void agentItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-
-    // Make sure it is a left button event and the item is not pressed
-    if (event->button() == Qt::LeftButton)
-    {
-    }
-    update();
-    QGraphicsItem::mousePressEvent(event);
-}
-
-void agentItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
-{
-    if (pressed_)
-    {
-        emit mapItemMouseDragged(this);
-        update();
-    }
-    QGraphicsItem::mouseMoveEvent(event);
-}
-
-void agentItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
-{
-    // Make sure it is a left button event and the item is pressed
-    if (event->button() == Qt::LeftButton and pressed_)
-    {
-        pressed_ = false;
-        emit mapItemMouseReleased(this);
-    }
-    update();
-    QGraphicsItem::mouseReleaseEvent(event);
-}*/
-
-// some cool hovering stuff
 void agentItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     isSelected = true;
@@ -115,4 +79,19 @@ void agentItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
     dialog_->close();
     dialog_ = nullptr;
     QGraphicsItem::hoverLeaveEvent(event);
+}
+
+std::shared_ptr<Interface::ActionInterface> agentItem::getDragReleaseAction()
+{
+    std::shared_ptr<Interface::ActionInterface> action;
+    auto collisions = collidingItems();
+    for (int i = 0; i < collisions.size(); ++i)
+    {
+        LocationItem* lItem = dynamic_cast<LocationItem*>(collisions.at(i));
+        if (lItem)
+        {
+            action = std::make_shared<SendAgentAction>(lItem, this);
+        }
+    }
+    return action;
 }
