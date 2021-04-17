@@ -20,6 +20,8 @@ public:
     AgentResourceMap getAgentResources();
     void addResource(std::shared_ptr<Location> agentAt, CommonResource res, int amount);
 
+    std::shared_ptr<Interface::Location> whereIsAgent();
+
     // AgentInterface overrides
     virtual bool isCommon() const override;
     virtual std::weak_ptr<Location> placement() const override;

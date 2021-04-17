@@ -63,7 +63,10 @@ public:
     // Needs actions for proper testing and tweaking
     void initPlayerControls();
 
+    // Distributing resources for agents in locations
     void rewardResources();
+
+    void initCouncillorDemands();
 
 private slots:
     void on_passButton_clicked();

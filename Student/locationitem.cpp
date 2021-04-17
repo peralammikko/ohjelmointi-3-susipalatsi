@@ -82,5 +82,5 @@ const QString LocationItem::typeOf()
 void LocationItem::advance(int phase)
 {
     //qDebug() << "Tick";
-    setRotation(rotation()+1);
+    //setRotation(rotation()+1);
 }

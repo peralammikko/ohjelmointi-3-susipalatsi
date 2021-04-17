@@ -39,6 +39,16 @@ void Agent::addResource(std::shared_ptr<Interface::Location> agentAt, CommonReso
     }
 }
 
+std::shared_ptr<Location> Agent::whereIsAgent()
+{
+    std::shared_ptr<Interface::Location> loc = this->placement().lock();
+    if (!loc) {
+        return nullptr;
+    } else {
+        return loc;
+    }
+}
+
 bool Agent::isCommon() const
 {
     return 1;

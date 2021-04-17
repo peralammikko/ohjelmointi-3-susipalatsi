@@ -161,7 +161,13 @@ void GameWindow::listAgents(std::shared_ptr<Interface::Player> player)
     auto listOfAgents = playerAgentItems_.at(player);
     for (auto agent : listOfAgents) {
         std::shared_ptr<Interface::Agent> agentPtr = agent->getAgentClass();
-       gameui_->agentListWidget->addItem(agentPtr->name());
+        std::shared_ptr<Interface::Location> loc = agent->getObject()->location().lock();
+        if (!loc) {
+            gameui_->agentListWidget->addItem(agentPtr->name() + " @ Home");
+        } else {
+            QString agentAt = loc->name();
+            gameui_->agentListWidget->addItem(agentPtr->name() + " @ " + agentAt);
+        }
     }
 }
 
@@ -195,7 +201,6 @@ void GameWindow::initAreaResources()
     for (auto loc : game_->locations()) {
         QString resName = loc->name() + " item";
         Interface::CommonResource res(resName, loc, 0);
-
         // Resource map for locations & runners
         std::pair<std::shared_ptr<Interface::Location>, Interface::CommonResource> pair(loc, res);
         initResourceMap_.insert(pair);
@@ -224,7 +229,7 @@ void GameWindow::rewardResources()
             auto agentPtr = agent->getAgentClass();
             std::shared_ptr<Interface::Location> agentAt = agentPtr->placement().lock();
             if (!agentAt) {
-                qDebug() << "location not found";
+                qDebug() << agentPtr->name() << " not in any location";
             } else {
                 Interface::CommonResource res = initResourceMap_.at(agentAt);
                 if (agentAt != nullptr) {
@@ -235,6 +240,11 @@ void GameWindow::rewardResources()
             }
         }
     }
+}
+
+void GameWindow::initCouncillorDemands()
+{
+
 }
 
 void GameWindow::on_passButton_clicked()
