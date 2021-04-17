@@ -36,7 +36,6 @@ public:
     ~GameWindow();
     const std::vector<std::shared_ptr<Interface::Location>> getLocations();
     void setSize(int width, int height);
-    void drawLocations();
     void showAgentsForPlayer(std::shared_ptr<Interface::Player> player);
     void drawItem(mapItem* item);
     void showHand();

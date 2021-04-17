@@ -44,7 +44,9 @@ GameWindow::GameWindow(QWidget *parent) :
         std::shared_ptr<Interface::Location> location = std::make_shared<Interface::Location>(i, paikat_.at(i));
         game_->addLocation(location);
     }
-    drawLocations();
+
+    std::vector<std::shared_ptr<Interface::Location>> locvec = game_->locations();
+    gameScene_->drawLocations(locvec);
 
     player1 = std::make_shared<Interface::Player>(game_, 1, "RED");
     player2 = std::make_shared<Interface::Player>(game_, 2, "BLUE");
@@ -89,13 +91,6 @@ GameWindow::GameWindow(QWidget *parent) :
 GameWindow::~GameWindow()
 {
     delete gameui_;
-}
-
-void GameWindow::drawLocations()
-{
-    std::vector<std::shared_ptr<Interface::Location>> locvec = getLocations();
-    std::shared_ptr<Interface::Location> currentLocation = nullptr;
-    gameScene_->drawLocations(locvec);
 }
 
 void GameWindow::drawPlayerAgents(std::shared_ptr<Interface::Player> &player)

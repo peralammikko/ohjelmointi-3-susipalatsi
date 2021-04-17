@@ -17,6 +17,9 @@
 #include "mapitem.hh"
 #include "carditem.hh"
 
+
+#include "../Course/manualcontrol.h"
+
 class LocationItem;
 
 
