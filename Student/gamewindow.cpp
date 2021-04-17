@@ -28,16 +28,10 @@ GameWindow::GameWindow(QWidget *parent) :
 
     courseRunner = std::make_shared<GameRunner>(game_);
     // logic class testing
-    logic_ = std::make_shared<Logic>(courseRunner);
 
     gameScene_ = new GameScene(gameui_->graphicsView, game_);
 
-    // LOGIC SIGNALING TESTING
-    // You need to use get() to makes shared_ptr to a regular ptr
-    connect(gameScene_, &GameScene::actionDeclared, logic_.get(), &Logic::actionSelected);
-
     gameui_->graphicsView->setScene(gameScene_);
-
     gameui_->graphicsView->setMouseTracking(true);
 
 
@@ -213,7 +207,13 @@ void GameWindow::initPlayerControls()
     std::shared_ptr<Interface::ManualControl> mancontrol = std::make_shared<Interface::ManualControl>();
     courseRunner->setPlayerControl(player1, mancontrol);
     courseRunner->setPlayerControl(player2, mancontrol);
-    courseRunner->run();
+
+    // LOGIC SIGNALING TESTING
+    // You need to use get() to makes shared_ptr to a regular ptr
+    // Connect Logic class with gamescene in order to do any actions
+    logic_ = std::make_shared<Logic>(courseRunner);
+    connect(gameScene_, &GameScene::actionDeclared, logic_.get(), &Logic::actionSelected);
+    logic_->doTheRunning();
     courseRunner->testDebug();
 }
 

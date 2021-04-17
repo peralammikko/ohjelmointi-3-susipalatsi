@@ -7,6 +7,7 @@
 void mapItem::goHome(int time)
 {
     // TODO: implement animation movement function
+
     setPos(homeCoordinatesOnScene_);
 }
 
@@ -62,8 +63,6 @@ void mapItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
         } else {
             this->goHome();
         }
-
-
     }
     update();
     QGraphicsItem::mouseReleaseEvent(event);
