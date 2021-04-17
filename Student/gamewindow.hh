@@ -23,6 +23,8 @@
 #include "gamerunner.hh"
 #include "influence.h"
 
+#include <QTimer>
+
 namespace Ui {
     class GameWindow;
 }
@@ -76,6 +78,8 @@ private:
     std::map<std::shared_ptr<Interface::Player>, QGraphicsWidget> playerhands_;
 
     const std::vector<QString> paikat_ = {"Marketti", "Kirkko", "Taverna", "Kauppiaiden kilta", "Menomesta", "Salapaikka"};
+
+    QTimer* gameTime_;
 
     int current_round = 0;
     bool gameOver = false;
