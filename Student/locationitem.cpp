@@ -2,10 +2,11 @@
 
 #include "locationitem.hh"
 
+
+
 LocationItem::LocationItem(const std::shared_ptr<Interface::Location> location) : locationObject_(location), basevalue_(2), isSelected(false), isHovered_(false)
 {
     setAcceptHoverEvents(true);
-
 
 }
 
@@ -71,7 +72,15 @@ void LocationItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
     QGraphicsItem::hoverLeaveEvent(event);
 }
 
+
+
 const QString LocationItem::typeOf()
 {
     return "locationitem";
+}
+
+void LocationItem::advance(int phase)
+{
+    //qDebug() << "Tick";
+    setRotation(rotation()+1);
 }

@@ -32,6 +32,13 @@ GameWindow::GameWindow(QWidget *parent) :
 
     gameui_->graphicsView->setMouseTracking(true);
 
+
+    // Tell the game to start listening to the timer
+    // TODO: move this after settings are selected or something
+    gameTime_ = new QTimer(this);
+    connect(gameTime_, SIGNAL(timeout()), gameScene_, SLOT(advance()));
+    gameTime_->start();
+
     // Asetetaan graphicViewin ja ikkunan koot staattiseks ensalkuun
     gameui_->graphicsView->setFixedSize(1400, 900);
     // gameScene_->setSceneRect(-600,600,-350,350);
@@ -43,9 +50,12 @@ GameWindow::GameWindow(QWidget *parent) :
         std::shared_ptr<Interface::Location> location = std::make_shared<Interface::Location>(i, paikat_.at(i));
         game_->addLocation(location);
     }
+
     initAreaResources();
     gameScene_->resourceInfo(initResourceMap_);
-    drawLocations();
+    std::vector<std::shared_ptr<Interface::Location>> locvec = game_->locations();
+    gameScene_->drawLocations(locvec);
+
 
     // Adding test players
     player1 = std::make_shared<Interface::Player>(game_, 1, "RED");
@@ -90,13 +100,6 @@ GameWindow::GameWindow(QWidget *parent) :
 GameWindow::~GameWindow()
 {
     delete gameui_;
-}
-
-void GameWindow::drawLocations()
-{
-    std::vector<std::shared_ptr<Interface::Location>> locvec = getLocations();
-    std::shared_ptr<Interface::Location> currentLocation = nullptr;
-    gameScene_->drawLocations(locvec);
 }
 
 void GameWindow::drawPlayerAgents(std::shared_ptr<Interface::Player> &player)

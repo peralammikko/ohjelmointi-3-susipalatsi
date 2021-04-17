@@ -20,7 +20,8 @@ SOURCES += \
     main.cc \
     mapitem.cpp \
     playerhand.cpp \
-    popupdialog.cpp
+    popupdialog.cpp \
+    sendagentaction.cpp
 
 win32:CONFIG(release, debug|release): LIBS += \
     -L$$OUT_PWD/../course/Course/release/ -lCourse
@@ -59,7 +60,8 @@ HEADERS += \
     locationitem.hh \
     mapitem.hh \
     playerhand.hh \
-    popupdialog.hh
+    popupdialog.hh \
+    sendagentaction.hh
 
 FORMS += \
     agentdialog.ui \
