@@ -9,6 +9,10 @@
 
 #include "../Course/game.h"
 
+
+// RUNNER TESTING
+
+
 // required for signaling??
 #include <QObject>
 
@@ -40,7 +44,7 @@ void GameScene::drawLocations(std::vector<std::shared_ptr<Interface::Location>> 
 
     for (int i = 0; i < locationCount; i++) {
         currentLocation = locvec.at(i);
-        LocationItem* locItem = new LocationItem(currentLocation);
+        LocationItem* locItem = new LocationItem(currentLocation, i);
         connect(locItem, &LocationItem::locationItemPressed, this, &GameScene::onLocationItemClicked);
 
         // Geometrinen sijainti kehällä
@@ -194,6 +198,9 @@ void GameScene::onMapItemMouseDropped(mapItem* mapitem)
                   LocationItem* lItem = dynamic_cast<LocationItem*>(items.at(i));
                   if (lItem != nullptr)
                   {
+                      qDebug() << "emitting signal";
+                     // emit(actionDeclared(std::make_shared<SendAgentAction>(lItem, aitem, aitem->parentItem())));
+
                       if (canMoveAgent(lItem, aitem))
                       {
                           moveAgent(lItem, aitem);
@@ -270,4 +277,10 @@ void GameScene::onLocationItemClicked(LocationItem* locItem)
     PopupDialog* clickDialog = new PopupDialog(locItem->getObject(), BV, res, playerInTurn_);
     clickDialog->show();
 
+}
+
+void GameScene::onActionDeclared(std::shared_ptr<Interface::ActionInterface> action)
+{
+    qDebug() << "Action declared, signal recieved gamescene";
+    emit actionDeclared(action);
 }

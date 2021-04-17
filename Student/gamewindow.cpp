@@ -11,7 +11,6 @@
 #include <QGraphicsLinearLayout>
 #include <QGraphicsWidget>
 
-
 #include "actioncard.hh"
 #include "playerhand.hh"
 #include "../Course/manualcontrol.h"
@@ -25,9 +24,18 @@ GameWindow::GameWindow(QWidget *parent) :
 
     // Declare the game first before gameScene, so we can give game_ to gameScene's constructor
     game_ = std::make_shared<Interface::Game>();
+    game_->setActive(true);
+
     courseRunner = std::make_shared<GameRunner>(game_);
+    // logic class testing
+    logic_ = std::make_shared<Logic>(courseRunner);
 
     gameScene_ = new GameScene(gameui_->graphicsView, game_);
+
+    // LOGIC SIGNALING TESTING
+    // You need to use get() to makes shared_ptr to a regular ptr
+    connect(gameScene_, &GameScene::actionDeclared, logic_.get(), &Logic::actionSelected);
+
     gameui_->graphicsView->setScene(gameScene_);
 
     gameui_->graphicsView->setMouseTracking(true);
@@ -36,8 +44,10 @@ GameWindow::GameWindow(QWidget *parent) :
     // Tell the game to start listening to the timer
     // TODO: move this after settings are selected or something
     gameTime_ = new QTimer(this);
+
     connect(gameTime_, SIGNAL(timeout()), gameScene_, SLOT(advance()));
-    gameTime_->start();
+
+    gameTime_->start(100);
 
     // Asetetaan graphicViewin ja ikkunan koot staattiseks ensalkuun
     gameui_->graphicsView->setFixedSize(1400, 900);
@@ -125,6 +135,7 @@ void GameWindow::spawnAgent(std::shared_ptr<Interface::Player> &player)
     std::shared_ptr<Interface::Agent> agentptr = std::make_shared<Interface::Agent>(agname + player->name(), player);
 
     agentItem* agenttiesine = new agentItem(agentptr);
+    connect(agenttiesine, &agentItem::actionDeclared, gameScene_, &GameScene::onActionDeclared);
 
     gameScene_->addItem(agenttiesine);
     //agenttiesine->setParent(gameScene_);
@@ -199,7 +210,7 @@ void GameWindow::initAreaResources()
 
 void GameWindow::initPlayerControls()
 {
-    std::shared_ptr<Interface::ManualControl> mancontrol;
+    std::shared_ptr<Interface::ManualControl> mancontrol = std::make_shared<Interface::ManualControl>();
     courseRunner->setPlayerControl(player1, mancontrol);
     courseRunner->setPlayerControl(player2, mancontrol);
     courseRunner->run();

@@ -16,6 +16,10 @@
 #include "councilor.h"
 #include "controlinterface.h"
 
+// Logic testing
+#include "logic.hh"
+
+
 #include "../Course/game.h"
 #include "../Course/runner.h"
 
@@ -27,8 +31,10 @@
 
 namespace Ui {
     class GameWindow;
+
 }
 
+class Logic;
 class GameWindow : public QMainWindow
 {
     Q_OBJECT
@@ -72,6 +78,9 @@ private:
     GameScene *gameScene_;
     std::shared_ptr<Interface::Game> game_ = nullptr;
     std::shared_ptr<GameRunner> courseRunner = nullptr;
+
+    // Logic testing
+    std::shared_ptr<Logic> logic_;
 
     // Testing for hands
     std::map<std::shared_ptr<Interface::Player>, std::shared_ptr<PlayerHand>> hands_;

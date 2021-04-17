@@ -13,7 +13,7 @@ class LocationItem : public mapItem
 {
     Q_OBJECT
 public:
-    LocationItem(const std::shared_ptr<Interface::Location> location);
+    LocationItem(const std::shared_ptr<Interface::Location> location, int mapIndex);
 
     // Luodaan itemille muoto (neliö)
     QRectF boundingRect() const override;
@@ -31,6 +31,9 @@ public:
 
     int getBasevalue();
 
+    int mapIndex();
+    void setMapIndex(int newIndex);
+
     const QString typeOf() override;
 
     // Accepts agent as its child
@@ -47,6 +50,9 @@ private:
     int basevalue_;
     bool isSelected = false;
     bool isHovered_ = false;
+
+    int mapIndex_;
+
 };
 
 #endif // LOCATIONITEM_HH

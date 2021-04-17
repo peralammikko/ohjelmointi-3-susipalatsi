@@ -4,7 +4,7 @@
 
 
 
-LocationItem::LocationItem(const std::shared_ptr<Interface::Location> location) : locationObject_(location), basevalue_(2), isSelected(false), isHovered_(false)
+LocationItem::LocationItem(const std::shared_ptr<Interface::Location> location, int mapIndex) : locationObject_(location), mapIndex_(mapIndex), basevalue_(2), isSelected(false), isHovered_(false)
 {
     setAcceptHoverEvents(true);
 
@@ -50,6 +50,16 @@ int LocationItem::getBasevalue()
     return basevalue_;
 }
 
+int LocationItem::mapIndex()
+{
+    return mapIndex_;
+}
+
+void LocationItem::setMapIndex(int newIndex)
+{
+    mapIndex_ = newIndex;
+}
+
 void LocationItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     emit locationItemPressed(this);
@@ -86,6 +96,7 @@ const QString LocationItem::typeOf()
 
 void LocationItem::advance(int phase)
 {
-    //qDebug() << "Tick";
-    setRotation(rotation()+1);
+    // qDebug() << "Tick";
+    // Proof of concept here
+    //setRotation(rotation()+1);
 }

@@ -16,6 +16,7 @@ SOURCES += \
     gamescene.cpp \
     gamewindow.cpp \
     locationitem.cpp \
+    logic.cpp \
     main.cc \
     mapitem.cpp \
     playerhand.cpp \
@@ -56,6 +57,7 @@ HEADERS += \
     gamescene.hh \
     gamewindow.hh \
     locationitem.hh \
+    logic.hh \
     mapitem.hh \
     playerhand.hh \
     popupdialog.hh \
