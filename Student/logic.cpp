@@ -1,8 +1,8 @@
 #include "logic.hh"
 
-Logic::Logic(std::shared_ptr<Interface::Runner> runner) : runner_(runner)
+Logic::Logic(std::shared_ptr<Interface::Runner> runner, std::shared_ptr<Interface::Game> game) : runner_(runner), game_(game)
 {
-
+    connect(game_.get(), &Interface::Game::playerChanged, this, &Logic::playerChanged);
 }
 
 Logic::~Logic()
@@ -21,20 +21,18 @@ void Logic::actionSelected(std::shared_ptr<Interface::ActionInterface> action)
     action_ = action;
     if (ctrl_)
     {
-        qDebug() << "Sending to making manualtctrl";
         std::shared_ptr<Interface::ManualControl> manualCtrl = std::dynamic_pointer_cast<Interface::ManualControl>(ctrl_);
-        qDebug() << "next action";
         manualCtrl->setNextAction(action_);
         doTheRunning();
     } else {
-        qDebug() << "there was no ctrl. Running";
         doTheRunning();
     }
 
-   // setNextAction();
+    // setNextAction();
 }
 
-void Logic::setNextAction()
+void Logic::playerChanged(std::shared_ptr<const Interface::Player> actingPlayer) const
 {
+    // TODO: disable everything that should not move
 
 }

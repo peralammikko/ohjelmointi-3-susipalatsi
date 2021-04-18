@@ -32,6 +32,7 @@ public:
     int getBasevalue();
 
     int mapIndex();
+
     void setMapIndex(int newIndex);
 
     const QString typeOf() override;

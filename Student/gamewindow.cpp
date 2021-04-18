@@ -27,20 +27,15 @@ GameWindow::GameWindow(QWidget *parent) :
     game_->setActive(true);
 
     courseRunner = std::make_shared<GameRunner>(game_);
-    // logic class testing
 
     gameScene_ = new GameScene(gameui_->graphicsView, game_);
-
     gameui_->graphicsView->setScene(gameScene_);
     gameui_->graphicsView->setMouseTracking(true);
-
 
     // Tell the game to start listening to the timer
     // TODO: move this after settings are selected or something
     gameTime_ = new QTimer(this);
-
     connect(gameTime_, SIGNAL(timeout()), gameScene_, SLOT(advance()));
-
     gameTime_->start(100);
 
     // Asetetaan graphicViewin ja ikkunan koot staattiseks ensalkuun
@@ -48,7 +43,6 @@ GameWindow::GameWindow(QWidget *parent) :
     // gameScene_->setSceneRect(-600,600,-350,350);
     this->setFixedSize(1920, 1080);
     this->setWindowTitle("SUSIPALATSI: TEH GAME");
-
 
     // Luodaan location-oliot
     for (int i = 0; i < 6; i++) {
@@ -84,7 +78,6 @@ GameWindow::GameWindow(QWidget *parent) :
     // luodaan pelaajille käsialueen luokka
     for (unsigned int i=0; i<game_->players().size(); ++i) {
         std::shared_ptr<Interface::Player> pl = game_->players().at(i);
-
         // Luodaan pari korttia ja annetaan ne pelaajalle
         for (int j=0; j<4; ++j) {
             std::shared_ptr<Interface::ActionCard> card = std::make_shared<Interface::ActionCard>();
@@ -139,20 +132,15 @@ void GameWindow::spawnAgent(std::shared_ptr<Interface::Player> &player)
 
 std::shared_ptr<Interface::Player> GameWindow::getPlayerInTurn()
 {
-    return playerInTurn;
+    return game_->currentPlayer();
 }
 
 void GameWindow::changeTurn()
 {
-    if (current_round % 2 == 0) {
-        playerInTurn = player1;
-    } else {
-        playerInTurn = player2;
-    }
-
+    game_->nextPlayer();
     displayPlayerStats();
-
-    gameScene_->turnInfo(current_round, playerInTurn);
+    current_round += 1;
+    gameScene_->turnInfo(current_round, game_->currentPlayer());
 
 }
 
@@ -211,7 +199,7 @@ void GameWindow::initPlayerControls()
     // LOGIC SIGNALING TESTING
     // You need to use get() to makes shared_ptr to a regular ptr
     // Connect Logic class with gamescene in order to do any actions
-    logic_ = std::make_shared<Logic>(courseRunner);
+    logic_ = std::make_shared<Logic>(courseRunner, game_);
     connect(gameScene_, &GameScene::actionDeclared, logic_.get(), &Logic::actionSelected);
     logic_->doTheRunning();
     courseRunner->testDebug();
@@ -220,5 +208,6 @@ void GameWindow::initPlayerControls()
 
 void GameWindow::on_passButton_clicked()
 {
+    // TODO: set the player on auto-pass
     changeTurn();
 }

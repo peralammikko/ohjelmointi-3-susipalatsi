@@ -90,14 +90,15 @@ void GameScene::hideAgents(std::vector<agentItem *> &agents)
 
 void GameScene::createHandCards(std::vector<std::shared_ptr<Interface::CardInterface>> cards)
 {
+    oneHand_ = new PlayerHand(this, playerInTurn_);
+    this->addItem(oneHand_);
+    oneHand_->setY(400);
     for (unsigned int i = 0; i < cards.size(); ++i) {
         std::shared_ptr<Interface::CardInterface> carddata = cards.at(i);
         CardItem *carditem = new CardItem(carddata, this);
-        carditem->setParent(this);
-        // adds card to the scene
         this->addItem(carditem);
-        carditem->hide();
-        handCards_.push_back(carditem);
+        oneHand_->addMapItem(carditem);
+        //handCards_.push_back(carditem);
 
         connect(carditem, &mapItem::mapItemMouseDragged, this, &GameScene::onMapItemMouseDragged);
         connect(carditem, &mapItem::mapItemMouseReleased, this, &GameScene::onMapItemMouseDropped);
@@ -108,6 +109,7 @@ void GameScene::createHandCards(std::vector<std::shared_ptr<Interface::CardInter
 
 void GameScene::showHandCards()
 {
+    /*
     float widthtotal = 0.0;
     int xStart;
     float widthPerCard;
@@ -127,7 +129,7 @@ void GameScene::showHandCards()
             int x = (xStart + widthPerCard*i);
             handCards_.at(i)->setPos(x, handAnchorCoords_.second);
         }
-    }
+    }*/
 }
 
 void GameScene::turnInfo(int turn, std::shared_ptr<Interface::Player> currentplayer)
@@ -169,8 +171,6 @@ void GameScene::onMapItemMouseDragged(mapItem* mapitem)
         }
     }
 }
-
-
 
 void GameScene::onMapItemMouseDropped(mapItem* mapitem)
 {

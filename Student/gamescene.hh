@@ -16,6 +16,7 @@
 #include "locationitem.hh"
 #include "mapitem.hh"
 #include "carditem.hh"
+#include "playerhand.hh"
 
 
 #include "../Course/manualcontrol.h"
@@ -81,11 +82,11 @@ private:
     mapItem* selectedLocation = nullptr;
     agentItem* selectedAgent = nullptr;
 
+    PlayerHand* oneHand_;
+
     int turn_ = 0;
     std::shared_ptr<Interface::Player> playerInTurn_ = nullptr;
 
-    // currently displayed card items that are in a player's hand
-    std::vector<CardItem*> handCards_;
     // the point which determines where hand is drawn
     std::pair<int, int> handAnchorCoords_;
     // Gap between card items in hand
@@ -96,12 +97,6 @@ private:
     // changes state of cards in handCards_ to show and arranges them nicely as a hand centered in handAnchorCoords_
     // also connects drag drop signals with those carditems
     void showHandCards();
-
-
-    // Sees if aItem can move to newLocation
-    bool canMoveAgent(LocationItem* newLocation, agentItem* aItem);
-    // Moves agent to a new location
-    void moveAgent(LocationItem* newLocItem, agentItem* aItem);
 
     AreaResources resMap_ = {};
 };
