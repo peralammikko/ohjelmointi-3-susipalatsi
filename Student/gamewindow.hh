@@ -105,8 +105,6 @@ private:
     // Holds info on influence gained from locations by players
     std::map<std::shared_ptr<Interface::Player>, std::vector<std::shared_ptr<Interface::Influence>>> playerInfluenceMap_;
 
-
-
     // this variable stores drag and drop targe, ie. what is "under" a draggable card
     mapItem* targetedMapItem_;
 

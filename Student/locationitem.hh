@@ -40,8 +40,9 @@ public:
     // Accepts agent as its child
     // Could change this to bool and return false if this agent is not welcome here
     void acceptAgent(agentItem* aItem);
+
 protected:
-    void advance(int phase) override;
+    // void advance(int phase) override;
 
 signals:
     void locationItemPressed(LocationItem*);

@@ -69,14 +69,12 @@ public:
 
 signals:
     void actionDeclared(std::shared_ptr<Interface::ActionInterface> action);
-
 public slots:
     void onActionDeclared(std::shared_ptr<Interface::ActionInterface> action);
 private slots:
     void onMapItemMouseDragged(mapItem* mapitem);
     void onMapItemMouseDropped(mapItem* mapitem);
     void onLocationItemClicked(LocationItem * locItem);
-
 
 private:
     // These are deprecated for now and waiting for safe removal

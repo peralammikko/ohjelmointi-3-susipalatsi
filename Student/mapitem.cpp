@@ -7,8 +7,10 @@
 void mapItem::goHome(int time)
 {
     // TODO: implement animation movement function
-
-    setPos(homeCoordinatesOnScene_);
+    homingTimer_ = new QTimer(this);
+    homingTimer_->setSingleShot(true);
+    homing_ = true;
+    homingTimer_->start(time);
 }
 
 
@@ -68,7 +70,29 @@ void mapItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     QGraphicsItem::mouseReleaseEvent(event);
 }
 
+void mapItem::advance(int phase)
+{
+    if (homing_ and homingTimer_){
+        if (homingTimer_->remainingTime() <= 0)
+        {
+            homing_ = false;
+            setPos(homeCoordinatesOnScene_);
+        }
+        QPointF toscene = mapFromScene(homeCoordinatesOnScene_);
+
+        QPointF distanceLeft = homeCoordinatesOnScene_-pos();
+
+        float xvelocity = distanceLeft.x() / (homingTimer_->remainingTime()*0.1);
+        float yvelocity = distanceLeft.y() / (homingTimer_->remainingTime()*0.1);
+
+        qDebug() << xvelocity << homingTimer_->remainingTime() << distanceLeft.x();
+        setPos(x() + xvelocity, y() + yvelocity);
+    }
+}
+
 void mapItem::setHome(QPointF newhome)
 {
     homeCoordinatesOnScene_ = newhome;
 }
+
+

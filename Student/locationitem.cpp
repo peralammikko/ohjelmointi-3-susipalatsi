@@ -73,7 +73,7 @@ void LocationItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 
     if (childItems().size())
     {
-        setRotation(rotation()+45);
+      //  setRotation(rotation()+45);
     }
     update();
     QGraphicsItem::hoverEnterEvent(event);
@@ -94,9 +94,3 @@ const QString LocationItem::typeOf()
     return "locationitem";
 }
 
-void LocationItem::advance(int phase)
-{
-    // qDebug() << "Tick";
-    // Proof of concept here
-    //setRotation(rotation()+1);
-}
