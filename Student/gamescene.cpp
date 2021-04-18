@@ -17,7 +17,7 @@
 // required for signaling??
 #include <QObject>
 
-GameScene::GameScene(QWidget *parent, std::weak_ptr<Interface::Game> game) : QGraphicsScene(parent), game_(game), handAnchorCoords_(std::make_pair(0, 400)), handCardPadding_(5)
+GameScene::GameScene(QWidget *parent, std::weak_ptr<Interface::Game> game) : QGraphicsScene(parent), game_(game)
 {
 
 }
@@ -72,12 +72,17 @@ void GameScene::drawItem(mapItem *item)
 
 void GameScene::drawAgents(std::vector<agentItem*> &agents)
 {
+    if (!oneHand_){
+        oneHand_ = new PlayerHand(this, playerInTurn_);
+    }
     for (unsigned int i = 0; i < agents.size(); i++) {
         agentItem* current = agents.at(i);
         current->show();
         connect(current, &mapItem::mapItemMouseDragged, this, &GameScene::onMapItemMouseDragged);
         connect(current, &mapItem::mapItemMouseReleased, this, &GameScene::onMapItemMouseDropped);
         current->setPos(300+current->boundingRect().width()*i, 300);
+        oneHand_->addMapItem(current);
+        //oneHand_->r;
     }
 }
 
@@ -93,21 +98,37 @@ void GameScene::hideAgents(std::vector<agentItem *> &agents)
     }
 }
 
-void GameScene::createHandCards(std::vector<std::shared_ptr<Interface::CardInterface>> cards)
+void GameScene::initPlayerHandFor(std::shared_ptr<Interface::Player> player)
 {
+    playerHands_.insert(std::make_pair(player, new PlayerHand(this, player)));
+}
+
+std::map<std::shared_ptr<Interface::Player>, PlayerHand *> GameScene::playerHands()
+{
+    return playerHands_;
+}
+
+void GameScene::initHands(std::shared_ptr<Interface::Player> player)
+{
+    //oneHand_ = new PlayerHand(this, playerInTurn_);
+
+    PlayerHand* hand = new PlayerHand(this, player);
+    this->addItem(hand);
+    playerHands_.insert(std::pair<std::shared_ptr<Interface::Player>,PlayerHand*>(player, hand));
+    hand->setY(400);
+    /*
+    this->addItem(oneHand_);
+    oneHand_->setY(400);
     for (unsigned int i = 0; i < cards.size(); ++i) {
         std::shared_ptr<Interface::CardInterface> carddata = cards.at(i);
         CardItem *carditem = new CardItem(carddata, this);
-        carditem->setParent(this);
-        // adds card to the scene
         this->addItem(carditem);
-        carditem->hide();
-        handCards_.push_back(carditem);
+        oneHand_->addMapItem(carditem);
+        //handCards_.push_back(carditem);
 
         connect(carditem, &mapItem::mapItemMouseDragged, this, &GameScene::onMapItemMouseDragged);
         connect(carditem, &mapItem::mapItemMouseReleased, this, &GameScene::onMapItemMouseDropped);
-    }
-    showHandCards();
+    }*/
 }
 
 void GameScene::turnInfo(int turn, std::shared_ptr<Interface::Player> currentplayer)
@@ -123,6 +144,7 @@ void GameScene::resourceInfo(ResourceMap &rmap, ResourceMap &dmap)
 }
 
 
+/*
 void GameScene::showHandCards()
 {
     float widthtotal = 0.0;
@@ -146,6 +168,20 @@ void GameScene::showHandCards()
         }
     }
 }
+
+*/
+
+void GameScene::turnInfo(int turn, std::shared_ptr<Interface::Player> currentplayer)
+{
+    turn_ = turn;
+    playerInTurn_ = currentplayer;
+}
+
+void GameScene::resourceInfo(AreaResources &rmap)
+{
+    resMap_ = rmap;
+}
+
 
 void GameScene::onMapItemMouseDragged(mapItem* mapitem)
 {
@@ -176,8 +212,6 @@ void GameScene::onMapItemMouseDragged(mapItem* mapitem)
     }
 }
 
-
-
 void GameScene::onMapItemMouseDropped(mapItem* mapitem)
 {
     // This used to have most of the actioninterface stuff but it might not be needed anymore
@@ -192,6 +226,16 @@ void GameScene::onLocationItemClicked(LocationItem* locItem)
 
 void GameScene::onActionDeclared(std::shared_ptr<Interface::ActionInterface> action)
 {
-    // qDebug() << "Action declared, signal recieved gamescene";
+    if (!game_.lock())
+    {
+        qDebug() << "Action was declared on scene but there is no game";
+        return;
+    }
+    qDebug() << "Action declared, signal recieved gamescene";
     emit actionDeclared(action);
+
+    // TODO: rearrange the current players hand maybe
+    //oneHand_->rearrange();
+
+    playerHands_.at(game_.lock()->currentPlayer())->rearrange();
 }

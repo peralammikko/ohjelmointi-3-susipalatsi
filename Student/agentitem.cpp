@@ -3,6 +3,10 @@
 #include "mapitem.hh"
 #include "locationitem.hh"
 
+
+#include "sendagentaction.hh"
+#include "withdrawagentaction.hh"
+
 #include <QDebug>
 
 class LocationItem;
@@ -102,6 +106,14 @@ std::shared_ptr<Interface::ActionInterface> agentItem::getDragReleaseAction()
         if (lItem)
         {
             action = std::make_shared<SendAgentAction>(lItem, this);
+        } else {
+            PlayerHand* pHand = dynamic_cast<PlayerHand*>(collisions.at(i));
+            if (pHand)
+            {
+
+                action = std::make_shared<WithdrawAgentAction>(pHand, this);
+            }
+
         }
     }
     return action;

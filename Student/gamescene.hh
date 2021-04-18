@@ -15,6 +15,7 @@
 #include "agentitem.hh"
 #include "locationitem.hh"
 #include "carditem.hh"
+#include "playerhand.hh"
 
 class GameScene : public QGraphicsScene
 {
@@ -49,17 +50,19 @@ public:
     // post: scene has locations drawn on scene
     void drawLocations(std::vector<std::shared_ptr<Interface::Location>> &locvec);
 
-    // creates nice carditem for each cardinterface in vector
-    // Post: carditems spawned and calls showHandCards
-    void createHandCards(std::vector<std::shared_ptr<Interface::CardInterface>> cards);
+    // Creates a hand area for player
+    void initHands(std::shared_ptr<Interface::Player> Player);
 
     void turnInfo(int turn, std::shared_ptr<Interface::Player> currentplayer);
 
     void resourceInfo(ResourceMap &rmap, ResourceMap &dmap);
 
+    void initPlayerHandFor(std::shared_ptr<Interface::Player> player);
+
+    std::map<std::shared_ptr<Interface::Player>, PlayerHand*> playerHands();
+
 signals:
     void actionDeclared(std::shared_ptr<Interface::ActionInterface> action);
-
 public slots:
     void onActionDeclared(std::shared_ptr<Interface::ActionInterface> action);
 private slots:
@@ -67,22 +70,18 @@ private slots:
     void onMapItemMouseDropped(mapItem* mapitem);
     void onLocationItemClicked(LocationItem * locItem);
 
-
 private:
     // These are deprecated for now and waiting for safe removal
     mapItem* targetedMapItem_;
     mapItem* selectedLocation = nullptr;
     agentItem* selectedAgent = nullptr;
 
+    PlayerHand* oneHand_ = nullptr;
+    std::map<std::shared_ptr<Interface::Player>, PlayerHand*> playerHands_;
+
     int turn_ = 0;
     std::shared_ptr<Interface::Player> playerInTurn_ = nullptr;
 
-    // currently displayed card items that are in a player's hand
-    std::vector<CardItem*> handCards_;
-    // the point which determines where hand is drawn
-    std::pair<int, int> handAnchorCoords_;
-    // Gap between card items in hand
-    int handCardPadding_;
 
     std::weak_ptr<Interface::Game> game_;
 

@@ -6,6 +6,7 @@
 #include <QGraphicsSceneMouseEvent>
 
 #include <memory>
+#include <QTimer>
 
 #include "../Course/actioninterface.h"
 #include "../Course/cardinterface.h"
@@ -23,8 +24,8 @@ public:
     virtual const QString typeOf() = 0;
 
     // mapitem is moved to homeCoordinatesOnScene_ in time milliseconds
-     // TODO: animation
-    virtual void goHome(int time=50);
+     // BUG: item should not be grabbable while this is in effect
+    virtual void goHome(int time=350);
 
     // sets home to somewhere else
     virtual void setHome(QPointF newhome= QPoint(0,0));
@@ -49,15 +50,19 @@ protected:
     // If the item is dragged, triest to send actionDeclared signal
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
 
-    // useless?
+    virtual void advance(int phase) override;
+
     bool isMousePressed_ = 0;
 
+    QTimer* homingTimer_;
+    bool homing_ = false;
 
 signals:
     virtual void actionDeclared(std::shared_ptr<Interface::ActionInterface>);
 
     void mapItemMouseReleased(mapItem*);
     void mapItemMouseDragged(mapItem*);
+
 
 };
 

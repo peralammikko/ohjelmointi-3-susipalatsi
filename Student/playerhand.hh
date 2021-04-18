@@ -7,41 +7,33 @@
 
 #include "../Course/player.h"
 // For now we use just simple card items
-#include "carditem.hh"
+#include "mapitem.hh"
 
 
-class PlayerHand
+class PlayerHand : public QGraphicsItem
 {
 public:
 
     // This class is more or less deprecated and probably requires a removal.
     // stays here in case we get a nice idea how to use this as a hand display.
-    PlayerHand(QGraphicsScene* scene, std::shared_ptr<Interface::Player> player, QGraphicsItem *parent = nullptr, int x=0, int y=0);
+    PlayerHand(QGraphicsScene* scene, std::shared_ptr<Interface::Player> player);
 
-    void updateHand();
-    void renderHand();
-    void changeCoords(int x, int y);
+    QRectF boundingRect() const override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
+    void addMapItem(mapItem* mItem);
+
+    void setActability(bool);
+
+    void rearrange();
 
 private:
     QGraphicsScene* scene_;
     std::shared_ptr<Interface::Player> player_;
 
-    int xCenterCoord;
-    int yCenterCoord;
+    std::vector<mapItem*> items_;
 
-    float scale = 1;
-
-    std::vector<CardItem> cards_;
-
-    // QColor outline = QColor(200, 0, 200);
-
-    // returns combined card width
-    int getWidth();
-    // returns card height
-    int getHeight();
-
-
+    void arrangeAroundPoint(int startx, std::vector<mapItem *> mItems, int padding);
     
 };
 

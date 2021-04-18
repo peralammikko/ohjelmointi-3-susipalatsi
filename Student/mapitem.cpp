@@ -6,9 +6,11 @@
 
 void mapItem::goHome(int time)
 {
-    // TODO: implement animation movement function
-
-    setPos(homeCoordinatesOnScene_);
+    // TODO: memory leaking
+    homingTimer_ = new QTimer(this);
+    homingTimer_->setSingleShot(true);
+    homing_ = true;
+    homingTimer_->start(time);
 }
 
 
@@ -19,7 +21,8 @@ void mapItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
     {
         // Set home coordinates where the mapitem will return to
         isMousePressed_  = true;
-        homeCoordinatesOnScene_ = pos();
+        homing_ = false;
+        //homeCoordinatesOnScene_ = pos();
     }
     update();
     QGraphicsItem::mousePressEvent(event);
@@ -68,7 +71,32 @@ void mapItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     QGraphicsItem::mouseReleaseEvent(event);
 }
 
+void mapItem::advance(int phase)
+{
+    if (homing_ and homingTimer_){
+        if (homingTimer_->remainingTime() <= 0)
+        {
+            homing_ = false;
+            setPos(homeCoordinatesOnScene_);
+        }
+       // QPointF toscene = mapFromScene(homeCoordinatesOnScene_);
+
+        // TODO: BUG! mpaitem approaches from wrong direction when parent is changed midflight
+
+        QPointF distanceLeft = homeCoordinatesOnScene_-pos();
+
+        // TODO: velocity probably should not be based on time (items close to their home have lower velocities than items that far away)
+        float xvelocity = distanceLeft.x() / (homingTimer_->remainingTime()*0.05);
+        float yvelocity = distanceLeft.y() / (homingTimer_->remainingTime()*0.05);
+
+
+        setPos(pos() + QPointF(xvelocity, yvelocity));
+    }
+}
+
 void mapItem::setHome(QPointF newhome)
 {
     homeCoordinatesOnScene_ = newhome;
 }
+
+

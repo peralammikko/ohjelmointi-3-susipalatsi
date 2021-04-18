@@ -33,6 +33,7 @@ public:
     int getBasevalue();
 
     int mapIndex();
+
     void setMapIndex(int newIndex);
 
     const QString typeOf() override;
@@ -54,8 +55,9 @@ public:
 
     void checkCouncillorCard();
 
+
 protected:
-    void advance(int phase) override;
+    // void advance(int phase) override;
 
 signals:
     void locationItemPressed(LocationItem*);
