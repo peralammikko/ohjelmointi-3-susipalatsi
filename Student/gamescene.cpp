@@ -176,5 +176,7 @@ void GameScene::onActionDeclared(std::shared_ptr<Interface::ActionInterface> act
 {
     qDebug() << "Action declared, signal recieved gamescene";
     emit actionDeclared(action);
+
+    // TODO: rearrange the current players hand maybe
     oneHand_->rearrange();
 }

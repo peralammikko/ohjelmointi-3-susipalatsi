@@ -6,7 +6,6 @@
 #include "agent.hh"
 #include "../Course/agentinterface.h"
 
-#include "sendagentaction.hh"
 
 class agentItem : public mapItem
 {
@@ -32,7 +31,7 @@ protected:
     virtual std::shared_ptr<Interface::ActionInterface> getDragReleaseAction() override;
 
 signals:
-    void actionSent(SendAgentAction action);
+    void actionSent(std::shared_ptr<Interface::ActionInterface> action);
    // Interface::SendAgentAction(LocationItem *newLocItem, agentItem *aItem, LocationItem *oldLocItem=nullptr) asd;
 
 private:

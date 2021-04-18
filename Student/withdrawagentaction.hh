@@ -3,14 +3,21 @@
 
 #include "../Course/actioninterface.h"
 
-class WithdrawAgentAction : Interface::ActionInterface
+class PlayerHand;
+class agentItem;
+
+
+class WithdrawAgentAction : public Interface::ActionInterface
 {
 public:
-    WithdrawAgentAction();
+    WithdrawAgentAction(PlayerHand *hand, agentItem *aItem);
 
     virtual bool canPerform() const override;
 
     virtual void perform() override;
+private:
+    PlayerHand* hand_;
+    agentItem* aItem_;
 };
 
 #endif // WITHDRAWAGENTACTION_HH

@@ -29,8 +29,6 @@ void PlayerHand::addMapItem(mapItem* mItem)
 void PlayerHand::rearrange()
 {
     int xStartForCards = 0;
-    int xStartForAgents = 0;
-
 
     float handPadding = 5;
     float paddingBetweenAgentsAndCards = 50;
@@ -67,8 +65,9 @@ void PlayerHand::rearrange()
         {
             paddingBetweenAgentsAndCards = 0;
         }
+
         int totalWidth  = cardWidthTotal + agentWidthTotal + paddingBetweenAgentsAndCards;
-        xStartForCards = -totalWidth/2;
+        xStartForCards = boundingRect().width()/2 -totalWidth/2;
         int xStartForAgents = xStartForCards + cardWidthTotal + paddingBetweenAgentsAndCards;
 
         arrangeAroundPoint(xStartForCards, cItems, handPadding);
