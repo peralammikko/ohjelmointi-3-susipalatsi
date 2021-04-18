@@ -16,7 +16,7 @@
 // required for signaling??
 #include <QObject>
 
-GameScene::GameScene(QWidget *parent, std::weak_ptr<Interface::Game> game) : QGraphicsScene(parent), game_(game), handAnchorCoords_(std::make_pair(0, 400)), handCardPadding_(5)
+GameScene::GameScene(QWidget *parent, std::weak_ptr<Interface::Game> game) : QGraphicsScene(parent), game_(game)
 {
 
 }
@@ -66,6 +66,9 @@ void GameScene::drawItem(mapItem *item)
 
 void GameScene::drawAgents(std::vector<agentItem*> &agents)
 {
+    if (!oneHand_){
+        oneHand_ = new PlayerHand(this, playerInTurn_);
+    }
     for (unsigned int i = 0; i < agents.size(); i++) {
         agentItem* current = agents.at(i);
         //std::shared_ptr<Interface::AgentInterface> agent = current->getObject(); // What is this for ?
@@ -73,6 +76,8 @@ void GameScene::drawAgents(std::vector<agentItem*> &agents)
         connect(current, &mapItem::mapItemMouseDragged, this, &GameScene::onMapItemMouseDragged);
         connect(current, &mapItem::mapItemMouseReleased, this, &GameScene::onMapItemMouseDropped);
         current->setPos(300+current->boundingRect().width()*i, 300);
+        oneHand_->addMapItem(current);
+        //oneHand_->r;
     }
 }
 
@@ -88,9 +93,14 @@ void GameScene::hideAgents(std::vector<agentItem *> &agents)
     }
 }
 
+void GameScene::initPlayerHandFor(std::shared_ptr<Interface::Player> player)
+{
+    playerHands_.insert(std::make_pair(player, new PlayerHand(this, player)));
+}
+
 void GameScene::createHandCards(std::vector<std::shared_ptr<Interface::CardInterface>> cards)
 {
-    oneHand_ = new PlayerHand(this, playerInTurn_);
+    //oneHand_ = new PlayerHand(this, playerInTurn_);
     this->addItem(oneHand_);
     oneHand_->setY(400);
     for (unsigned int i = 0; i < cards.size(); ++i) {
@@ -103,34 +113,9 @@ void GameScene::createHandCards(std::vector<std::shared_ptr<Interface::CardInter
         connect(carditem, &mapItem::mapItemMouseDragged, this, &GameScene::onMapItemMouseDragged);
         connect(carditem, &mapItem::mapItemMouseReleased, this, &GameScene::onMapItemMouseDropped);
     }
-    showHandCards();
+
 }
 
-
-void GameScene::showHandCards()
-{
-    /*
-    float widthtotal = 0.0;
-    int xStart;
-    float widthPerCard;
-
-    int count = handCards_.size();
-    if (count) {
-        // Calculate total width of the hand
-        for (int i = 0; i < count; ++i) {
-            handCards_.at(i)->show();
-            widthtotal += handCards_.at(i)->boundingRect().width();
-        }
-        // Gets the new coords for cards based on hand width
-        widthPerCard = (widthtotal + handCardPadding_*count) / count;
-        xStart =  handAnchorCoords_.first - (widthtotal / 2);
-        for (int i = 0; i < count; ++i) {
-            handCards_.at(i)->setParent(this);
-            int x = (xStart + widthPerCard*i);
-            handCards_.at(i)->setPos(x, handAnchorCoords_.second);
-        }
-    }*/
-}
 
 void GameScene::turnInfo(int turn, std::shared_ptr<Interface::Player> currentplayer)
 {
@@ -142,6 +127,7 @@ void GameScene::resourceInfo(AreaResources &rmap)
 {
     resMap_ = rmap;
 }
+
 
 void GameScene::onMapItemMouseDragged(mapItem* mapitem)
 {
@@ -190,4 +176,5 @@ void GameScene::onActionDeclared(std::shared_ptr<Interface::ActionInterface> act
 {
     qDebug() << "Action declared, signal recieved gamescene";
     emit actionDeclared(action);
+    oneHand_->rearrange();
 }

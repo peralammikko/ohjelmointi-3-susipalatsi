@@ -25,6 +25,7 @@ public:
 
     void setActability(bool);
 
+    void rearrange();
 
 private:
     QGraphicsScene* scene_;
@@ -32,13 +33,7 @@ private:
 
     std::vector<mapItem*> items_;
 
-    void rearrange();
-
-    int getWidth();
-    int getHeight();
-
-
-
+    void arrangeAroundPoint(int startx, std::vector<mapItem *> mItems, int padding);
     
 };
 

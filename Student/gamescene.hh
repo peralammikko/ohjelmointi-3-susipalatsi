@@ -65,6 +65,8 @@ public:
 
     void resourceInfo(AreaResources &rmap);
 
+    void initPlayerHandFor(std::shared_ptr<Interface::Player> player);
+
 signals:
     void actionDeclared(std::shared_ptr<Interface::ActionInterface> action);
 
@@ -82,21 +84,14 @@ private:
     mapItem* selectedLocation = nullptr;
     agentItem* selectedAgent = nullptr;
 
-    PlayerHand* oneHand_;
+    PlayerHand* oneHand_ = nullptr;
+    std::map<std::shared_ptr<Interface::Player>, PlayerHand*> playerHands_;
 
     int turn_ = 0;
     std::shared_ptr<Interface::Player> playerInTurn_ = nullptr;
 
-    // the point which determines where hand is drawn
-    std::pair<int, int> handAnchorCoords_;
-    // Gap between card items in hand
-    int handCardPadding_;
 
     std::weak_ptr<Interface::Game> game_;
-
-    // changes state of cards in handCards_ to show and arranges them nicely as a hand centered in handAnchorCoords_
-    // also connects drag drop signals with those carditems
-    void showHandCards();
 
     AreaResources resMap_ = {};
 };

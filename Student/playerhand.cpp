@@ -1,5 +1,6 @@
 #include "playerhand.hh"
-
+#include "carditem.hh"
+#include "agentitem.hh"
 
 PlayerHand::PlayerHand(QGraphicsScene* scene, std::shared_ptr<Interface::Player> player) : scene_(scene), player_(player)
 {
@@ -27,36 +28,64 @@ void PlayerHand::addMapItem(mapItem* mItem)
 
 void PlayerHand::rearrange()
 {
-    float widthtotal = 0.0;
-    int xStart = 0;
-    float widthPerCard;
+    int xStartForCards = 0;
+    int xStartForAgents = 0;
+
 
     float handPadding = 5;
-    auto items = childItems();
+    float paddingBetweenAgentsAndCards = 50;
 
+
+    std::vector<agentItem*> aItems;
+    float agentWidthTotal = 0.0;
+    std::vector<CardItem*> cItems;
+    float cardWidthTotal = 0.0;
+
+    auto items = childItems();
     int count = items.size();
     if (count) {
-        // Calculate total width of the hand
+
+        std::vector<mapItem*> aItems;
+        std::vector<mapItem*> cItems;
+
+        // Separate cards from agents and get their total width
         for (int i = 0; i < count; ++i) {
-            items.at(i)->show();
-            widthtotal += items.at(i)->boundingRect().width();
-        }
-        // Gets the new coords for cards based on hand width
-        widthPerCard = (widthtotal + handPadding*count) / count;
-        xStart =  boundingRect().width()/2 - (widthtotal / 2);
-        for (int i = 0; i < count; ++i) {
-            auto mapitem = dynamic_cast<mapItem*>(items.at(i));
-            if (mapitem)
-            {
-                int x = (xStart + widthPerCard*i);
-                mapitem->setHome(QPointF(x, 0));
-               // mapitem->setPos(x, boundingRect().height()/2);
-                mapitem->goHome();
+            //items.at(i)->show();
+            auto mItem = dynamic_cast<agentItem*>(items.at(i));
+            if (mItem){
+                aItems.push_back(mItem);
+                agentWidthTotal += mItem->boundingRect().width() + handPadding;
+            } else {
+                auto mItem = dynamic_cast<CardItem*>(items.at(i));
+                if (mItem){
+                    cItems.push_back(mItem);
+                    cardWidthTotal += mItem->boundingRect().width() + handPadding;
+                }
             }
-           // items.at(i)->setParent(this);
-
-
         }
+        if (!cItems.size() or !aItems.size())
+        {
+            paddingBetweenAgentsAndCards = 0;
+        }
+        int totalWidth  = cardWidthTotal + agentWidthTotal + paddingBetweenAgentsAndCards;
+        xStartForCards = -totalWidth/2;
+        int xStartForAgents = xStartForCards + cardWidthTotal + paddingBetweenAgentsAndCards;
+
+        arrangeAroundPoint(xStartForCards, cItems, handPadding);
+        arrangeAroundPoint(xStartForAgents, aItems, handPadding);
     }
 }
 
+void PlayerHand::arrangeAroundPoint(int startx, std::vector<mapItem*> mItems, int padding)
+{
+    int x;
+    int passedWidth = 0;
+    for (unsigned i = 0; i < mItems.size(); ++i)
+    {
+        auto item = mItems.at(i);
+        x = startx + padding*i + passedWidth;
+        item->setHome(QPointF(x,0));
+        item->goHome();
+        passedWidth += item->boundingRect().width();
+    }
+}
