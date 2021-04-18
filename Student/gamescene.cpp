@@ -47,6 +47,11 @@ void GameScene::drawLocations(std::vector<std::shared_ptr<Interface::Location>> 
         currentLocation = locvec.at(i);
         LocationItem* locItem = new LocationItem(currentLocation, i);
         connect(locItem, &LocationItem::locationItemPressed, this, &GameScene::onLocationItemClicked);
+        Interface::CommonResource localRes = resMap_.at(currentLocation);
+        locItem->setLocalResource(localRes);
+        Interface::CommonResource demandRes = demandsMap_.at(currentLocation);
+        locItem->setDemandedResource(demandRes);
+
 
         // Geometrinen sijainti kehällä
         float angleDeg = degree * i;
@@ -111,9 +116,10 @@ void GameScene::turnInfo(int turn, std::shared_ptr<Interface::Player> currentpla
     playerInTurn_ = currentplayer;
 }
 
-void GameScene::resourceInfo(ResourceMap &rmap)
+void GameScene::resourceInfo(ResourceMap &rmap, ResourceMap &initialdemandmap)
 {
     resMap_ = rmap;
+    demandsMap_ = initialdemandmap;
 }
 
 
@@ -179,11 +185,8 @@ void GameScene::onMapItemMouseDropped(mapItem* mapitem)
 
 void GameScene::onLocationItemClicked(LocationItem* locItem)
 {
-    Interface::CommonResource res = resMap_.at(locItem->getObject());
-    int BV = locItem->getBasevalue();
-    PopupDialog* clickDialog = new PopupDialog(locItem->getObject(), BV, res, playerInTurn_);
+    PopupDialog* clickDialog = new PopupDialog(locItem, playerInTurn_);
     clickDialog->show();
-
 }
 
 void GameScene::onActionDeclared(std::shared_ptr<Interface::ActionInterface> action)

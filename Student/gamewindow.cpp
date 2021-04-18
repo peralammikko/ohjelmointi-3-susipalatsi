@@ -27,7 +27,7 @@ GameWindow::GameWindow(QWidget *parent) :
     game_ = std::make_shared<Interface::Game>();
     game_->setActive(true);
 
-    courseRunner = std::make_shared<GameRunner>(game_);
+    // courseRunner = std::make_shared<GameRunner>(game_);
     // logic class testing
 
     gameScene_ = new GameScene(gameui_->graphicsView, game_);
@@ -57,10 +57,12 @@ GameWindow::GameWindow(QWidget *parent) :
     }
 
     initAreaResources();
-    gameScene_->resourceInfo(initResourceMap_);
-    std::vector<std::shared_ptr<Interface::Location>> locvec = game_->locations();
-    gameScene_->drawLocations(locvec);
     initCouncillorDemands();
+    gameScene_->resourceInfo(initResourceMap_, councillorDemandsMap_);
+    std::vector<std::shared_ptr<Interface::Location>> locvec = game_->locations();
+
+    // HUOM!
+    gameScene_->drawLocations(locvec);
 
 
     // Adding test players
@@ -100,6 +102,7 @@ GameWindow::GameWindow(QWidget *parent) :
     gameScene_->createHandCards(game_->players().at(0)->cards());
 
     playerInTurn = player1;
+    gameScene_->turnInfo(current_round, playerInTurn);
     displayPlayerStats();
 }
 
@@ -257,18 +260,21 @@ void GameWindow::rewardResources()
 
 void GameWindow::initCouncillorDemands()
 {
+    //
     ResourceMap::iterator it;
     for (auto pair : initResourceMap_) {
         auto location = pair.first;
         auto res = pair.second;
 
+        // Make it so that location's demands can not be it's own resource
         while (true) {
             it = initResourceMap_.begin();
             int num = Interface::Random::RANDOM.uint(5);
             std::advance(it, num);
             if (it->first != location) {
-                auto res = it->second;
-                Interface::CommonResource demand(res.name(), location, num);
+                res = it->second;
+                int amount = 2 + Interface::Random::RANDOM.uint(3);
+                Interface::CommonResource demand(res.name(), location, amount);
                 councillorDemandsMap_.insert({location, demand});
                 break;
             }
@@ -277,11 +283,6 @@ void GameWindow::initCouncillorDemands()
     for (auto i : councillorDemandsMap_) {
         qDebug() << i.first->name() << ": " << i.second.name() << " x" << i.second.amount();
     }
-}
-
-void GameWindow::calculateRewards()
-{
-
 }
 
 void GameWindow::on_passButton_clicked()

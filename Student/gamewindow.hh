@@ -76,8 +76,6 @@ public:
 
     void initCouncillorDemands();
 
-    void calculateRewards();
-
 private slots:
     void on_passButton_clicked();
 
@@ -119,10 +117,10 @@ private:
     mapItem* targetedMapItem_;
 
     ResourceMap initResourceMap_;
+    ResourceMap councillorDemandsMap_;
 
     AgentResourceMap initAgentBackpack_;
 
-    ResourceMap councillorDemandsMap_;
 
 };
 

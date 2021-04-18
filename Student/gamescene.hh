@@ -62,7 +62,7 @@ public:
 
     void turnInfo(int turn, std::shared_ptr<Interface::Player> currentplayer);
 
-    void resourceInfo(ResourceMap &rmap);
+    void resourceInfo(ResourceMap &rmap, ResourceMap &demandmap);
 
 signals:
     void actionDeclared(std::shared_ptr<Interface::ActionInterface> action);
@@ -98,6 +98,7 @@ private:
     void showHandCards();
 
     ResourceMap resMap_;
+    ResourceMap demandsMap_;
 
     // Sees if aItem can move to newLocation
     bool canMoveAgent(LocationItem* newLocation, agentItem* aItem);

@@ -15,17 +15,18 @@ class PopupDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit PopupDialog(std::shared_ptr<Interface::Location> loc, int BV, Interface::CommonResource res, std::shared_ptr<Interface::Player> player, QWidget *parent = 0);
+    explicit PopupDialog(LocationItem* &loc, std::shared_ptr<Interface::Player> &player, QWidget *parent = 0);
     ~PopupDialog();
     void fillAreaAgentsList();
 
 private:
     Ui::PopupDialog *ui;
+    LocationItem* locItem = nullptr;
     std::shared_ptr<Interface::Location> location_ = nullptr;
     std::shared_ptr<Interface::Player> player_ = nullptr;
     int locationBV_ = 0;
-    Interface::CommonResource areaRes;
-    QString areaResName = "";
+    Interface::CommonResource localRes_ = NULLRES;
+    Interface::CommonResource neededRes_ = NULLRES;
 };
 
 #endif // POPUPDIALOG_HH

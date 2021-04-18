@@ -40,7 +40,16 @@ public:
     // Could change this to bool and return false if this agent is not welcome here
     void acceptAgent(agentItem* aItem);
 
-    int calculateRewards(std::shared_ptr<Interface::Player> player);
+    // Calculate how much resources one player gets after round
+    std::vector<int> calculateRewards(std::shared_ptr<Interface::Player> &player);
+
+    // Methods for location's local resource
+    void setLocalResource(Interface::CommonResource &res);
+    Interface::CommonResource getLocalResource();
+
+    // Methods for location's demanded resources
+    void setDemandedResource(Interface::CommonResource &res);
+    Interface::CommonResource getDemandedResource();
 
 protected:
     void advance(int phase) override;
@@ -53,6 +62,8 @@ private:
     int basevalue_;
     bool isSelected = false;
     bool isHovered_ = false;
+    Interface::CommonResource localRes_ = NULLRES;
+    Interface::CommonResource demandRes_ = NULLRES;
 
     int mapIndex_;
 
