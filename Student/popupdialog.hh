@@ -2,9 +2,10 @@
 #define POPUPDIALOG_HH
 
 #include <QDialog>
+#include <QDebug>
 
-#include "commonresource.hh"
-#include "gamescene.hh"
+#include "locationitem.hh"
+#include "player.h"
 
 namespace Ui {
 class PopupDialog;
@@ -17,7 +18,11 @@ class PopupDialog : public QDialog
 public:
     explicit PopupDialog(LocationItem* &loc, std::shared_ptr<Interface::Player> &player, QWidget *parent = 0);
     ~PopupDialog();
-    void fillAreaAgentsList();
+    void fillAreaAgentsList(std::set<std::shared_ptr<Interface::AgentInterface>> &agentsHere);
+    void checkCouncilCard(std::set<std::shared_ptr<Interface::AgentInterface>> &agentsHere);
+
+private slots:
+    void on_tradeButton_clicked();
 
 private:
     Ui::PopupDialog *ui;

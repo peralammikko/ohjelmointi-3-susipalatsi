@@ -1,11 +1,15 @@
 #ifndef AGENT_HH
 #define AGENT_HH
-#include "../Course/agentinterface.h"
-#include "commonresource.hh"
 
 #include <memory>
 #include <map>
 #include <deque>
+
+#include "../Course/agentinterface.h"
+#include "commonresource.hh"
+#include "locationitem.hh"
+
+class LocationItem;
 
 namespace Interface {
 

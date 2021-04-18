@@ -61,7 +61,7 @@ GameWindow::GameWindow(QWidget *parent) :
     gameScene_->resourceInfo(initResourceMap_, councillorDemandsMap_);
     std::vector<std::shared_ptr<Interface::Location>> locvec = game_->locations();
 
-    // HUOM!
+    // HUOM! Locationit saa piirtää vasta resurssien luomisen ja jakelun jälkeen
     gameScene_->drawLocations(locvec);
 
 
@@ -135,6 +135,7 @@ void GameWindow::spawnAgent(std::shared_ptr<Interface::Player> &player)
     QString agname{"Perry"};
     std::shared_ptr<Interface::Agent> agentptr = std::make_shared<Interface::Agent>(agname + player->name(), player);
     agentptr->initAgentResources(initAgentBackpack_);
+    player->addCard(agentptr);
 
     agentItem* agenttiesine = new agentItem(agentptr);
     connect(agenttiesine, &agentItem::actionDeclared, gameScene_, &GameScene::onActionDeclared);
@@ -165,7 +166,7 @@ void GameWindow::changeTurn()
 
 }
 
-void GameWindow::listAgents(std::shared_ptr<Interface::Player> player)
+void GameWindow::listAgents(std::shared_ptr<Interface::Player> &player)
 {
     gameui_->agentListWidget->clear();
     auto listOfAgents = playerAgentItems_.at(player);
@@ -190,9 +191,6 @@ void GameWindow::setupPlayerStash()
 
         // Map for players and their in-game currenty (2 coins on initialization)
         playerWallets_.insert({player, 2});
-
-        // Map for players and their collected councilor cards (empty on initialization)
-        councilorCards_.insert({player, {}});
     }
 }
 
@@ -274,7 +272,7 @@ void GameWindow::initCouncillorDemands()
             if (it->first != location) {
                 res = it->second;
                 int amount = 2 + Interface::Random::RANDOM.uint(3);
-                Interface::CommonResource demand(res.name(), location, amount);
+                Interface::CommonResource demand(res.name(), it->first, amount);
                 councillorDemandsMap_.insert({location, demand});
                 break;
             }

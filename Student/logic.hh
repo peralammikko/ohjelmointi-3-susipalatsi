@@ -15,6 +15,7 @@
 #include "../Course/runner.h"
 #include "../Course/actioninterface.h"
 #include "../Course/controlinterface.h"
+#include "../Course/manualcontrol.h"
 
 
 class Logic : public QObject

@@ -24,7 +24,7 @@ GameScene::GameScene(QWidget *parent, std::weak_ptr<Interface::Game> game) : QGr
 
 void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    qDebug() << "mouse pos on click:" <<event->scenePos();
+    // qDebug() << "mouse pos on click:" <<event->scenePos();
     update();
     QGraphicsScene::mousePressEvent(event);
 }
@@ -116,10 +116,10 @@ void GameScene::turnInfo(int turn, std::shared_ptr<Interface::Player> currentpla
     playerInTurn_ = currentplayer;
 }
 
-void GameScene::resourceInfo(ResourceMap &rmap, ResourceMap &initialdemandmap)
+void GameScene::resourceInfo(ResourceMap &rmap, ResourceMap &dmap)
 {
     resMap_ = rmap;
-    demandsMap_ = initialdemandmap;
+    demandsMap_ = dmap;
 }
 
 
@@ -187,10 +187,11 @@ void GameScene::onLocationItemClicked(LocationItem* locItem)
 {
     PopupDialog* clickDialog = new PopupDialog(locItem, playerInTurn_);
     clickDialog->show();
+
 }
 
 void GameScene::onActionDeclared(std::shared_ptr<Interface::ActionInterface> action)
 {
-    qDebug() << "Action declared, signal recieved gamescene";
+    // qDebug() << "Action declared, signal recieved gamescene";
     emit actionDeclared(action);
 }

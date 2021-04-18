@@ -19,11 +19,11 @@ bool SendAgentAction::canPerform() const
     if (!oldplacement)
     {
         // TODO: require payment
-        qDebug() << "attempting move an agent from hand to place";
+        // qDebug() << "attempting move an agent from hand to place";
        return true;
     } else {
        // oldPlacInterface->removeAgent(aInterface);
-        qDebug() << "attempting move an agent from place to place";
+        // qDebug() << "attempting move an agent from place to place";
         // Calculate the distances between locations
         int dist = abs(newLocItem_->mapIndex() - oldplacement->mapIndex());
         // TODO: maybe implement movements which are larger than one

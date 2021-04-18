@@ -97,7 +97,7 @@ QString Agent::title() const
 
 std::weak_ptr<Player> Agent::owner() const
 {
-
+    return owner_;
 }
 
 void Agent::setOwner(std::weak_ptr<Player> owner)

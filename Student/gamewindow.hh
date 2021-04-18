@@ -10,22 +10,18 @@
 
 #include "gamescene.hh"
 #include "game.h"
-#include "mapitem.hh"
 #include "playerhand.hh"
-#include "locationitem.hh"
 #include "councilor.h"
 #include "controlinterface.h"
 
 // Logic testing
 #include "logic.hh"
 
-
 #include "../Course/game.h"
 #include "../Course/runner.h"
 
 #include "commonresource.hh"
 #include "gamerunner.hh"
-#include "influence.h"
 #include "random.h"
 
 #include <QTimer>
@@ -61,7 +57,7 @@ public:
 
     void changeTurn();
 
-    void listAgents(std::shared_ptr<Interface::Player> player);
+    void listAgents(std::shared_ptr<Interface::Player> &player);
 
     void setupPlayerStash();
     void displayPlayerStats();
@@ -108,9 +104,6 @@ private:
 
     // Holds info on players and their currency
     std::map<std::shared_ptr<Interface::Player>, int> playerWallets_;
-
-    // Holds info on councilorCards earned by players
-    std::map<std::shared_ptr<Interface::Player>, std::vector<std::shared_ptr<Interface::Councilor>>> councilorCards_;
 
 
     // this variable stores drag and drop targe, ie. what is "under" a draggable card

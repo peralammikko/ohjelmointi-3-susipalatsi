@@ -2,9 +2,7 @@
 
 #include "locationitem.hh"
 
-
-
-LocationItem::LocationItem(const std::shared_ptr<Interface::Location> location, int mapIndex) : locationObject_(location), mapIndex_(mapIndex), basevalue_(2), isSelected(false), isHovered_(false)
+LocationItem::LocationItem(const std::shared_ptr<Interface::Location> location, int mapIndex) : locationObject_(location), mapIndex_(mapIndex), basevalue_(1), isSelected(false), isHovered_(false)
 {
     setAcceptHoverEvents(true);
 
@@ -99,7 +97,7 @@ std::vector<int> LocationItem::calculateRewards(std::shared_ptr<Interface::Playe
     int enemyAgents = 0;
     std::shared_ptr<Interface::Location> locPtr = this->getObject();
     for (auto agent : locPtr->agents()) {
-        std::shared_ptr<Interface::Player>agentOwner = agent->owner().lock();
+        std::shared_ptr<Interface::Player> agentOwner = agent->owner().lock();
         std::shared_ptr<Interface::Location>agentPlacement = agent->placement().lock();
         if (!agentPlacement) {
             qDebug() << "owner not found";

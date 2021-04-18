@@ -5,7 +5,8 @@
 #include <QObject>
 
 #include "mapitem.hh"
-#include "popupdialog.hh"
+#include "commonresource.hh"
+#include "agent.hh"
 
 class agentItem;
 
@@ -51,6 +52,8 @@ public:
     void setDemandedResource(Interface::CommonResource &res);
     Interface::CommonResource getDemandedResource();
 
+    void checkCouncillorCard();
+
 protected:
     void advance(int phase) override;
 
@@ -59,9 +62,11 @@ signals:
 
 private:
     const std::shared_ptr<Interface::Location> locationObject_;
-    int basevalue_;
+    int basevalue_ = 0;
     bool isSelected = false;
     bool isHovered_ = false;
+
+    // Resources are initially set to a constant NULL to avoid errors
     Interface::CommonResource localRes_ = NULLRES;
     Interface::CommonResource demandRes_ = NULLRES;
 

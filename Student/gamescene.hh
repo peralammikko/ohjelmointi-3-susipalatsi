@@ -14,14 +14,7 @@
 #include "game.h"
 #include "agentitem.hh"
 #include "locationitem.hh"
-#include "mapitem.hh"
 #include "carditem.hh"
-
-
-#include "../Course/manualcontrol.h"
-
-class LocationItem;
-
 
 class GameScene : public QGraphicsScene
 {
@@ -62,7 +55,7 @@ public:
 
     void turnInfo(int turn, std::shared_ptr<Interface::Player> currentplayer);
 
-    void resourceInfo(ResourceMap &rmap, ResourceMap &demandmap);
+    void resourceInfo(ResourceMap &rmap, ResourceMap &dmap);
 
 signals:
     void actionDeclared(std::shared_ptr<Interface::ActionInterface> action);

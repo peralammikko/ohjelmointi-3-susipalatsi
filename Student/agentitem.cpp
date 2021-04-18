@@ -11,7 +11,7 @@ agentItem::agentItem(std::shared_ptr<Interface::Agent> &agentInterface) : agentC
 {
     agentObject_ = agentInterface;
     setFlags(ItemIsMovable | ItemIsSelectable);
-
+    timer_ = new QTimer(this);
     setAcceptHoverEvents(true);
 }
 
@@ -56,20 +56,31 @@ const QString agentItem::typeOf()
     return "agentitem";
 }
 
-void agentItem::spawnDialogue(std::shared_ptr<Interface::Agent> agent)
+void agentItem::spawnDialogue()
 {
-    dialog_ = new AgentDialog(agent);
-    dialog_->show();
+    // If cursor is no longer on agent, dialog is not shown
+    if (isSelected) {
+        dialog_->show();
+    } else {
+        dialog_ = nullptr;
+    }
 }
 
 void agentItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     isSelected = true;
     update();
+
+    // Find out which agent was pointed at and get it's Agent class object
     std::shared_ptr<Interface::Agent> agentPtr = this->getAgentClass();
+
+    // Creating a new dialog window for said agent
     dialog_ = new AgentDialog(agentPtr);
-    dialog_->show();
-    QGraphicsItem::hoverEnterEvent(event);
+    dialog_->move(event->pos().x(), event->pos().y());
+
+    // Delay the popup for 1 second
+    QTimer::singleShot(dialogDelay_, this, &agentItem::spawnDialogue);
+    QGraphicsItem::hoverLeaveEvent(event);
 }
 
 void agentItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
