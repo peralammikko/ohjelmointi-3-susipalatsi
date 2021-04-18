@@ -24,12 +24,17 @@ class Logic : public QObject
 {
     Q_OBJECT
 public :
-    Logic(std::shared_ptr<Interface::Runner> runner, std::shared_ptr<Interface::Game> game);
+    Logic(std::shared_ptr<Interface::Runner> runner, std::shared_ptr<Interface::Game> game, GameScene *gameScene);
     ~Logic();
 
 
 
     void doTheRunning();
+
+    // Attempting to move almost everything in mainwindow which is related to game rule intialisation here
+    void launchGame();
+    void createLocations();
+
 
 public slots:
     void actionSelected(std::shared_ptr<Interface::ActionInterface> action);
@@ -40,6 +45,7 @@ private:
 
     std::shared_ptr<Interface::Runner> runner_;
     std::shared_ptr<Interface::Game> game_;
+    std::shared_ptr<GameScene> gameScene_;
 
     // Honestly no clue yet
     std::shared_ptr<Interface::ControlInterface> ctrl_;

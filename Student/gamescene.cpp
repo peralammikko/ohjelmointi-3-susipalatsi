@@ -98,9 +98,20 @@ void GameScene::initPlayerHandFor(std::shared_ptr<Interface::Player> player)
     playerHands_.insert(std::make_pair(player, new PlayerHand(this, player)));
 }
 
-void GameScene::createHandCards(std::vector<std::shared_ptr<Interface::CardInterface>> cards)
+std::map<std::shared_ptr<Interface::Player>, PlayerHand *> GameScene::playerHands()
+{
+    return playerHands_;
+}
+
+void GameScene::initHands(std::shared_ptr<Interface::Player> player)
 {
     //oneHand_ = new PlayerHand(this, playerInTurn_);
+
+    PlayerHand* hand = new PlayerHand(this, player);
+    this->addItem(hand);
+    playerHands_.insert(std::pair<std::shared_ptr<Interface::Player>,PlayerHand*>(player, hand));
+    hand->setY(400);
+    /*
     this->addItem(oneHand_);
     oneHand_->setY(400);
     for (unsigned int i = 0; i < cards.size(); ++i) {
@@ -112,8 +123,7 @@ void GameScene::createHandCards(std::vector<std::shared_ptr<Interface::CardInter
 
         connect(carditem, &mapItem::mapItemMouseDragged, this, &GameScene::onMapItemMouseDragged);
         connect(carditem, &mapItem::mapItemMouseReleased, this, &GameScene::onMapItemMouseDropped);
-    }
-
+    }*/
 }
 
 
@@ -174,9 +184,16 @@ void GameScene::onLocationItemClicked(LocationItem* locItem)
 
 void GameScene::onActionDeclared(std::shared_ptr<Interface::ActionInterface> action)
 {
+    if (!game_.lock())
+    {
+        qDebug() << "Action was declared on scene but there is no game";
+        return;
+    }
     qDebug() << "Action declared, signal recieved gamescene";
     emit actionDeclared(action);
 
     // TODO: rearrange the current players hand maybe
-    oneHand_->rearrange();
+    //oneHand_->rearrange();
+
+    playerHands_.at(game_.lock()->currentPlayer())->rearrange();
 }

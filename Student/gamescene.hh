@@ -57,15 +57,16 @@ public:
     // post: scene has locations drawn on scene
     void drawLocations(std::vector<std::shared_ptr<Interface::Location>> &locvec);
 
-    // creates nice carditem for each cardinterface in vector
-    // Post: carditems spawned and calls showHandCards
-    void createHandCards(std::vector<std::shared_ptr<Interface::CardInterface>> cards);
+    // Creates a hand area for player
+    void initHands(std::shared_ptr<Interface::Player> Player);
 
     void turnInfo(int turn, std::shared_ptr<Interface::Player> currentplayer);
 
     void resourceInfo(AreaResources &rmap);
 
     void initPlayerHandFor(std::shared_ptr<Interface::Player> player);
+
+    std::map<std::shared_ptr<Interface::Player>, PlayerHand*> playerHands();
 
 signals:
     void actionDeclared(std::shared_ptr<Interface::ActionInterface> action);

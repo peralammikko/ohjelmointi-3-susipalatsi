@@ -15,6 +15,7 @@ SOURCES += \
     gamerunner.cpp \
     gamescene.cpp \
     gamewindow.cpp \
+    gamesetup.cpp \
     locationitem.cpp \
     logic.cpp \
     main.cc \
@@ -57,6 +58,7 @@ HEADERS += \
     gamerunner.hh \
     gamescene.hh \
     gamewindow.hh \
+    gamesetup.hh \
     locationitem.hh \
     logic.hh \
     mapitem.hh \

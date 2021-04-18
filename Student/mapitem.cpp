@@ -89,8 +89,8 @@ void mapItem::advance(int phase)
         float xvelocity = distanceLeft.x() / (homingTimer_->remainingTime()*0.05);
         float yvelocity = distanceLeft.y() / (homingTimer_->remainingTime()*0.05);
 
-        qDebug() << xvelocity << homingTimer_->remainingTime() << distanceLeft.x();
-        setPos(x() + xvelocity, y() + yvelocity);
+
+        setPos(pos() + QPointF(xvelocity, yvelocity));
     }
 }
 
