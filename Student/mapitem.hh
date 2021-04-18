@@ -24,8 +24,8 @@ public:
     virtual const QString typeOf() = 0;
 
     // mapitem is moved to homeCoordinatesOnScene_ in time milliseconds
-     // TODO: animation
-    virtual void goHome(int time=1000);
+     // BUG: item should not be grabbable while this is in effect
+    virtual void goHome(int time=350);
 
     // sets home to somewhere else
     virtual void setHome(QPointF newhome= QPoint(0,0));

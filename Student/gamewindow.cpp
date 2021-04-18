@@ -36,7 +36,7 @@ GameWindow::GameWindow(QWidget *parent) :
     // TODO: move this after settings are selected or something
     gameTime_ = new QTimer(this);
     connect(gameTime_, SIGNAL(timeout()), gameScene_, SLOT(advance()));
-    gameTime_->start(100);
+    gameTime_->start(50);
 
     // Asetetaan graphicViewin ja ikkunan koot staattiseks ensalkuun
     gameui_->graphicsView->setFixedSize(1400, 900);

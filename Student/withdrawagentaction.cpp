@@ -13,7 +13,7 @@ bool WithdrawAgentAction::canPerform() const
     {
         return true;
     }
-        return false;
+    return false;
 }
 
 void WithdrawAgentAction::perform()
