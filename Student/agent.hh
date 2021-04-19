@@ -34,7 +34,6 @@ public:
 private:
     QString name_;
     std::weak_ptr<Player> owner_;
-    QString typeName_;
     std::weak_ptr<Location> placement_;
     QString title_;
 

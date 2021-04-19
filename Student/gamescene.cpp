@@ -105,29 +105,29 @@ std::map<std::shared_ptr<const Interface::Player>, PlayerHand *> GameScene::play
 
 void GameScene::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer)
 {
-    // Notice: actingPlayer = previous player
-    qDebug() << "Player Changed!" << actingPlayer->name() << game_.lock()->currentPlayer()->name();
-    //auto l = std::dynamic_pointer_cast<std::shared_ptr<Interface::Player>>(actingPlayer);
-
-    // If the player has been changed (round changed) then modify hand areas a bit
     if (actingPlayer != game_.lock()->currentPlayer())
     {
-        playerHands_.at(actingPlayer)->setY(-200);
+        // If the player has been changed (round changed) then modify hand areas a bit
+
+        // TODO: Coords for the hand that is going to be hidden are hard coded for now.
+        // They should be based on the number of players in the game.
+        // TODO: Action cards need to be set "face down"
+        playerHands_.at(actingPlayer)->setY(100);
         playerHands_.at(actingPlayer)->setScale(0.25);
         playerHands_.at(actingPlayer)->setEnabled(false);
 
         playerHands_.at(game_.lock()->currentPlayer())->setEnabled(true);
-        playerHands_.at(game_.lock()->currentPlayer())->setY(400);
+        playerHands_.at(game_.lock()->currentPlayer())->setY(600);
         playerHands_.at(game_.lock()->currentPlayer())->setScale(1);
         playerHands_.at(game_.lock()->currentPlayer())->show();
       //  auto s = actingPlayer.get();
         if (true) {
             qDebug() << "all good player chagne";
         }
+    } else {
+        // The current player most likely got a new card in their hand, so rearrange the hand.
+       playerHands_.at(actingPlayer)->rearrange();
     }
-
-   // playerHands_.at(actingPlayer).setEnabled(false);
-   // playerHands_.at(actingPlayer).setEnabled(false);
 }
 
 void GameScene::initHands(std::shared_ptr<const Interface::Player> player)
@@ -136,19 +136,6 @@ void GameScene::initHands(std::shared_ptr<const Interface::Player> player)
     this->addItem(hand);
     playerHands_.insert(std::pair<std::shared_ptr<const Interface::Player>,PlayerHand*>(player, hand));
     hand->setY(400);
-    /*
-    this->addItem(oneHand_);
-    oneHand_->setY(400);
-    for (unsigned int i = 0; i < cards.size(); ++i) {
-        std::shared_ptr<Interface::CardInterface> carddata = cards.at(i);
-        CardItem *carditem = new CardItem(carddata, this);
-        this->addItem(carditem);
-        oneHand_->addMapItem(carditem);
-        //handCards_.push_back(carditem);
-
-        connect(carditem, &mapItem::mapItemMouseDragged, this, &GameScene::onMapItemMouseDragged);
-        connect(carditem, &mapItem::mapItemMouseReleased, this, &GameScene::onMapItemMouseDropped);
-    }*/
 }
 
 
