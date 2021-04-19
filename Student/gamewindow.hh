@@ -61,6 +61,8 @@ public:
 
     void initAreaResources();
 
+    void rewardResources();
+
 private slots:
     void on_passButton_clicked();
 
@@ -76,7 +78,7 @@ private:
 
     QTimer* gameTime_;
 
-  // Usefulness to be decided. 
+    // Usefulness to be decided.
     std::map<std::shared_ptr<Interface::Player>, std::vector<agentItem*>> playerAgentItems_;
 
     // Holds info on players and their currency

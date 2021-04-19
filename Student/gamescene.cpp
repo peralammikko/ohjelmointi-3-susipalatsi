@@ -7,6 +7,7 @@
 #include "carditem.hh"
 #include "popupdialog.hh"
 #include "agentdialog.hh"
+#include "game.h"
 
 #include "../Course/game.h"
 
@@ -47,15 +48,10 @@ void GameScene::drawLocations(std::vector<std::shared_ptr<Interface::Location>> 
         currentLocation = locvec.at(i);
         LocationItem* locItem = new LocationItem(currentLocation, i);
         connect(locItem, &LocationItem::locationItemPressed, this, &GameScene::onLocationItemClicked);
-
-        // These are broken
-        qDebug() << "TODO: Draw locations init resources MUST BE FIXED";
-        /*
         Interface::CommonResource localRes = resMap_.at(currentLocation);
         locItem->setLocalResource(localRes);
         Interface::CommonResource demandRes = demandsMap_.at(currentLocation);
         locItem->setDemandedResource(demandRes);
-        */
 
         // Geometrinen sijainti kehällä
         float angleDeg = degree * i;
@@ -143,6 +139,10 @@ void GameScene::onPlayerChanged(std::shared_ptr<const Interface::Player> actingP
         // The current player most likely got a new card in their hand, so rearrange the hand.
        playerHands_.at(actingPlayer)->rearrange();
     }
+    std::shared_ptr<Interface::Game> gameboard = game_.lock();
+    if (gameboard) {
+        playerInTurn_ = gameboard->currentPlayer();
+    }
 }
 
 void GameScene::initHands(std::shared_ptr<const Interface::Player> player)
@@ -179,19 +179,6 @@ void GameScene::showHandCards()
 }
 
 */
-
-
-void GameScene::turnInfo(int turn, std::shared_ptr<Interface::Player> currentplayer)
-{
-    turn_ = turn;
-    playerInTurn_ = currentplayer;
-}
-
-/*
-void GameScene::resourceInfo(AreaResources &rmap)
-{
-    resMap_ = rmap;
-}*/
 
 void GameScene::onMapItemMouseDragged(mapItem* mapitem)
 {

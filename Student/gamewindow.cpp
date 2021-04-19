@@ -26,13 +26,11 @@ GameWindow::GameWindow(QWidget *parent) :
     game_ = std::make_shared<Interface::Game>();
     game_->setActive(true);
 
-
-
     gameScene_ = new GameScene(gameui_->graphicsView, game_);
     gameui_->graphicsView->setScene(gameScene_);
     gameui_->graphicsView->setMouseTracking(true);
 
-    courseRunner = std::make_shared<GameRunner>(game_, gameScene_, initResourceMap_);
+    courseRunner = std::make_shared<GameRunner>(game_);
 
     // Tell the game to start listening to the timer
     // TODO: move this after settings are selected or something
@@ -48,6 +46,7 @@ GameWindow::GameWindow(QWidget *parent) :
 
     // TODO: move logic and gamerunner init into gamesetup somehow
     logic_ = std::make_shared<Logic>(courseRunner, game_, gameScene_);
+
     // GameSetup is only called here, and should be cleared after getting out of context
     GameSetup* setup = new GameSetup(gameScene_, game_, courseRunner,  logic_);
 
@@ -62,7 +61,7 @@ GameWindow::GameWindow(QWidget *parent) :
            // gameScene_->playerHands().at(pl)->addMapItem()
         }
     }
-    displayPlayerStats();
+    // displayPlayerStats();
 }
 
 GameWindow::~GameWindow()
@@ -125,19 +124,21 @@ void GameWindow::setupPlayerStash()
     }
 }
 
+/*
 void GameWindow::displayPlayerStats()
 
     // This is temporarily broken
-    /* Mikko's part
+    Mikko's part
     current_round++;
     gameui_->currentRoundLabel->setText("Current round: " + QString::number(current_round));
     gameui_->playerNameLabel->setText(playerInTurn->name());
     gameui_->playerCoinsLabel->setText(QString::number(playerWallets_.at(playerInTurn)));
 
     listAgents(playerInTurn);
-    */
 }
+*/
 
+/*
 void GameWindow::rewardResources()
 {
     qDebug() << "Reward Resources  in gamewindow - TODO: maybe move to logic";
@@ -158,10 +159,12 @@ void GameWindow::rewardResources()
         }
     }
 }
+*/
 
 void GameWindow::on_passButton_clicked()
 {
     // TODO: move to logic where player hand is emptied of all action cards
     qDebug() << "Pass button was clicked. TODO: inform logic";
+    logic_->rewardResources();
     //changeTurn();
 }

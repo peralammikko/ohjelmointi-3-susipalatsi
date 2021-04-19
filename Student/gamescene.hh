@@ -70,6 +70,7 @@ public slots:
     void onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer);
 
     void onActionDeclared(std::shared_ptr<Interface::ActionInterface> action);
+
 private slots:
     void onMapItemMouseDragged(mapItem* mapitem);
     void onMapItemMouseDropped(mapItem* mapitem);
@@ -78,13 +79,10 @@ private slots:
 private:
     // These are deprecated for now and waiting for safe removal
     mapItem* targetedMapItem_;
-    mapItem* selectedLocation = nullptr;
-    agentItem* selectedAgent = nullptr;
 
     PlayerHand* oneHand_ = nullptr;
     std::map<std::shared_ptr<const Interface::Player>, PlayerHand*> playerHands_;
 
-    int turn_ = 0;
     std::shared_ptr<Interface::Player> playerInTurn_ = nullptr;
 
     std::weak_ptr<Interface::Game> game_;

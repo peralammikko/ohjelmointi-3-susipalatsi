@@ -56,7 +56,6 @@ void GameSetup::initResourceMaps()
         // Resource map for agents
         std::pair<std::shared_ptr<Interface::Location>, std::deque<Interface::CommonResource>> pair2;
         pair2.first = loc;
-        // pair2.second.push_back(res);
         initAgentBackpack_.insert(pair2);
     }
 }
@@ -94,7 +93,8 @@ void GameSetup::initLocItems()
 void GameSetup::initLogic()
 {
     // NOTICE! Logic constructor connetcts it to some signals
-    //logic_ = std::make_shared<Logic>(courseRunner_, game_, gameScene_);
+    // logic_ = std::make_shared<Logic>(courseRunner_, game_, gameScene_);
+    logic_->infoResourceMaps(initResourceMap_, councillorDemandsMap_);
 
     // Is this needed here?
     //logic_->doTheRunning();
