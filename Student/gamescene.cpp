@@ -101,6 +101,10 @@ std::map<std::shared_ptr<const Interface::Player>, PlayerHand *> GameScene::play
 
 void GameScene::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer)
 {
+    std::shared_ptr<Interface::Game> gameboard = game_.lock();
+    if (gameboard) {
+        playerInTurn_ = gameboard->currentPlayer();
+    }
     return;
 
     if (actingPlayer != game_.lock()->currentPlayer())
@@ -125,10 +129,6 @@ void GameScene::onPlayerChanged(std::shared_ptr<const Interface::Player> actingP
     } else {
         // The current player most likely got a new card in their hand, so rearrange the hand.
        playerHands_.at(actingPlayer)->rearrange();
-    }
-    std::shared_ptr<Interface::Game> gameboard = game_.lock();
-    if (gameboard) {
-        playerInTurn_ = gameboard->currentPlayer();
     }
 }
 
