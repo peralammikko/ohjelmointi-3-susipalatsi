@@ -21,6 +21,9 @@ GameSetup::GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game
     initPlayerControls();
 
     initAgentInterfaces();
+
+  //  game_.get()->connect(game_.get(), &Interface::Game::playerChanged, gameScene_, &GameScene::onPlayerChanged);
+    game_.get()->connect(game_.get(), &Interface::Game::playerChanged, logic_.get(), &Logic::onPlayerChanged);
     logic_->doTheRunning();
 
 }
@@ -118,10 +121,15 @@ void GameSetup::initPlayerHands()
     auto players = game_->players();
     for (unsigned int i = 0; i < players.size(); ++i)
     {
-        gameScene_->initHands(players.at(i));
+        auto player = players.at(i);
+        gameScene_->initHands(player);
+        if (player != game_->currentPlayer())
+        {
+            std::shared_ptr<const Interface::Player> pla = player;
+            // Player who is not in turn has their hand hidden
+            gameScene_->playerHands().at(player)->hide();
+        }
     }
-
-
 }
 
 void GameSetup::initPlayerControls()
@@ -174,10 +182,5 @@ void GameSetup::initAgentInterfaces()
             gameScene_->addItem(agenttiesine);
             hand->addMapItem(agenttiesine);
         }
-        if (player != game_->currentPlayer())
-        {
-             hand->hide();
-        }
-
     }
 }

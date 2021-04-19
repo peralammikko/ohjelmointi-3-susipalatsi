@@ -5,12 +5,17 @@
 
 #include "gamewindow.hh"
 #include "ui_gamewindow.h"
-#include "mapitem.hh"
-#include "locationitem.hh"
-#include "agent.hh"
-#include "agentitem.hh"
+
+
 #include "gamescene.hh"
 #include <cmath>
+
+//#include "mapitem.hh"
+//#include "locationitem.hh"
+
+//#include "agent.hh"
+//#include "agentitem.hh"
+//#include "actioncard.hh"
 
 #include "../Course/runner.h"
 #include "../Course/game.h"
@@ -20,6 +25,7 @@
 #include "../Course/controlinterface.h"
 #include "../Course/manualcontrol.h"
 
+class ActionCard;
 
 class Logic : public QObject
 {
@@ -40,7 +46,7 @@ public :
 public slots:
     void actionSelected(std::shared_ptr<Interface::ActionInterface> action);
     // tell the game scene to switch player
-    void playerChanged(std::shared_ptr<const Interface::Player> actingPlayer) const;
+    void onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer) ;
 private:
     void setNextAction();
 

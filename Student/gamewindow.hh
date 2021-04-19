@@ -52,8 +52,6 @@ public:
     std::shared_ptr<Interface::Player> getPlayerObject();
     std::vector<agentItem *> getAgents(std::shared_ptr<Interface::Player> &player);
 
-    std::shared_ptr<Interface::Player> getPlayerInTurn();
-
     void changeTurn();
 
     void listAgents(std::shared_ptr<Interface::Player> &player);
@@ -84,14 +82,12 @@ private:
     // Holds info on players and their currency
     std::map<std::shared_ptr<Interface::Player>, int> playerWallets_;
 
-    // Holds info on councilorCards earned by players
-  // Might replace with .cards() function
-    std::map<std::shared_ptr<Interface::Player>, std::vector<std::shared_ptr<Interface::Councilor>>> councilorCards_;
-
     // Holds info on influence gained from locations by players
     // std::map<std::shared_ptr<Interface::Player>, std::vector<std::shared_ptr<Interface::Influence>>> playerInfluenceMap_;
 
-    ResourceMap mappi;
+
+    // this variable stores drag and drop targe, ie. what is "under" a draggable card
+    mapItem* targetedMapItem_;
 
 };
 

@@ -8,6 +8,11 @@ LocationItem::LocationItem(const std::shared_ptr<Interface::Location> location, 
 
 }
 
+LocationItem::~LocationItem()
+{
+
+}
+
 QRectF LocationItem::boundingRect() const
 {
     return QRectF(0, 0, 120,120);
@@ -151,3 +156,4 @@ void LocationItem::advance(int phase)
     //setRotation(rotation()+1);
 }
 */
+

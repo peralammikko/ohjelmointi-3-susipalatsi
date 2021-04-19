@@ -2,7 +2,7 @@
 #include "carditem.hh"
 #include "agentitem.hh"
 
-PlayerHand::PlayerHand(QGraphicsScene* scene, std::shared_ptr<Interface::Player> player) : scene_(scene), player_(player)
+PlayerHand::PlayerHand(QGraphicsScene* scene, std::shared_ptr<const Interface::Player> player) : scene_(scene), player_(player)
 {
 
 }
@@ -26,13 +26,22 @@ void PlayerHand::addMapItem(mapItem* mItem)
     rearrange();
 }
 
+void PlayerHand::setActability(bool canAct)
+{
+
+}
+
+std::shared_ptr<const Interface::Player> PlayerHand::getOwner()
+{
+    return player_;
+}
+
 void PlayerHand::rearrange()
 {
     int xStartForCards = 0;
 
     float handPadding = 5;
     float paddingBetweenAgentsAndCards = 50;
-
 
     std::vector<agentItem*> aItems;
     float agentWidthTotal = 0.0;

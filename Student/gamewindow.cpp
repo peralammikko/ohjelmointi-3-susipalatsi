@@ -40,12 +40,13 @@ GameWindow::GameWindow(QWidget *parent) :
 
     // Asetetaan graphicViewin ja ikkunan koot staattiseks ensalkuun
     gameui_->graphicsView->setFixedSize(1400, 800);
-    // gameScene_->setSceneRect(-600,600,-350,350);
+    gameScene_->setSceneRect(0,0,1400,800);
     this->setFixedSize(1450, 950);
     this->setWindowTitle("SUSIPALATSI: TEH GAME");
 
     // TODO: move logic and gamerunner init into gamesetup somehow
     logic_ = std::make_shared<Logic>(courseRunner, game_, gameScene_);
+    // GameSetup is only called here, and should be cleared after getting out of context
     GameSetup* setup = new GameSetup(gameScene_, game_, courseRunner,  logic_);
 
     // This is a hardcorded card generation and it does NOT draw from decks or anything.
@@ -56,9 +57,7 @@ GameWindow::GameWindow(QWidget *parent) :
             std::shared_ptr<Interface::ActionCard> card = std::make_shared<Interface::ActionCard>();
             pl->addCard(card);
 
-
-            //connect(carditem, &mapItem::mapItemMouseDragged, this, &GameScene::onMapItemMouseDragged);
-            //connect(carditem, &mapItem::mapItemMouseReleased, this, &GameScene::onMapItemMouseDropped);
+           // gameScene_->playerHands().at(pl)->addMapItem()
         }
     }
     displayPlayerStats();
@@ -80,19 +79,19 @@ const std::vector<std::shared_ptr<Interface::Location> > GameWindow::getLocation
     return game_->locations();
 }
 
-std::shared_ptr<Interface::Player> GameWindow::getPlayerInTurn()
-{
-    return game_->currentPlayer();
-}
 
 void GameWindow::changeTurn()
 {
     // FIX THIS TO LOGIC
+    qDebug() << "GAMEWINDOW CHANGETURN - NEEDS FIXING!!";
+    /*
     game_->nextPlayer();
     displayPlayerStats();
     //current_round += 1;
     //gameScene_->turnInfo(current_round, game_->currentPlayer());
     gameScene_->turnInfo(0, game_->currentPlayer());
+    */
+
 }
 
 void GameWindow::listAgents(std::shared_ptr<Interface::Player> &player)
@@ -113,6 +112,7 @@ void GameWindow::listAgents(std::shared_ptr<Interface::Player> &player)
 
 void GameWindow::setupPlayerStash()
 {
+    qDebug() << "Setup Player stash: Needs to be moved to gamesetup";
     for (auto player : game_->players()) {
 
         // Map for agents each player has to use (empty on initialization)
@@ -124,19 +124,42 @@ void GameWindow::setupPlayerStash()
 }
 
 void GameWindow::displayPlayerStats()
-{
 
     // This is temporarily broken
-    //current_round++;
-    //gameui_->currentRoundLabel->setText("Current round: " + QString::number(game_));
-    gameui_->playerNameLabel->setText(game_->currentPlayer()->name());
-    //gameui_->playerCoinsLabel->setText(QString::number(playerWallets_.at(game_->currentPlayer())));
-    //gameui_->councillorNumberLabel->setText(QString::number(councilorCards_.at(game_->currentPlayer()).size()) + " / 6");
-    //listAgents(game_->currentPlayer());
+    /* Mikko's part
+    current_round++;
+    gameui_->currentRoundLabel->setText("Current round: " + QString::number(current_round));
+    gameui_->playerNameLabel->setText(playerInTurn->name());
+    gameui_->playerCoinsLabel->setText(QString::number(playerWallets_.at(playerInTurn)));
+
+    listAgents(playerInTurn);
+    */
+}
+
+void GameWindow::rewardResources()
+{
+    qDebug() << "Reward Resources  in gamewindow - TODO: maybe move to logic";
+    for (auto pair : playerAgentItems_) {
+        for (auto agent : pair.second) {
+            auto agentPtr = agent->getAgentClass();
+            std::shared_ptr<Interface::Location> agentAt = agentPtr->placement().lock();
+            if (!agentAt) {
+                qDebug() << agentPtr->name() << " not in any location";
+            } else {
+                Interface::CommonResource res = initResourceMap_.at(agentAt);
+                if (agentAt != nullptr) {
+                    agentPtr->addResource(agentAt, res, 1);
+                } else {
+                    qDebug() << "who am I where am I";
+                }
+            }
+        }
+    }
 }
 
 void GameWindow::on_passButton_clicked()
 {
-    // TODO: set the player on auto-pass
-    changeTurn();
+    // TODO: move to logic where player hand is emptied of all action cards
+    qDebug() << "Pass button was clicked. TODO: inform logic";
+    //changeTurn();
 }
