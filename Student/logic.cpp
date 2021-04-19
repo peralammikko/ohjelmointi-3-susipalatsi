@@ -92,7 +92,7 @@ void Logic::actionSelected(std::shared_ptr<Interface::ActionInterface> action)
     {
         manualCtrl->setNextAction(action_);
         doTheRunning();
-        game_->nextPlayer();
+        //game_->nextPlayer();
     } else {
         qDebug() << "Manual Control was not found";
         doTheRunning();
