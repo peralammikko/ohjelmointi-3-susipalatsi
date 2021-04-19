@@ -48,15 +48,6 @@ GameWindow::GameWindow(QWidget *parent) :
     logic_ = std::make_shared<Logic>(courseRunner, game_, gameScene_);
     GameSetup* setup = new GameSetup(gameScene_, game_, courseRunner,  logic_);
 
-    // TODO: move this to logic and use game_'s turn based system instead
-    /*
-    if (current_round == 0) {
-        drawPlayerAgents(player1);
-    } else {
-        drawPlayerAgents(player2);
-    }*/
-
-
     // This is a hardcorded card generation and it does NOT draw from decks or anything.
     // It can be here until we get reward system in order
     for (unsigned int i=0; i<game_->players().size(); ++i) {
@@ -70,8 +61,6 @@ GameWindow::GameWindow(QWidget *parent) :
             //connect(carditem, &mapItem::mapItemMouseReleased, this, &GameScene::onMapItemMouseDropped);
         }
     }
-    // gameScene_->turnInfo(current_round, playerInTurn);
-
     displayPlayerStats();
 }
 
@@ -80,12 +69,6 @@ GameWindow::~GameWindow()
     delete gameui_;
 }
 
-/*
-void GameWindow::drawPlayerAgents(std::shared_ptr<Interface::Player> &player)
- {
-    std::vector<agentItem*> agents = playerAgentItems_.at(player);
-    gameScene_->drawAgents(agents);
- }*/
 
 void GameWindow::drawItem(mapItem *item)
 {
@@ -96,25 +79,6 @@ const std::vector<std::shared_ptr<Interface::Location> > GameWindow::getLocation
 {
     return game_->locations();
 }
-/*
-void GameWindow::spawnAgent(std::shared_ptr<Interface::Player> &player)
-{
-    // Create agent interface, which holds all of the data of the card.
-    // Ideally we want this to be handled by carddata class, which would use xml/JSON later on
-    // For now we will just use some default generated stuff
-    QString agname{"Perry"};
-    std::shared_ptr<Interface::Agent> agentptr = std::make_shared<Interface::Agent>(agname + player->name(), player);
-    agentptr->initAgentResources(initAgentBackpack_);
-    player->addCard(agentptr);
-
-    agentItem* agenttiesine = new agentItem(agentptr);
-    connect(agenttiesine, &agentItem::actionDeclared, gameScene_, &GameScene::onActionDeclared);
-
-    gameScene_->addItem(agenttiesine);
-    //agenttiesine->setParent(gameScene_);
-
-    playerAgentItems_.at(player).push_back(agenttiesine);
-}*/
 
 std::shared_ptr<Interface::Player> GameWindow::getPlayerInTurn()
 {
@@ -169,23 +133,6 @@ void GameWindow::displayPlayerStats()
     //gameui_->playerCoinsLabel->setText(QString::number(playerWallets_.at(game_->currentPlayer())));
     //gameui_->councillorNumberLabel->setText(QString::number(councilorCards_.at(game_->currentPlayer()).size()) + " / 6");
     //listAgents(game_->currentPlayer());
-}
-
-void GameWindow::initAreaResources()
-{
-    for (auto loc : game_->locations()) {
-        QString resName = loc->name() + " item";
-        Interface::CommonResource res(resName, loc, 0);
-        // Resource map for locations & runners
-        std::pair<std::shared_ptr<Interface::Location>, Interface::CommonResource> pair(loc, res);
-        initResourceMap_.insert(pair);
-
-        // Resource map for agents
-        std::pair<std::shared_ptr<Interface::Location>, std::deque<Interface::CommonResource>> pair2;
-        pair2.first = loc;
-        // pair2.second.push_back(res);
-        initAgentBackpack_.insert(pair2);
-    }
 }
 
 void GameWindow::on_passButton_clicked()

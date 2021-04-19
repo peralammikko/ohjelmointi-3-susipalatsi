@@ -47,6 +47,7 @@ void GameScene::drawLocations(std::vector<std::shared_ptr<Interface::Location>> 
         currentLocation = locvec.at(i);
         LocationItem* locItem = new LocationItem(currentLocation, i);
         connect(locItem, &LocationItem::locationItemPressed, this, &GameScene::onLocationItemClicked);
+
         Interface::CommonResource localRes = resMap_.at(currentLocation);
         locItem->setLocalResource(localRes);
         Interface::CommonResource demandRes = demandsMap_.at(currentLocation);
@@ -170,18 +171,6 @@ void GameScene::showHandCards()
 }
 
 */
-
-void GameScene::turnInfo(int turn, std::shared_ptr<Interface::Player> currentplayer)
-{
-    turn_ = turn;
-    playerInTurn_ = currentplayer;
-}
-
-void GameScene::resourceInfo(AreaResources &rmap)
-{
-    resMap_ = rmap;
-}
-
 
 void GameScene::onMapItemMouseDragged(mapItem* mapitem)
 {

@@ -6,6 +6,7 @@
 
 #include "mapitem.hh"
 #include "agentdialog.hh"
+#include "playerhand.hh"
 
 
 class agentItem : public mapItem

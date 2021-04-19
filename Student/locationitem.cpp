@@ -91,7 +91,6 @@ const QString LocationItem::typeOf()
     return "locationitem";
 }
 
-<<<<<<< HEAD
 std::vector<int> LocationItem::calculateRewards(std::shared_ptr<Interface::Player> &player)
 {
 
@@ -144,10 +143,11 @@ Interface::CommonResource LocationItem::getLocalResource()
 {
     return localRes_;
 }
-
+/*
 void LocationItem::advance(int phase)
 {
     // qDebug() << "Tick";
     // Proof of concept here
     //setRotation(rotation()+1);
 }
+*/

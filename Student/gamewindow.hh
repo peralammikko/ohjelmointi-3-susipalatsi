@@ -87,8 +87,9 @@ private:
     // Holds info on councilorCards earned by players
   // Might replace with .cards() function
     std::map<std::shared_ptr<Interface::Player>, std::vector<std::shared_ptr<Interface::Councilor>>> councilorCards_;
+
     // Holds info on influence gained from locations by players
-    std::map<std::shared_ptr<Interface::Player>, std::vector<std::shared_ptr<Interface::Influence>>> playerInfluenceMap_;
+    // std::map<std::shared_ptr<Interface::Player>, std::vector<std::shared_ptr<Interface::Influence>>> playerInfluenceMap_;
 
     ResourceMap mappi;
 
