@@ -49,6 +49,7 @@ GameWindow::GameWindow(QWidget *parent) :
 
     // GameSetup is only called here, and should be cleared after getting out of context
     GameSetup* setup = new GameSetup(gameScene_, game_, courseRunner,  logic_);
+    delete setup;
 
     // This is a hardcorded card generation and it does NOT draw from decks or anything.
     // It can be here until we get reward system in order
