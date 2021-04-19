@@ -10,7 +10,7 @@ namespace Interface {
 class ActionCard : public CardInterface
 {
 public:
-    explicit ActionCard(QString name="NONAME", QString typeName="action", QString title ="");
+    explicit ActionCard(QString name="NONAME", QString title ="");
     ~ActionCard();
 
     QString typeName() const override;
@@ -25,7 +25,6 @@ public:
 
 private:
     QString name_;
-    QString typeName_;
     QString title_;
 
     QString description_;
@@ -39,4 +38,4 @@ private:
 };
 
 #endif // ACTIONCARD_HH
-} // Interface
+}; // Interface

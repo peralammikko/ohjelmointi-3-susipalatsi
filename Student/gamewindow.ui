@@ -576,9 +576,9 @@
     <widget class="QLabel" name="playerNameLabel">
      <property name="geometry">
       <rect>
-       <x>110</x>
+       <x>100</x>
        <y>30</y>
-       <width>81</width>
+       <width>131</width>
        <height>20</height>
       </rect>
      </property>
@@ -628,24 +628,6 @@
      </property>
      <property name="text">
       <string>Agents:</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="councillorsWonText">
-     <property name="geometry">
-      <rect>
-       <x>30</x>
-       <y>350</y>
-       <width>181</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Console</family>
-      </font>
-     </property>
-     <property name="text">
-      <string>Councillors impressed:</string>
      </property>
     </widget>
     <widget class="QPushButton" name="passButton">
@@ -776,17 +758,95 @@
       <string>playerCoins</string>
      </property>
     </widget>
-    <widget class="QLabel" name="councillorNumberLabel">
+    <widget class="QLabel" name="influenceText">
      <property name="geometry">
       <rect>
-       <x>90</x>
-       <y>370</y>
-       <width>63</width>
+       <x>80</x>
+       <y>350</y>
+       <width>111</width>
        <height>20</height>
       </rect>
      </property>
      <property name="text">
-      <string>councilorNumber</string>
+      <string>Influence:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="area1infLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>370</y>
+       <width>211</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Area1:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="area2infLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>390</y>
+       <width>221</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Area2:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="area3infLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>410</y>
+       <width>221</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Area3:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="area4infLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>430</y>
+       <width>221</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Area4:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="area5infLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>450</y>
+       <width>221</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Area5:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="area6infLabel">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>470</y>
+       <width>221</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Area6:</string>
      </property>
     </widget>
    </widget>

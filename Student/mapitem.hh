@@ -6,15 +6,14 @@
 #include <QGraphicsSceneMouseEvent>
 
 #include <memory>
-#include <map>  // what is this for?
+#include <QTimer>
 
-#include "../Course/location.h"
+#include "../Course/actioninterface.h"
 #include "../Course/cardinterface.h"
 
 namespace Interface {
     class CardInterface;
 }
-
 
 class mapItem : public QObject, public QGraphicsItem
 {
@@ -25,8 +24,8 @@ public:
     virtual const QString typeOf() = 0;
 
     // mapitem is moved to homeCoordinatesOnScene_ in time milliseconds
-     // TODO: animation
-    virtual void goHome(int time=50);
+     // BUG: item should not be grabbable while this is in effect
+    virtual void goHome(int time=350);
 
     // sets home to somewhere else
     virtual void setHome(QPointF newhome= QPoint(0,0));
@@ -45,15 +44,25 @@ protected:
     // Emits mapItemMouseDragged(mapItem*) if moving while isMousePressed_ is true
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
 
+    virtual std::shared_ptr<Interface::ActionInterface> getDragReleaseAction();
+
     // Emits mapItemMouseReleased(mapItem*) if a dragging leftmousebutton is released and isMousePressed
+    // If the item is dragged, triest to send actionDeclared signal
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
+
+    virtual void advance(int phase) override;
 
     bool isMousePressed_ = 0;
 
+    QTimer* homingTimer_;
+    bool homing_ = false;
 
 signals:
+    virtual void actionDeclared(std::shared_ptr<Interface::ActionInterface>);
+
     void mapItemMouseReleased(mapItem*);
     void mapItemMouseDragged(mapItem*);
+
 
 };
 

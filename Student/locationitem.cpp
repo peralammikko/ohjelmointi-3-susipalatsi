@@ -2,10 +2,14 @@
 
 #include "locationitem.hh"
 
-LocationItem::LocationItem(const std::shared_ptr<Interface::Location> location) : locationObject_(location), basevalue_(2), isSelected(false), isHovered_(false)
+LocationItem::LocationItem(const std::shared_ptr<Interface::Location> location, int mapIndex) : locationObject_(location), mapIndex_(mapIndex), basevalue_(1), isSelected(false), isHovered_(false)
 {
     setAcceptHoverEvents(true);
 
+}
+
+LocationItem::~LocationItem()
+{
 
 }
 
@@ -49,6 +53,16 @@ int LocationItem::getBasevalue()
     return basevalue_;
 }
 
+int LocationItem::mapIndex()
+{
+    return mapIndex_;
+}
+
+void LocationItem::setMapIndex(int newIndex)
+{
+    mapIndex_ = newIndex;
+}
+
 void LocationItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     emit locationItemPressed(this);
@@ -59,9 +73,10 @@ void LocationItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 void LocationItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     isHovered_ = true;
+
     if (childItems().size())
     {
-        setRotation(rotation()+45);
+      //  setRotation(rotation()+45);
     }
     update();
     QGraphicsItem::hoverEnterEvent(event);
@@ -75,7 +90,69 @@ void LocationItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
     QGraphicsItem::hoverLeaveEvent(event);
 }
 
+
+
 const QString LocationItem::typeOf()
 {
     return "locationitem";
+}
+
+std::vector<int> LocationItem::calculateRewards(std::shared_ptr<Interface::Player> &player)
+{
+
+    // WORK IN PROGRESS
+    std::vector<int> numbers(3);
+    int sum = basevalue_;
+    int ownAgents = 0;
+    int enemyAgents = 0;
+    std::shared_ptr<Interface::Location> locPtr = this->getObject();
+    for (auto agent : locPtr->agents()) {
+        std::shared_ptr<Interface::Player> agentOwner = agent->owner().lock();
+        std::shared_ptr<Interface::Location>agentPlacement = agent->placement().lock();
+        if (!agentPlacement) {
+            qDebug() << "owner not found";
+        } else {
+            if (agentOwner == player) {
+                ownAgents += 1;
+            } else {
+                enemyAgents += 1;
+            }
+        }
+    }
+    sum = (basevalue_ + ownAgents) - enemyAgents;
+    if (sum <= 0) {
+        sum = 1;
+    }
+    numbers[0] = sum;
+    numbers[1] = ownAgents;
+    numbers[2] = enemyAgents;
+    return numbers;
+
+}
+
+void LocationItem::setDemandedResource(Interface::CommonResource &res)
+{
+    demandRes_ = res;
+}
+
+Interface::CommonResource LocationItem::getDemandedResource()
+{
+    return demandRes_;
+}
+
+void LocationItem::setLocalResource(Interface::CommonResource &res)
+{
+    localRes_ = res;
+}
+
+Interface::CommonResource LocationItem::getLocalResource()
+{
+    return localRes_;
+}
+
+void LocationItem::advance(int phase)
+{
+    // qDebug() << "Tick";
+    // Proof of concept here
+    //setRotation(rotation()+1);
 }

@@ -1,16 +1,21 @@
 #include "agentitem.hh"
 #include "agent.hh"
 #include "mapitem.hh"
+#include "locationitem.hh"
+
+
+#include "sendagentaction.hh"
+#include "withdrawagentaction.hh"
 
 #include <QDebug>
 
-
+class LocationItem;
 
 agentItem::agentItem(std::shared_ptr<Interface::Agent> &agentInterface) : agentConnections_(0)
 {
     agentObject_ = agentInterface;
     setFlags(ItemIsMovable | ItemIsSelectable);
-
+    timer_ = new QTimer(this);
     setAcceptHoverEvents(true);
 }
 
@@ -20,6 +25,11 @@ agentItem::~agentItem()
 }
 
 std::shared_ptr<Interface::AgentInterface> agentItem::getObject()
+{
+    return agentObject_;
+}
+
+std::shared_ptr<Interface::Agent> agentItem::getAgentClass()
 {
     return agentObject_;
 }
@@ -43,62 +53,68 @@ void agentItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     }
     painter->setPen(pen);
     painter->drawRect(rect);
-
 }
-
 
 const QString agentItem::typeOf()
 {
     return "agentitem";
 }
-/*
- *These have been moved to mapItem and are waiting for safe removal
- *
-void agentItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
+
+void agentItem::spawnDialogue()
 {
-    // Make sure it is a left button event and the item is not pressed
-    if (event->button() == Qt::LeftButton and not pressed_)
-    {
-        pressed_ = true;
-        homeCoordinatesOnScene_ = pos();
+    // If cursor is no longer on agent, dialog is not shown
+    if (isSelected) {
+        dialog_->show();
+    } else {
+        dialog_ = nullptr;
     }
-    update();
-    QGraphicsItem::mousePressEvent(event);
 }
 
-void agentItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
-{
-    if (pressed_)
-    {
-        emit mapItemMouseDragged(this);
-        update();
-    }
-    QGraphicsItem::mouseMoveEvent(event);
-}
-
-void agentItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
-{
-    // Make sure it is a left button event and the item is pressed
-    if (event->button() == Qt::LeftButton and pressed_)
-    {
-        pressed_ = false;
-        emit mapItemMouseReleased(this);
-    }
-    update();
-    QGraphicsItem::mouseReleaseEvent(event);
-}*/
-
-// some cool hovering stuff
 void agentItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     isSelected = true;
     update();
-    QGraphicsItem::hoverEnterEvent(event);
+
+    // Find out which agent was pointed at and get it's Agent class object
+    std::shared_ptr<Interface::Agent> agentPtr = this->getAgentClass();
+
+    // Creating a new dialog window for said agent
+    dialog_ = new AgentDialog(agentPtr);
+    dialog_->move(event->pos().x(), event->pos().y());
+
+    // Delay the popup for 1 second
+    QTimer::singleShot(dialogDelay_, this, &agentItem::spawnDialogue);
+    QGraphicsItem::hoverLeaveEvent(event);
 }
 
 void agentItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
     isSelected = false;
     update();
+    dialog_->close();
+    dialog_ = nullptr;
     QGraphicsItem::hoverLeaveEvent(event);
+}
+
+std::shared_ptr<Interface::ActionInterface> agentItem::getDragReleaseAction()
+{
+    std::shared_ptr<Interface::ActionInterface> action;
+    auto collisions = collidingItems();
+    for (int i = 0; i < collisions.size(); ++i)
+    {
+        LocationItem* lItem = dynamic_cast<LocationItem*>(collisions.at(i));
+        if (lItem)
+        {
+            action = std::make_shared<SendAgentAction>(lItem, this);
+        } else {
+           // PlayerHand* pHand = dynamic_cast<PlayerHand*>(collisions.at(i));
+            if (true)//pHand)
+            {
+
+                //action = std::make_shared<WithdrawAgentAction>(pHand, this);
+            }
+
+        }
+    }
+    return action;
 }

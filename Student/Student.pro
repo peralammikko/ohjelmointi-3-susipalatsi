@@ -8,6 +8,7 @@ CONFIG += c++14
 SOURCES += \
     actioncard.cpp \
     agent.cpp \
+    agentdialog.cpp \
     agentitem.cpp \
     cardinterface.cpp \
     commonresource.cpp \
@@ -15,11 +16,15 @@ SOURCES += \
     gamerunner.cpp \
     gamescene.cpp \
     gamewindow.cpp \
+    gamesetup.cpp \
     locationitem.cpp \
+    logic.cpp \
     main.cc \
     mapitem.cpp \
     playerhand.cpp \
-    popupdialog.cpp
+    popupdialog.cpp \
+    sendagentaction.cpp \
+    withdrawagentaction.cpp
 
 win32:CONFIG(release, debug|release): LIBS += \
     -L$$OUT_PWD/../course/Course/release/ -lCourse
@@ -48,18 +53,24 @@ else:unix: PRE_TARGETDEPS += \
 HEADERS += \
     actioncard.hh \
     agent.hh \
+    agentdialog.hh \
     agentitem.hh \
     commonresource.hh \
     carditem.hh \
     gamerunner.hh \
     gamescene.hh \
     gamewindow.hh \
+    gamesetup.hh \
     locationitem.hh \
+    logic.hh \
     mapitem.hh \
     playerhand.hh \
-    popupdialog.hh
+    popupdialog.hh \
+    sendagentaction.hh \
+    withdrawagentaction.hh
 
 FORMS += \
+    agentdialog.ui \
     gamewindow.ui \
     popupdialog.ui
 

@@ -14,11 +14,8 @@
 #include "game.h"
 #include "agentitem.hh"
 #include "locationitem.hh"
-#include "mapitem.hh"
 #include "carditem.hh"
-
-class LocationItem;
-
+#include "playerhand.hh"
 
 class GameScene : public QGraphicsScene
 {
@@ -53,14 +50,26 @@ public:
     // post: scene has locations drawn on scene
     void drawLocations(std::vector<std::shared_ptr<Interface::Location>> &locvec);
 
-    // creates nice carditem for each cardinterface in vector
-    // Post: carditems spawned and calls showHandCards
-    void createHandCards(std::vector<std::shared_ptr<Interface::CardInterface>> cards);
+    // Creates a hand area for player
+    void initHands(std::shared_ptr<const Interface::Player> Player);
 
     void turnInfo(int turn, std::shared_ptr<Interface::Player> currentplayer);
 
-    void resourceInfo(AreaResources &rmap);
+    void resourceInfo(ResourceMap &rmap, ResourceMap &dmap);
 
+    void initPlayerHandFor(std::shared_ptr<Interface::Player> player);
+
+    std::map<std::shared_ptr<const Interface::Player>, PlayerHand*> playerHands();
+
+signals:
+    void actionDeclared(std::shared_ptr<Interface::ActionInterface> action);
+public slots:
+    // When the player has been changed, makes every item that does not belong to the player undraggable.
+    // This is signaled by game-class
+    // Also moves other player hands on the side as face-down versions with shrunken size
+    void onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer);
+
+    void onActionDeclared(std::shared_ptr<Interface::ActionInterface> action);
 private slots:
     void onMapItemMouseDragged(mapItem* mapitem);
     void onMapItemMouseDropped(mapItem* mapitem);
@@ -72,29 +81,17 @@ private:
     mapItem* selectedLocation = nullptr;
     agentItem* selectedAgent = nullptr;
 
+    PlayerHand* oneHand_ = nullptr;
+    std::map<std::shared_ptr<const Interface::Player>, PlayerHand*> playerHands_;
+
     int turn_ = 0;
     std::shared_ptr<Interface::Player> playerInTurn_ = nullptr;
 
-    // currently displayed card items that are in a player's hand
-    std::vector<CardItem*> handCards_;
-    // the point which determines where hand is drawn
-    std::pair<int, int> handAnchorCoords_;
-    // Gap between card items in hand
-    int handCardPadding_;
-
     std::weak_ptr<Interface::Game> game_;
 
-    // changes state of cards in handCards_ to show and arranges them nicely as a hand centered in handAnchorCoords_
-    // also connects drag drop signals with those carditems
-    void showHandCards();
+    ResourceMap resMap_;
+    ResourceMap demandsMap_;
 
-
-    // Sees if aItem can move to newLocation
-    bool canMoveAgent(LocationItem* newLocation, agentItem* aItem);
-    // Moves agent to a new location
-    void moveAgent(LocationItem* newLocItem, agentItem* aItem);
-
-    AreaResources resMap_ = {};
 };
 
 #endif // GAMESCENE_HH
