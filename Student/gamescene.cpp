@@ -7,6 +7,7 @@
 #include "carditem.hh"
 #include "popupdialog.hh"
 #include "agentdialog.hh"
+#include "game.h"
 
 #include "../Course/game.h"
 
@@ -24,7 +25,7 @@ GameScene::GameScene(QWidget *parent, std::weak_ptr<Interface::Game> game) : QGr
 
 void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    // qDebug() << "mouse pos on click:" <<event->scenePos();
+    qDebug() << "mouse pos on click:" <<event->scenePos();
     update();
     QGraphicsScene::mousePressEvent(event);
 }
@@ -47,15 +48,10 @@ void GameScene::drawLocations(std::vector<std::shared_ptr<Interface::Location>> 
         currentLocation = locvec.at(i);
         LocationItem* locItem = new LocationItem(currentLocation, i);
         connect(locItem, &LocationItem::locationItemPressed, this, &GameScene::onLocationItemClicked);
-
-        // These are broken
-        qDebug() << "TODO: Draw locations init resources MUST BE FIXED";
-        /*
         Interface::CommonResource localRes = resMap_.at(currentLocation);
         locItem->setLocalResource(localRes);
         Interface::CommonResource demandRes = demandsMap_.at(currentLocation);
         locItem->setDemandedResource(demandRes);
-        */
 
         // Geometrinen sijainti kehällä
         float angleDeg = degree * i;
@@ -74,21 +70,6 @@ void GameScene::drawItem(mapItem *item)
     addItem(item);
 }
 
-void GameScene::drawAgents(std::vector<agentItem*> &agents)
-{
-    if (!oneHand_){
-        oneHand_ = new PlayerHand(this, playerInTurn_);
-    }
-    for (unsigned int i = 0; i < agents.size(); i++) {
-        agentItem* current = agents.at(i);
-        current->show();
-        connect(current, &mapItem::mapItemMouseDragged, this, &GameScene::onMapItemMouseDragged);
-        connect(current, &mapItem::mapItemMouseReleased, this, &GameScene::onMapItemMouseDropped);
-        current->setPos(300+current->boundingRect().width()*i, 300);
-        oneHand_->addMapItem(current);
-        //oneHand_->r;
-    }
-}
 
 void GameScene::hideAgents(std::vector<agentItem *> &agents)
 {
@@ -120,6 +101,12 @@ std::map<std::shared_ptr<const Interface::Player>, PlayerHand *> GameScene::play
 
 void GameScene::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer)
 {
+    std::shared_ptr<Interface::Game> gameboard = game_.lock();
+    if (gameboard) {
+        playerInTurn_ = gameboard->currentPlayer();
+    }
+    return;
+
     if (actingPlayer != game_.lock()->currentPlayer())
     {
         // If the player has been changed (round changed) then modify hand areas a bit
@@ -145,8 +132,6 @@ void GameScene::onPlayerChanged(std::shared_ptr<const Interface::Player> actingP
     }
 }
 
-//<<<<<<< Student/gamescene.cpp
-//=======
 void GameScene::initHands(std::shared_ptr<const Interface::Player> player)
 {
     PlayerHand* hand = new PlayerHand(this, player);
@@ -155,21 +140,33 @@ void GameScene::initHands(std::shared_ptr<const Interface::Player> player)
     hand->setY(400);
 }
 
-
-void GameScene::turnInfo(int turn, std::shared_ptr<Interface::Player> currentplayer)
+/*
+void GameScene::showHandCards()
 {
-    turn_ = turn;
-    playerInTurn_ = currentplayer;
+    float widthtotal = 0.0;
+    int xStart;
+    float widthPerCard;
+
+    int count = handCards_.size();
+    if (count) {
+        // Calculate total width of the hand
+        for (int i = 0; i < count; ++i) {
+            handCards_.at(i)->show();
+            widthtotal += handCards_.at(i)->boundingRect().width();
+        }
+        // Gets the new coords for cards based on hand width
+        widthPerCard = (widthtotal + handCardPadding_*count) / count;
+        xStart =  handAnchorCoords_.first - (widthtotal / 2);
+        for (int i = 0; i < count; ++i) {
+            handCards_.at(i)->setParent(this);
+            int x = (xStart + widthPerCard*i);
+            handCards_.at(i)->setPos(x, handAnchorCoords_.second);
+        }
+    }
 }
 
-/*
-void GameScene::resourceInfo(AreaResources &rmap)
-{
-    resMap_ = rmap;
-}*/
+*/
 
-
-//>>>>>>> Student/gamescene.cpp
 void GameScene::onMapItemMouseDragged(mapItem* mapitem)
 {
     // TODO: Discuss with game logic and highlight/scale up items that are valid targets
@@ -221,7 +218,6 @@ void GameScene::onActionDeclared(std::shared_ptr<Interface::ActionInterface> act
         return;
     }
     qDebug() << "Action declared, signal recieved gamescene";
-
     emit actionDeclared(action);
 
     // TODO: rearrange the current players hand maybe

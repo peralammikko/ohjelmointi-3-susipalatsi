@@ -70,6 +70,7 @@ public slots:
     void onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer);
 
     void onActionDeclared(std::shared_ptr<Interface::ActionInterface> action);
+
 private slots:
     void onMapItemMouseDragged(mapItem* mapitem);
     void onMapItemMouseDropped(mapItem* mapitem);
@@ -78,19 +79,25 @@ private slots:
 private:
     // These are deprecated for now and waiting for safe removal
     mapItem* targetedMapItem_;
-    mapItem* selectedLocation = nullptr;
-    agentItem* selectedAgent = nullptr;
 
     PlayerHand* oneHand_ = nullptr;
     std::map<std::shared_ptr<const Interface::Player>, PlayerHand*> playerHands_;
 
-    int turn_ = 0;
     std::shared_ptr<Interface::Player> playerInTurn_ = nullptr;
 
     std::weak_ptr<Interface::Game> game_;
 
+    // changes state of cards in handCards_ to show and arranges them nicely as a hand centered in handAnchorCoords_
+    // also connects drag drop signals with those carditems
+    void showHandCards();
+
     ResourceMap resMap_;
     ResourceMap demandsMap_;
+
+    // Sees if aItem can move to newLocation
+    bool canMoveAgent(LocationItem* newLocation, agentItem* aItem);
+    // Moves agent to a new location
+    void moveAgent(LocationItem* newLocItem, agentItem* aItem);
 
 };
 

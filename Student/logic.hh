@@ -37,16 +37,17 @@ public :
 
 
     void doTheRunning();
-
     // Attempting to move almost everything in mainwindow which is related to game rule intialisation here
     void launchGame();
     void createLocations();
-
+    void rewardResources();
+    void infoResourceMaps(ResourceMap &rmap, ResourceMap &dmap);
 
 public slots:
     void actionSelected(std::shared_ptr<Interface::ActionInterface> action);
     // tell the game scene to switch player
     void onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer) ;
+
 private:
     void setNextAction();
 
@@ -60,6 +61,11 @@ private:
     std::shared_ptr<Interface::ActionInterface> action_;
 
     std::shared_ptr<Interface::Player>  actingPlayer_;
+    int current_turn = 1;
+
+    ResourceMap resMap_;
+    ResourceMap demandsMap_;
+
 
 };
 

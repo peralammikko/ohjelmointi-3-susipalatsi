@@ -36,10 +36,13 @@ public:
 private:
     void initLocations();
     void initLocationDecks();
+    void initResourceMaps();
+    void initDemandMaps();
     void initLocItems();
 
     // TODO: logic needed in constructor? Logic needed to return?
     void initLogic();
+
 
     void initPlayers();
     void initPlayerHands();
@@ -49,10 +52,16 @@ private:
     void initAgentItems();
     void sendAgentsToStartLocations();
 
+
     GameScene* gameScene_;
     std::shared_ptr<Interface::Game> game_;
     std::shared_ptr<GameRunner> courseRunner_;
     std::shared_ptr<Logic> logic_;
+
+    ResourceMap initResourceMap_;
+    ResourceMap councillorDemandsMap_;
+    AgentResourceMap initAgentBackpack_;
+
 
 };
 

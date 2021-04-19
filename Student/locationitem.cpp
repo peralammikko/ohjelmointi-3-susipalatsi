@@ -73,7 +73,6 @@ void LocationItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 void LocationItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     isHovered_ = true;
-
     if (childItems().size())
     {
       //  setRotation(rotation()+45);
@@ -156,3 +155,4 @@ void LocationItem::advance(int phase)
     // Proof of concept here
     //setRotation(rotation()+1);
 }
+

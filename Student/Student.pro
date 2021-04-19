@@ -76,3 +76,6 @@ FORMS += \
 
 RESOURCES += \
     default.jpg
+
+DISTFILES += \
+    defaultsettings.dat

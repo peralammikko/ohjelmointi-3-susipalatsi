@@ -38,6 +38,7 @@ std::shared_ptr<const Interface::Player> PlayerHand::getOwner()
 
 void PlayerHand::rearrange()
 {
+    update();
     int xStartForCards = 0;
 
     float handPadding = 5;
@@ -48,7 +49,7 @@ void PlayerHand::rearrange()
     std::vector<CardItem*> cItems;
     float cardWidthTotal = 0.0;
 
-    auto items = childItems();
+    QList<QGraphicsItem *> const items = childItems();
     int count = items.size();
     if (count) {
 

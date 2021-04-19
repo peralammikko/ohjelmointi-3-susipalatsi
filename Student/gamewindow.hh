@@ -61,13 +61,7 @@ public:
 
     void initAreaResources();
 
-    // Needs actions for proper testing and tweaking
-    void initPlayerControls();
-
-    // Distributing resources for agents in locations
     void rewardResources();
-
-    void initCouncillorDemands();
 
 private slots:
     void on_passButton_clicked();
@@ -84,20 +78,18 @@ private:
 
     QTimer* gameTime_;
 
+    // Usefulness to be decided.
     std::map<std::shared_ptr<Interface::Player>, std::vector<agentItem*>> playerAgentItems_;
 
     // Holds info on players and their currency
     std::map<std::shared_ptr<Interface::Player>, int> playerWallets_;
 
+    // Holds info on influence gained from locations by players
+    // std::map<std::shared_ptr<Interface::Player>, std::vector<std::shared_ptr<Interface::Influence>>> playerInfluenceMap_;
+
 
     // this variable stores drag and drop targe, ie. what is "under" a draggable card
     mapItem* targetedMapItem_;
-
-    ResourceMap initResourceMap_;
-    ResourceMap councillorDemandsMap_;
-
-    AgentResourceMap initAgentBackpack_;
-
 
 };
 

@@ -33,10 +33,6 @@ AgentDialog::~AgentDialog()
 
 void AgentDialog::listResources()
 {
-    //
-    // NOTE-TO-SELF: Etsi parempi tapa hakea resurssin nimi
-    // Jos resursseia ei ole, ei löydy nimeäkään listaan
-    //
 
     for (auto res : agent_->getAgentResources()) {
         int resAmount = res.second.size();

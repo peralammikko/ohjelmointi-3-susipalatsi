@@ -10,6 +10,8 @@ GameSetup::GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game
 
     //const int LOCATIONS = std::min(reader.getValue("LOCATIONS").toInt(), reader.getValue("MAX_LOCATIONS").toInt());
     initLocations();
+    initResourceMaps();
+    initDemandMaps();
     initLocItems();
 
     initLogic();
@@ -23,6 +25,7 @@ GameSetup::GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game
     game_.get()->connect(game_.get(), &Interface::Game::playerChanged, gameScene_, &GameScene::onPlayerChanged);
     game_.get()->connect(game_.get(), &Interface::Game::playerChanged, logic_.get(), &Logic::onPlayerChanged);
     logic_->doTheRunning();
+
 }
 
 void GameSetup::initLocations()
@@ -40,16 +43,58 @@ void GameSetup::initLocations()
     }
 }
 
+void GameSetup::initResourceMaps()
+{
+    for (auto loc : game_->locations()) {
+        QString resName = loc->name() + " item";
+        Interface::CommonResource res(resName, loc, 0);
+
+        // Resource map for locations & runners
+        std::pair<std::shared_ptr<Interface::Location>, Interface::CommonResource> pair(loc, res);
+        initResourceMap_.insert(pair);
+
+        // Resource map for agents
+        std::pair<std::shared_ptr<Interface::Location>, std::deque<Interface::CommonResource>> pair2;
+        pair2.first = loc;
+        initAgentBackpack_.insert(pair2);
+    }
+}
+
+void GameSetup::initDemandMaps()
+{
+    ResourceMap::iterator it;
+    for (auto pair : initResourceMap_) {
+        auto location = pair.first;
+        auto res = pair.second;
+
+        // Make it so that location's demands can not be it's own resource
+        while (true) {
+            it = initResourceMap_.begin();
+            int num = Interface::Random::RANDOM.uint(5);
+            std::advance(it, num);
+            if (it->first != location) {
+                res = it->second;
+                int amount = 2 + Interface::Random::RANDOM.uint(3);
+                Interface::CommonResource demand(res.name(), it->first, amount);
+                councillorDemandsMap_.insert({location, demand});
+                break;
+            }
+        }
+    }
+}
+
 void GameSetup::initLocItems()
 {
     std::vector<std::shared_ptr<Interface::Location>> locvec = game_->locations();
+    gameScene_->resourceInfo(initResourceMap_, councillorDemandsMap_);
     gameScene_->drawLocations(locvec);
 }
 
 void GameSetup::initLogic()
 {
     // NOTICE! Logic constructor connetcts it to some signals
-    //logic_ = std::make_shared<Logic>(courseRunner_, game_, gameScene_);
+    // logic_ = std::make_shared<Logic>(courseRunner_, game_, gameScene_);
+    logic_->infoResourceMaps(initResourceMap_, councillorDemandsMap_);
 
     // Is this needed here?
     //logic_->doTheRunning();
@@ -103,6 +148,7 @@ void GameSetup::initPlayerControls()
     courseRunner->setPlayerControl(player1, mancontrol);
     courseRunner->setPlayerControl(player2, mancontrol);
     */
+
 }
 
 void GameSetup::initAgentInterfaces()
@@ -124,9 +170,12 @@ void GameSetup::initAgentInterfaces()
             pseudorandomIndex = pseudorandomIndex % (some_names.size()-1);
             // create the interface
             std::shared_ptr<Interface::Agent> agentInter = std::make_shared<Interface::Agent>(some_names.at(pseudorandomIndex) + player->name(), player);
+            agentInter->initAgentResources(initAgentBackpack_);
 
-            // I had no idea if this is necessary. Probably yes
+            // I had no idea if this is necessary. Probably yes.
+            // Oh yes!
             player->addCard(agentInter);
+
             // create the agent item that is movable on the scene and add it to the scene
             agentItem* agenttiesine = new agentItem(agentInter); // should this be a shared_ptr instead?
             gameScene_->connect(agenttiesine, &agentItem::actionDeclared, gameScene_, &GameScene::onActionDeclared);
