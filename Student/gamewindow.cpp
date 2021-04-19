@@ -39,7 +39,7 @@ GameWindow::GameWindow(QWidget *parent) :
 
     // Asetetaan graphicViewin ja ikkunan koot staattiseks ensalkuun
     gameui_->graphicsView->setFixedSize(1400, 800);
-    // gameScene_->setSceneRect(-600,600,-350,350);
+    gameScene_->setSceneRect(0,0,1400,800);
     this->setFixedSize(1450, 950);
     this->setWindowTitle("SUSIPALATSI: TEH GAME");
 
@@ -47,7 +47,8 @@ GameWindow::GameWindow(QWidget *parent) :
     // TODO: move logic and gamerunner init into gamesetup somehow
     logic_ = std::make_shared<Logic>(courseRunner, game_, gameScene_);
     // GameSetup is only called here, and should be cleared after getting out of context
-    GameSetup setup = GameSetup(gameScene_, game_, courseRunner,  logic_);
+    GameSetup* setup = new GameSetup(gameScene_, game_, courseRunner,  logic_);
+    delete setup;
 
     // This is a hardcorded card generation and it does NOT draw from decks or anything.
     // It can be here until we get reward system in order
