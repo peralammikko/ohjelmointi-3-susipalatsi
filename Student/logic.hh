@@ -23,6 +23,7 @@
 
 #include "../Course/actioninterface.h"
 #include "../Course/controlinterface.h"
+#include "../Course/manualcontrol.h"
 
 class ActionCard;
 

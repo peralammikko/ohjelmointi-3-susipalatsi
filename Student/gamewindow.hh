@@ -10,22 +10,19 @@
 
 #include "gamescene.hh"
 #include "game.h"
-#include "mapitem.hh"
 #include "playerhand.hh"
-#include "locationitem.hh"
 #include "councilor.h"
 #include "controlinterface.h"
 
 // Logic testing
 #include "logic.hh"
 
-
 #include "../Course/game.h"
 #include "../Course/runner.h"
 
 #include "commonresource.hh"
 #include "gamerunner.hh"
-#include "influence.h"
+#include "random.h"
 
 #include <QTimer>
 
@@ -57,12 +54,20 @@ public:
 
     void changeTurn();
 
-    void listAgents(std::shared_ptr<Interface::Player> player);
+    void listAgents(std::shared_ptr<Interface::Player> &player);
 
     void setupPlayerStash();
     void displayPlayerStats();
 
     void initAreaResources();
+
+    // Needs actions for proper testing and tweaking
+    void initPlayerControls();
+
+    // Distributing resources for agents in locations
+    void rewardResources();
+
+    void initCouncillorDemands();
 
 private slots:
     void on_passButton_clicked();
@@ -80,16 +85,20 @@ private:
     QTimer* gameTime_;
 
     std::map<std::shared_ptr<Interface::Player>, std::vector<agentItem*>> playerAgentItems_;
+
     // Holds info on players and their currency
     std::map<std::shared_ptr<Interface::Player>, int> playerWallets_;
-    // Holds info on councilorCards earned by players
-    std::map<std::shared_ptr<Interface::Player>, std::vector<std::shared_ptr<Interface::Councilor>>> councilorCards_;
-    // Holds info on influence gained from locations by players
-    std::map<std::shared_ptr<Interface::Player>, std::vector<std::shared_ptr<Interface::Influence>>> playerInfluenceMap_;
 
-    ResourceMap mappi;
 
-    AreaResources areaResourceMap = {};
+    // this variable stores drag and drop targe, ie. what is "under" a draggable card
+    mapItem* targetedMapItem_;
+
+    ResourceMap initResourceMap_;
+    ResourceMap councillorDemandsMap_;
+
+    AgentResourceMap initAgentBackpack_;
+
+
 };
 
 #endif // GAMEWINDOW_HH

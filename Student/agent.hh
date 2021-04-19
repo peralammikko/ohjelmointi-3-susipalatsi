@@ -5,6 +5,13 @@
 
 #include <memory>
 #include <map>
+#include <deque>
+
+#include "../Course/agentinterface.h"
+#include "commonresource.hh"
+#include "locationitem.hh"
+
+class LocationItem;
 
 namespace Interface {
 
@@ -13,6 +20,13 @@ class Agent : public AgentInterface
 public:
     Agent(QString name, std::weak_ptr<Player> owner);
     ~Agent();
+
+    // Initialize agent's backpack for resources to gather
+    void initAgentResources(AgentResourceMap agentResMap);
+    AgentResourceMap getAgentResources();
+    void addResource(std::shared_ptr<Location> agentAt, CommonResource res, int amount);
+
+    std::shared_ptr<Interface::Location> whereIsAgent();
 
     // AgentInterface overrides
     virtual bool isCommon() const override;
@@ -37,7 +51,7 @@ private:
     std::weak_ptr<Location> placement_;
     QString title_;
 
-    std::map<std::weak_ptr<Interface::Player>, int> gatheredResources_;
+    AgentResourceMap gatheredResources_;
 
 };
 

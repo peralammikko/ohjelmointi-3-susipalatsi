@@ -5,7 +5,8 @@
 #include <QObject>
 
 #include "mapitem.hh"
-#include "popupdialog.hh"
+#include "commonresource.hh"
+#include "agent.hh"
 
 class agentItem;
 
@@ -41,6 +42,19 @@ public:
     // Could change this to bool and return false if this agent is not welcome here
     void acceptAgent(agentItem* aItem);
 
+    // Calculate how much resources one player gets after round
+    std::vector<int> calculateRewards(std::shared_ptr<Interface::Player> &player);
+
+    // Methods for location's local resource
+    void setLocalResource(Interface::CommonResource &res);
+    Interface::CommonResource getLocalResource();
+
+    // Methods for location's demanded resources
+    void setDemandedResource(Interface::CommonResource &res);
+    Interface::CommonResource getDemandedResource();
+
+    void checkCouncillorCard();
+
 protected:
     // void advance(int phase) override;
 
@@ -49,9 +63,13 @@ signals:
 
 private:
     const std::shared_ptr<Interface::Location> locationObject_;
-    int basevalue_;
+    int basevalue_ = 0;
     bool isSelected = false;
     bool isHovered_ = false;
+
+    // Resources are initially set to a constant NULL to avoid errors
+    Interface::CommonResource localRes_ = NULLRES;
+    Interface::CommonResource demandRes_ = NULLRES;
 
     int mapIndex_;
 

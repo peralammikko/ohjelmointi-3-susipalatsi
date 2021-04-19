@@ -8,6 +8,7 @@ CONFIG += c++14
 SOURCES += \
     actioncard.cpp \
     agent.cpp \
+    agentdialog.cpp \
     agentitem.cpp \
     cardinterface.cpp \
     commonresource.cpp \
@@ -52,6 +53,7 @@ else:unix: PRE_TARGETDEPS += \
 HEADERS += \
     actioncard.hh \
     agent.hh \
+    agentdialog.hh \
     agentitem.hh \
     commonresource.hh \
     carditem.hh \
@@ -68,6 +70,7 @@ HEADERS += \
     withdrawagentaction.hh
 
 FORMS += \
+    agentdialog.ui \
     gamewindow.ui \
     popupdialog.ui
 

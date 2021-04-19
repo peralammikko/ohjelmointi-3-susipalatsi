@@ -6,6 +6,7 @@
 #include <cmath>
 #include "carditem.hh"
 #include "popupdialog.hh"
+#include "agentdialog.hh"
 
 #include "../Course/game.h"
 
@@ -23,7 +24,7 @@ GameScene::GameScene(QWidget *parent, std::weak_ptr<Interface::Game> game) : QGr
 
 void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    qDebug() << "mouse pos on click:" <<event->scenePos();
+    // qDebug() << "mouse pos on click:" <<event->scenePos();
     update();
     QGraphicsScene::mousePressEvent(event);
 }
@@ -46,6 +47,11 @@ void GameScene::drawLocations(std::vector<std::shared_ptr<Interface::Location>> 
         currentLocation = locvec.at(i);
         LocationItem* locItem = new LocationItem(currentLocation, i);
         connect(locItem, &LocationItem::locationItemPressed, this, &GameScene::onLocationItemClicked);
+        Interface::CommonResource localRes = resMap_.at(currentLocation);
+        locItem->setLocalResource(localRes);
+        Interface::CommonResource demandRes = demandsMap_.at(currentLocation);
+        locItem->setDemandedResource(demandRes);
+
 
         // Geometrinen sijainti kehällä
         float angleDeg = degree * i;
@@ -71,7 +77,6 @@ void GameScene::drawAgents(std::vector<agentItem*> &agents)
     }
     for (unsigned int i = 0; i < agents.size(); i++) {
         agentItem* current = agents.at(i);
-        //std::shared_ptr<Interface::AgentInterface> agent = current->getObject(); // What is this for ?
         current->show();
         connect(current, &mapItem::mapItemMouseDragged, this, &GameScene::onMapItemMouseDragged);
         connect(current, &mapItem::mapItemMouseReleased, this, &GameScene::onMapItemMouseDropped);
@@ -96,6 +101,12 @@ void GameScene::hideAgents(std::vector<agentItem *> &agents)
 void GameScene::initPlayerHandFor(std::shared_ptr<Interface::Player> player)
 {
     playerHands_.insert(std::make_pair(player, new PlayerHand(this, player)));
+}
+
+void GameScene::resourceInfo(ResourceMap &rmap, ResourceMap &dmap)
+{
+    resMap_ = rmap;
+    demandsMap_ = dmap;
 }
 
 std::map<std::shared_ptr<const Interface::Player>, PlayerHand *> GameScene::playerHands()
@@ -130,6 +141,8 @@ void GameScene::onPlayerChanged(std::shared_ptr<const Interface::Player> actingP
     }
 }
 
+<<<<<<< Student/gamescene.cpp
+=======
 void GameScene::initHands(std::shared_ptr<const Interface::Player> player)
 {
     PlayerHand* hand = new PlayerHand(this, player);
@@ -151,6 +164,7 @@ void GameScene::resourceInfo(AreaResources &rmap)
 }
 
 
+>>>>>>> Student/gamescene.cpp
 void GameScene::onMapItemMouseDragged(mapItem* mapitem)
 {
     // TODO: Discuss with game logic and highlight/scale up items that are valid targets
@@ -187,21 +201,23 @@ void GameScene::onMapItemMouseDropped(mapItem* mapitem)
 
 void GameScene::onLocationItemClicked(LocationItem* locItem)
 {
-    CommonResource res = resMap_.at(locItem->getObject());
-    int BV = locItem->getBasevalue();
-    PopupDialog* clickDialog = new PopupDialog(locItem->getObject(), BV, res, playerInTurn_);
+    PopupDialog* clickDialog = new PopupDialog(locItem, playerInTurn_);
     clickDialog->show();
 
 }
 
 void GameScene::onActionDeclared(std::shared_ptr<Interface::ActionInterface> action)
 {
+<<<<<<< Student/gamescene.cpp
+    // qDebug() << "Action declared, signal recieved gamescene";
+=======
     if (!game_.lock())
     {
         qDebug() << "Action was declared on scene but there is no game";
         return;
     }
     qDebug() << "Action declared, signal recieved gamescene";
+>>>>>>> Student/gamescene.cpp
     emit actionDeclared(action);
 
     // TODO: rearrange the current players hand maybe

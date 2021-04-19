@@ -1,3 +1,5 @@
+#include <QDebug>
+
 #include "agent.hh"
 
 #include <QDebug>
@@ -18,6 +20,40 @@ Agent::Agent(QString name, std::weak_ptr<Player> owner) : name_(name), owner_(ow
 Agent::~Agent()
 {
 
+}
+
+void Agent::initAgentResources(AgentResourceMap resMap)
+{
+    gatheredResources_ = resMap;
+}
+
+AgentResourceMap Agent::getAgentResources()
+{
+    return gatheredResources_;
+}
+/*
+ResourceMap Agent::getResources()
+{
+    return gatheredResources_;
+}
+*/
+void Agent::addResource(std::shared_ptr<Interface::Location> agentAt, CommonResource res, int amount)
+{
+    AgentResourceMap::iterator iter = gatheredResources_.find(agentAt);
+    for (int i = 0; i < amount; i++) {
+        iter->second.push_back(res);
+        qDebug() << i << " resources added to " << this->name();
+    }
+}
+
+std::shared_ptr<Location> Agent::whereIsAgent()
+{
+    std::shared_ptr<Interface::Location> loc = this->placement().lock();
+    if (!loc) {
+        return nullptr;
+    } else {
+        return loc;
+    }
 }
 
 bool Agent::isCommon() const
