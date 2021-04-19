@@ -48,11 +48,14 @@ void GameScene::drawLocations(std::vector<std::shared_ptr<Interface::Location>> 
         LocationItem* locItem = new LocationItem(currentLocation, i);
         connect(locItem, &LocationItem::locationItemPressed, this, &GameScene::onLocationItemClicked);
 
+        // These are broken
+        qDebug() << "TODO: Draw locations init resources MUST BE FIXED";
+        /*
         Interface::CommonResource localRes = resMap_.at(currentLocation);
         locItem->setLocalResource(localRes);
         Interface::CommonResource demandRes = demandsMap_.at(currentLocation);
         locItem->setDemandedResource(demandRes);
-
+        */
 
         // Geometrinen sijainti kehällä
         float angleDeg = degree * i;
@@ -184,10 +187,11 @@ void GameScene::turnInfo(int turn, std::shared_ptr<Interface::Player> currentpla
     playerInTurn_ = currentplayer;
 }
 
+/*
 void GameScene::resourceInfo(AreaResources &rmap)
 {
     resMap_ = rmap;
-}
+}*/
 
 void GameScene::onMapItemMouseDragged(mapItem* mapitem)
 {
@@ -233,6 +237,7 @@ void GameScene::onLocationItemClicked(LocationItem* locItem)
 void GameScene::onActionDeclared(std::shared_ptr<Interface::ActionInterface> action)
 {
 
+    // qDebug() << "Action declared, signal recieved gamescene";
     if (!game_.lock())
     {
         qDebug() << "Action was declared on scene but there is no game";

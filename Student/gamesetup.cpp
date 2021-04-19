@@ -22,7 +22,7 @@ GameSetup::GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game
 
     initAgentInterfaces();
 
-  //  game_.get()->connect(game_.get(), &Interface::Game::playerChanged, gameScene_, &GameScene::onPlayerChanged);
+    game_.get()->connect(game_.get(), &Interface::Game::playerChanged, gameScene_, &GameScene::onPlayerChanged);
     game_.get()->connect(game_.get(), &Interface::Game::playerChanged, logic_.get(), &Logic::onPlayerChanged);
     logic_->doTheRunning();
 

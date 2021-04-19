@@ -26,11 +26,13 @@ GameWindow::GameWindow(QWidget *parent) :
     game_ = std::make_shared<Interface::Game>();
     game_->setActive(true);
 
-    courseRunner = std::make_shared<GameRunner>(game_);
+
 
     gameScene_ = new GameScene(gameui_->graphicsView, game_);
     gameui_->graphicsView->setScene(gameScene_);
     gameui_->graphicsView->setMouseTracking(true);
+
+    courseRunner = std::make_shared<GameRunner>(game_, gameScene_, initResourceMap_);
 
     // Tell the game to start listening to the timer
     // TODO: move this after settings are selected or something
