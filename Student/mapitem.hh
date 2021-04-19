@@ -28,11 +28,11 @@ public:
     virtual void goHome(int time=350);
 
     // sets home to somewhere else
-    virtual void setHome(QPointF newhome= QPoint(0,0));
+    virtual void setHome(QPointF newhome= QPoint(0,0), bool debug=false);
 
 protected:
-    // in goHome the card is moved back to this point on its parent scene
-    QPointF homeCoordinatesOnScene_ = QPointF(0,0);
+    // Coordinates in which the item will home to. It is in parent item's coordinate system, like pos() is.
+    QPointF homeCoords_ = QPointF(0,0);
 
     // Mouse moving event. In order for these to run, a child must have  Q_UNUSED(QWidget *parent) or similar in its constructor
     // If the item needs to be moved, it also reuires following line called somewhere

@@ -15,6 +15,7 @@ agentItem::agentItem(std::shared_ptr<Interface::Agent> &agentInterface) : agentC
 {
     agentObject_ = agentInterface;
     setFlags(ItemIsMovable | ItemIsSelectable);
+    homing_ = false;
     timer_ = new QTimer(this);
     setAcceptHoverEvents(true);
 }
@@ -63,6 +64,10 @@ const QString agentItem::typeOf()
 void agentItem::spawnDialogue()
 {
     // If cursor is no longer on agent, dialog is not shown
+    if (!dialog_)
+    {
+        return;
+    }
     if (isSelected) {
         dialog_->show();
     } else {
@@ -74,25 +79,34 @@ void agentItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     isSelected = true;
     update();
+    if (not homing_){
+        // Find out which agent was pointed at and get it's Agent class object
+        std::shared_ptr<Interface::Agent> agentPtr = this->getAgentClass();
 
-    // Find out which agent was pointed at and get it's Agent class object
-    std::shared_ptr<Interface::Agent> agentPtr = this->getAgentClass();
+        if (not dialog_)
+        {
+            // Creating a new dialog window for said agent
+            dialog_ = new AgentDialog(agentPtr);
+            dialog_->move(event->pos().x(), event->pos().y());
 
-    // Creating a new dialog window for said agent
-    dialog_ = new AgentDialog(agentPtr);
-    dialog_->move(event->pos().x(), event->pos().y());
+            // Delay the popup for 1 second
+            QTimer::singleShot(dialogDelay_, this, &agentItem::spawnDialogue);
+            QGraphicsItem::hoverLeaveEvent(event);
+        }
 
-    // Delay the popup for 1 second
-    QTimer::singleShot(dialogDelay_, this, &agentItem::spawnDialogue);
-    QGraphicsItem::hoverLeaveEvent(event);
+    }
 }
 
 void agentItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
     isSelected = false;
     update();
-    dialog_->close();
-    dialog_ = nullptr;
+    if (dialog_)
+    {
+        dialog_->close();
+        delete dialog_;
+        dialog_ = nullptr;
+    }
     QGraphicsItem::hoverLeaveEvent(event);
 }
 
@@ -110,10 +124,8 @@ std::shared_ptr<Interface::ActionInterface> agentItem::getDragReleaseAction()
            // PlayerHand* pHand = dynamic_cast<PlayerHand*>(collisions.at(i));
             if (true)//pHand)
             {
-
                 //action = std::make_shared<WithdrawAgentAction>(pHand, this);
             }
-
         }
     }
     return action;

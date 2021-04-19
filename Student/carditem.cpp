@@ -12,7 +12,7 @@ CardItem::CardItem(std::shared_ptr<Interface::CardInterface> card, QObject *pare
     isPressed_ = false;
     isHovered_ = false;
     // This will be useful when we want card to be snapped back after dragging
-    homeCoordinatesOnScene_ = QPointF(x(), y());
+    homeCoords_ = QPointF(x(), y());
 
     // setting up center sprite
     centerimage_ = new QPixmap();

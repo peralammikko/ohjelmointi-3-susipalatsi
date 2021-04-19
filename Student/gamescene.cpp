@@ -24,7 +24,7 @@ GameScene::GameScene(QWidget *parent, std::weak_ptr<Interface::Game> game) : QGr
 
 void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    // qDebug() << "mouse pos on click:" <<event->scenePos();
+    qDebug() << "mouse pos on click:" <<event->scenePos();
     update();
     QGraphicsScene::mousePressEvent(event);
 }
@@ -74,21 +74,6 @@ void GameScene::drawItem(mapItem *item)
     addItem(item);
 }
 
-void GameScene::drawAgents(std::vector<agentItem*> &agents)
-{
-    if (!oneHand_){
-        oneHand_ = new PlayerHand(this, playerInTurn_);
-    }
-    for (unsigned int i = 0; i < agents.size(); i++) {
-        agentItem* current = agents.at(i);
-        current->show();
-        connect(current, &mapItem::mapItemMouseDragged, this, &GameScene::onMapItemMouseDragged);
-        connect(current, &mapItem::mapItemMouseReleased, this, &GameScene::onMapItemMouseDropped);
-        current->setPos(300+current->boundingRect().width()*i, 300);
-        oneHand_->addMapItem(current);
-        //oneHand_->r;
-    }
-}
 
 void GameScene::hideAgents(std::vector<agentItem *> &agents)
 {
@@ -120,6 +105,8 @@ std::map<std::shared_ptr<const Interface::Player>, PlayerHand *> GameScene::play
 
 void GameScene::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer)
 {
+    return;
+
     if (actingPlayer != game_.lock()->currentPlayer())
     {
         // If the player has been changed (round changed) then modify hand areas a bit
