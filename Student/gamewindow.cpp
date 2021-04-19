@@ -11,7 +11,6 @@
 #include <QGraphicsLinearLayout>
 #include <QGraphicsWidget>
 
-
 #include "actioncard.hh"
 #include "playerhand.hh"
 #include "../Course/manualcontrol.h"
@@ -26,11 +25,24 @@ GameWindow::GameWindow(QWidget *parent) :
 
     // Declare the game first before gameScene, so we can give game_ to gameScene's constructor
     game_ = std::make_shared<Interface::Game>();
+    game_->setActive(true);
+
+    // courseRunner = std::make_shared<GameRunner>(game_);
+    // logic class testing
 
     gameScene_ = new GameScene(gameui_->graphicsView, game_);
-    gameui_->graphicsView->setScene(gameScene_);
 
+    gameui_->graphicsView->setScene(gameScene_);
     gameui_->graphicsView->setMouseTracking(true);
+
+
+    // Tell the game to start listening to the timer
+    // TODO: move this after settings are selected or something
+    gameTime_ = new QTimer(this);
+
+    connect(gameTime_, SIGNAL(timeout()), gameScene_, SLOT(advance()));
+
+    gameTime_->start(100);
 
     // Asetetaan graphicViewin ja ikkunan koot staattiseks ensalkuun
     gameui_->graphicsView->setFixedSize(1400, 900);
@@ -43,9 +55,15 @@ GameWindow::GameWindow(QWidget *parent) :
         std::shared_ptr<Interface::Location> location = std::make_shared<Interface::Location>(i, paikat_.at(i));
         game_->addLocation(location);
     }
+
     initAreaResources();
-    gameScene_->resourceInfo(initResourceMap_);
-    drawLocations();
+    initCouncillorDemands();
+    gameScene_->resourceInfo(initResourceMap_, councillorDemandsMap_);
+    std::vector<std::shared_ptr<Interface::Location>> locvec = game_->locations();
+
+    // HUOM! Locationit saa piirtää vasta resurssien luomisen ja jakelun jälkeen
+    gameScene_->drawLocations(locvec);
+
 
     // Adding test players
     player1 = std::make_shared<Interface::Player>(game_, 1, "RED");
@@ -84,19 +102,13 @@ GameWindow::GameWindow(QWidget *parent) :
     gameScene_->createHandCards(game_->players().at(0)->cards());
 
     playerInTurn = player1;
+    gameScene_->turnInfo(current_round, playerInTurn);
     displayPlayerStats();
 }
 
 GameWindow::~GameWindow()
 {
     delete gameui_;
-}
-
-void GameWindow::drawLocations()
-{
-    std::vector<std::shared_ptr<Interface::Location>> locvec = getLocations();
-    std::shared_ptr<Interface::Location> currentLocation = nullptr;
-    gameScene_->drawLocations(locvec);
 }
 
 void GameWindow::drawPlayerAgents(std::shared_ptr<Interface::Player> &player)
@@ -122,9 +134,11 @@ void GameWindow::spawnAgent(std::shared_ptr<Interface::Player> &player)
     // For now we will just use some default generated stuff
     QString agname{"Perry"};
     std::shared_ptr<Interface::Agent> agentptr = std::make_shared<Interface::Agent>(agname + player->name(), player);
-    agentptr->initAgentResources(initResourceMap_);
+    agentptr->initAgentResources(initAgentBackpack_);
+    player->addCard(agentptr);
 
     agentItem* agenttiesine = new agentItem(agentptr);
+    connect(agenttiesine, &agentItem::actionDeclared, gameScene_, &GameScene::onActionDeclared);
 
     gameScene_->addItem(agenttiesine);
     //agenttiesine->setParent(gameScene_);
@@ -146,18 +160,25 @@ void GameWindow::changeTurn()
     }
 
     displayPlayerStats();
+    rewardResources();
 
     gameScene_->turnInfo(current_round, playerInTurn);
 
 }
 
-void GameWindow::listAgents(std::shared_ptr<Interface::Player> player)
+void GameWindow::listAgents(std::shared_ptr<Interface::Player> &player)
 {
     gameui_->agentListWidget->clear();
     auto listOfAgents = playerAgentItems_.at(player);
     for (auto agent : listOfAgents) {
         std::shared_ptr<Interface::Agent> agentPtr = agent->getAgentClass();
-       gameui_->agentListWidget->addItem(agentPtr->name());
+        std::shared_ptr<Interface::Location> loc = agent->getObject()->location().lock();
+        if (!loc) {
+            gameui_->agentListWidget->addItem(agentPtr->name() + " @ Home");
+        } else {
+            QString agentAt = loc->name();
+            gameui_->agentListWidget->addItem(agentPtr->name() + " @ " + agentAt);
+        }
     }
 }
 
@@ -170,9 +191,6 @@ void GameWindow::setupPlayerStash()
 
         // Map for players and their in-game currenty (2 coins on initialization)
         playerWallets_.insert({player, 2});
-
-        // Map for players and their collected councilor cards (empty on initialization)
-        councilorCards_.insert({player, {}});
     }
 }
 
@@ -191,18 +209,78 @@ void GameWindow::initAreaResources()
     for (auto loc : game_->locations()) {
         QString resName = loc->name() + " item";
         Interface::CommonResource res(resName, loc, 0);
+        // Resource map for locations & runners
         std::pair<std::shared_ptr<Interface::Location>, Interface::CommonResource> pair(loc, res);
         initResourceMap_.insert(pair);
+
+        // Resource map for agents
+        std::pair<std::shared_ptr<Interface::Location>, std::deque<Interface::CommonResource>> pair2;
+        pair2.first = loc;
+        // pair2.second.push_back(res);
+        initAgentBackpack_.insert(pair2);
     }
 }
 
 void GameWindow::initPlayerControls()
 {
-    std::shared_ptr<Interface::ManualControl> mancontrol;
+    std::shared_ptr<Interface::ManualControl> mancontrol = std::make_shared<Interface::ManualControl>();
     courseRunner->setPlayerControl(player1, mancontrol);
     courseRunner->setPlayerControl(player2, mancontrol);
-    courseRunner->run();
+
+    // LOGIC SIGNALING TESTING
+    // You need to use get() to makes shared_ptr to a regular ptr
+    // Connect Logic class with gamescene in order to do any actions
+    logic_ = std::make_shared<Logic>(courseRunner);
+    connect(gameScene_, &GameScene::actionDeclared, logic_.get(), &Logic::actionSelected);
+    logic_->doTheRunning();
     courseRunner->testDebug();
+}
+
+void GameWindow::rewardResources()
+{
+    for (auto pair : playerAgentItems_) {
+        for (auto agent : pair.second) {
+            auto agentPtr = agent->getAgentClass();
+            std::shared_ptr<Interface::Location> agentAt = agentPtr->placement().lock();
+            if (!agentAt) {
+                qDebug() << agentPtr->name() << " not in any location";
+            } else {
+                Interface::CommonResource res = initResourceMap_.at(agentAt);
+                if (agentAt != nullptr) {
+                    agentPtr->addResource(agentAt, res, 1);
+                } else {
+                    qDebug() << "who am I where am I";
+                }
+            }
+        }
+    }
+}
+
+void GameWindow::initCouncillorDemands()
+{
+    //
+    ResourceMap::iterator it;
+    for (auto pair : initResourceMap_) {
+        auto location = pair.first;
+        auto res = pair.second;
+
+        // Make it so that location's demands can not be it's own resource
+        while (true) {
+            it = initResourceMap_.begin();
+            int num = Interface::Random::RANDOM.uint(5);
+            std::advance(it, num);
+            if (it->first != location) {
+                res = it->second;
+                int amount = 2 + Interface::Random::RANDOM.uint(3);
+                Interface::CommonResource demand(res.name(), it->first, amount);
+                councillorDemandsMap_.insert({location, demand});
+                break;
+            }
+        }
+    }
+    for (auto i : councillorDemandsMap_) {
+        qDebug() << i.first->name() << ": " << i.second.name() << " x" << i.second.amount();
+    }
 }
 
 void GameWindow::on_passButton_clicked()

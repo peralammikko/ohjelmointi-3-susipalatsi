@@ -457,6 +457,9 @@
     <family>Console</family>
    </font>
   </property>
+  <property name="mouseTracking">
+   <bool>false</bool>
+  </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>

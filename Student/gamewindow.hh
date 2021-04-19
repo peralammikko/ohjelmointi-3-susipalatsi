@@ -10,23 +10,28 @@
 
 #include "gamescene.hh"
 #include "game.h"
-#include "mapitem.hh"
 #include "playerhand.hh"
-#include "locationitem.hh"
 #include "councilor.h"
 #include "controlinterface.h"
+
+// Logic testing
+#include "logic.hh"
 
 #include "../Course/game.h"
 #include "../Course/runner.h"
 
 #include "commonresource.hh"
 #include "gamerunner.hh"
-#include "influence.h"
+#include "random.h"
+
+#include <QTimer>
 
 namespace Ui {
     class GameWindow;
+
 }
 
+class Logic;
 class GameWindow : public QMainWindow
 {
     Q_OBJECT
@@ -36,7 +41,6 @@ public:
     ~GameWindow();
     const std::vector<std::shared_ptr<Interface::Location>> getLocations();
     void setSize(int width, int height);
-    void drawLocations();
     void showAgentsForPlayer(std::shared_ptr<Interface::Player> player);
     void drawItem(mapItem* item);
     void showHand();
@@ -48,11 +52,12 @@ public:
 
     std::shared_ptr<Interface::Player> getPlayerObject();
     std::vector<agentItem *> getAgents(std::shared_ptr<Interface::Player> &player);
+
     std::shared_ptr<Interface::Player> getPlayerInTurn();
 
     void changeTurn();
 
-    void listAgents(std::shared_ptr<Interface::Player> player);
+    void listAgents(std::shared_ptr<Interface::Player> &player);
 
     void setupPlayerStash();
     void displayPlayerStats();
@@ -61,6 +66,11 @@ public:
 
     // Needs actions for proper testing and tweaking
     void initPlayerControls();
+
+    // Distributing resources for agents in locations
+    void rewardResources();
+
+    void initCouncillorDemands();
 
 private slots:
     void on_passButton_clicked();
@@ -72,11 +82,16 @@ private:
     std::shared_ptr<Interface::Game> game_ = nullptr;
     std::shared_ptr<GameRunner> courseRunner = nullptr;
 
+    // Logic testing
+    std::shared_ptr<Logic> logic_;
+
     // Testing for hands
     std::map<std::shared_ptr<Interface::Player>, std::shared_ptr<PlayerHand>> hands_;
     std::map<std::shared_ptr<Interface::Player>, QGraphicsWidget> playerhands_;
 
     const std::vector<QString> paikat_ = {"Marketti", "Kirkko", "Taverna", "Kauppiaiden kilta", "Menomesta", "Salapaikka"};
+
+    QTimer* gameTime_;
 
     int current_round = 0;
     bool gameOver = false;
@@ -90,14 +105,15 @@ private:
     // Holds info on players and their currency
     std::map<std::shared_ptr<Interface::Player>, int> playerWallets_;
 
-    // Holds info on councilorCards earned by players
-    std::map<std::shared_ptr<Interface::Player>, std::vector<std::shared_ptr<Interface::Councilor>>> councilorCards_;
-
 
     // this variable stores drag and drop targe, ie. what is "under" a draggable card
     mapItem* targetedMapItem_;
 
     ResourceMap initResourceMap_;
+    ResourceMap councillorDemandsMap_;
+
+    AgentResourceMap initAgentBackpack_;
+
 
 };
 

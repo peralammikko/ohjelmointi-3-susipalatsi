@@ -2,6 +2,7 @@
 #define COMMONRESOURCE_HH
 
 #include <QMainWindow>
+#include <deque>
 #include "location.h"
 #include "cardinterface.h"
 
@@ -31,5 +32,8 @@ private:
 }
 
 using ResourceMap = std::map<std::shared_ptr<Interface::Location>, Interface::CommonResource>;
+using AgentResourceMap = std::map<std::shared_ptr<Interface::Location>, std::deque<Interface::CommonResource>>;
+
+const Interface::CommonResource NULLRES("", std::weak_ptr<Interface::Location>());
 
 #endif // COMMONRESOURCE_HH

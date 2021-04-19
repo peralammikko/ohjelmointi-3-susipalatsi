@@ -7,6 +7,7 @@
 void mapItem::goHome(int time)
 {
     // TODO: implement animation movement function
+
     setPos(homeCoordinatesOnScene_);
 }
 
@@ -34,11 +35,16 @@ void mapItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
             emit mapItemMouseDragged(this);
         } else
         {
-           qDebug() << "error! Card Item did not find parent scene while moving!";
+            // Something here if scene was not found
         }
     }
     update();
     QGraphicsItem::mouseMoveEvent(event);
+}
+
+std::shared_ptr<Interface::ActionInterface> mapItem::getDragReleaseAction()
+{
+    return std::shared_ptr<Interface::ActionInterface>();
 }
 
 void mapItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
@@ -46,8 +52,17 @@ void mapItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
      // Make sure it is a left button event and the card is pressed already
     if (event->button() == Qt::LeftButton and isMousePressed_ )
     {
-        emit mapItemMouseReleased(this);
+        //emit mapItemMouseReleased(this);
+        qDebug() << this->collidingItems();
         isMousePressed_  = false;
+
+        // TODO: maybe move perform checking somewhere else
+        std::shared_ptr<Interface::ActionInterface> action = getDragReleaseAction();
+        if (action and action->canPerform()){
+            emit actionDeclared(getDragReleaseAction());
+        } else {
+            this->goHome();
+        }
     }
     update();
     QGraphicsItem::mouseReleaseEvent(event);

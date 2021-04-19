@@ -14,11 +14,7 @@
 #include "game.h"
 #include "agentitem.hh"
 #include "locationitem.hh"
-#include "mapitem.hh"
 #include "carditem.hh"
-
-class LocationItem;
-
 
 class GameScene : public QGraphicsScene
 {
@@ -59,12 +55,18 @@ public:
 
     void turnInfo(int turn, std::shared_ptr<Interface::Player> currentplayer);
 
-    void resourceInfo(ResourceMap &rmap);
+    void resourceInfo(ResourceMap &rmap, ResourceMap &dmap);
 
+signals:
+    void actionDeclared(std::shared_ptr<Interface::ActionInterface> action);
+
+public slots:
+    void onActionDeclared(std::shared_ptr<Interface::ActionInterface> action);
 private slots:
     void onMapItemMouseDragged(mapItem* mapitem);
     void onMapItemMouseDropped(mapItem* mapitem);
     void onLocationItemClicked(LocationItem * locItem);
+
 
 private:
     // These are deprecated for now and waiting for safe removal
@@ -89,6 +91,7 @@ private:
     void showHandCards();
 
     ResourceMap resMap_;
+    ResourceMap demandsMap_;
 
     // Sees if aItem can move to newLocation
     bool canMoveAgent(LocationItem* newLocation, agentItem* aItem);

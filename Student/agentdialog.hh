@@ -8,6 +8,10 @@ namespace Ui {
 class AgentDialog;
 }
 
+namespace Interface {
+class Agent;
+}
+
 class AgentDialog : public QDialog
 {
     Q_OBJECT

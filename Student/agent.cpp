@@ -15,14 +15,38 @@ Agent::~Agent()
 
 }
 
-void Agent::initAgentResources(ResourceMap resMap)
+void Agent::initAgentResources(AgentResourceMap resMap)
 {
     gatheredResources_ = resMap;
 }
 
+AgentResourceMap Agent::getAgentResources()
+{
+    return gatheredResources_;
+}
+/*
 ResourceMap Agent::getResources()
 {
     return gatheredResources_;
+}
+*/
+void Agent::addResource(std::shared_ptr<Interface::Location> agentAt, CommonResource res, int amount)
+{
+    AgentResourceMap::iterator iter = gatheredResources_.find(agentAt);
+    for (int i = 0; i < amount; i++) {
+        iter->second.push_back(res);
+        qDebug() << i << " resources added to " << this->name();
+    }
+}
+
+std::shared_ptr<Location> Agent::whereIsAgent()
+{
+    std::shared_ptr<Interface::Location> loc = this->placement().lock();
+    if (!loc) {
+        return nullptr;
+    } else {
+        return loc;
+    }
 }
 
 bool Agent::isCommon() const
@@ -73,7 +97,7 @@ QString Agent::title() const
 
 std::weak_ptr<Player> Agent::owner() const
 {
-
+    return owner_;
 }
 
 void Agent::setOwner(std::weak_ptr<Player> owner)

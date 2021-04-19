@@ -68,7 +68,7 @@ void CardItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 
     painter->drawText(5,18, card_->name());
 
-    qDebug() << centerimage_->height() << centerimage_->width();
+    //qDebug() << centerimage_->height() << centerimage_->width();
 
     painter->drawPixmap(0, 20, boundingRect().width(), boundingRect().height()/5 *2.5,  *centerimage_);
 }

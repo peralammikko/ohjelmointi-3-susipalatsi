@@ -10,17 +10,21 @@
 
 #include "../Course/game.h"
 
+
+// RUNNER TESTING
+
+
 // required for signaling??
 #include <QObject>
 
 GameScene::GameScene(QWidget *parent, std::weak_ptr<Interface::Game> game) : QGraphicsScene(parent), game_(game), handAnchorCoords_(std::make_pair(0, 400)), handCardPadding_(5)
 {
-    qDebug() << "Game Scene is alive...";
+
 }
 
 void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    qDebug() << event->scenePos();
+    // qDebug() << "mouse pos on click:" <<event->scenePos();
     update();
     QGraphicsScene::mousePressEvent(event);
 }
@@ -41,8 +45,13 @@ void GameScene::drawLocations(std::vector<std::shared_ptr<Interface::Location>> 
 
     for (int i = 0; i < locationCount; i++) {
         currentLocation = locvec.at(i);
-        LocationItem* locItem = new LocationItem(currentLocation);
+        LocationItem* locItem = new LocationItem(currentLocation, i);
         connect(locItem, &LocationItem::locationItemPressed, this, &GameScene::onLocationItemClicked);
+        Interface::CommonResource localRes = resMap_.at(currentLocation);
+        locItem->setLocalResource(localRes);
+        Interface::CommonResource demandRes = demandsMap_.at(currentLocation);
+        locItem->setDemandedResource(demandRes);
+
 
         // Geometrinen sijainti kehällä
         float angleDeg = degree * i;
@@ -107,9 +116,10 @@ void GameScene::turnInfo(int turn, std::shared_ptr<Interface::Player> currentpla
     playerInTurn_ = currentplayer;
 }
 
-void GameScene::resourceInfo(ResourceMap &rmap)
+void GameScene::resourceInfo(ResourceMap &rmap, ResourceMap &dmap)
 {
     resMap_ = rmap;
+    demandsMap_ = dmap;
 }
 
 
@@ -170,104 +180,18 @@ void GameScene::onMapItemMouseDragged(mapItem* mapitem)
 
 void GameScene::onMapItemMouseDropped(mapItem* mapitem)
 {
-    // TODO: implement logic to see if the move is legal
-     // check if the game is still going
-     if (!game_.lock())
-     {
-         qDebug() << "Fatal error: tried to move map items while there is no game";
-         // TODO: close program?
-         return;
-     }
-     // For now we just check if agent has been dropped on a building
-     // In a real scenario we can emit a signal which contains dropped mapitem and a vector of colliding items
-     // so they are handled elsewhere
-     agentItem* aitem = dynamic_cast<agentItem*>(mapitem);
-     if (aitem != nullptr)
-     {
-         QList<QGraphicsItem*> items = mapitem->collidingItems();
-         for (int i = 0; i < items.size(); ++i)
-         {
-
-             if (items.at(i) != mapitem) {
-                 // Followin allows us to get ANY type of interaface data under the rect
-                 // todo: prettier class type checking
-                  LocationItem* lItem = dynamic_cast<LocationItem*>(items.at(i));
-                  if (lItem != nullptr)
-                  {
-                      if (canMoveAgent(lItem, aitem))
-                      {
-                          moveAgent(lItem, aitem);
-                          break;
-                      }
-                  }
-             }
-         }
-
-     }
-    mapitem->goHome();
-
+    // This used to have most of the actioninterface stuff but it might not be needed anymore
 }
-
-
-bool GameScene::canMoveAgent(LocationItem* newLocItem, agentItem* aItem)
-{
-    if (!game_.lock())
-    {
-        //todo: throw a real error
-        qDebug() << "Fatal error!";
-        return false;
-    }
-    std::shared_ptr<Interface::AgentInterface> aInterface = aItem->getObject();
-    std::shared_ptr<Interface::Location> newPlacInterface = newLocItem->getObject();
-    std::shared_ptr<Interface::Location> oldPlacInterface = aInterface->placement().lock();
-    if (!oldPlacInterface)
-    {
-       // TODO: emit some signal to check viability
-       //
-       return true;
-    } else {
-       // oldPlacInterface->removeAgent(aInterface);
-
-        auto locs = game_.lock()->locations();
-        // get itarator of the agent and the itarator of the targeted location in game's locvec
-        auto targetIt = std::find(locs.begin(), locs.end(), newPlacInterface);
-        auto startingIt = std::find(locs.begin(), locs.end(), oldPlacInterface);
-        if (startingIt != locs.end() and targetIt != locs.end())
-        {
-              // Calculate the distances between locations
-              long dist = abs(std::distance(startingIt, targetIt));
-              // TODO: maybe implement movements which are larger than one
-              if ( dist == 1 or dist == locs.size()-1 )
-              {
-                  // TODO: maybe additional pooling
-                  return true;
-              }
-        }
-    }
-    return false;
-}
-
-void GameScene::moveAgent(LocationItem* newLocItem, agentItem* aItem)
-{
-    std::shared_ptr<Interface::AgentInterface> aInterface = aItem->getObject();
-    std::shared_ptr<Interface::Location> newPlacInterface = newLocItem->getObject();
-    std::shared_ptr<Interface::Location> oldPlacInterface = aInterface->placement().lock();
-
-    // Removes agent from its previous location, sends the agent to new location and sets new "home coords"
-    if (oldPlacInterface){
-        oldPlacInterface->removeAgent(aInterface);
-    }
-    newPlacInterface->sendAgent(aInterface);
-    aItem->setParentItem(newLocItem);
-    aItem->setHome(QPointF(0,0));
-}
-
 
 void GameScene::onLocationItemClicked(LocationItem* locItem)
 {
-    Interface::CommonResource res = resMap_.at(locItem->getObject());
-    int BV = locItem->getBasevalue();
-    PopupDialog* clickDialog = new PopupDialog(locItem->getObject(), BV, res, playerInTurn_);
+    PopupDialog* clickDialog = new PopupDialog(locItem, playerInTurn_);
     clickDialog->show();
 
+}
+
+void GameScene::onActionDeclared(std::shared_ptr<Interface::ActionInterface> action)
+{
+    // qDebug() << "Action declared, signal recieved gamescene";
+    emit actionDeclared(action);
 }
