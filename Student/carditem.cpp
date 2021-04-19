@@ -22,14 +22,6 @@ CardItem::CardItem(std::shared_ptr<Interface::CardInterface> card, QObject *pare
         centerimage_ = new QPixmap(":default.jpg");
     }
 
-    // set origo center for scaling
-    QPoint o;
-    float w = boundingRect().width()/2;
-    float y = boundingRect().height()/2;
-  //  o.setX(o.x() + w);
-   // o.setY(o.y() + y);
-    //setTransformOriginPoint(o);
-
     // Required for mousehovering magics
     setAcceptHoverEvents(true);
 

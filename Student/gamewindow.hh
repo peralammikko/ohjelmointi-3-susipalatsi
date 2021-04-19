@@ -47,13 +47,10 @@ public:
 
     void sendAgentTo(const std::shared_ptr<Interface::Location> &loc, std::shared_ptr<Interface::Player> &player);
 
-    void spawnAgent(std::shared_ptr<Interface::Player> &player);
-    void drawPlayerAgents(std::shared_ptr<Interface::Player> &player);
+    //void spawnAgent(std::shared_ptr<Interface::Player> &player);
 
     std::shared_ptr<Interface::Player> getPlayerObject();
     std::vector<agentItem *> getAgents(std::shared_ptr<Interface::Player> &player);
-
-    std::shared_ptr<Interface::Player> getPlayerInTurn();
 
     void changeTurn();
 
@@ -85,21 +82,8 @@ private:
     // Logic testing
     std::shared_ptr<Logic> logic_;
 
-    // Testing for hands
-    std::map<std::shared_ptr<Interface::Player>, std::shared_ptr<PlayerHand>> hands_;
-    std::map<std::shared_ptr<Interface::Player>, QGraphicsWidget> playerhands_;
-
-    const std::vector<QString> paikat_ = {"Marketti", "Kirkko", "Taverna", "Kauppiaiden kilta", "Menomesta", "Salapaikka"};
-
     QTimer* gameTime_;
 
-    int current_round = 0;
-    bool gameOver = false;
-    std::shared_ptr<Interface::Player> player1 = nullptr;
-    std::shared_ptr<Interface::Player> player2 = nullptr;
-    std::shared_ptr<Interface::Player> playerInTurn = nullptr;
-
-    // Holds info on players and their agents
     std::map<std::shared_ptr<Interface::Player>, std::vector<agentItem*>> playerAgentItems_;
 
     // Holds info on players and their currency

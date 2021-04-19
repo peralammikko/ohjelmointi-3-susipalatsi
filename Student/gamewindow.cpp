@@ -7,9 +7,8 @@
 #include "gamescene.hh"
 #include <cmath>
 
-// kokeilu käden asettelulle
-#include <QGraphicsLinearLayout>
-#include <QGraphicsWidget>
+// Kokeilu gamesetup
+#include "gamesetup.hh"
 
 #include "actioncard.hh"
 #include "playerhand.hh"
@@ -27,82 +26,49 @@ GameWindow::GameWindow(QWidget *parent) :
     game_ = std::make_shared<Interface::Game>();
     game_->setActive(true);
 
-    // courseRunner = std::make_shared<GameRunner>(game_);
-    // logic class testing
+    courseRunner = std::make_shared<GameRunner>(game_);
 
     gameScene_ = new GameScene(gameui_->graphicsView, game_);
-
     gameui_->graphicsView->setScene(gameScene_);
     gameui_->graphicsView->setMouseTracking(true);
-
 
     // Tell the game to start listening to the timer
     // TODO: move this after settings are selected or something
     gameTime_ = new QTimer(this);
-
     connect(gameTime_, SIGNAL(timeout()), gameScene_, SLOT(advance()));
-
-    gameTime_->start(100);
+    gameTime_->start(50);
 
     // Asetetaan graphicViewin ja ikkunan koot staattiseks ensalkuun
-    gameui_->graphicsView->setFixedSize(1400, 900);
-    // gameScene_->setSceneRect(-600,600,-350,350);
-    this->setFixedSize(1920, 1080);
+    gameui_->graphicsView->setFixedSize(1400, 800);
+    gameScene_->setSceneRect(0,0,1400,800);
+    this->setFixedSize(1450, 950);
     this->setWindowTitle("SUSIPALATSI: TEH GAME");
 
-    // Luodaan location-oliot ja resurssit
-    for (int i = 0; i < 6; i++) {
-        std::shared_ptr<Interface::Location> location = std::make_shared<Interface::Location>(i, paikat_.at(i));
-        game_->addLocation(location);
-    }
-
+    // TODO - MERGE: Siirretään nää gamesetuppiin
     initAreaResources();
     initCouncillorDemands();
     gameScene_->resourceInfo(initResourceMap_, councillorDemandsMap_);
     std::vector<std::shared_ptr<Interface::Location>> locvec = game_->locations();
 
-    // HUOM! Locationit saa piirtää vasta resurssien luomisen ja jakelun jälkeen
-    gameScene_->drawLocations(locvec);
+    // TODO: move logic and gamerunner init into gamesetup somehow
+    logic_ = std::make_shared<Logic>(courseRunner, game_, gameScene_);
+    // GameSetup is only called here, and should be cleared after getting out of context
+    GameSetup* setup = new GameSetup(gameScene_, game_, courseRunner,  logic_);
+    delete setup;
 
-
-    // Adding test players
-    player1 = std::make_shared<Interface::Player>(game_, 1, "RED");
-    player2 = std::make_shared<Interface::Player>(game_, 2, "BLUE");
-    game_->addPlayer(player1);
-    game_->addPlayer(player2);
-
-    // Setting up game runner
-    courseRunner = std::make_shared<GameRunner>(game_, gameScene_, initResourceMap_);
-    initPlayerControls();
-
-    setupPlayerStash();
-    for (int i = 0 ; i < 3; i++) {
-        spawnAgent(player1);
-    }  
-    for (int i = 0; i < 5; i++) {
-        spawnAgent(player2);
-    }
-
-    if (current_round == 0) {
-        drawPlayerAgents(player1);
-    } else {
-        drawPlayerAgents(player2);
-    }
-
-    // luodaan pelaajille käsialueen luokka
+    // This is a hardcorded card generation and it does NOT draw from decks or anything.
+    // It can be here until we get reward system in order
+>>>>>>> Student/gamewindow.cpp
     for (unsigned int i=0; i<game_->players().size(); ++i) {
         std::shared_ptr<Interface::Player> pl = game_->players().at(i);
-
-        // Luodaan pari korttia ja annetaan ne pelaajalle
         for (int j=0; j<4; ++j) {
             std::shared_ptr<Interface::ActionCard> card = std::make_shared<Interface::ActionCard>();
             pl->addCard(card);
+
+           // gameScene_->playerHands().at(pl)->addMapItem()
         }
     }
-    gameScene_->createHandCards(game_->players().at(0)->cards());
-
-    playerInTurn = player1;
-    gameScene_->turnInfo(current_round, playerInTurn);
+    // gameScene_->turnInfo(current_round, playerInTurn);
     displayPlayerStats();
 }
 
@@ -111,11 +77,12 @@ GameWindow::~GameWindow()
     delete gameui_;
 }
 
+/*
 void GameWindow::drawPlayerAgents(std::shared_ptr<Interface::Player> &player)
  {
     std::vector<agentItem*> agents = playerAgentItems_.at(player);
     gameScene_->drawAgents(agents);
- }
+ }*/
 
 void GameWindow::drawItem(mapItem *item)
 {
@@ -127,42 +94,27 @@ const std::vector<std::shared_ptr<Interface::Location> > GameWindow::getLocation
     return game_->locations();
 }
 
-void GameWindow::spawnAgent(std::shared_ptr<Interface::Player> &player)
-{
-    // Create agent interface, which holds all of the data of the card.
-    // Ideally we want this to be handled by carddata class, which would use xml/JSON later on
-    // For now we will just use some default generated stuff
-    QString agname{"Perry"};
-    std::shared_ptr<Interface::Agent> agentptr = std::make_shared<Interface::Agent>(agname + player->name(), player);
-    agentptr->initAgentResources(initAgentBackpack_);
-    player->addCard(agentptr);
-
-    agentItem* agenttiesine = new agentItem(agentptr);
-    connect(agenttiesine, &agentItem::actionDeclared, gameScene_, &GameScene::onActionDeclared);
-
-    gameScene_->addItem(agenttiesine);
-    //agenttiesine->setParent(gameScene_);
-
-    playerAgentItems_.at(player).push_back(agenttiesine);
-}
-
+/*
 std::shared_ptr<Interface::Player> GameWindow::getPlayerInTurn()
 {
     return playerInTurn;
-}
+}*/
+
 
 void GameWindow::changeTurn()
 {
-    if (current_round % 2 == 0) {
-        playerInTurn = player1;
-    } else {
-        playerInTurn = player2;
-    }
-
+    // FIX THIS TO LOGIC
+    qDebug() << "GAMEWINDOW CHANGETURN - NEEDS FIXING!!";
+    /*
+    game_->nextPlayer();
     displayPlayerStats();
     rewardResources();
 
     gameScene_->turnInfo(current_round, playerInTurn);
+
+    //current_round += 1;
+    //gameScene_->turnInfo(current_round, game_->currentPlayer());
+    gameScene_->turnInfo(0, game_->currentPlayer());*/
 
 }
 
@@ -184,6 +136,7 @@ void GameWindow::listAgents(std::shared_ptr<Interface::Player> &player)
 
 void GameWindow::setupPlayerStash()
 {
+    qDebug() << "Setup Player stash: Needs to be moved to gamesetup";
     for (auto player : game_->players()) {
 
         // Map for agents each player has to use (empty on initialization)
@@ -196,16 +149,30 @@ void GameWindow::setupPlayerStash()
 
 void GameWindow::displayPlayerStats()
 {
+     // This is temporarily broken
+
+    //<<<<<<< Student/gamewindow.cpp
+    /* Mikko's part
     current_round++;
     gameui_->currentRoundLabel->setText("Current round: " + QString::number(current_round));
     gameui_->playerNameLabel->setText(playerInTurn->name());
     gameui_->playerCoinsLabel->setText(QString::number(playerWallets_.at(playerInTurn)));
 
     listAgents(playerInTurn);
+    */
+    //=======
+   
+    //current_round++;
+    //gameui_->currentRoundLabel->setText("Current round: " + QString::number(game_));
+    gameui_->playerNameLabel->setText(game_->currentPlayer()->name());
+    //gameui_->playerCoinsLabel->setText(QString::number(playerWallets_.at(game_->currentPlayer())));
+    //gameui_->councillorNumberLabel->setText(QString::number(councilorCards_.at(game_->currentPlayer()).size()) + " / 6");
+    //listAgents(game_->currentPlayer());
 }
 
 void GameWindow::initAreaResources()
-{
+{  
+    qDebug() << "initAreaResources - TODO move to gamesetup";
     for (auto loc : game_->locations()) {
         QString resName = loc->name() + " item";
         Interface::CommonResource res(resName, loc, 0);
@@ -221,6 +188,7 @@ void GameWindow::initAreaResources()
     }
 }
 
+/*
 void GameWindow::initPlayerControls()
 {
     std::shared_ptr<Interface::ManualControl> mancontrol = std::make_shared<Interface::ManualControl>();
@@ -235,9 +203,11 @@ void GameWindow::initPlayerControls()
     logic_->doTheRunning();
     courseRunner->testDebug();
 }
+*/
 
 void GameWindow::rewardResources()
 {
+    qDebug() << "Reward Resources  in gamewindow - TODO: maybe move to logic";
     for (auto pair : playerAgentItems_) {
         for (auto agent : pair.second) {
             auto agentPtr = agent->getAgentClass();
@@ -258,7 +228,7 @@ void GameWindow::rewardResources()
 
 void GameWindow::initCouncillorDemands()
 {
-    //
+    qDebug() << "initCouncillorDemands in gamewindow: TODO - Move to gamesetup";
     ResourceMap::iterator it;
     for (auto pair : initResourceMap_) {
         auto location = pair.first;
@@ -285,5 +255,7 @@ void GameWindow::initCouncillorDemands()
 
 void GameWindow::on_passButton_clicked()
 {
-    changeTurn();
+    // TODO: move to logic where player hand is emptied of all action cards
+    qDebug() << "Pass button was clicked. TODO: inform logic";
+    //changeTurn();
 }

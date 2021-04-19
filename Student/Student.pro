@@ -16,13 +16,15 @@ SOURCES += \
     gamerunner.cpp \
     gamescene.cpp \
     gamewindow.cpp \
+    gamesetup.cpp \
     locationitem.cpp \
     logic.cpp \
     main.cc \
     mapitem.cpp \
     playerhand.cpp \
     popupdialog.cpp \
-    sendagentaction.cpp
+    sendagentaction.cpp \
+    withdrawagentaction.cpp
 
 win32:CONFIG(release, debug|release): LIBS += \
     -L$$OUT_PWD/../course/Course/release/ -lCourse
@@ -58,12 +60,14 @@ HEADERS += \
     gamerunner.hh \
     gamescene.hh \
     gamewindow.hh \
+    gamesetup.hh \
     locationitem.hh \
     logic.hh \
     mapitem.hh \
     playerhand.hh \
     popupdialog.hh \
-    sendagentaction.hh
+    sendagentaction.hh \
+    withdrawagentaction.hh
 
 FORMS += \
     agentdialog.ui \

@@ -2,14 +2,11 @@
 
 using std::shared_ptr;
 
-Interface::ActionCard s = Interface::ActionCard();
-
 namespace Interface {
 
-ActionCard::ActionCard(QString name, QString typeName, QString title){
-    name_ = name;
-    typeName_ = typeName;
-    title_ = title;
+ActionCard::ActionCard(QString name, QString title) :
+    name_(name), title_(title)
+{
     cardItem_ = nullptr;
     description_ = "Olen kortti. Minut pelatessasi tapahtuu jotain (description)";
 }
@@ -18,7 +15,7 @@ ActionCard::~ActionCard(){}
 
 QString ActionCard::typeName() const
 {
-    return typeName_;
+    return "actioncard";
 }
 
 QString ActionCard::title() const
