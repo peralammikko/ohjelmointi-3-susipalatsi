@@ -47,11 +47,15 @@ void GameScene::drawLocations(std::vector<std::shared_ptr<Interface::Location>> 
         currentLocation = locvec.at(i);
         LocationItem* locItem = new LocationItem(currentLocation, i);
         connect(locItem, &LocationItem::locationItemPressed, this, &GameScene::onLocationItemClicked);
+
+        // These are broken
+        qDebug() << "TODO: Draw locations init resources MUST BE FIXED";
+        /*
         Interface::CommonResource localRes = resMap_.at(currentLocation);
         locItem->setLocalResource(localRes);
         Interface::CommonResource demandRes = demandsMap_.at(currentLocation);
         locItem->setDemandedResource(demandRes);
-
+        */
 
         // Geometrinen sijainti kehällä
         float angleDeg = degree * i;
@@ -141,8 +145,8 @@ void GameScene::onPlayerChanged(std::shared_ptr<const Interface::Player> actingP
     }
 }
 
-<<<<<<< Student/gamescene.cpp
-=======
+//<<<<<<< Student/gamescene.cpp
+//=======
 void GameScene::initHands(std::shared_ptr<const Interface::Player> player)
 {
     PlayerHand* hand = new PlayerHand(this, player);
@@ -158,13 +162,14 @@ void GameScene::turnInfo(int turn, std::shared_ptr<Interface::Player> currentpla
     playerInTurn_ = currentplayer;
 }
 
+/*
 void GameScene::resourceInfo(AreaResources &rmap)
 {
     resMap_ = rmap;
-}
+}*/
 
 
->>>>>>> Student/gamescene.cpp
+//>>>>>>> Student/gamescene.cpp
 void GameScene::onMapItemMouseDragged(mapItem* mapitem)
 {
     // TODO: Discuss with game logic and highlight/scale up items that are valid targets
@@ -208,16 +213,15 @@ void GameScene::onLocationItemClicked(LocationItem* locItem)
 
 void GameScene::onActionDeclared(std::shared_ptr<Interface::ActionInterface> action)
 {
-<<<<<<< Student/gamescene.cpp
+
     // qDebug() << "Action declared, signal recieved gamescene";
-=======
     if (!game_.lock())
     {
         qDebug() << "Action was declared on scene but there is no game";
         return;
     }
     qDebug() << "Action declared, signal recieved gamescene";
->>>>>>> Student/gamescene.cpp
+
     emit actionDeclared(action);
 
     // TODO: rearrange the current players hand maybe

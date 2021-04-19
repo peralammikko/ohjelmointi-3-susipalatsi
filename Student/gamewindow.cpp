@@ -26,11 +26,13 @@ GameWindow::GameWindow(QWidget *parent) :
     game_ = std::make_shared<Interface::Game>();
     game_->setActive(true);
 
-    courseRunner = std::make_shared<GameRunner>(game_);
+
 
     gameScene_ = new GameScene(gameui_->graphicsView, game_);
     gameui_->graphicsView->setScene(gameScene_);
     gameui_->graphicsView->setMouseTracking(true);
+
+    courseRunner = std::make_shared<GameRunner>(game_, gameScene_, initResourceMap_);
 
     // Tell the game to start listening to the timer
     // TODO: move this after settings are selected or something
@@ -58,7 +60,6 @@ GameWindow::GameWindow(QWidget *parent) :
 
     // This is a hardcorded card generation and it does NOT draw from decks or anything.
     // It can be here until we get reward system in order
->>>>>>> Student/gamewindow.cpp
     for (unsigned int i=0; i<game_->players().size(); ++i) {
         std::shared_ptr<Interface::Player> pl = game_->players().at(i);
         for (int j=0; j<4; ++j) {

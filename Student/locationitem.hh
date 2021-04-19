@@ -56,7 +56,7 @@ public:
     void checkCouncillorCard();
 
 protected:
-    // void advance(int phase) override;
+    void advance(int phase) override;
 
 signals:
     void locationItemPressed(LocationItem*);
