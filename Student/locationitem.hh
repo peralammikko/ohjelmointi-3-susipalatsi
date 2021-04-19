@@ -14,7 +14,7 @@ class LocationItem : public mapItem
     Q_OBJECT
 public:
     LocationItem(const std::shared_ptr<Interface::Location> location, int mapIndex);
-
+    ~LocationItem();
     // Luodaan itemille muoto (neliö)
     QRectF boundingRect() const override;
 

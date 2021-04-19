@@ -10,6 +10,11 @@ LocationItem::LocationItem(const std::shared_ptr<Interface::Location> location, 
 
 }
 
+LocationItem::~LocationItem()
+{
+    qDebug() << "A location item has been DESTROYED";
+}
+
 QRectF LocationItem::boundingRect() const
 {
     return QRectF(0, 0, 120,120);

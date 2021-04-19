@@ -1,11 +1,18 @@
 #include "agent.hh"
 
+#include <QDebug>
+
 namespace Interface {
 
 
 Agent::Agent(QString name, std::weak_ptr<Player> owner) : name_(name), owner_(owner), typeName_("agent"), placement_(std::weak_ptr<Location>())
 {
-    placement_.reset();
+    qDebug() << "agent";
+    auto f =  owner_;
+    auto s = f.lock();
+    s->name();
+    qDebug() << owner.lock()->name();
+    placement_.reset(); // wtf is this for
 }
 
 Agent::~Agent()
@@ -61,7 +68,7 @@ QString Agent::title() const
 
 std::weak_ptr<Player> Agent::owner() const
 {
-
+    return owner_;
 }
 
 void Agent::setOwner(std::weak_ptr<Player> owner)

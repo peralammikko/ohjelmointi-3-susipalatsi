@@ -54,7 +54,6 @@ public:
 
     std::shared_ptr<Interface::Player> getPlayerObject();
     std::vector<agentItem *> getAgents(std::shared_ptr<Interface::Player> &player);
-    std::shared_ptr<Interface::Player> getPlayerInTurn();
 
     void changeTurn();
 

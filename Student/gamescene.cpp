@@ -86,7 +86,7 @@ void GameScene::hideAgents(std::vector<agentItem *> &agents)
     for (unsigned int i = 0; i < agents.size(); i++) {
         agentItem* current = agents.at(i);
         current->hide();
-
+        // TODO: better toggling
         disconnect(current, &mapItem::mapItemMouseDragged, this, &GameScene::onMapItemMouseDragged);
         disconnect(current, &mapItem::mapItemMouseReleased, this, &GameScene::onMapItemMouseDropped);
         //current->setPos(300+current->boundingRect().width()*i,300);
@@ -98,18 +98,43 @@ void GameScene::initPlayerHandFor(std::shared_ptr<Interface::Player> player)
     playerHands_.insert(std::make_pair(player, new PlayerHand(this, player)));
 }
 
-std::map<std::shared_ptr<Interface::Player>, PlayerHand *> GameScene::playerHands()
+std::map<std::shared_ptr<const Interface::Player>, PlayerHand *> GameScene::playerHands()
 {
     return playerHands_;
 }
 
-void GameScene::initHands(std::shared_ptr<Interface::Player> player)
+void GameScene::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer)
 {
-    //oneHand_ = new PlayerHand(this, playerInTurn_);
+    // Notice: actingPlayer = previous player
+    qDebug() << "Player Changed!" << actingPlayer->name() << game_.lock()->currentPlayer()->name();
+    //auto l = std::dynamic_pointer_cast<std::shared_ptr<Interface::Player>>(actingPlayer);
 
+    // If the player has been changed (round changed) then modify hand areas a bit
+    if (actingPlayer != game_.lock()->currentPlayer())
+    {
+        playerHands_.at(actingPlayer)->setY(-200);
+        playerHands_.at(actingPlayer)->setScale(0.25);
+        playerHands_.at(actingPlayer)->setEnabled(false);
+
+        playerHands_.at(game_.lock()->currentPlayer())->setEnabled(true);
+        playerHands_.at(game_.lock()->currentPlayer())->setY(400);
+        playerHands_.at(game_.lock()->currentPlayer())->setScale(1);
+        playerHands_.at(game_.lock()->currentPlayer())->show();
+      //  auto s = actingPlayer.get();
+        if (true) {
+            qDebug() << "all good player chagne";
+        }
+    }
+
+   // playerHands_.at(actingPlayer).setEnabled(false);
+   // playerHands_.at(actingPlayer).setEnabled(false);
+}
+
+void GameScene::initHands(std::shared_ptr<const Interface::Player> player)
+{
     PlayerHand* hand = new PlayerHand(this, player);
     this->addItem(hand);
-    playerHands_.insert(std::pair<std::shared_ptr<Interface::Player>,PlayerHand*>(player, hand));
+    playerHands_.insert(std::pair<std::shared_ptr<const Interface::Player>,PlayerHand*>(player, hand));
     hand->setY(400);
     /*
     this->addItem(oneHand_);

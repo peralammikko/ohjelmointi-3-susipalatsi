@@ -1,6 +1,7 @@
 #ifndef AGENT_HH
 #define AGENT_HH
 #include "../Course/agentinterface.h"
+#include "../Course/player.h"
 
 #include <memory>
 #include <map>
@@ -32,8 +33,8 @@ public:
 
 private:
     QString name_;
-    QString typeName_;
     std::weak_ptr<Player> owner_;
+    QString typeName_;
     std::weak_ptr<Location> placement_;
     QString title_;
 
@@ -42,5 +43,5 @@ private:
 };
 
 
-}
+} // Interface
 #endif // AGENT_HH

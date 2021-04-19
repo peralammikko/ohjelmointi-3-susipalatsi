@@ -43,43 +43,11 @@ GameWindow::GameWindow(QWidget *parent) :
     this->setFixedSize(1450, 950);
     this->setWindowTitle("SUSIPALATSI: TEH GAME");
 
-    /* GAME SETTINGS REPLACE
-    // Luodaan location-oliot
-    for (int i = 0; i < 6; i++) {
-        std::shared_ptr<Interface::Location> location = std::make_shared<Interface::Location>(i, paikat_.at(i));
-        game_->addLocation(location);
-    }*
 
-    std::vector<std::shared_ptr<Interface::Location>> locvec = game_->locations();
-    gameScene_->drawLocations(locvec);
-
-    player1 = std::make_shared<Interface::Player>(game_, 1, "RED");
-    player2 = std::make_shared<Interface::Player>(game_, 2, "BLUE");
-
-    game_->addPlayer(player1);
-    game_->addPlayer(player2);
-
-  //  initPlayerControls();
-
-    setupPlayerStash();
-    for (int i = 0 ; i < 3; i++) {
-        spawnAgent(player1);
-    }  
-    for (int i = 0; i < 5; i++) {
-        spawnAgent(player2);
-    }*/
     // TODO: move logic and gamerunner init into gamesetup somehow
     logic_ = std::make_shared<Logic>(courseRunner, game_, gameScene_);
-    GameSetup* setup = new GameSetup(gameScene_, game_, courseRunner,  logic_);
-
-    // TODO: move this to logic and use game_'s turn based system instead
-    /*
-    if (current_round == 0) {
-        drawPlayerAgents(player1);
-    } else {
-        drawPlayerAgents(player2);
-    }*/
-
+    // GameSetup is only called here, and should be cleared after getting out of context
+    GameSetup setup = GameSetup(gameScene_, game_, courseRunner,  logic_);
 
     // This is a hardcorded card generation and it does NOT draw from decks or anything.
     // It can be here until we get reward system in order
@@ -89,13 +57,9 @@ GameWindow::GameWindow(QWidget *parent) :
             std::shared_ptr<Interface::ActionCard> card = std::make_shared<Interface::ActionCard>();
             pl->addCard(card);
 
-
-            //connect(carditem, &mapItem::mapItemMouseDragged, this, &GameScene::onMapItemMouseDragged);
-            //connect(carditem, &mapItem::mapItemMouseReleased, this, &GameScene::onMapItemMouseDropped);
+           // gameScene_->playerHands().at(pl)->addMapItem()
         }
     }
-
-
     displayPlayerStats();
     initAreaResources();
     gameScene_->resourceInfo(areaResourceMap);
@@ -121,28 +85,6 @@ void GameWindow::drawItem(mapItem *item)
 const std::vector<std::shared_ptr<Interface::Location> > GameWindow::getLocations()
 {
     return game_->locations();
-}
-/*
-void GameWindow::spawnAgent(std::shared_ptr<Interface::Player> &player)
-{
-    // Create agent interface, which holds all of the data of the card.
-    // Ideally we want this to be handled by carddata class, which would use xml/JSON later on
-    // For now we will just use some default generated stuff
-    QString agname{"Perry"};
-    std::shared_ptr<Interface::Agent> agentptr = std::make_shared<Interface::Agent>(agname + player->name(), player);
-
-    agentItem* agenttiesine = new agentItem(agentptr);
-    connect(agenttiesine, &agentItem::actionDeclared, gameScene_, &GameScene::onActionDeclared);
-
-    gameScene_->addItem(agenttiesine);
-    //agenttiesine->setParent(gameScene_);
-
-    playerAgentItems_.at(player).push_back(agenttiesine);
-}*/
-
-std::shared_ptr<Interface::Player> GameWindow::getPlayerInTurn()
-{
-    return game_->currentPlayer();
 }
 
 void GameWindow::changeTurn()

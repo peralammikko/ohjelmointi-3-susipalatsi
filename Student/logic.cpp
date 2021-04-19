@@ -38,6 +38,7 @@ void Logic::actionSelected(std::shared_ptr<Interface::ActionInterface> action)
         std::shared_ptr<Interface::ManualControl> manualCtrl = std::dynamic_pointer_cast<Interface::ManualControl>(ctrl_);
         manualCtrl->setNextAction(action_);
         doTheRunning();
+        game_->nextPlayer();
     } else {
         doTheRunning();
     }

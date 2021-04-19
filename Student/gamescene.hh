@@ -58,7 +58,7 @@ public:
     void drawLocations(std::vector<std::shared_ptr<Interface::Location>> &locvec);
 
     // Creates a hand area for player
-    void initHands(std::shared_ptr<Interface::Player> Player);
+    void initHands(std::shared_ptr<const Interface::Player> Player);
 
     void turnInfo(int turn, std::shared_ptr<Interface::Player> currentplayer);
 
@@ -66,11 +66,16 @@ public:
 
     void initPlayerHandFor(std::shared_ptr<Interface::Player> player);
 
-    std::map<std::shared_ptr<Interface::Player>, PlayerHand*> playerHands();
+    std::map<std::shared_ptr<const Interface::Player>, PlayerHand*> playerHands();
 
 signals:
     void actionDeclared(std::shared_ptr<Interface::ActionInterface> action);
 public slots:
+    // When the player has been changed, makes every item that does not belong to the player undraggable.
+    // This is signaled by game-class
+    // Also moves other player hands on the side as face-down versions with shrunken size
+    void onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer);
+
     void onActionDeclared(std::shared_ptr<Interface::ActionInterface> action);
 private slots:
     void onMapItemMouseDragged(mapItem* mapitem);
@@ -84,11 +89,10 @@ private:
     agentItem* selectedAgent = nullptr;
 
     PlayerHand* oneHand_ = nullptr;
-    std::map<std::shared_ptr<Interface::Player>, PlayerHand*> playerHands_;
+    std::map<std::shared_ptr<const Interface::Player>, PlayerHand*> playerHands_;
 
     int turn_ = 0;
     std::shared_ptr<Interface::Player> playerInTurn_ = nullptr;
-
 
     std::weak_ptr<Interface::Game> game_;
 
