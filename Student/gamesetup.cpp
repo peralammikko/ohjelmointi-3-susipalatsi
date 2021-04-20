@@ -35,10 +35,19 @@ void GameSetup::initLocations()
 
     // TODO: move names to settingsreader file maybe
     const std::vector<QString> paikat_ = {"Marketti", "Kirkko", "Taverna", "Kauppiaiden kilta", "Menomesta", "Salapaikka"};
+    // TODO: väärät resunimet
+    const std::vector<QString> paikkaresut_ = {"Makkara", "pettuleipä", "absinttisnifferi", "kaks euroo", "tasan gramma", "krapulaa"};
 
     // Luodaan location-oliot
     for (int i = 0; i < LOCATIONS; i++) {
         std::shared_ptr<Interface::Location> location = std::make_shared<Interface::Location>(i, paikat_.at(i));
+        location->initialize();
+        for  (int j = 0; j < 10; j++) {
+            location->deck()->addCard(std::make_shared<Interface::CommonResource>(
+                                          paikat_.at(i)+paikkaresut_.at(i), location, 1));
+            location->deck()->addCard(std::make_shared<Interface::ActionCard>());
+        }
+        location->deck()->shuffle();
         game_->addLocation(location);
     }
 }
