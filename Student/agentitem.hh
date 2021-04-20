@@ -16,7 +16,6 @@ public:
     ~agentItem();
 
     bool isSelected = false;
-    std::shared_ptr<Interface::AgentInterface> getObject();
     std::shared_ptr<Interface::Agent> getAgentClass();
 
     // MapItem overridet

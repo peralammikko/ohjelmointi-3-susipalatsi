@@ -102,7 +102,7 @@ void GameWindow::listAgents(std::shared_ptr<Interface::Player> &player)
     auto listOfAgents = playerAgentItems_.at(player);
     for (auto agent : listOfAgents) {
         std::shared_ptr<Interface::Agent> agentPtr = agent->getAgentClass();
-        std::shared_ptr<Interface::Location> loc = agent->getObject()->location().lock();
+        std::shared_ptr<Interface::Location> loc = agent->getAgentClass()->location().lock();
         if (!loc) {
             gameui_->agentListWidget->addItem(agentPtr->name() + " @ Home");
         } else {

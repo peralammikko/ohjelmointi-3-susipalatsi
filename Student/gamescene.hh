@@ -94,10 +94,6 @@ private:
     ResourceMap resMap_;
     ResourceMap demandsMap_;
 
-    // Sees if aItem can move to newLocation
-    bool canMoveAgent(LocationItem* newLocation, agentItem* aItem);
-    // Moves agent to a new location
-    void moveAgent(LocationItem* newLocItem, agentItem* aItem);
 
 };
 

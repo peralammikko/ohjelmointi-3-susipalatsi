@@ -25,11 +25,6 @@ agentItem::~agentItem()
 
 }
 
-std::shared_ptr<Interface::AgentInterface> agentItem::getObject()
-{
-    return agentObject_;
-}
-
 std::shared_ptr<Interface::Agent> agentItem::getAgentClass()
 {
     return agentObject_;
@@ -121,10 +116,10 @@ std::shared_ptr<Interface::ActionInterface> agentItem::getDragReleaseAction()
         {
             action = std::make_shared<SendAgentAction>(lItem, this);
         } else {
-           // PlayerHand* pHand = dynamic_cast<PlayerHand*>(collisions.at(i));
-            if (true)//pHand)
+            PlayerHand* pHand = dynamic_cast<PlayerHand*>(collisions.at(i));
+            if (pHand)
             {
-                //action = std::make_shared<WithdrawAgentAction>(pHand, this);
+                action = std::make_shared<WithdrawAgentAction>(pHand, this);
             }
         }
     }

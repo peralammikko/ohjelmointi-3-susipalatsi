@@ -41,7 +41,7 @@ bool SendAgentAction::canPerform() const
 
 void SendAgentAction::perform()
 {
-    std::shared_ptr<Interface::AgentInterface> aInterface = aItem_->getObject();
+    std::shared_ptr<Interface::Agent> aInterface = aItem_->getAgentClass();
     std::shared_ptr<Interface::Location> newPlacInterface = newLocItem_->getObject();
     std::shared_ptr<Interface::Location> oldPlacInterface = aInterface->placement().lock();
 
