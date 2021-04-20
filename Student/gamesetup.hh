@@ -51,6 +51,7 @@ private:
 
     void initPlayers();
     void initPlayerHands();
+    void addPlayerSetupCards();
     void initPlayerControls();
 
     void initAgentInterfaces();

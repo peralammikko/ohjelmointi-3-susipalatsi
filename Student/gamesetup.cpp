@@ -8,7 +8,9 @@ GameSetup::GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game
     Interface::SettingsReader& reader = Interface::SettingsReader::READER;
     reader.readSettings();
 
-    //const int LOCATIONS = std::min(reader.getValue("LOCATIONS").toInt(), reader.getValue("MAX_LOCATIONS").toInt());
+    game_.get()->connect(game_.get(), &Interface::Game::playerChanged, logic_.get(), &Logic::onPlayerChanged);
+    courseRunner_->connect(courseRunner_.get(), &Interface::Runner::actionPerformed, logic_.get(), &Logic::onActionPerformed);
+
     initLocations();
     initResourceMaps();
     initDemandMaps();
@@ -18,13 +20,11 @@ GameSetup::GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game
 
     initPlayers();
     initPlayerHands();
+    addPlayerSetupCards();
     initPlayerControls();
 
     initAgentInterfaces();
 
-    //game_.get()->connect(game_.get(), &Interface::Game::playerChanged, gameScene_, &GameScene::onPlayerChanged);
-    game_.get()->connect(game_.get(), &Interface::Game::playerChanged, logic_.get(), &Logic::onPlayerChanged);
-    courseRunner_->connect(courseRunner_.get(), &Interface::Runner::actionPerformed, logic_.get(), &Logic::onActionPerformed);
     logic_->doTheRunning();
 
 }
@@ -102,20 +102,13 @@ void GameSetup::initLocItems()
 
 void GameSetup::initLogic()
 {
-    // NOTICE! Logic constructor connetcts it to some signals
-    // logic_ = std::make_shared<Logic>(courseRunner_, game_, gameScene_);
     logic_->infoResourceMaps(initResourceMap_, councillorDemandsMap_);
-
-    // Is this needed here?
-    //logic_->doTheRunning();
-    //courseRunner_->testDebug();
-
 }
 
 void GameSetup::initPlayers()
 {
     Interface::SettingsReader& reader = Interface::SettingsReader::READER;
-    const int playerCount = reader.getValue("PLAYERS").toInt();
+    unsigned int playerCount = reader.getValue("PLAYERS").toInt();
 
     // TODO: Make names not hard coded maybe
     std::vector<QString> some_names = {"RED", "BLUE", "KALJAMIES", "KURKI", "NAPANUORA", "VAIKKU", "LASKIJA"};
@@ -138,6 +131,26 @@ void GameSetup::initPlayerHands()
             std::shared_ptr<const Interface::Player> pla = player;
             // Player who is not in turn has their hand hidden
             gameScene_->playerHands().at(player)->hide();
+        }
+    }
+}
+
+void GameSetup::addPlayerSetupCards()
+{
+    for (unsigned int i=0; i<game_->players().size(); ++i) {
+        std::shared_ptr<Interface::Player> player = game_->players().at(i);
+
+        int cards = Interface::SettingsReader::READER.getValue("STARTING_AGENTS").toInt();
+
+        for (int j=0; j < cards; ++j) {
+            std::shared_ptr<Interface::ActionCard> card = std::make_shared<Interface::ActionCard>();
+            player->addCard(card);
+
+            CardItem* cardItem = new CardItem(card, gameScene_);
+            gameScene_->connect(cardItem, &CardItem::actionDeclared, gameScene_, &GameScene::onActionDeclared);
+            gameScene_->addItem(cardItem);
+            gameScene_->playerHands().at(player)->addMapItem(cardItem);
+
         }
     }
 }

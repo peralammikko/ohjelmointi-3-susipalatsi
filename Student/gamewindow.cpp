@@ -34,8 +34,8 @@ GameWindow::GameWindow(QWidget *parent) :
 
     // Tell the game to start listening to the timer
     // TODO: move this after settings are selected or something
-    gameTime_ = new QTimer(this);
-    connect(gameTime_, SIGNAL(timeout()), gameScene_, SLOT(advance()));
+    gameTime_ =  std::make_unique<QTimer>(this);
+    connect(gameTime_.get(), SIGNAL(timeout()), gameScene_, SLOT(advance()));
     gameTime_->start(50);
 
     // Asetetaan graphicViewin ja ikkunan koot staattiseks ensalkuun
@@ -44,24 +44,10 @@ GameWindow::GameWindow(QWidget *parent) :
     this->setFixedSize(1450, 950);
     this->setWindowTitle("SUSIPALATSI: TEH GAME");
 
-    // TODO: move logic and gamerunner init into gamesetup somehow
+
     logic_ = std::make_shared<Logic>(courseRunner, game_, gameScene_);
+    GameSetup setup = GameSetup(gameScene_, game_, courseRunner,  logic_);
 
-    // GameSetup is only called here, and should be cleared after getting out of context
-    GameSetup* setup = new GameSetup(gameScene_, game_, courseRunner,  logic_);
-    delete setup;
-
-    // This is a hardcorded card generation and it does NOT draw from decks or anything.
-    // It can be here until we get reward system in order
-    for (unsigned int i=0; i<game_->players().size(); ++i) {
-        std::shared_ptr<Interface::Player> pl = game_->players().at(i);
-        for (int j=0; j<4; ++j) {
-            std::shared_ptr<Interface::ActionCard> card = std::make_shared<Interface::ActionCard>();
-            pl->addCard(card);
-
-           // gameScene_->playerHands().at(pl)->addMapItem()
-        }
-    }
     // displayPlayerStats();
 }
 
@@ -79,21 +65,6 @@ void GameWindow::drawItem(mapItem *item)
 const std::vector<std::shared_ptr<Interface::Location> > GameWindow::getLocations()
 {
     return game_->locations();
-}
-
-
-void GameWindow::changeTurn()
-{
-    // FIX THIS TO LOGIC
-    qDebug() << "GAMEWINDOW CHANGETURN - NEEDS FIXING!!";
-    /*
-    game_->nextPlayer();
-    displayPlayerStats();
-    //current_round += 1;
-    //gameScene_->turnInfo(current_round, game_->currentPlayer());
-    gameScene_->turnInfo(0, game_->currentPlayer());
-    */
-
 }
 
 void GameWindow::listAgents(std::shared_ptr<Interface::Player> &player)

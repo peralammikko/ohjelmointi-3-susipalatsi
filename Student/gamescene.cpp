@@ -128,6 +128,7 @@ void GameScene::onPlayerChanged(std::shared_ptr<const Interface::Player> actingP
 
     } else {
         // The current player most likely got a new card in their hand, so rearrange the hand.
+        qDebug() << "Player changed, turn was not changed";
        playerHands_.at(actingPlayer)->rearrange();
     }
 }
