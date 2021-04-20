@@ -92,7 +92,7 @@ void Logic::actionSelected(std::shared_ptr<Interface::ActionInterface> action)
     {
         manualCtrl->setNextAction(action_);
         doTheRunning();
-        //game_->nextPlayer();
+
     } else {
         qDebug() << "Manual Control was not found";
         doTheRunning();
@@ -107,7 +107,6 @@ void Logic::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlaye
     // BUG!!! This is called twice for some reason
     if (actingPlayer and game_->currentPlayer() != actingPlayer)
     {
-        //qDebug() << game_->currentPlayer()->name() ;
         qDebug() << "ALERT LOGIC CHANGE";
         qDebug() << game_->currentPlayer()->name() << "changed to " << actingPlayer->name();
 
@@ -120,9 +119,15 @@ void Logic::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlaye
         if (actionCards.size())
         {
             qDebug() << "Chaning player HAS action cards";
+            gameScene_->onPlayerChanged(actingPlayer);
         } else {
             qDebug() << "Changing player DOES NOT have action cards";
         }
     }
 
+}
+
+void Logic::onActionPerformed(std::shared_ptr<const Interface::Player> player, std::shared_ptr<Interface::ActionInterface> action)
+{
+    game_->nextPlayer();
 }

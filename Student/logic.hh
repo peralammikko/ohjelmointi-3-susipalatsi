@@ -34,8 +34,6 @@ public :
     Logic(std::shared_ptr<Interface::Runner> runner, std::shared_ptr<Interface::Game> game, GameScene *gameScene);
     ~Logic();
 
-
-
     void doTheRunning();
     // Attempting to move almost everything in mainwindow which is related to game rule intialisation here
     void launchGame();
@@ -46,7 +44,10 @@ public :
 public slots:
     void actionSelected(std::shared_ptr<Interface::ActionInterface> action);
     // tell the game scene to switch player
-    void onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer) ;
+    void onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer);
+
+    // sent by runner, connected in setup
+    void onActionPerformed(std::shared_ptr<const Interface::Player> player, std::shared_ptr<Interface::ActionInterface> action);
 
 private:
     void setNextAction();

@@ -55,8 +55,6 @@ void mapItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
      // Make sure it is a left button event and the card is pressed already
     if (event->button() == Qt::LeftButton and isMousePressed_ )
     {
-        //emit mapItemMouseReleased(this);
-        qDebug() << this->collidingItems();
         isMousePressed_  = false;
 
         // TODO: maybe move perform checking somewhere else
@@ -76,7 +74,6 @@ void mapItem::advance(int phase)
     if (homing_){
         if (!homingTimer_ or homingTimer_->remainingTime() <= 0)
         {
-            qDebug() << "timed out";
             homing_ = false;
             setPos(homeCoords_);
 
