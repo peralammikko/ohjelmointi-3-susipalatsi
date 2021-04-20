@@ -10,7 +10,6 @@ SOURCES += \
     agent.cpp \
     agentdialog.cpp \
     agentitem.cpp \
-    cardinterface.cpp \
     commonresource.cpp \
     carditem.cpp \
     gamerunner.cpp \

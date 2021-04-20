@@ -8,6 +8,11 @@
 // location item
 #include "locationitem.hh"
 
+// creating decks
+#include "../Course/deck.h"
+#include "actioncard.hh"
+
+
 // Agent interface and its class
 #include "agent.hh"
 #include "agentitem.hh"
@@ -46,6 +51,7 @@ private:
 
     void initPlayers();
     void initPlayerHands();
+    void addPlayerSetupCards();
     void initPlayerControls();
 
     void initAgentInterfaces();

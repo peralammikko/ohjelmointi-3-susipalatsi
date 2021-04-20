@@ -68,12 +68,11 @@ public:
 signals:
     void actionDeclared(std::shared_ptr<Interface::ActionInterface> action);
 public slots:
+    void onActionDeclared(std::shared_ptr<Interface::ActionInterface> action);
     // When the player has been changed, makes every item that does not belong to the player undraggable.
     // This is signaled by game-class
     // Also moves other player hands on the side as face-down versions with shrunken size
     void onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer);
-
-    void onActionDeclared(std::shared_ptr<Interface::ActionInterface> action);
 
 private slots:
     void onMapItemMouseDragged(mapItem* mapitem);
@@ -98,10 +97,6 @@ private:
     ResourceMap resMap_;
     ResourceMap demandsMap_;
 
-    // Sees if aItem can move to newLocation
-    bool canMoveAgent(LocationItem* newLocation, agentItem* aItem);
-    // Moves agent to a new location
-    void moveAgent(LocationItem* newLocItem, agentItem* aItem);
 
 };
 

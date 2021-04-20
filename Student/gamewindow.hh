@@ -52,8 +52,6 @@ public:
     std::shared_ptr<Interface::Player> getPlayerObject();
     std::vector<agentItem *> getAgents(std::shared_ptr<Interface::Player> &player);
 
-    void changeTurn();
-
     void listAgents(std::shared_ptr<Interface::Player> &player);
 
     void setupPlayerStash();
@@ -76,7 +74,7 @@ private:
     // Logic testing
     std::shared_ptr<Logic> logic_;
 
-    QTimer* gameTime_;
+    std::unique_ptr<QTimer> gameTime_;
 
     // Usefulness to be decided.
     std::map<std::shared_ptr<Interface::Player>, std::vector<agentItem*>> playerAgentItems_;

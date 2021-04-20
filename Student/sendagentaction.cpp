@@ -8,10 +8,7 @@ SendAgentAction::SendAgentAction(LocationItem* newLocItem, agentItem* aItem) : n
 
 }
 
-SendAgentAction::~SendAgentAction()
-{
-
-}
+SendAgentAction::~SendAgentAction(){}
 
 bool SendAgentAction::canPerform() const
 {
@@ -41,7 +38,7 @@ bool SendAgentAction::canPerform() const
 
 void SendAgentAction::perform()
 {
-    std::shared_ptr<Interface::AgentInterface> aInterface = aItem_->getObject();
+    std::shared_ptr<Interface::Agent> aInterface = aItem_->getAgentClass();
     std::shared_ptr<Interface::Location> newPlacInterface = newLocItem_->getObject();
     std::shared_ptr<Interface::Location> oldPlacInterface = aInterface->placement().lock();
 
@@ -51,7 +48,7 @@ void SendAgentAction::perform()
     }
     newPlacInterface->sendAgent(aInterface);
 
-    // Convert current position on scene to new parent item's coordinates
+     // Convert current position on scene to new parent item's coordinates
     // Do this so that the item does not fly far far away
     QPointF currentPos = aItem_->scenePos();
     aItem_->setPos(newLocItem_->mapFromScene(currentPos));

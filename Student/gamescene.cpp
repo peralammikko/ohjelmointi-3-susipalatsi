@@ -120,11 +120,12 @@ ResourceMap GameScene::getResMap()
 
 void GameScene::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer)
 {
+    /*
     std::shared_ptr<Interface::Game> gameboard = game_.lock();
     if (gameboard) {
         playerInTurn_ = gameboard->currentPlayer();
     }
-    return;
+    return;*/
 
     if (actingPlayer != game_.lock()->currentPlayer())
     {
@@ -132,7 +133,9 @@ void GameScene::onPlayerChanged(std::shared_ptr<const Interface::Player> actingP
 
         // TODO: Coords for the hand that is going to be hidden are hard coded for now.
         // They should be based on the number of players in the game.
-        // TODO: Action cards need to be set "face down"
+        // TODO: Action cards need to be set "face down" for the passing player
+        // TPDP_ acotpm cards meed tp ne set "face up" for the player who is playing
+        playerHands_.at(actingPlayer)->rearrange();
         playerHands_.at(actingPlayer)->setY(100);
         playerHands_.at(actingPlayer)->setScale(0.25);
         playerHands_.at(actingPlayer)->setEnabled(false);
@@ -141,12 +144,10 @@ void GameScene::onPlayerChanged(std::shared_ptr<const Interface::Player> actingP
         playerHands_.at(game_.lock()->currentPlayer())->setY(600);
         playerHands_.at(game_.lock()->currentPlayer())->setScale(1);
         playerHands_.at(game_.lock()->currentPlayer())->show();
-      //  auto s = actingPlayer.get();
-        if (true) {
-            qDebug() << "all good player chagne";
-        }
+
     } else {
         // The current player most likely got a new card in their hand, so rearrange the hand.
+        qDebug() << "Player changed, turn was not changed";
        playerHands_.at(actingPlayer)->rearrange();
     }
 }
@@ -156,35 +157,9 @@ void GameScene::initHands(std::shared_ptr<const Interface::Player> player)
     PlayerHand* hand = new PlayerHand(this, player);
     this->addItem(hand);
     playerHands_.insert(std::pair<std::shared_ptr<const Interface::Player>,PlayerHand*>(player, hand));
-    hand->setY(400);
+    hand->setPos(600, 400);
 }
 
-/*
-void GameScene::showHandCards()
-{
-    float widthtotal = 0.0;
-    int xStart;
-    float widthPerCard;
-
-    int count = handCards_.size();
-    if (count) {
-        // Calculate total width of the hand
-        for (int i = 0; i < count; ++i) {
-            handCards_.at(i)->show();
-            widthtotal += handCards_.at(i)->boundingRect().width();
-        }
-        // Gets the new coords for cards based on hand width
-        widthPerCard = (widthtotal + handCardPadding_*count) / count;
-        xStart =  handAnchorCoords_.first - (widthtotal / 2);
-        for (int i = 0; i < count; ++i) {
-            handCards_.at(i)->setParent(this);
-            int x = (xStart + widthPerCard*i);
-            handCards_.at(i)->setPos(x, handAnchorCoords_.second);
-        }
-    }
-}
-
-*/
 
 void GameScene::onMapItemMouseDragged(mapItem* mapitem)
 {
@@ -230,17 +205,12 @@ void GameScene::onLocationItemClicked(LocationItem* locItem)
 void GameScene::onActionDeclared(std::shared_ptr<Interface::ActionInterface> action)
 {
 
-    // qDebug() << "Action declared, signal recieved gamescene";
+    // TODO: check if the game is active
     if (!game_.lock())
     {
         qDebug() << "Action was declared on scene but there is no game";
         return;
     }
-    qDebug() << "Action declared, signal recieved gamescene";
     emit actionDeclared(action);
-
-    // TODO: rearrange the current players hand maybe
-    //oneHand_->rearrange();
-
-    playerHands_.at(game_.lock()->currentPlayer())->rearrange();
+    //playerHands_.at(game_.lock()->currentPlayer())->rearrange();
 }
