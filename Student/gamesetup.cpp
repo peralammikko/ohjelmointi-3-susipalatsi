@@ -45,6 +45,8 @@ void GameSetup::initLocations()
 
 void GameSetup::initResourceMaps()
 {
+    int i = 0;
+    const std::vector<QString> resurssit = {"PIRKKA OLUT", "VOHVELI", "PYTTIPANNU", "BITCOIN", "TUNI OP", "AROMIPESÄ"};
     for (auto loc : game_->locations()) {
         QString resName = loc->name() + " item";
         Interface::CommonResource res(resName, loc, 0);
@@ -57,6 +59,8 @@ void GameSetup::initResourceMaps()
         std::pair<std::shared_ptr<Interface::Location>, std::deque<Interface::CommonResource>> pair2;
         pair2.first = loc;
         initAgentBackpack_.insert(pair2);
+
+        i++;
     }
 }
 

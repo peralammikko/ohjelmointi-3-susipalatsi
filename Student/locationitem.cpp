@@ -7,7 +7,6 @@ LocationItem::LocationItem(const std::shared_ptr<Interface::Location> location, 
 {
     setAcceptHoverEvents(true);
     generateNewDemand();
-
 }
 
 LocationItem::~LocationItem()
@@ -165,12 +164,14 @@ void LocationItem::addInfluence(std::shared_ptr<Interface::Player> &player)
 {
     playerInfluence_.at(player) += 1;
 }
-
-QString LocationItem::testDebug()
+/*
+bool LocationItem::giveCouncilCard(std::shared_ptr<Interface::Agent> &agent)
 {
-    QString text = this->getObject()->name();
-    return text;
+    QString councName = "Mr. " + locationObject_->name();
+    std::shared_ptr<Interface::Councilor> counc = std::make_shared<Interface::Councilor>(councName, "Mestari", locationObject_);
+    agent->addCouncilCard(counc);
 }
+*/
 
 void LocationItem::setLocalResource(Interface::CommonResource &res)
 {

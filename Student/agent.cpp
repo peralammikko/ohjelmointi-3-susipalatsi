@@ -1,6 +1,7 @@
 #include <QDebug>
 
 #include "agent.hh"
+#include "councilor.h"
 
 namespace Interface {
 
@@ -36,6 +37,24 @@ void Agent::addResource(std::shared_ptr<Interface::Location> agentAt, CommonReso
     for (int i = 0; i < amount; i++) {
         iter->second.push_back(res);
         qDebug() << amount << " resources added to " << this->name();
+    }
+}
+
+void Agent::removeResource(std::shared_ptr<Location> &agentAt,  int amount)
+{
+        for (int i = 0; i < amount; i++) {
+            gatheredResources_.at(agentAt).pop_back();
+        }
+}
+
+bool Agent::addCouncilCard(std::shared_ptr<Councilor> card)
+{
+    if (councilCardHolder.size() == 0) {
+        councilCardHolder.push_back(card);
+        qDebug() << this->name() << "is now holding " << card->name() << " card";
+        return true;
+    } else {
+        return false;
     }
 }
 

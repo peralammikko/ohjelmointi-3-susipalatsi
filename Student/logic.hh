@@ -47,8 +47,6 @@ public slots:
     void actionSelected(std::shared_ptr<Interface::ActionInterface> action);
     // tell the game scene to switch player
     void onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer);
-    
-    void getNewDemand(std::shared_ptr<Interface::Location> &loc);
 
 private:
     void setNextAction();

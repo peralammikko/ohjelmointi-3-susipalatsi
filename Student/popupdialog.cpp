@@ -75,6 +75,7 @@ void PopupDialog::checkCouncilCard(std::set<std::shared_ptr<Interface::AgentInte
                 // TO DO: Remove agent's resources and give councillor card
                 // Also need to reroll another quest for location
                 // signal to mainwindow?
+                potentialAgent_ = agent;
 
                 return;
             } else {
@@ -88,7 +89,6 @@ void PopupDialog::fillAreaAgentsList(std::set<std::shared_ptr<Interface::AgentIn
 {
     for (auto agent : agentsHere) {
         std::shared_ptr<Interface::Player> agentOwner = agent->owner().lock();
-
         // WIP
         if (!agentOwner) {
             qDebug() << "owner not found";
@@ -100,7 +100,25 @@ void PopupDialog::fillAreaAgentsList(std::set<std::shared_ptr<Interface::AgentIn
 
 void PopupDialog::on_tradeButton_clicked()
 {
-    ui->councillorDemandsLabel->clear();
-    locItem->generateNewDemand();
-    ui->tradeButton->setDisabled(true);
+    // Work still in progress, probably gonna move to locationitem
+
+    auto demandLoc = neededRes_.location().lock();
+    int demandAmount = neededRes_.amount();
+    if (demandLoc) {
+        QString councName = "Mr. " + location_->name();
+        std::shared_ptr<Interface::Councilor> counc = std::make_shared<Interface::Councilor>(councName, "Mestari", location_);
+
+        if (potentialAgent_->addCouncilCard(counc)) {
+            potentialAgent_->removeResource(demandLoc, demandAmount);
+            ui->councillorDemandsLabel->clear();
+            ui->canGetCardLabel->setText("Fame gained");
+            locItem->generateNewDemand();
+            ui->tradeButton->setDisabled(true);
+        } else {
+            ui->canGetCardLabel->setText("Card holder full!");
+        }
+
+    } else {
+        qDebug() << "Card not found";
+    }
 }

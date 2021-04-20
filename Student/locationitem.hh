@@ -62,7 +62,7 @@ public:
 
     void addInfluence(std::shared_ptr<Interface::Player> &player);
 
-    QString testDebug();
+    // bool giveCouncilCard(std::shared_ptr<Interface::Agent> &agent);
 
 protected:
     void advance(int phase) override;

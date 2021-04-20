@@ -120,7 +120,3 @@ void Logic::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlaye
     
 }
 
-void Logic::getNewDemand(std::shared_ptr<Interface::Location> &loc)
-{
-    
-}
