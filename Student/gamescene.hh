@@ -61,6 +61,10 @@ public:
 
     std::map<std::shared_ptr<const Interface::Player>, PlayerHand*> playerHands();
 
+    std::vector<LocationItem *> GetLocItems();
+
+    ResourceMap getResMap();
+
 signals:
     void actionDeclared(std::shared_ptr<Interface::ActionInterface> action);
 public slots:

@@ -66,6 +66,7 @@ void PopupDialog::checkCouncilCard(std::set<std::shared_ptr<Interface::AgentInte
                 agentHas = agentResources.at(demandLoc).size();
             }
             if (agentHas >= reqAmount) {
+                qDebug() << "enough stuff";
                 ui->canGetCardLabel->setText("Trade available");
                 ui->canGetCardLabel->setPalette(Qt::darkYellow);
                 ui->canGetCardLabel->show();
@@ -99,5 +100,7 @@ void PopupDialog::fillAreaAgentsList(std::set<std::shared_ptr<Interface::AgentIn
 
 void PopupDialog::on_tradeButton_clicked()
 {
-    // Coming soon
+    ui->councillorDemandsLabel->clear();
+    locItem->generateNewDemand();
+    ui->tradeButton->setDisabled(true);
 }

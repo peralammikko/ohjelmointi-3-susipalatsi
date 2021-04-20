@@ -46,7 +46,9 @@ public :
 public slots:
     void actionSelected(std::shared_ptr<Interface::ActionInterface> action);
     // tell the game scene to switch player
-    void onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer) ;
+    void onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer);
+    
+    void getNewDemand(std::shared_ptr<Interface::Location> &loc);
 
 private:
     void setNextAction();
@@ -65,6 +67,12 @@ private:
 
     ResourceMap resMap_;
     ResourceMap demandsMap_;
+    
+    // Holds info on players and their currency
+    std::map<std::shared_ptr<Interface::Player>, int> playerWallets_;
+
+    // Holds info on influence gained from locations by players
+    // std::map<std::shared_ptr<Interface::Player>, std::map<std::shared_ptr<Interface::Location>, int>> playerInfluenceMap_;
 
 
 };

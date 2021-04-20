@@ -35,7 +35,7 @@ void Agent::addResource(std::shared_ptr<Interface::Location> agentAt, CommonReso
     AgentResourceMap::iterator iter = gatheredResources_.find(agentAt);
     for (int i = 0; i < amount; i++) {
         iter->second.push_back(res);
-        qDebug() << i << " resources added to " << this->name();
+        qDebug() << amount << " resources added to " << this->name();
     }
 }
 

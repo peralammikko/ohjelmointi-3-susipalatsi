@@ -99,6 +99,25 @@ std::map<std::shared_ptr<const Interface::Player>, PlayerHand *> GameScene::play
     return playerHands_;
 }
 
+std::vector<LocationItem *> GameScene::GetLocItems()
+{
+    std::vector<LocationItem*> locItems = {};
+    QList<QObject*> sceneChildren = children();
+    for (auto child : sceneChildren) {
+        LocationItem* loc = dynamic_cast<LocationItem*>(child);
+        if (loc) {
+            locItems.push_back(loc);
+        }
+    }
+    return locItems;
+
+}
+
+ResourceMap GameScene::getResMap()
+{
+    return resMap_;
+}
+
 void GameScene::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer)
 {
     std::shared_ptr<Interface::Game> gameboard = game_.lock();
