@@ -66,6 +66,12 @@ private:
 
     ResourceMap resMap_;
     ResourceMap demandsMap_;
+    
+    // Holds info on players and their currency
+    std::map<std::shared_ptr<Interface::Player>, int> playerWallets_;
+
+    // Holds info on influence gained from locations by players
+    // std::map<std::shared_ptr<Interface::Player>, std::map<std::shared_ptr<Interface::Location>, int>> playerInfluenceMap_;
 
 
 };

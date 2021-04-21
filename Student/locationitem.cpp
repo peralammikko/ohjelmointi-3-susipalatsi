@@ -1,11 +1,12 @@
 #include <QDebug>
 
 #include "locationitem.hh"
+#include "gamescene.hh"
 
 LocationItem::LocationItem(const std::shared_ptr<Interface::Location> location, int mapIndex) : locationObject_(location), mapIndex_(mapIndex), basevalue_(1), isSelected(false), isHovered_(false)
 {
     setAcceptHoverEvents(true);
-
+    generateNewDemand();
 }
 
 LocationItem::~LocationItem()
@@ -15,7 +16,7 @@ LocationItem::~LocationItem()
 
 QRectF LocationItem::boundingRect() const
 {
-    return QRectF(0, 0, 120,120);
+    return QRectF(0, 0, 150,150);
 }
 
 void LocationItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -29,7 +30,7 @@ void LocationItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     QPoint upperpos(boundingRect().x()+5, 10);
     QPoint lowerpos(0, boundingRect().height()-10);
     QString placeName = this->getObject()->name();
-    QPen pen(Qt::black, 2);
+    QPen pen;
     painter->drawText(upperpos, placeName);
     painter->drawText(lowerpos, "Base value: " + QString::number(this->getBasevalue()));
 
@@ -138,6 +139,39 @@ Interface::CommonResource LocationItem::getDemandedResource()
 {
     return demandRes_;
 }
+
+void LocationItem::generateNewDemand()
+{
+    GameScene* scene = dynamic_cast<GameScene*>(this->scene());
+    if (scene) {
+        ResourceMap rmap = scene->getResMap();
+        ResourceMap::iterator it;
+        while (true) {
+            it = rmap.begin();
+            int rndm = Interface::Random::RANDOM.uint(5);
+            std::advance(it, rndm);
+            if (it->first != locationObject_) {
+                demandRes_ = it->second;
+                int amount = 2+ Interface::Random::RANDOM.uint(3);
+                demandRes_.setAmountTo(amount);
+                break;
+            }
+        }
+    }
+}
+
+void LocationItem::addInfluence(std::shared_ptr<Interface::Player> &player)
+{
+    playerInfluence_.at(player) += 1;
+}
+/*
+bool LocationItem::giveCouncilCard(std::shared_ptr<Interface::Agent> &agent)
+{
+    QString councName = "Mr. " + locationObject_->name();
+    std::shared_ptr<Interface::Councilor> counc = std::make_shared<Interface::Councilor>(councName, "Mestari", locationObject_);
+    agent->addCouncilCard(counc);
+}
+*/
 
 void LocationItem::setLocalResource(Interface::CommonResource &res)
 {

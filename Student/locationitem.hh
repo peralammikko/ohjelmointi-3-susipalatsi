@@ -7,6 +7,9 @@
 #include "mapitem.hh"
 #include "commonresource.hh"
 #include "agent.hh"
+// #include "gamescene.hh"
+#include "influence.h"
+#include "../Course/random.h"
 
 class agentItem;
 
@@ -54,12 +57,19 @@ public:
     Interface::CommonResource getDemandedResource();
 
     void checkCouncillorCard();
+    
+    void generateNewDemand();
+
+    void addInfluence(std::shared_ptr<Interface::Player> &player);
+
+    // bool giveCouncilCard(std::shared_ptr<Interface::Agent> &agent);
 
 protected:
     void advance(int phase) override;
 
 signals:
     void locationItemPressed(LocationItem*);
+    void requestNewDemand(std::shared_ptr<Interface::Location> &loc);
 
 private:
     const std::shared_ptr<Interface::Location> locationObject_;
@@ -70,7 +80,8 @@ private:
     // Resources are initially set to a constant NULL to avoid errors
     Interface::CommonResource localRes_ = NULLRES;
     Interface::CommonResource demandRes_ = NULLRES;
-
+    
+    std::map<std::shared_ptr<Interface::Player>, int> playerInfluence_;
     int mapIndex_;
 
 };
