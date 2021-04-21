@@ -60,13 +60,14 @@ void mapItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
         isMousePressed_  = false;
 
         // TODO: maybe move perform checking somewhere else
-        if (isWaitingForAction()){
-            qDebug() << "Waiting and released!";
+        if (isWaitingForAction())
+        {
             emit actionDeclared(std::shared_ptr<Interface::ActionInterface>(), this, true);
             return;
         }
         std::shared_ptr<Interface::ActionInterface>  action = getDragReleaseAction();
-        if (action and action->canPerform()){
+        if (action and action->canPerform())
+        {
             emit actionDeclared(getDragReleaseAction(), this, false);
         } else {
             this->goHome();
@@ -83,7 +84,6 @@ bool mapItem::isWaitingForAction()
 {
     return waitingForActionCard_;
 }
-
 
 void mapItem::advance(int phase)
 {

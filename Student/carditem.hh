@@ -27,6 +27,7 @@ public:
 
     // returns "actioncard"
     const QString typeOf() override;
+    void rearrange() override{};
 
 
 protected:

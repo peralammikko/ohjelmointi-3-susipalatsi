@@ -3,7 +3,7 @@
 #include "agentitem.hh"
 #include "mapitem.hh"
 #include "locationitem.hh"
-#include <cmath>
+
 #include "carditem.hh"
 #include "popupdialog.hh"
 #include "agentdialog.hh"
@@ -126,7 +126,11 @@ void GameScene::prepareForAction(std::shared_ptr<Interface::ActionInterface> act
 
 void GameScene::resetAction()
 {
-    playerHands_.at(game_.lock()->currentPlayer())->rearrange();
+    auto parentMapItem = dynamic_cast<mapItem*>(declaringMapItem_->parentItem());
+    if (parentMapItem){
+        parentMapItem->rearrange();
+    }
+
     declaredAction_ = std::shared_ptr<Interface::ActionInterface>();
     declaringMapItem_->setWaitingForAction(false);
     declaringMapItem_ = nullptr;

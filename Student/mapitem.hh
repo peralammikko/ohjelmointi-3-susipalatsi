@@ -35,6 +35,9 @@ public:
 
     virtual bool isWaitingForAction();
 
+    // Re-arrange all child items in its own layout
+    virtual void rearrange() = 0;
+
 protected:
     // Coordinates in which the item will home to. It is in parent item's coordinate system, like pos() is.
     QPointF homeCoords_ = QPointF(0,0);

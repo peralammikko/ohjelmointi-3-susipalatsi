@@ -7,6 +7,8 @@
 #include "mapitem.hh"
 #include "commonresource.hh"
 #include "agent.hh"
+//#include "agentitem.hh"
+#include <cmath>
 
 class agentItem;
 
@@ -54,6 +56,8 @@ public:
     Interface::CommonResource getDemandedResource();
 
     void checkCouncillorCard();
+
+    void rearrange() override;
 
 protected:
     void advance(int phase) override;

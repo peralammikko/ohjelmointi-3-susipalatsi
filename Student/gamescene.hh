@@ -10,6 +10,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
 #include <QList>
+#include <cmath>
 
 #include "game.h"
 #include "agentitem.hh"
