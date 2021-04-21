@@ -8,6 +8,7 @@ CONFIG += c++14
 SOURCES += \
     actioncard.cpp \
     agent.cpp \
+    agentactioninterface.cpp \
     agentdialog.cpp \
     agentitem.cpp \
     cardpaymentaction.cpp \
@@ -23,6 +24,7 @@ SOURCES += \
     mapitem.cpp \
     playerhand.cpp \
     popupdialog.cpp \
+    scenearrow.cpp \
     sendagentaction.cpp \
     withdrawagentaction.cpp
 
@@ -53,6 +55,7 @@ else:unix: PRE_TARGETDEPS += \
 HEADERS += \
     actioncard.hh \
     agent.hh \
+    agentactioninterface.hh \
     agentdialog.hh \
     agentitem.hh \
     cardpaymentaction.hh \
@@ -67,6 +70,7 @@ HEADERS += \
     mapitem.hh \
     playerhand.hh \
     popupdialog.hh \
+    scenearrow.hh \
     sendagentaction.hh \
     withdrawagentaction.hh
 

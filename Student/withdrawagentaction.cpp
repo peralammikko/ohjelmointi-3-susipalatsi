@@ -1,6 +1,5 @@
 #include "withdrawagentaction.hh"
-#include "agentitem.hh"
-#include "playerhand.hh"
+
 
 WithdrawAgentAction::WithdrawAgentAction(PlayerHand *hand, agentItem *aItem) : hand_(hand), aItem_(aItem)
 {
@@ -18,9 +17,19 @@ bool WithdrawAgentAction::canPerform() const
 
 void WithdrawAgentAction::perform()
 {
+    auto agent = aItem_->getAgentClass();
+    auto locationItem = dynamic_cast<LocationItem*>(aItem_->parentItem());
+    if (locationItem){
+        locationItem->getObject().get()->removeAgent(agent);
+    }
     QPointF currentPos = aItem_->scenePos();
     aItem_->setPos(hand_->mapFromScene(currentPos));
     hand_->addMapItem(aItem_);
-    // add the Agent Card back in player's hand
-    aItem_->getAgentClass()->owner().lock()->addCard(aItem_->getAgentClass());
+
+    aItem_->getAgentClass()->owner().lock()->addCard(agent);
+}
+
+mapItem *WithdrawAgentAction::getTargetMapItem()
+{
+    return hand_;
 }

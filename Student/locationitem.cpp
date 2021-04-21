@@ -40,7 +40,7 @@ void LocationItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     }
     painter->setPen(pen);
     painter->drawRect(rect);
-  ;
+
 }
 
 const std::shared_ptr<Interface::Location> LocationItem::getObject()
@@ -98,7 +98,6 @@ const QString LocationItem::typeOf()
 
 std::vector<int> LocationItem::calculateRewards(std::shared_ptr<Interface::Player> &player)
 {
-
     // WORK IN PROGRESS
     std::vector<int> numbers(3);
     int sum = basevalue_;
@@ -171,6 +170,47 @@ bool LocationItem::giveCouncilCard(std::shared_ptr<Interface::Agent> &agent)
     agent->addCouncilCard(counc);
 }
 */
+void LocationItem::rearrange()
+{
+    QPointF const center = QPointF(boundingRect().width()/2, boundingRect().height()/2);
+
+    std::vector<mapItem*> aItems;
+
+    QList<QGraphicsItem *> const items = childItems();
+    int count = items.size();
+    if (count) {
+
+        // TODO: Separate agents between players
+        for (int i = 0; i < count; ++i) {
+            auto mItem = dynamic_cast<mapItem*>(items.at(i));
+            if (mItem){
+                aItems.push_back(mItem);
+            }
+        }
+    }
+
+    const int radius = boundingRect().width()/3;
+    int agentCount = aItems.size();
+    if (!agentCount)
+    {
+        return;
+    }
+    const int degree = 360 / agentCount;
+
+    for (int i = 0; i < agentCount; i++) {
+        auto currentAgent = aItems.at(i);
+        // Geometrinen sijainti kehällä
+        float angleDeg = degree * i;
+        float angleRad = angleDeg * M_PI / 180;
+
+        float x = center.x() + radius * std::cos(angleRad);
+        float y = center.y() + radius * std::sin(angleRad);
+
+        currentAgent->setHome(QPointF(x,y));
+        currentAgent->goHome();
+    }
+
+}
 
 void LocationItem::setLocalResource(Interface::CommonResource &res)
 {
@@ -181,11 +221,3 @@ Interface::CommonResource LocationItem::getLocalResource()
 {
     return localRes_;
 }
-
-void LocationItem::advance(int phase)
-{
-    // qDebug() << "Tick";
-    // Proof of concept here
-    //setRotation(rotation()+1);
-}
-

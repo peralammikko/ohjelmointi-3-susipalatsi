@@ -23,6 +23,7 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
     const QString typeOf() override;
+    void rearrange() override{};
 
 
 

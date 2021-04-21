@@ -28,7 +28,7 @@ public:
 
     std::shared_ptr<const Interface::Player> getOwner();
 
-    void rearrange();
+    void rearrange() override;
 
 private:
     QGraphicsScene* scene_;

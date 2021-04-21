@@ -27,6 +27,7 @@ public:
 
     // returns "actioncard"
     const QString typeOf() override;
+    void rearrange() override{};
 
 
 protected:
@@ -39,7 +40,7 @@ private:
     // Can be at least actioninterface
     std::shared_ptr<Interface::CardInterface> card_;
 
-        virtual std::shared_ptr<Interface::ActionInterface> getDragReleaseAction() override;
+    virtual std::shared_ptr<Interface::ActionInterface> getDragReleaseAction() override;
 
     int width_;
     int height_;

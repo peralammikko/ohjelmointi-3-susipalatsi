@@ -3,13 +3,14 @@
 #include "mapitem.hh"
 #include "locationitem.hh"
 
-
+#include "agentactioninterface.hh"
 #include "sendagentaction.hh"
 #include "withdrawagentaction.hh"
 
 #include <QDebug>
 
 class LocationItem;
+class AgentActionInterface;
 
 agentItem::agentItem(std::shared_ptr<Interface::Agent> &agentInterface) : agentConnections_(0)
 {
@@ -112,17 +113,19 @@ std::shared_ptr<Interface::ActionInterface> agentItem::getDragReleaseAction()
 {
     std::shared_ptr<Interface::ActionInterface> action;
     auto collisions = collidingItems();
+
     for (int i = 0; i < collisions.size(); ++i)
     {
         LocationItem* lItem = dynamic_cast<LocationItem*>(collisions.at(i));
         if (lItem)
         {
             action = std::make_shared<SendAgentAction>(lItem, this);
+
         } else {
             PlayerHand* pHand = dynamic_cast<PlayerHand*>(collisions.at(i));
             if (pHand)
             {
-                action = std::make_shared<WithdrawAgentAction>(pHand, this);
+                action =std::make_shared<WithdrawAgentAction>(pHand, this);
             }
         }
     }

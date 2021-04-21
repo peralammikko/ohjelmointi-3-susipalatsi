@@ -94,21 +94,16 @@ void Logic::actionSelected(std::shared_ptr<Interface::ActionInterface> action)
 }
 
 void Logic::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer)
-{
-    // TODO: disable everything that should not move
-    // Actually this is done in gamescene for now
-
-    // BUG!!! This is called twice for some reason
+{    
+    // BUG!!! This is called twice for some reason. It does not seem to matter though.
     if (actingPlayer and game_->currentPlayer() != actingPlayer)
     {
-        qDebug() << "ALERT LOGIC CHANGE";
+        std::vector<std::weak_ptr<const Interface::CardInterface>> actionCards;
+        auto currentPlayerCards = game_->currentPlayer()->cards();
         qDebug() << game_->currentPlayer()->name() << "changed to " << actingPlayer->name();
 
-        // Get every card in hand that is type of Actioncard
-        auto cards = actingPlayer->cards();
-        std::vector<std::weak_ptr<const Interface::CardInterface>> actionCards;
         // Copies every card in player's cards vector to a new actioncards vector
-        std::copy_if (cards.begin(), cards.end(), std::back_inserter(actionCards),
+        std::copy_if (currentPlayerCards.begin(), currentPlayerCards.end(), std::back_inserter(actionCards),
                       [](std::shared_ptr<const Interface::CardInterface> card){return card->typeName()=="actioncard";} );
         if (actionCards.size())
         {
@@ -116,6 +111,7 @@ void Logic::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlaye
             gameScene_->onPlayerChanged(actingPlayer);
         } else {
             qDebug() << "Changing player DOES NOT have action cards";
+            gameScene_->onPlayerChanged(actingPlayer);
         }
     }
     

@@ -7,9 +7,9 @@
 #include "mapitem.hh"
 #include "commonresource.hh"
 #include "agent.hh"
-// #include "gamescene.hh"
 #include "influence.h"
 #include "../Course/random.h"
+#include <cmath>
 
 class agentItem;
 
@@ -64,8 +64,13 @@ public:
 
     // bool giveCouncilCard(std::shared_ptr<Interface::Agent> &agent);
 
+    void rearrange() override;
+
+    void setNeighbours(std::pair<LocationItem*, LocationItem*> neighbours){neighbours_=neighbours;}
+    std::pair<LocationItem*, LocationItem*> neighbours(){return neighbours_;}
+
 protected:
-    void advance(int phase) override;
+   // void advance(int phase) override;
 
 signals:
     void locationItemPressed(LocationItem*);
@@ -80,8 +85,14 @@ private:
     // Resources are initially set to a constant NULL to avoid errors
     Interface::CommonResource localRes_ = NULLRES;
     Interface::CommonResource demandRes_ = NULLRES;
+<<<<<<< Student/locationitem.hh
     
     std::map<std::shared_ptr<Interface::Player>, int> playerInfluence_;
+=======
+
+    std::pair<LocationItem*, LocationItem*> neighbours_;
+
+>>>>>>> Student/locationitem.hh
     int mapIndex_;
 
 };
