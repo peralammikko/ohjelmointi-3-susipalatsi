@@ -65,7 +65,7 @@ protected:
     bool homing_ = false;
 
 signals:
-    virtual void actionDeclared(std::shared_ptr<Interface::ActionInterface>, mapItem*);
+    virtual void actionDeclared(std::shared_ptr<Interface::ActionInterface>, mapItem*, bool resetting);
 
     void mapItemMouseReleased(mapItem*);
     void mapItemMouseDragged(mapItem*);

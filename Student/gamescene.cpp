@@ -101,6 +101,29 @@ std::map<std::shared_ptr<const Interface::Player>, PlayerHand *> GameScene::play
     return playerHands_;
 }
 
+void GameScene::prepareForAction(std::shared_ptr<Interface::ActionInterface> action, mapItem *declaringMapItem)
+{
+    declaredAction_ = action;
+    declaringMapItem_ = declaringMapItem;
+
+    // Set visual arrows
+    arrow1_->setEndItem(declaringMapItem);
+    arrow2_->setStartItem(declaringMapItem);
+    auto homeItem = dynamic_cast<mapItem*>(declaringMapItem->parentItem());
+    if (homeItem){
+        arrow1_->setStartItem(homeItem);
+        arrow1_->updatePosition();
+    }
+    auto agAc = std::dynamic_pointer_cast<AgentActionInterface>(action);
+    if (agAc) {
+        arrow2_->setEndItem(agAc.get()->getTargetMapItem());
+        arrow2_->updatePosition();
+    }
+    declaringMapItem->setHome(declaringMapItem->parentItem()->mapFromScene(QPointF(600,350)));
+    declaringMapItem->goHome();
+    declaringMapItem->setWaitingForAction(true);
+}
+
 void GameScene::resetAction()
 {
     playerHands_.at(game_.lock()->currentPlayer())->rearrange();
@@ -204,15 +227,17 @@ void GameScene::onLocationItemClicked(LocationItem* locItem)
     // clickDialog->show();
 }
 
-void GameScene::onActionDeclared(std::shared_ptr<Interface::ActionInterface> action, mapItem *declaringMapItem)
+void GameScene::onActionDeclared(std::shared_ptr<Interface::ActionInterface> action, mapItem *declaringMapItem, bool resetting)
 {
-
-
     if (game_.lock() and game_.lock()->active())
     {
+        if (resetting){
+            qDebug() << "Resetting action";
+            resetAction();
+            return;
+        }
         if (declaredAction_.get() and declaringMapItem_){
             if (declaringMapItem->typeOf()=="actioncard"){
-
                 // Remove card from its owner's hand and put it in its home location's discard pile
                 auto card = dynamic_cast<CardItem*>(declaringMapItem);
                 auto cardOwner = card->getCard()->owner().lock();
@@ -224,41 +249,18 @@ void GameScene::onActionDeclared(std::shared_ptr<Interface::ActionInterface> act
                     }
                 }
                 declaringMapItem->~mapItem();
-
-                qDebug() << "Payment?";
                 playerHands_.at(game_.lock()->currentPlayer())->rearrange();
                 // TODO: rearrange building agents too
                 emit actionDeclared(declaredAction_);
                 resetAction();
             } else {
-                // If there already is an action we can just ignore this one
                 declaringMapItem->goHome();
+                resetAction();
                 return;
+
             }
         } else {
-            qDebug() << "Action selected. Please play an action card";
-            declaredAction_ = action;
-            declaringMapItem_ = declaringMapItem;
-
-            // Set visual arrows
-            arrow1_->setEndItem(declaringMapItem);
-            arrow2_->setStartItem(declaringMapItem);
-            auto homeItem = dynamic_cast<mapItem*>(declaringMapItem->parentItem());
-            if (homeItem){
-                arrow1_->setStartItem(homeItem);
-                arrow1_->updatePosition();
-            }
-            // It is very annoying that we cannot edit actioninterface like this, so I have to get the target item thrgough this
-            auto agAc = std::dynamic_pointer_cast<AgentActionInterface>(action);
-            if (agAc) {
-                arrow2_->setEndItem(agAc.get()->getTargetMapItem());
-                arrow2_->updatePosition();
-            }
-
-            declaringMapItem->setHome(declaringMapItem->parentItem()->mapFromScene(QPointF(600,350)));
-            declaringMapItem->goHome();
-            declaringMapItem->setWaitingForAction(true);
-
+            prepareForAction(action, declaringMapItem);
         }
     } else {
         qDebug() << "Action was declared on scene but there is no game";

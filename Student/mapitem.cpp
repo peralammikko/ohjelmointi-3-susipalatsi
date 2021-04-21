@@ -60,9 +60,14 @@ void mapItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
         isMousePressed_  = false;
 
         // TODO: maybe move perform checking somewhere else
+        if (isWaitingForAction()){
+            qDebug() << "Waiting and released!";
+            emit actionDeclared(std::shared_ptr<Interface::ActionInterface>(), this, true);
+            return;
+        }
         std::shared_ptr<Interface::ActionInterface>  action = getDragReleaseAction();
         if (action and action->canPerform()){
-            emit actionDeclared(getDragReleaseAction(), this);
+            emit actionDeclared(getDragReleaseAction(), this, false);
         } else {
             this->goHome();
         }
@@ -89,16 +94,10 @@ void mapItem::advance(int phase)
             setPos(homeCoords_);
 
         } else {
-           // QPointF toscene = mapFromScene(homeCoordinatesOnScene_);
-
-            // TODO: BUG! mpaitem approaches from wrong direction when parent is changed midflight
-            // pos() is position in parentItem's coordinates
             QPointF distanceLeft = homeCoords_-pos();
 
-            // TODO: velocity probably should not be based on time (items close to their home have lower velocities than items that far away)
             float xvelocity = distanceLeft.x() / (homingTimer_->remainingTime()*0.05);
             float yvelocity = distanceLeft.y() / (homingTimer_->remainingTime()*0.05);
-
 
             setPos(pos() + QPointF(xvelocity, yvelocity));
         }

@@ -110,6 +110,7 @@ std::shared_ptr<Interface::ActionInterface> agentItem::getDragReleaseAction()
 {
     std::shared_ptr<Interface::ActionInterface> action;
     auto collisions = collidingItems();
+
     for (int i = 0; i < collisions.size(); ++i)
     {
         LocationItem* lItem = dynamic_cast<LocationItem*>(collisions.at(i));
