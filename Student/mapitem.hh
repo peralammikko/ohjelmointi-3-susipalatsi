@@ -8,11 +8,12 @@
 #include <memory>
 #include <QTimer>
 
-#include "../Course/actioninterface.h"
+#include "agentactioninterface.hh"
 #include "../Course/cardinterface.h"
 
 namespace Interface {
     class CardInterface;
+    class AgentActionInterface;
 }
 
 class mapItem : public QObject, public QGraphicsItem
@@ -33,6 +34,9 @@ public:
     virtual void setWaitingForAction(bool state);
 
     virtual bool isWaitingForAction();
+
+    // Re-arrange all child items in its own layout
+    virtual void rearrange() = 0;
 
 protected:
     // Coordinates in which the item will home to. It is in parent item's coordinate system, like pos() is.
@@ -64,7 +68,7 @@ protected:
     bool homing_ = false;
 
 signals:
-    virtual void actionDeclared(std::shared_ptr<Interface::ActionInterface>, mapItem*);
+    virtual void actionDeclared(std::shared_ptr<Interface::ActionInterface>, mapItem*, bool resetting);
 
     void mapItemMouseReleased(mapItem*);
     void mapItemMouseDragged(mapItem*);

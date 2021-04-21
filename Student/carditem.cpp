@@ -29,7 +29,7 @@ CardItem::CardItem(std::shared_ptr<Interface::CardInterface> card, QObject *pare
 
 CardItem::~CardItem()
 {
-
+    delete centerimage_;
 }
 
 std::shared_ptr<Interface::CardInterface> CardItem::getCard()

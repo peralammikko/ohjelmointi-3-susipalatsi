@@ -31,8 +31,6 @@ bool SendAgentAction::canPerform() const
           return true;
         }
     }
-    // Action can not be performed
-    aItem_->goHome();
     return false;
 }
 
@@ -52,11 +50,13 @@ void SendAgentAction::perform()
     // Do this so that the item does not fly far far away
     QPointF currentPos = aItem_->scenePos();
     aItem_->setPos(newLocItem_->mapFromScene(currentPos));
-
     aItem_->setParentItem(newLocItem_);
-
     aItem_->setHome(QPointF(0,0));
-
     aItem_->goHome();
     //aItem_->setPos(QPointF(0,0));
+}
+
+mapItem *SendAgentAction::getTargetMapItem()
+{
+    return newLocItem_;
 }

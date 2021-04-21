@@ -1,9 +1,9 @@
 #ifndef CARDPAYMENTACTION_HH
 #define CARDPAYMENTACTION_HH
-#include "actioninterface.h"
+#include "agentactioninterface.hh"
 #include "agentitem.hh"
 
-class CardPaymentAction : public Interface::ActionInterface
+class CardPaymentAction : public AgentActionInterface
 {
 public:
     // This class is for action when players are prompted to pay an action card on their agent
@@ -12,6 +12,8 @@ public:
     virtual bool canPerform() const override;
 
     virtual void perform() override;
+
+    virtual mapItem * getTargetMapItem() override {return nullptr;}
 private:
     agentItem *aItem_;
 };

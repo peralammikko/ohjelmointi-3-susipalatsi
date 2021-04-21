@@ -10,6 +10,9 @@
 // #include "gamescene.hh"
 #include "influence.h"
 #include "../Course/random.h"
+//#include "agentitem.hh"
+#include <cmath>
+>>>>>>> 8fa27fd2977f1a65f037c2019037d79922c2279a
 
 class agentItem;
 
@@ -63,6 +66,8 @@ public:
     void addInfluence(std::shared_ptr<Interface::Player> &player);
 
     // bool giveCouncilCard(std::shared_ptr<Interface::Agent> &agent);
+
+    void rearrange() override;
 
 protected:
     void advance(int phase) override;

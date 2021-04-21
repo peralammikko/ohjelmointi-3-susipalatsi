@@ -1,13 +1,17 @@
 #ifndef WITHDRAWAGENTACTION_HH
 #define WITHDRAWAGENTACTION_HH
 
-#include "../Course/actioninterface.h"
+#include "agentactioninterface.hh"
+
+#include "agentitem.hh"
+#include "playerhand.hh"
+#include "locationitem.hh"
 
 class PlayerHand;
 class agentItem;
 
 
-class WithdrawAgentAction : public Interface::ActionInterface
+class WithdrawAgentAction : public AgentActionInterface
 {
 public:
     // Withdrawing an agent back in hand from a location
@@ -16,9 +20,12 @@ public:
     virtual bool canPerform() const override;
     // Moves the agent to player hand. agentItem's parent is now playerhand graphicsitem
     virtual void perform() override;
+
+    virtual mapItem* getTargetMapItem() override;
 private:
     PlayerHand* hand_;
     agentItem* aItem_;
+
 };
 
 #endif // WITHDRAWAGENTACTION_HH
