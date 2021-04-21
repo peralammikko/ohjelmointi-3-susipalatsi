@@ -133,11 +133,16 @@ void GameSetup::initPlayerHands()
     {
         auto player = players.at(i);
         gameScene_->initHands(player);
-        if (player != game_->currentPlayer())
+        if ( i != 0)//player != game_->currentPlayer())
         {
-            std::shared_ptr<const Interface::Player> pla = player;
             // Player who is not in turn has their hand hidden
-            gameScene_->playerHands().at(player)->hide();
+            gameScene_->playerHands().at(player)->setEnabled(false);
+            gameScene_->playerHands().at(player)->setY(0);
+            gameScene_->playerHands().at(player)->setScale(0.5);
+
+        } else {
+            gameScene_->playerHands().at(player)->setY(650);
+            gameScene_->playerHands().at(player)->setX(150);
         }
     }
 }
@@ -173,12 +178,6 @@ void GameSetup::initPlayerControls()
         // Does every player need its own control class?
         courseRunner_->setPlayerControl(players.at(i), std::make_shared<Interface::ManualControl>());
     }
-
-    /*
-    courseRunner->setPlayerControl(player1, mancontrol);
-    courseRunner->setPlayerControl(player2, mancontrol);
-    */
-
 }
 
 void GameSetup::initAgentInterfaces()
@@ -187,7 +186,8 @@ void GameSetup::initAgentInterfaces()
     const int AGENTCOUNT = reader.getValue("STARTING_AGENTS").toInt();
 
     // TODO: Make names not hard coded maybe
-    std::vector<QString> some_names = {"PERRY", "KARHU", "VALDEMAR", "PONTIKKA", "KUMi", "KAHLAAJA", "VEITSI", "SAHANISKA", "KRAPULA", "VAHTIMESTARI", "LAKRITSIPORTTERI"};
+    std::vector<QString> some_names = {"PERRY", "KARHU", "VALDEMAR", "PONTIKKA", "KUMi",
+                                       "KAHLAAJA", "VEITSI", "SAHANISKA", "KRAPULA", "VAHTIMESTARI", "LAKRITSIPORTTERI"};
     auto players = game_->players();
     for (unsigned int i = 0; i < players.size(); ++i)
     {
@@ -201,9 +201,6 @@ void GameSetup::initAgentInterfaces()
             // create the interface
             std::shared_ptr<Interface::Agent> agentInter = std::make_shared<Interface::Agent>(some_names.at(pseudorandomIndex) + player->name(), player);
             agentInter->initAgentResources(initAgentBackpack_);
-
-            // I had no idea if this is necessary. Probably yes.
-            // Oh yes!
             player->addCard(agentInter);
 
             // create the agent item that is movable on the scene and add it to the scene

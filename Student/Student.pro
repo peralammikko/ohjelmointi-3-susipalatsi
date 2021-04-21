@@ -10,6 +10,7 @@ SOURCES += \
     agent.cpp \
     agentdialog.cpp \
     agentitem.cpp \
+    cardpaymentaction.cpp \
     commonresource.cpp \
     carditem.cpp \
     gamerunner.cpp \
@@ -54,6 +55,7 @@ HEADERS += \
     agent.hh \
     agentdialog.hh \
     agentitem.hh \
+    cardpaymentaction.hh \
     commonresource.hh \
     carditem.hh \
     gamerunner.hh \

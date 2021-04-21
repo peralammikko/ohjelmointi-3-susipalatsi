@@ -48,14 +48,14 @@ void SendAgentAction::perform()
     }
     newPlacInterface->sendAgent(aInterface);
 
-     // Convert current position on scene to new parent item's coordinates
+    // Convert current position on scene to new parent item's coordinates
     // Do this so that the item does not fly far far away
     QPointF currentPos = aItem_->scenePos();
     aItem_->setPos(newLocItem_->mapFromScene(currentPos));
 
     aItem_->setParentItem(newLocItem_);
 
-    aItem_->setHome( QPointF(0,0), true);
+    aItem_->setHome(QPointF(0,0));
 
     aItem_->goHome();
     //aItem_->setPos(QPointF(0,0));

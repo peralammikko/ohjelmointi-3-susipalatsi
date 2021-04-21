@@ -21,4 +21,6 @@ void WithdrawAgentAction::perform()
     QPointF currentPos = aItem_->scenePos();
     aItem_->setPos(hand_->mapFromScene(currentPos));
     hand_->addMapItem(aItem_);
+    // add the Agent Card back in player's hand
+    aItem_->getAgentClass()->owner().lock()->addCard(aItem_->getAgentClass());
 }

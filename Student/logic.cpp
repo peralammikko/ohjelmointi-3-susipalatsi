@@ -88,6 +88,7 @@ void Logic::actionSelected(std::shared_ptr<Interface::ActionInterface> action)
 
     } else {
         qDebug() << "Manual Control was not found";
+        // AI?
         doTheRunning();
     }
 }

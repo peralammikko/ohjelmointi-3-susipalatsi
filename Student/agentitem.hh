@@ -24,6 +24,8 @@ public:
 
     const QString typeOf() override;
 
+
+
 protected:
     // some cool hovering stuff if these are needed.
     // TODO: these do nothing now
@@ -45,6 +47,8 @@ private:
 
     // This should probably be moved to agent.hh
     int agentConnections_;
+
+    bool waitingForActionCard_ = false;
 
     // Empty dialog window to be called on mouse hover on/off
     AgentDialog* dialog_ = nullptr;
