@@ -28,7 +28,11 @@ public:
     virtual void goHome(int time=350);
 
     // sets home to somewhere else
-    virtual void setHome(QPointF newhome= QPoint(0,0), bool debug=false);
+    virtual void setHome(QPointF newhome= QPoint(0,0));
+
+    virtual void setWaitingForAction(bool state);
+
+    virtual bool isWaitingForAction();
 
 protected:
     // Coordinates in which the item will home to. It is in parent item's coordinate system, like pos() is.
@@ -54,11 +58,13 @@ protected:
 
     bool isMousePressed_ = 0;
 
+    bool waitingForActionCard_ = false;
+
     QTimer* homingTimer_;
     bool homing_ = false;
 
 signals:
-    virtual void actionDeclared(std::shared_ptr<Interface::ActionInterface>);
+    virtual void actionDeclared(std::shared_ptr<Interface::ActionInterface>, mapItem*);
 
     void mapItemMouseReleased(mapItem*);
     void mapItemMouseDragged(mapItem*);

@@ -52,6 +52,8 @@ std::shared_ptr<Interface::ActionInterface> mapItem::getDragReleaseAction()
 
 void mapItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
+    update();
+    QGraphicsItem::mouseReleaseEvent(event);
      // Make sure it is a left button event and the card is pressed already
     if (event->button() == Qt::LeftButton and isMousePressed_ )
     {
@@ -60,14 +62,23 @@ void mapItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
         // TODO: maybe move perform checking somewhere else
         std::shared_ptr<Interface::ActionInterface> action = getDragReleaseAction();
         if (action and action->canPerform()){
-            emit actionDeclared(getDragReleaseAction());
+            emit actionDeclared(getDragReleaseAction(), this);
         } else {
             this->goHome();
         }
     }
-    update();
-    QGraphicsItem::mouseReleaseEvent(event);
 }
+
+void mapItem::setWaitingForAction(bool state)
+{
+    waitingForActionCard_ = state;
+}
+
+bool mapItem::isWaitingForAction()
+{
+    return waitingForActionCard_;
+}
+
 
 void mapItem::advance(int phase)
 {
@@ -94,7 +105,7 @@ void mapItem::advance(int phase)
     }
 }
 
-void mapItem::setHome(QPointF newhome, bool debug)
+void mapItem::setHome(QPointF newhome)
 {
     homeCoords_ = newhome;
 }

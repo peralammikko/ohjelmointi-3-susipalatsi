@@ -72,7 +72,7 @@ void CardItem::setHighLighted(bool state)
 
 const QString CardItem::typeOf()
 {
-    return "carditem";
+    return "actioncard";
 }
 
 void CardItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
@@ -89,5 +89,21 @@ void CardItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
     setScale(1);
     update();
     QGraphicsItem::hoverEnterEvent(event);
+}
+
+std::shared_ptr<Interface::ActionInterface> CardItem::getDragReleaseAction()
+{
+    std::shared_ptr<Interface::ActionInterface> action;
+    auto collisions = collidingItems();
+    for (int i = 0; i < collisions.size(); ++i)
+    {
+        agentItem* aItem = dynamic_cast<agentItem*>(collisions.at(i));
+        if (aItem and aItem->isWaitingForAction())
+        {
+            qDebug() << "Carditem succesfully dragged on a waiting agent";
+            action = std::make_shared<CardPaymentAction>(aItem);
+        }
+    }
+    return action;
 }
 

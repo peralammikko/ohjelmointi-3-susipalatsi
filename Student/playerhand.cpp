@@ -19,6 +19,11 @@ void PlayerHand::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     painter->drawRect(boundingRect());
 }
 
+const QString PlayerHand::typeOf()
+{
+    return "playerhand";
+}
+
 
 void PlayerHand::addMapItem(mapItem* mItem)
 {

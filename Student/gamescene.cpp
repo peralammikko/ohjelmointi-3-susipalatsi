@@ -36,11 +36,9 @@ void GameScene::drawLocations(std::vector<std::shared_ptr<Interface::Location>> 
 
     // Piirretään rakennukset "ympyrän" kehälle
     const int xCenter = this->width()/2;
-    const int yCenter = this->height()/2;
+    const int yCenter = this->height()*2/5;
 
-    // Needs more elegant implementation, like a global constant and a scaling value
-    const int radius = 300;
-    // by default we have 6 locations
+    const int radius = 350;
     int locationCount = locvec.size();
     const int degree = 360 / locationCount;
 
@@ -56,8 +54,10 @@ void GameScene::drawLocations(std::vector<std::shared_ptr<Interface::Location>> 
         // Geometrinen sijainti kehällä
         float angleDeg = degree * i;
         float angleRad = angleDeg * M_PI / 180;
+
         float x = xCenter + radius * std::cos(angleRad);
-        float y = yCenter + radius * std::sin(angleRad);
+        // Squash the y a little bit
+        float y = yCenter  - 0.7* radius * std::sin(angleRad);
 
         drawItem(locItem);
         locItem->setParent(this);
@@ -69,7 +69,6 @@ void GameScene::drawItem(mapItem *item)
 {
     addItem(item);
 }
-
 
 void GameScene::hideAgents(std::vector<agentItem *> &agents)
 {
@@ -99,6 +98,13 @@ std::map<std::shared_ptr<const Interface::Player>, PlayerHand *> GameScene::play
     return playerHands_;
 }
 
+void GameScene::resetAction()
+{
+    playerHands_.at(game_.lock()->currentPlayer())->rearrange();
+    declaredAction_ = std::shared_ptr<Interface::ActionInterface>();
+
+}
+
 void GameScene::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer)
 {
     /*
@@ -116,15 +122,23 @@ void GameScene::onPlayerChanged(std::shared_ptr<const Interface::Player> actingP
         // They should be based on the number of players in the game.
         // TODO: Action cards need to be set "face down" for the passing player
         // TPDP_ acotpm cards meed tp ne set "face up" for the player who is playing
-        playerHands_.at(actingPlayer)->rearrange();
-        playerHands_.at(actingPlayer)->setY(100);
-        playerHands_.at(actingPlayer)->setScale(0.25);
-        playerHands_.at(actingPlayer)->setEnabled(false);
+        auto previousHand = playerHands_.at(actingPlayer);
+        auto currentHand = playerHands_.at(game_.lock()->currentPlayer());
 
-        playerHands_.at(game_.lock()->currentPlayer())->setEnabled(true);
-        playerHands_.at(game_.lock()->currentPlayer())->setY(600);
-        playerHands_.at(game_.lock()->currentPlayer())->setScale(1);
-        playerHands_.at(game_.lock()->currentPlayer())->show();
+        previousHand->rearrange();
+        previousHand->setHome(currentHand->pos());
+        previousHand->goHome();
+        previousHand->setScale(0.25);
+        previousHand->setEnabled(false);
+
+        currentHand->rearrange();
+        currentHand->setEnabled(true);
+        currentHand->setHome(previousHand->pos());
+        currentHand->goHome();
+        currentHand->setScale(1);
+
+        // TODO: the game somewhere hides the first player hand which is annoying
+        currentHand->show();
 
     } else {
         // The current player most likely got a new card in their hand, so rearrange the hand.
@@ -140,7 +154,6 @@ void GameScene::initHands(std::shared_ptr<const Interface::Player> player)
     playerHands_.insert(std::pair<std::shared_ptr<const Interface::Player>,PlayerHand*>(player, hand));
     hand->setPos(600, 400);
 }
-
 
 void GameScene::onMapItemMouseDragged(mapItem* mapitem)
 {
@@ -178,20 +191,60 @@ void GameScene::onMapItemMouseDropped(mapItem* mapitem)
 
 void GameScene::onLocationItemClicked(LocationItem* locItem)
 {
-    PopupDialog* clickDialog = new PopupDialog(locItem, playerInTurn_);
-    clickDialog->show();
-
+    // This is unfortunately broken for a moment
+    //auto l = game_.lock()->currentPlayer();
+  //  PopupDialog* clickDialog = new PopupDialog(locItem, &l );
+    //clickDialog->setParent(this);
+    // clickDialog->show();
 }
 
-void GameScene::onActionDeclared(std::shared_ptr<Interface::ActionInterface> action)
+void GameScene::onActionDeclared(std::shared_ptr<Interface::ActionInterface> action, mapItem *declaringMapItem)
 {
-
-    // TODO: check if the game is active
-    if (!game_.lock())
+    if (game_.lock() and game_.lock()->active())
     {
+        if (declaredAction_.get() and declaringMapItem_){
+            if (declaringMapItem->typeOf()=="actioncard"){
+
+                // Remove card from its owner's hand and put it in its home location's discard pile
+                auto card = dynamic_cast<CardItem*>(declaringMapItem);
+                auto cardOwner = card->getCard()->owner().lock();
+                if (cardOwner) {
+                    cardOwner->playCard(card->getCard());
+                    auto location = card->getCard()->location().lock();
+                    if (location) {
+                        location->discards().get()->addCard(card->getCard());
+                    }
+                }
+                declaringMapItem->~mapItem();
+
+                qDebug() << "Payment?";
+                playerHands_.at(game_.lock()->currentPlayer())->rearrange();
+                // TODO: rearrange building agents too
+                emit actionDeclared(declaredAction_);
+
+
+                // Clearing pointers and variables regarding waiting on actions
+                declaredAction_ = std::shared_ptr<Interface::ActionInterface>();
+                declaringMapItem_->setWaitingForAction(false);
+                declaringMapItem_ = nullptr;
+            } else {
+                // If there already is an action we can just ignore this one
+                declaringMapItem->goHome();
+                return;
+            }
+        } else {
+            qDebug() << "Action selected. Please play an action card";
+            declaredAction_ = action;
+            declaringMapItem_ = declaringMapItem;
+
+            declaringMapItem->setHome(declaringMapItem->parentItem()->mapFromScene(QPointF(600,350)));
+            declaringMapItem->goHome();
+            declaringMapItem->setWaitingForAction(true);
+
+        }
+    } else {
         qDebug() << "Action was declared on scene but there is no game";
         return;
     }
-    emit actionDeclared(action);
-    //playerHands_.at(game_.lock()->currentPlayer())->rearrange();
 }
+

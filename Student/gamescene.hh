@@ -16,6 +16,7 @@
 #include "locationitem.hh"
 #include "carditem.hh"
 #include "playerhand.hh"
+#include "../Course/deckinterface.h"
 
 class GameScene : public QGraphicsScene
 {
@@ -61,12 +62,13 @@ public:
 
     std::map<std::shared_ptr<const Interface::Player>, PlayerHand*> playerHands();
 
+    void resetAction();
 
 
 signals:
     void actionDeclared(std::shared_ptr<Interface::ActionInterface> action);
 public slots:
-    void onActionDeclared(std::shared_ptr<Interface::ActionInterface> action);
+    void onActionDeclared(std::shared_ptr<Interface::ActionInterface> action, mapItem* declaringMapItem);
     // When the player has been changed, makes every item that does not belong to the player undraggable.
     // This is signaled by game-class
     // Also moves other player hands on the side as face-down versions with shrunken size
@@ -78,15 +80,13 @@ private slots:
     void onLocationItemClicked(LocationItem * locItem);
 
 private:
-    // These are deprecated for now and waiting for safe removal
-    mapItem* targetedMapItem_;
-
-    PlayerHand* oneHand_ = nullptr;
     std::map<std::shared_ptr<const Interface::Player>, PlayerHand*> playerHands_;
-
-    std::shared_ptr<Interface::Player> playerInTurn_ = nullptr;
-
     std::weak_ptr<Interface::Game> game_;
+
+    // When a manual player declares an action, the game waits for them to choose an action card to discard.
+    std::shared_ptr<Interface::ActionInterface> declaredAction_;
+
+    mapItem* declaringMapItem_;
 
     // changes state of cards in handCards_ to show and arranges them nicely as a hand centered in handAnchorCoords_
     // also connects drag drop signals with those carditems
