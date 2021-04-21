@@ -190,14 +190,16 @@ void GameScene::onPlayerChanged(std::shared_ptr<const Interface::Player> actingP
                     if (aItem->getAgentClass()->owner().lock() == actingPlayer)
                     {
                         aItem->setEnabled(false);
+                        aItem->setScale(0.5);
                     } else if (aItem->getAgentClass()->owner().lock() == game_.lock()->currentPlayer())
                     {
                         aItem->setEnabled(true);
+                        aItem->setScale(1);
                     }
                 }
             }
         }
-        // TODO: the game somewhere hides the first player hand which is annoying
+
         currentHand->show();
 
     } else {
@@ -205,6 +207,12 @@ void GameScene::onPlayerChanged(std::shared_ptr<const Interface::Player> actingP
         qDebug() << "Player changed, turn was not changed";
        playerHands_.at(actingPlayer)->rearrange();
     }
+}
+
+void GameScene::nextRound()
+{
+    shuffleLocationItems();
+    rearrangeLocationItems();
 }
 
 void GameScene::initHands(std::shared_ptr<const Interface::Player> player)

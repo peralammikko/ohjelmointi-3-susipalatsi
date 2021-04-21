@@ -41,7 +41,7 @@ void agentItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     QPen pen;
     QRectF rect = boundingRect();
     // the text should always be withing boundingrect
-    painter->drawText(5,10, agentObject_->name() );
+    painter->drawText(5, 10, agentObject_->name());
 
     if (isSelected) {
         QPen pen(Qt::red, 2);
@@ -49,7 +49,8 @@ void agentItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         QPen pen(Qt::black, 2);
     }
     painter->setPen(pen);
-    painter->drawRect(rect);
+    painter->drawEllipse(rect);
+
 }
 
 const QString agentItem::typeOf()

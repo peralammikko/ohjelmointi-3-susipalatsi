@@ -66,10 +66,19 @@ public:
     std::map<std::shared_ptr<const Interface::Player>, PlayerHand*> playerHands();
 
     void prepareForAction(std::shared_ptr<Interface::ActionInterface> action, mapItem* declaringMapItem);
+
+    // A declared action is forgotten and declaring MapItem is returned back to its home position
     void resetAction();
 
     std::vector<LocationItem *> GetLocItems();
 
+    // When the player has been changed, makes every item that does not belong to the player undraggable.
+    // This is signaled by game-class
+    // Also moves other player hands on the side as face-down versions with shrunken size
+    void onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer);
+
+    // Shuffles locations
+    void nextRound();
 
     ResourceMap getResMap();
 
@@ -77,10 +86,7 @@ signals:
     void actionDeclared(std::shared_ptr<Interface::ActionInterface> action);
 public slots:
     void onActionDeclared(std::shared_ptr<Interface::ActionInterface> action, mapItem* declaringMapItem, bool resetting);
-    // When the player has been changed, makes every item that does not belong to the player undraggable.
-    // This is signaled by game-class
-    // Also moves other player hands on the side as face-down versions with shrunken size
-    void onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer);
+
 
 private slots:
     void onMapItemMouseDragged(mapItem* mapitem);

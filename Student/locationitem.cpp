@@ -181,7 +181,7 @@ void LocationItem::rearrange()
         }
     }
 
-    int radius = boundingRect().width()/3;
+    int radius = boundingRect().width()/2;
     int agentCount = aItems.size();
     if (!agentCount)
     {

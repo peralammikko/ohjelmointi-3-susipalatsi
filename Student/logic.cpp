@@ -5,7 +5,6 @@ Logic::Logic(std::shared_ptr<Interface::Runner> runner, std::shared_ptr<Interfac
     : runner_(runner), game_(game), gameScene_(gameScene)
 {
     connect(gameScene_.get(), &GameScene::actionDeclared, this, &Logic::actionSelected);
-    connect(game_.get(), &Interface::Game::playerChanged, this, &Logic::onPlayerChanged);
 }
 
 Logic::~Logic()
@@ -95,23 +94,38 @@ void Logic::actionSelected(std::shared_ptr<Interface::ActionInterface> action)
 
 void Logic::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer)
 {    
-    // BUG!!! This is called twice for some reason. It does not seem to matter though.
     if (actingPlayer and game_->currentPlayer() != actingPlayer)
     {
-        std::vector<std::weak_ptr<const Interface::CardInterface>> actionCards;
-        auto currentPlayerCards = game_->currentPlayer()->cards();
-        qDebug() << game_->currentPlayer()->name() << "changed to " << actingPlayer->name();
+        // If we are just looking for a player who has action cards but could not find one, proceed to even phase
+        if (actingPlayer_ != nullptr and actingPlayer_ == actingPlayer){
+            qDebug() << "We have gone a full circle of players with no action cards. Proceeding to event phase";
+            rewardResources();
+            gameScene_->nextRound();
+            actingPlayer_ = nullptr;
+            game_->nextPlayer();
 
-        // Copies every card in player's cards vector to a new actioncards vector
-        std::copy_if (currentPlayerCards.begin(), currentPlayerCards.end(), std::back_inserter(actionCards),
-                      [](std::shared_ptr<const Interface::CardInterface> card){return card->typeName()=="actioncard";} );
-        if (actionCards.size())
-        {
-            qDebug() << "Chaning player HAS action cards";
-            gameScene_->onPlayerChanged(actingPlayer);
         } else {
-            qDebug() << "Changing player DOES NOT have action cards";
-            gameScene_->onPlayerChanged(actingPlayer);
+                std::vector<std::weak_ptr<const Interface::CardInterface>> actionCards;
+                auto currentPlayerCards = game_->currentPlayer()->cards();
+                qDebug() << game_->currentPlayer()->name() << "changed to " << actingPlayer->name();
+
+                // Copies every card in player's cards vector to a new actioncards vector
+                std::copy_if (currentPlayerCards.begin(), currentPlayerCards.end(), std::back_inserter(actionCards),
+                              [](std::shared_ptr<const Interface::CardInterface> card){return card->typeName()=="actioncard";} );
+                if (actionCards.size())
+                {
+                    qDebug() << "Chaning player HAS action cards";
+                    gameScene_->onPlayerChanged(actingPlayer);
+                    actingPlayer_ = nullptr;
+                } else {
+                    // If changing player has no action cards, start searching for a player who does.
+                    // If one is not found (actingPlayer_ == actingPlayer) proceed to event phase
+                    qDebug() << "Chaning player DOES NOT HAVE action cards";
+                    if (not actingPlayer_){
+                        actingPlayer_ = actingPlayer;
+                    }
+                    game_->nextPlayer();
+                }
         }
     }
     

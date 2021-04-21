@@ -61,7 +61,7 @@ private:
     std::shared_ptr<Interface::ManualControl> manualCtrl_;
     std::shared_ptr<Interface::ActionInterface> action_;
 
-    std::shared_ptr<Interface::Player>  actingPlayer_;
+    std::shared_ptr<const Interface::Player>  actingPlayer_;
     int current_turn = 1;
 
     ResourceMap resMap_;
