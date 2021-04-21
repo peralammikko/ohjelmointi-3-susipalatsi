@@ -19,6 +19,7 @@
 #include "playerhand.hh"
 #include "scenearrow.hh"
 #include "../Course/deckinterface.h"
+#include "actioncard.hh"
 #include "popupdialog.hh"
 
 class GameScene : public QGraphicsScene
@@ -57,19 +58,26 @@ public:
     // Creates a hand area for player
     void initHands(std::shared_ptr<const Interface::Player> Player);
 
+    // Adds an action card to a player's hand
+    void addActionCardForPlayer(std::shared_ptr<const Interface::Player> player, std::shared_ptr<Interface::ActionCard> card);
+
     void turnInfo(std::shared_ptr<Interface::Player> &currentplayer);
 
     void resourceInfo(ResourceMap &rmap, ResourceMap &dmap);
 
     void initPlayerHandFor(std::shared_ptr<Interface::Player> player);
 
+    // Returns map of player hands
     std::map<std::shared_ptr<const Interface::Player>, PlayerHand*> playerHands();
 
+    // Sets the declaring mapitem in a visible place, and draw arrows from its original position to its targeted mapitem
+    // The game will start waiting for the manual player to use an action card. Also sets up few mapitem variables which allow us to reset this ready-state.
     void prepareForAction(std::shared_ptr<Interface::ActionInterface> action, mapItem* declaringMapItem);
 
     // A declared action is forgotten and declaring MapItem is returned back to its home position
     void resetAction();
 
+    // Returns every location item (planet)
     std::vector<LocationItem *> GetLocItems();
 
     // When the player has been changed, makes every item that does not belong to the player undraggable.

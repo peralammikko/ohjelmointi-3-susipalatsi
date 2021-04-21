@@ -223,6 +223,16 @@ void GameScene::initHands(std::shared_ptr<const Interface::Player> player)
     hand->setPos(600, 400);
 }
 
+void GameScene::addActionCardForPlayer(std::shared_ptr<const Interface::Player> player, std::shared_ptr<Interface::ActionCard> card)
+{
+    if (card->owner().lock() == player){
+        CardItem* cardItem = new CardItem(card, this);
+        connect(cardItem, &CardItem::actionDeclared, this, &GameScene::onActionDeclared);
+        addItem(cardItem);
+        playerHands_.at(player)->addMapItem(cardItem);
+    }
+}
+
 void GameScene::turnInfo(std::shared_ptr<Interface::Player> &currentplayer)
 {
     playerInTurn_ = currentplayer;

@@ -15,7 +15,7 @@
 
 //#include "agent.hh"
 //#include "agentitem.hh"
-//#include "actioncard.hh"
+#include "actioncard.hh"
 
 #include "../Course/runner.h"
 #include "../Course/game.h"

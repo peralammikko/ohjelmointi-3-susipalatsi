@@ -155,7 +155,7 @@ void GameSetup::initPlayerHands()
 
 void GameSetup::addPlayerSetupCards()
 {
-    CardItem* cardItem;
+
     for (unsigned int i=0; i<game_->players().size(); ++i) {
         std::shared_ptr<Interface::Player> player = game_->players().at(i);
 
@@ -164,16 +164,10 @@ void GameSetup::addPlayerSetupCards()
         for (int j=0; j < cards; ++j) {
             std::shared_ptr<Interface::ActionCard> card = std::make_shared<Interface::ActionCard>();
             player->addCard(card);
-
-            cardItem = new CardItem(card, gameScene_);
-            gameScene_->connect(cardItem, &CardItem::actionDeclared, gameScene_, &GameScene::onActionDeclared);
-            gameScene_->addItem(cardItem);
-
-            gameScene_->playerHands().at(player)->addMapItem(cardItem);
-            cardItem = nullptr;
+            gameScene_->addActionCardForPlayer(player, card);
         }
     }
-    delete cardItem;
+
 }
 
 void GameSetup::initPlayerControls()

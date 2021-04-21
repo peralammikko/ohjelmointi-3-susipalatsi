@@ -55,10 +55,24 @@ void Logic::rewardResources()
                                 rewardAmount = rewards.at(0);
                             }
                         }
-                        Interface::CommonResource res = resMap_.at(agentAt);
 
-                        // Set it for 1 resource per reward until calculateRewards() is moved
-                        agentPtr->addResource(agentAt, res, rewardAmount);
+                        for (int i = 0; i < rewardAmount; ++i){
+                            auto drawnCard = agentAt->deck()->draw();
+                            auto resu = std::dynamic_pointer_cast<Interface::CommonResource>(drawnCard);
+                            if (resu)
+                            {
+                                Interface::CommonResource res = resMap_.at(agentAt);
+                                agentPtr->addResource(agentAt, res, resu->amount());
+                                agentAt->discards()->addCard(drawnCard);
+                            } else {
+                                auto action = std::dynamic_pointer_cast<Interface::ActionCard>(drawnCard);
+                                if (action) {
+                                    auto owner = agentPtr->owner().lock();
+                                    owner->addCard(action);
+                                    gameScene_->addActionCardForPlayer(owner, action);
+                                }
+                            }
+                        }
                     } else {
                         qDebug() << "Agent not found";
                     }
@@ -114,7 +128,7 @@ void Logic::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlaye
                               [](std::shared_ptr<const Interface::CardInterface> card){return card->typeName()=="actioncard";} );
                 if (actionCards.size())
                 {
-                    qDebug() << "Chaning player HAS action cards";
+                    qDebug() << "Changing player HAS action cards";
                     gameScene_->onPlayerChanged(actingPlayer);
                     actingPlayer_ = nullptr;
                 } else {
