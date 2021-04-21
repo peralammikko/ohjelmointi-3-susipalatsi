@@ -15,7 +15,6 @@ bool SendAgentAction::canPerform() const
     auto oldLocItem = dynamic_cast<LocationItem*>(aItem_->parentItem());
     if (!oldLocItem)
     {
-        qDebug() << "attempting move an agent from hand to place";
        return true;
     } else if (oldLocItem != newLocItem_){
         auto neighbours = oldLocItem->neighbours();
@@ -32,7 +31,6 @@ void SendAgentAction::perform()
     std::shared_ptr<Interface::Location> newPlacInterface = newLocItem_->getObject();
     std::shared_ptr<Interface::Location> oldPlacInterface = aInterface->placement().lock();
 
-    // Removes agent from its previous location, sends the agent to new location and sets new "home coords"
     if (oldPlacInterface){
         oldPlacInterface->removeAgent(aInterface);
     }
@@ -45,7 +43,6 @@ void SendAgentAction::perform()
     aItem_->setParentItem(newLocItem_);
     aItem_->setHome(QPointF(0,0));
     aItem_->goHome();
-    //aItem_->setPos(QPointF(0,0));
 }
 
 mapItem *SendAgentAction::getTargetMapItem()

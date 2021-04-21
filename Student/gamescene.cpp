@@ -156,6 +156,22 @@ void GameScene::onPlayerChanged(std::shared_ptr<const Interface::Player> actingP
         currentHand->goHome();
         currentHand->setScale(1);
 
+        for (unsigned int i = 0; i < locationItems_.size(); ++i){
+            auto childItems = locationItems_.at(i)->childItems();
+            for (int j = 0; j < childItems.size(); ++j){
+                auto aItem = dynamic_cast<agentItem*>(childItems.at(j));
+                if (aItem)
+                {
+                    if (aItem->getAgentClass()->owner().lock() == actingPlayer)
+                    {
+                        aItem->setEnabled(false);
+                    } else if (aItem->getAgentClass()->owner().lock() == game_.lock()->currentPlayer())
+                    {
+                        aItem->setEnabled(true);
+                    }
+                }
+            }
+        }
         // TODO: the game somewhere hides the first player hand which is annoying
         currentHand->show();
 
