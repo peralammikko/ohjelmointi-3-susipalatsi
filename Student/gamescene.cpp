@@ -40,7 +40,7 @@ void GameScene::drawLocations(std::vector<std::shared_ptr<Interface::Location>> 
 
     for (int i = 0; i < locationCount; i++) {
         currentLocation = locvec.at(i);
-        LocationItem* locItem = new LocationItem(currentLocation, i);
+        LocationItem* locItem = new LocationItem(currentLocation);
         connect(locItem, &LocationItem::locationItemPressed, this, &GameScene::onLocationItemClicked);
         Interface::CommonResource localRes = resMap_.at(currentLocation);
         locItem->setLocalResource(localRes);

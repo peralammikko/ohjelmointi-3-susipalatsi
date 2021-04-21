@@ -17,7 +17,7 @@ class LocationItem : public mapItem
 {
     Q_OBJECT
 public:
-    LocationItem(const std::shared_ptr<Interface::Location> location, int mapIndex);
+    LocationItem(const std::shared_ptr<Interface::Location> location);
     ~LocationItem();
     // Luodaan itemille muoto (neliö)
     QRectF boundingRect() const override;
@@ -34,10 +34,6 @@ public:
     const std::shared_ptr<Interface::Location> getObject();
 
     int getBasevalue();
-
-    int mapIndex();
-
-    void setMapIndex(int newIndex);
 
     const QString typeOf() override;
 
@@ -85,15 +81,11 @@ private:
     // Resources are initially set to a constant NULL to avoid errors
     Interface::CommonResource localRes_ = NULLRES;
     Interface::CommonResource demandRes_ = NULLRES;
-<<<<<<< Student/locationitem.hh
     
     std::map<std::shared_ptr<Interface::Player>, int> playerInfluence_;
-=======
 
     std::pair<LocationItem*, LocationItem*> neighbours_;
 
->>>>>>> Student/locationitem.hh
-    int mapIndex_;
 
 };
 
