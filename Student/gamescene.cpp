@@ -256,6 +256,7 @@ void GameScene::onMapItemMouseDropped(mapItem* mapitem)
 
 void GameScene::onLocationItemClicked(LocationItem* locItem)
 {
+    // Close any dialog remaining on screen before creating a new one
     if (clickDialog) {
         clickDialog->close();
     }

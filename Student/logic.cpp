@@ -121,5 +121,4 @@ void Logic::onActionPerformed(std::shared_ptr<const Interface::Player> player, s
 {
     game_->nextPlayer();
     std::shared_ptr<Interface::Player> current = game_->currentPlayer();
-    // gameScene_->turnInfo(current);
 }

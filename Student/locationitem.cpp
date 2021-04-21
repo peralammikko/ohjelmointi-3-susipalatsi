@@ -128,6 +128,7 @@ Interface::CommonResource LocationItem::getDemandedResource()
     return demandRes_;
 }
 
+
 void LocationItem::generateNewDemand()
 {
     GameScene* scene = dynamic_cast<GameScene*>(this->scene());
@@ -160,6 +161,7 @@ bool LocationItem::giveCouncilCard(std::shared_ptr<Interface::Agent> &agent)
     agent->addCouncilCard(counc);
 }
 */
+
 void LocationItem::rearrange()
 {
     QPointF const center = QPointF(boundingRect().width()/2, boundingRect().height()/2);
@@ -203,6 +205,7 @@ void LocationItem::rearrange()
     }
 
 }
+
 
 void LocationItem::setLocalResource(Interface::CommonResource &res)
 {
