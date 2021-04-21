@@ -47,6 +47,8 @@ GameWindow::GameWindow(QWidget *parent) :
 
     logic_ = std::make_shared<Logic>(courseRunner, game_, gameScene_);
     GameSetup setup = GameSetup(gameScene_, game_, courseRunner,  logic_);
+
+    displayPlayerStats();
 }
 
 GameWindow::~GameWindow()
@@ -65,22 +67,17 @@ const std::vector<std::shared_ptr<Interface::Location> > GameWindow::getLocation
     return game_->locations();
 }
 
-void GameWindow::listAgents()
+void GameWindow::listAgents(std::shared_ptr<Interface::Player> &currentPlayer)
 {
     gameui_->agentListWidget->clear();
-    std::shared_ptr<Interface::Player> currentPlayer = game_->currentPlayer();
     for (auto card : currentPlayer->cards()) {
-
-
-        auto listOfAgents = playerAgentItems_.at(currentPlayer);
-        for (auto agent : listOfAgents) {
-            std::shared_ptr<Interface::Agent> agentPtr = agent->getAgentClass();
-            std::shared_ptr<Interface::Location> loc = agent->getAgentClass()->location().lock();
-            if (!loc) {
-                gameui_->agentListWidget->addItem(agentPtr->name() + " @ Home");
+        std::shared_ptr<Interface::Agent> agentCard = std::dynamic_pointer_cast<Interface::Agent>(card);
+        if (agentCard) {
+            std::shared_ptr<Interface::Location> agentAt = agentCard->placement().lock();
+            if (agentAt != nullptr) {
+                gameui_->agentListWidget->addItem(agentCard->name() + " @ " + agentAt->name());
             } else {
-                QString agentAt = loc->name();
-                gameui_->agentListWidget->addItem(agentPtr->name() + " @ " + agentAt);
+                gameui_->agentListWidget->addItem(agentCard->name() + " @ Base");
             }
         }
     }
@@ -89,10 +86,11 @@ void GameWindow::listAgents()
 void GameWindow::displayPlayerStats() {
 
     // This is temporarily broken
+    std::shared_ptr<Interface::Player> currentPlayer = game_->currentPlayer();
     gameui_->currentRoundLabel->setText("Current round: " + QString::number(current_round));
-    gameui_->playerNameLabel->setText(game_->currentPlayer()->name());
 
-    // listAgents(playerInTurn);
+    gameui_->playerNameLabel->setText(currentPlayer->name());
+    listAgents(currentPlayer);
 }
 
 

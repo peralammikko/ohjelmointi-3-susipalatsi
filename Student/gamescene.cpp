@@ -214,11 +214,8 @@ void GameScene::onMapItemMouseDropped(mapItem* mapitem)
 
 void GameScene::onLocationItemClicked(LocationItem* locItem)
 {
-    // This is unfortunately broken for a moment
-    //auto l = game_.lock()->currentPlayer();
-  //  PopupDialog* clickDialog = new PopupDialog(locItem, &l );
-    //clickDialog->setParent(this);
-    // clickDialog->show();
+    PopupDialog* clickDialog = new PopupDialog(locItem, playerInTurn_);
+    clickDialog->show();
 }
 
 void GameScene::onActionDeclared(std::shared_ptr<Interface::ActionInterface> action, mapItem *declaringMapItem)

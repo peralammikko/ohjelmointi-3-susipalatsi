@@ -6,7 +6,6 @@
 LocationItem::LocationItem(const std::shared_ptr<Interface::Location> location, int mapIndex) : locationObject_(location), mapIndex_(mapIndex), basevalue_(1), isSelected(false), isHovered_(false)
 {
     setAcceptHoverEvents(true);
-    generateNewDemand();
 }
 
 LocationItem::~LocationItem()

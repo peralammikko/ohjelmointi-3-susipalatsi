@@ -52,7 +52,7 @@ public:
 
     void rewardResources();
 
-    void listAgents();
+    void listAgents(std::shared_ptr<Interface::Player> &currentPlayer);
 
 
 private slots:

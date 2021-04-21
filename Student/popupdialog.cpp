@@ -21,6 +21,7 @@ PopupDialog::PopupDialog(LocationItem* &loc, std::shared_ptr<Interface::Player> 
     ui->areaResourceLabel->setText(localRes_.name());
     ui->BVlabel->setText(QString::number(locationBV_));
     ui->councillorDemandsLabel->setText(neededRes_.name() + " x " + QString::number(neededRes_.amount()));
+    ui->councillorNameLabel->setText(location_->councilor()->name());
 
     // Calculating friendly and rival agents in location and sum of resource rewards
     std::vector<int> sumAndAgents = locItem->calculateRewards(player);
@@ -107,10 +108,10 @@ void PopupDialog::on_tradeButton_clicked()
     auto demandLoc = neededRes_.location().lock();
     int demandAmount = neededRes_.amount();
     if (demandLoc) {
-        QString councName = "Mr. " + location_->name();
-        std::shared_ptr<Interface::Councilor> counc = std::make_shared<Interface::Councilor>(councName, "Mestari", location_);
+        // QString councName = "Mr. " + location_->name();
+        // std::shared_ptr<Interface::Councilor> counc = std::make_shared<Interface::Councilor>(councName, "Mestari", location_);
 
-        if (potentialAgent_->addCouncilCard(counc)) {
+        if (potentialAgent_->addCouncilCard(location_->councilor())) {
             potentialAgent_->removeResource(demandLoc, demandAmount);
             ui->councillorDemandsLabel->clear();
             ui->canGetCardLabel->setText("Fame gained");

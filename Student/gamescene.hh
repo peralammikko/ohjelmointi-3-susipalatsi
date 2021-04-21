@@ -99,6 +99,7 @@ private:
     ResourceMap resMap_;
     ResourceMap demandsMap_;
 
+    std::shared_ptr<Interface::Player> playerInTurn_ = nullptr;
 
 };
 
