@@ -47,6 +47,7 @@ GameWindow::GameWindow(QWidget *parent) :
 
     logic_ = std::make_shared<Logic>(courseRunner, game_, gameScene_);
     GameSetup setup = GameSetup(gameScene_, game_, courseRunner,  logic_);
+    connect(game_.get(), &Interface::Game::playerChanged, this, &GameWindow::onPlayerChanged);
 
     displayPlayerStats();
 }
@@ -101,4 +102,9 @@ void GameWindow::on_passButton_clicked()
     qDebug() << "Pass button was clicked. TODO: inform logic";
     logic_->rewardResources();
     //changeTurn();
+}
+
+void GameWindow::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer)
+{
+    displayPlayerStats();
 }

@@ -34,7 +34,6 @@ PopupDialog::PopupDialog(LocationItem* &loc, std::shared_ptr<Interface::Player> 
 
     // Listing out all agents in location
     std::set<std::shared_ptr<Interface::AgentInterface>> listOfAgents = location_->agents();
-    qDebug() << player_->name() << " clicked me";
 
     // Do these if there are any agents in area
     if (listOfAgents.size() > 0) {

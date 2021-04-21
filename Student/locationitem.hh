@@ -12,7 +12,6 @@
 #include "../Course/random.h"
 //#include "agentitem.hh"
 #include <cmath>
->>>>>>> 8fa27fd2977f1a65f037c2019037d79922c2279a
 
 class agentItem;
 

@@ -57,6 +57,7 @@ public:
 
 private slots:
     void on_passButton_clicked();
+    void onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer);
 
 private:
 
