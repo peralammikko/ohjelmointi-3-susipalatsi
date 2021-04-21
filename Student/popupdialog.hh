@@ -32,6 +32,7 @@ private:
     int locationBV_ = 0;
     Interface::CommonResource localRes_ = NULLRES;
     Interface::CommonResource neededRes_ = NULLRES;
+    std::shared_ptr<Interface::Agent> potentialAgent_ = nullptr;
 };
 
 #endif // POPUPDIALOG_HH

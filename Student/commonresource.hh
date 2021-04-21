@@ -21,6 +21,7 @@ public:
     std::weak_ptr<Location> location() const override;
     std::weak_ptr<Player> owner() const override;
     void setOwner(std::weak_ptr<Player> owner) override;
+    void setAmountTo(int num);
 
 private:
     QString name_;

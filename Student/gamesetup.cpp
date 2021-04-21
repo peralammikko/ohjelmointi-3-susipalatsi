@@ -24,8 +24,11 @@ GameSetup::GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game
     initPlayerControls();
 
     initAgentInterfaces();
-
     logic_->doTheRunning();
+
+    // Need to tell gamescene who goes first so first player is not nullptr
+    std::shared_ptr<Interface::Player> firstPlayer = game_->currentPlayer();
+    gameScene_->turnInfo(firstPlayer);
 
 }
 
@@ -39,15 +42,21 @@ void GameSetup::initLocations()
     // TODO: väärät resunimet
     const std::vector<QString> paikkaresut_ = {"Makkara", "pettuleipä", "absinttisnifferi", "kaks euroo", "tasan gramma", "krapulaa"};
 
+    const std::vector<QString> councillors = {"KKK Kauppias", "Paavi", "Baarimikko", "Aallon kylteri", "Shaq O'Neil", "Muumipappa"};
     // Luodaan location-oliot
     for (int i = 0; i < LOCATIONS; i++) {
         std::shared_ptr<Interface::Location> location = std::make_shared<Interface::Location>(i, paikat_.at(i));
+        std::shared_ptr<Interface::Councilor> areaCouncillor = std::make_shared<Interface::Councilor>(councillors.at(i), "Councillor", location);
         location->initialize();
+
+
         for  (int j = 0; j < 10; j++) {
             location->deck()->addCard(std::make_shared<Interface::CommonResource>(
                                           paikat_.at(i)+paikkaresut_.at(i), location, 1));
             location->deck()->addCard(std::make_shared<Interface::ActionCard>());
         }
+
+        location->setCouncilor(areaCouncillor);
         location->deck()->shuffle();
         game_->addLocation(location);
     }
@@ -55,8 +64,10 @@ void GameSetup::initLocations()
 
 void GameSetup::initResourceMaps()
 {
+    int i = 0;
+    const std::vector<QString> paikkaresut_ = {"Makkara", "pettuleipä", "absinttisnifferi", "kaks euroo", "tasan gramma", "krapulaa"};
     for (auto loc : game_->locations()) {
-        QString resName = loc->name() + " item";
+        QString resName = paikkaresut_.at(i);
         Interface::CommonResource res(resName, loc, 0);
 
         // Resource map for locations & runners
@@ -67,6 +78,8 @@ void GameSetup::initResourceMaps()
         std::pair<std::shared_ptr<Interface::Location>, std::deque<Interface::CommonResource>> pair2;
         pair2.first = loc;
         initAgentBackpack_.insert(pair2);
+
+        i++;
     }
 }
 

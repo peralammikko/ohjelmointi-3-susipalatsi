@@ -83,4 +83,5 @@ RESOURCES += \
     default.jpg
 
 DISTFILES += \
-    defaultsettings.dat
+    defaultsettings.dat \
+    moon.png

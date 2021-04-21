@@ -1,4 +1,5 @@
 #include "logic.hh"
+#include <algorithm>
 
 Logic::Logic(std::shared_ptr<Interface::Runner> runner, std::shared_ptr<Interface::Game> game, GameScene* gameScene)
     : runner_(runner), game_(game), gameScene_(gameScene)
@@ -31,9 +32,12 @@ void Logic::launchGame()
 
 void Logic::rewardResources()
 {
-    // qDebug() << "Reward Resources  in gamewindow - TODO: maybe move to logic";
+    std::vector<LocationItem*> items = gameScene_->GetLocItems();
 
+    // qDebug() << "Reward Resources  in gamewindow - TODO: maybe move to logic";
+    int rewardAmount = 1;
     for (auto player : game_->players()) {
+
         for (auto card : player->cards()) {
             std::shared_ptr<Interface::Agent> agentPtr = std::dynamic_pointer_cast<Interface::Agent>(card);
 
@@ -45,9 +49,17 @@ void Logic::rewardResources()
                     // If agent is in any location (nullptr means no location a.k.a. "home"
                     if (agentAt != nullptr) {
 
+                        // Find the correct location item for calculating rewards
+                        for (auto loc : items) {
+                            if (loc->getObject()->id() == agentAt->id()) {
+                                auto rewards = loc->calculateRewards(player);
+                                rewardAmount = rewards.at(0);
+                            }
+                        }
                         Interface::CommonResource res = resMap_.at(agentAt);
+
                         // Set it for 1 resource per reward until calculateRewards() is moved
-                        agentPtr->addResource(agentAt, res, 1);
+                        agentPtr->addResource(agentAt, res, rewardAmount);
                     } else {
                         qDebug() << "Agent not found";
                     }
@@ -57,25 +69,6 @@ void Logic::rewardResources()
             }
         }
     }
-
-    /*
-    for (auto pair : playerAgentItems_) {
-        for (auto agent : pair.second) {
-            auto agentPtr = agent->getAgentClass();
-            std::shared_ptr<Interface::Location> agentAt = agentPtr->placement().lock();
-            if (!agentAt) {
-                qDebug() << agentPtr->name() << " not in any location";
-            } else {
-                Interface::CommonResource res = initResourceMap_.at(agentAt);
-                if (agentAt != nullptr) {
-                    agentPtr->addResource(agentAt, res, 1);
-                } else {
-                    qDebug() << "who am I where am I";
-                }
-            }
-        }
-    }
-    */
 }
 
 void Logic::infoResourceMaps(ResourceMap &rmap, ResourceMap &dmap)
@@ -121,10 +114,12 @@ void Logic::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlaye
             gameScene_->onPlayerChanged(actingPlayer);
         }
     }
-
+    
 }
 
 void Logic::onActionPerformed(std::shared_ptr<const Interface::Player> player, std::shared_ptr<Interface::ActionInterface> action)
 {
     game_->nextPlayer();
+    std::shared_ptr<Interface::Player> current = game_->currentPlayer();
+    // gameScene_->turnInfo(current);
 }

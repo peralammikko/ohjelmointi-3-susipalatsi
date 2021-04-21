@@ -19,6 +19,7 @@
 #include "playerhand.hh"
 #include "scenearrow.hh"
 #include "../Course/deckinterface.h"
+#include "popupdialog.hh"
 
 class GameScene : public QGraphicsScene
 {
@@ -56,7 +57,7 @@ public:
     // Creates a hand area for player
     void initHands(std::shared_ptr<const Interface::Player> Player);
 
-    void turnInfo(int turn, std::shared_ptr<Interface::Player> currentplayer);
+    void turnInfo(std::shared_ptr<Interface::Player> &currentplayer);
 
     void resourceInfo(ResourceMap &rmap, ResourceMap &dmap);
 
@@ -66,6 +67,11 @@ public:
 
     void prepareForAction(std::shared_ptr<Interface::ActionInterface> action, mapItem* declaringMapItem);
     void resetAction();
+
+    std::vector<LocationItem *> GetLocItems();
+
+
+    ResourceMap getResMap();
 
 signals:
     void actionDeclared(std::shared_ptr<Interface::ActionInterface> action);
@@ -107,6 +113,9 @@ private:
     ResourceMap resMap_;
     ResourceMap demandsMap_;
 
+    std::shared_ptr<Interface::Player> playerInTurn_ = nullptr;
+
+    PopupDialog* clickDialog = nullptr;
 
 };
 

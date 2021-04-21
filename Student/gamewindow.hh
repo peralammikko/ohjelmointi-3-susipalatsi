@@ -45,21 +45,15 @@ public:
     void drawItem(mapItem* item);
     void showHand();
 
-    void sendAgentTo(const std::shared_ptr<Interface::Location> &loc, std::shared_ptr<Interface::Player> &player);
-
-    //void spawnAgent(std::shared_ptr<Interface::Player> &player);
-
-    std::shared_ptr<Interface::Player> getPlayerObject();
-    std::vector<agentItem *> getAgents(std::shared_ptr<Interface::Player> &player);
-
-    void listAgents(std::shared_ptr<Interface::Player> &player);
-
     void setupPlayerStash();
     void displayPlayerStats();
 
     void initAreaResources();
 
     void rewardResources();
+
+    void listAgents(std::shared_ptr<Interface::Player> &currentPlayer);
+
 
 private slots:
     void on_passButton_clicked();
@@ -79,15 +73,10 @@ private:
     // Usefulness to be decided.
     std::map<std::shared_ptr<Interface::Player>, std::vector<agentItem*>> playerAgentItems_;
 
-    // Holds info on players and their currency
-    std::map<std::shared_ptr<Interface::Player>, int> playerWallets_;
-
-    // Holds info on influence gained from locations by players
-    // std::map<std::shared_ptr<Interface::Player>, std::vector<std::shared_ptr<Interface::Influence>>> playerInfluenceMap_;
-
-
     // this variable stores drag and drop targe, ie. what is "under" a draggable card
     mapItem* targetedMapItem_;
+
+    int current_round = 1;
 
 };
 
