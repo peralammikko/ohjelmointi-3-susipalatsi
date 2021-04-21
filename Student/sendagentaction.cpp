@@ -55,3 +55,8 @@ void SendAgentAction::perform()
     aItem_->goHome();
     //aItem_->setPos(QPointF(0,0));
 }
+
+mapItem *SendAgentAction::getTargetMapItem()
+{
+    return newLocItem_;
+}

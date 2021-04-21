@@ -60,7 +60,7 @@ void mapItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
         isMousePressed_  = false;
 
         // TODO: maybe move perform checking somewhere else
-        std::shared_ptr<Interface::ActionInterface> action = getDragReleaseAction();
+        std::shared_ptr<Interface::ActionInterface>  action = getDragReleaseAction();
         if (action and action->canPerform()){
             emit actionDeclared(getDragReleaseAction(), this);
         } else {

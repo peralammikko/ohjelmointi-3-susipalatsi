@@ -24,8 +24,6 @@ public:
 
     const QString typeOf() override;
 
-
-
 protected:
     // some cool hovering stuff if these are needed.
     // TODO: these do nothing now

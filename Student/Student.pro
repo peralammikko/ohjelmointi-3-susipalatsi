@@ -8,6 +8,7 @@ CONFIG += c++14
 SOURCES += \
     actioncard.cpp \
     agent.cpp \
+    agentactioninterface.cpp \
     agentdialog.cpp \
     agentitem.cpp \
     cardpaymentaction.cpp \
@@ -54,6 +55,7 @@ else:unix: PRE_TARGETDEPS += \
 HEADERS += \
     actioncard.hh \
     agent.hh \
+    agentactioninterface.hh \
     agentdialog.hh \
     agentitem.hh \
     cardpaymentaction.hh \

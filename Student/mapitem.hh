@@ -8,11 +8,12 @@
 #include <memory>
 #include <QTimer>
 
-#include "../Course/actioninterface.h"
+#include "agentactioninterface.hh"
 #include "../Course/cardinterface.h"
 
 namespace Interface {
     class CardInterface;
+    class AgentActionInterface;
 }
 
 class mapItem : public QObject, public QGraphicsItem

@@ -112,6 +112,10 @@ void GameScene::resetAction()
     arrow1_->setEndItem(nullptr);
     arrow1_->hide();
 
+    arrow2_->setStartItem(nullptr);
+    arrow2_->setEndItem(nullptr);
+    arrow2_->hide();
+
 }
 
 void GameScene::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer)
@@ -202,6 +206,8 @@ void GameScene::onLocationItemClicked(LocationItem* locItem)
 
 void GameScene::onActionDeclared(std::shared_ptr<Interface::ActionInterface> action, mapItem *declaringMapItem)
 {
+
+
     if (game_.lock() and game_.lock()->active())
     {
         if (declaredAction_.get() and declaringMapItem_){
@@ -234,10 +240,20 @@ void GameScene::onActionDeclared(std::shared_ptr<Interface::ActionInterface> act
             declaredAction_ = action;
             declaringMapItem_ = declaringMapItem;
 
-            arrow1_->setStartItem(declaringMapItem);
+            // Set visual arrows
+            arrow1_->setEndItem(declaringMapItem);
+            arrow2_->setStartItem(declaringMapItem);
             auto homeItem = dynamic_cast<mapItem*>(declaringMapItem->parentItem());
-            arrow1_->setEndItem(homeItem);
-            arrow1_->updatePosition();
+            if (homeItem){
+                arrow1_->setStartItem(homeItem);
+                arrow1_->updatePosition();
+            }
+            // It is very annoying that we cannot edit actioninterface like this, so I have to get the target item thrgough this
+            auto agAc = std::dynamic_pointer_cast<AgentActionInterface>(action);
+            if (agAc) {
+                arrow2_->setEndItem(agAc.get()->getTargetMapItem());
+                arrow2_->updatePosition();
+            }
 
             declaringMapItem->setHome(declaringMapItem->parentItem()->mapFromScene(QPointF(600,350)));
             declaringMapItem->goHome();
