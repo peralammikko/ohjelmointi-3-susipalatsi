@@ -100,6 +100,13 @@ private:
     // also connects drag drop signals with those carditems
     void showHandCards();
 
+    // Shuffles locationItems_, and also makes each location item know its new neighbour
+    void shuffleLocationItems();
+    // Places locations in a spherical rotation around center of the scene
+    void rearrangeLocationItems();
+
+    std::vector<LocationItem*> locationItems_;
+
     SceneArrow* arrow1_;
     SceneArrow* arrow2_;
 

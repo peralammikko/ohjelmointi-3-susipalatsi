@@ -36,36 +36,22 @@ void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 void GameScene::drawLocations(std::vector<std::shared_ptr<Interface::Location>> &locvec)
 {
     std::shared_ptr<Interface::Location> currentLocation = nullptr;
-
-    // Piirretään rakennukset "ympyrän" kehälle
-    const int xCenter = this->width()/2;
-    const int yCenter = this->height()*2/5;
-
-    const int radius = 350;
     int locationCount = locvec.size();
-    const int degree = 360 / locationCount;
 
     for (int i = 0; i < locationCount; i++) {
         currentLocation = locvec.at(i);
-        LocationItem* locItem = new LocationItem(currentLocation, i);
+        LocationItem* locItem = new LocationItem(currentLocation);
         connect(locItem, &LocationItem::locationItemPressed, this, &GameScene::onLocationItemClicked);
         Interface::CommonResource localRes = resMap_.at(currentLocation);
         locItem->setLocalResource(localRes);
         Interface::CommonResource demandRes = demandsMap_.at(currentLocation);
         locItem->setDemandedResource(demandRes);
-
-        // Geometrinen sijainti kehällä
-        float angleDeg = degree * i;
-        float angleRad = angleDeg * M_PI / 180;
-
-        float x = xCenter + radius * std::cos(angleRad);
-        // Squash the y a little bit
-        float y = yCenter  - 0.7* radius * std::sin(angleRad);
-
         drawItem(locItem);
         locItem->setParent(this);
-        locItem->setPos(QPointF(x,y));
+        locationItems_.push_back(locItem);
     }
+    shuffleLocationItems();
+    rearrangeLocationItems();
 }
 
 void GameScene::drawItem(mapItem *item)
@@ -195,6 +181,22 @@ void GameScene::onPlayerChanged(std::shared_ptr<const Interface::Player> actingP
         currentHand->goHome();
         currentHand->setScale(1);
 
+        for (unsigned int i = 0; i < locationItems_.size(); ++i){
+            auto childItems = locationItems_.at(i)->childItems();
+            for (int j = 0; j < childItems.size(); ++j){
+                auto aItem = dynamic_cast<agentItem*>(childItems.at(j));
+                if (aItem)
+                {
+                    if (aItem->getAgentClass()->owner().lock() == actingPlayer)
+                    {
+                        aItem->setEnabled(false);
+                    } else if (aItem->getAgentClass()->owner().lock() == game_.lock()->currentPlayer())
+                    {
+                        aItem->setEnabled(true);
+                    }
+                }
+            }
+        }
         // TODO: the game somewhere hides the first player hand which is annoying
         currentHand->show();
 
@@ -260,6 +262,65 @@ void GameScene::onLocationItemClicked(LocationItem* locItem)
     }
     clickDialog = new PopupDialog(locItem, playerInTurn_);
     clickDialog->show();
+}
+
+void GameScene::shuffleLocationItems()
+{
+    // for now we just shuffle EVERYTHING
+    std::pair<LocationItem*, LocationItem*> neighbours;
+    unsigned int locCount = locationItems_.size();
+    for (unsigned int i = 1; i < locCount; ++i)
+    {
+        unsigned int j = Interface::Random::RANDOM.uint(i);
+        if (i != j)
+        {
+            std::swap(locationItems_.at(i), locationItems_.at(j));
+        }
+    }
+    if (locCount > 2) {
+        for (unsigned int i = 1; i < locCount; ++i)
+        {
+            int j = i+1;
+            int k = i-1;
+            if (i == 0){
+                k = locCount-1;
+            } else if (i == locCount-1) {
+                j = 0;
+            }
+            neighbours = {locationItems_.at(j), locationItems_.at(k)};
+            locationItems_.at(i)->setNeighbours(neighbours);
+        }
+    } else {
+        neighbours = {locationItems_.at(locCount-1), locationItems_.at(locCount-1)};
+        locationItems_.at(0)->setNeighbours(neighbours);
+        neighbours = {locationItems_.at(0), locationItems_.at(0)};
+        locationItems_.at(locCount-1)->setNeighbours(neighbours);
+    }
+}
+
+void GameScene::rearrangeLocationItems()
+{
+    // Piirretään rakennukset "ympyrän" kehälle
+    const int xCenter = this->width()/2;
+    const int yCenter = this->height()*2/5;
+
+    const int radius = 350;
+    int locationCount = locationItems_.size();
+    const int degree = 360 / locationCount;
+
+    for (int i = 0; i < locationCount; i++) {
+        auto currentLocItem = locationItems_.at(i);
+
+        // Geometrinen sijainti kehällä
+        float angleDeg = degree * i;
+        float angleRad = angleDeg * M_PI / 180;
+
+        float x = xCenter + radius * std::cos(angleRad);
+        // Squash the y a little bit
+        float y = yCenter  - 0.7* radius * std::sin(angleRad);
+        currentLocItem->setHome(QPointF(x,y));
+        currentLocItem->goHome();
+    }
 }
 
 void GameScene::onActionDeclared(std::shared_ptr<Interface::ActionInterface> action, mapItem *declaringMapItem, bool resetting)

@@ -3,7 +3,7 @@
 #include "locationitem.hh"
 #include "gamescene.hh"
 
-LocationItem::LocationItem(const std::shared_ptr<Interface::Location> location, int mapIndex) : locationObject_(location), mapIndex_(mapIndex), basevalue_(1), isSelected(false), isHovered_(false)
+LocationItem::LocationItem(const std::shared_ptr<Interface::Location> location) : locationObject_(location), basevalue_(1), isSelected(false), isHovered_(false)
 {
     setAcceptHoverEvents(true);
 }
@@ -53,16 +53,6 @@ int LocationItem::getBasevalue()
     return basevalue_;
 }
 
-int LocationItem::mapIndex()
-{
-    return mapIndex_;
-}
-
-void LocationItem::setMapIndex(int newIndex)
-{
-    mapIndex_ = newIndex;
-}
-
 void LocationItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     emit locationItemPressed(this);
@@ -98,7 +88,6 @@ const QString LocationItem::typeOf()
 
 std::vector<int> LocationItem::calculateRewards(std::shared_ptr<Interface::Player> &player)
 {
-
     // WORK IN PROGRESS
     std::vector<int> numbers(3);
     int sum = basevalue_;
@@ -192,11 +181,13 @@ void LocationItem::rearrange()
         }
     }
 
-    const int radius = boundingRect().width()/3;
+    int radius = boundingRect().width()/3;
     int agentCount = aItems.size();
     if (!agentCount)
     {
         return;
+    } else if (agentCount==1){
+        radius = 0;
     }
     const int degree = 360 / agentCount;
 
@@ -225,11 +216,3 @@ Interface::CommonResource LocationItem::getLocalResource()
 {
     return localRes_;
 }
-
-void LocationItem::advance(int phase)
-{
-    // qDebug() << "Tick";
-    // Proof of concept here
-    //setRotation(rotation()+1);
-}
-

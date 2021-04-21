@@ -7,10 +7,8 @@
 #include "mapitem.hh"
 #include "commonresource.hh"
 #include "agent.hh"
-// #include "gamescene.hh"
 #include "influence.h"
 #include "../Course/random.h"
-//#include "agentitem.hh"
 #include <cmath>
 
 class agentItem;
@@ -19,7 +17,7 @@ class LocationItem : public mapItem
 {
     Q_OBJECT
 public:
-    LocationItem(const std::shared_ptr<Interface::Location> location, int mapIndex);
+    LocationItem(const std::shared_ptr<Interface::Location> location);
     ~LocationItem();
     // Luodaan itemille muoto (neliö)
     QRectF boundingRect() const override;
@@ -36,10 +34,6 @@ public:
     const std::shared_ptr<Interface::Location> getObject();
 
     int getBasevalue();
-
-    int mapIndex();
-
-    void setMapIndex(int newIndex);
 
     const QString typeOf() override;
 
@@ -68,8 +62,11 @@ public:
 
     void rearrange() override;
 
+    void setNeighbours(std::pair<LocationItem*, LocationItem*> neighbours){neighbours_=neighbours;}
+    std::pair<LocationItem*, LocationItem*> neighbours(){return neighbours_;}
+
 protected:
-    void advance(int phase) override;
+   // void advance(int phase) override;
 
 signals:
     void locationItemPressed(LocationItem*);
@@ -86,7 +83,9 @@ private:
     Interface::CommonResource demandRes_ = NULLRES;
     
     std::map<std::shared_ptr<Interface::Player>, int> playerInfluence_;
-    int mapIndex_;
+
+    std::pair<LocationItem*, LocationItem*> neighbours_;
+
 
 };
 
