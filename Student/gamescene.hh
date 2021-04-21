@@ -53,7 +53,7 @@ public:
     // Creates a hand area for player
     void initHands(std::shared_ptr<const Interface::Player> Player);
 
-    void turnInfo(int turn, std::shared_ptr<Interface::Player> currentplayer);
+    void turnInfo(std::shared_ptr<Interface::Player> &currentplayer);
 
     void resourceInfo(ResourceMap &rmap, ResourceMap &dmap);
 

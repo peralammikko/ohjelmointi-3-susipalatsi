@@ -24,8 +24,11 @@ GameSetup::GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game
     initPlayerControls();
 
     initAgentInterfaces();
-
     logic_->doTheRunning();
+
+    // Need to tell gamescene who goes first so first player is not nullptr
+    std::shared_ptr<Interface::Player> firstPlayer = game_->currentPlayer();
+    gameScene_->turnInfo(firstPlayer);
 
 }
 

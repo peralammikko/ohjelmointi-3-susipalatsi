@@ -47,8 +47,6 @@ GameWindow::GameWindow(QWidget *parent) :
 
     logic_ = std::make_shared<Logic>(courseRunner, game_, gameScene_);
     GameSetup setup = GameSetup(gameScene_, game_, courseRunner,  logic_);
-
-    // displayPlayerStats();
 }
 
 GameWindow::~GameWindow()
@@ -67,71 +65,37 @@ const std::vector<std::shared_ptr<Interface::Location> > GameWindow::getLocation
     return game_->locations();
 }
 
-void GameWindow::listAgents(std::shared_ptr<Interface::Player> &player)
+void GameWindow::listAgents()
 {
     gameui_->agentListWidget->clear();
-    auto listOfAgents = playerAgentItems_.at(player);
-    for (auto agent : listOfAgents) {
-        std::shared_ptr<Interface::Agent> agentPtr = agent->getAgentClass();
-        std::shared_ptr<Interface::Location> loc = agent->getAgentClass()->location().lock();
-        if (!loc) {
-            gameui_->agentListWidget->addItem(agentPtr->name() + " @ Home");
-        } else {
-            QString agentAt = loc->name();
-            gameui_->agentListWidget->addItem(agentPtr->name() + " @ " + agentAt);
-        }
-    }
-}
+    std::shared_ptr<Interface::Player> currentPlayer = game_->currentPlayer();
+    for (auto card : currentPlayer->cards()) {
 
-void GameWindow::setupPlayerStash()
-{
-    qDebug() << "Setup Player stash: Needs to be moved to gamesetup";
-    for (auto player : game_->players()) {
 
-        // Map for agents each player has to use (empty on initialization)
-        playerAgentItems_.insert({player, {}});
-
-        // Map for players and their in-game currenty (2 coins on initialization)
-        playerWallets_.insert({player, 2});
-    }
-}
-
-/*
-void GameWindow::displayPlayerStats()
-
-    // This is temporarily broken
-    Mikko's part
-    current_round++;
-    gameui_->currentRoundLabel->setText("Current round: " + QString::number(current_round));
-    gameui_->playerNameLabel->setText(playerInTurn->name());
-    gameui_->playerCoinsLabel->setText(QString::number(playerWallets_.at(playerInTurn)));
-
-    listAgents(playerInTurn);
-}
-*/
-
-/*
-void GameWindow::rewardResources()
-{
-    qDebug() << "Reward Resources  in gamewindow - TODO: maybe move to logic";
-    for (auto pair : playerAgentItems_) {
-        for (auto agent : pair.second) {
-            auto agentPtr = agent->getAgentClass();
-            std::shared_ptr<Interface::Location> agentAt = agentPtr->placement().lock();
-            if (!agentAt) {
-                qDebug() << agentPtr->name() << " not in any location";
+        auto listOfAgents = playerAgentItems_.at(currentPlayer);
+        for (auto agent : listOfAgents) {
+            std::shared_ptr<Interface::Agent> agentPtr = agent->getAgentClass();
+            std::shared_ptr<Interface::Location> loc = agent->getAgentClass()->location().lock();
+            if (!loc) {
+                gameui_->agentListWidget->addItem(agentPtr->name() + " @ Home");
             } else {
-                Interface::CommonResource res = initResourceMap_.at(agentAt);
-                if (agentAt != nullptr) {
-                    agentPtr->addResource(agentAt, res, 1);
-                } else {
-                    qDebug() << "who am I where am I";
-                }
+                QString agentAt = loc->name();
+                gameui_->agentListWidget->addItem(agentPtr->name() + " @ " + agentAt);
             }
         }
     }
 }
-*/
+
+void GameWindow::displayPlayerStats() {
+
+    // This is temporarily broken
+    gameui_->currentRoundLabel->setText("Current round: " + QString::number(current_round));
+    gameui_->playerNameLabel->setText(game_->currentPlayer()->name());
+
+    // listAgents(playerInTurn);
+}
+
+
 
 void GameWindow::on_passButton_clicked()
 {

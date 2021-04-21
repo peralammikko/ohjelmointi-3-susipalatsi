@@ -120,12 +120,11 @@ ResourceMap GameScene::getResMap()
 
 void GameScene::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer)
 {
-    /*
+    // Updating gamescene who's currently playing
     std::shared_ptr<Interface::Game> gameboard = game_.lock();
     if (gameboard) {
         playerInTurn_ = gameboard->currentPlayer();
     }
-    return;*/
 
     if (actingPlayer != game_.lock()->currentPlayer())
     {
@@ -158,6 +157,11 @@ void GameScene::initHands(std::shared_ptr<const Interface::Player> player)
     this->addItem(hand);
     playerHands_.insert(std::pair<std::shared_ptr<const Interface::Player>,PlayerHand*>(player, hand));
     hand->setPos(600, 400);
+}
+
+void GameScene::turnInfo(std::shared_ptr<Interface::Player> &currentplayer)
+{
+    playerInTurn_ = currentplayer;
 }
 
 
