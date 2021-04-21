@@ -214,7 +214,10 @@ void GameScene::onMapItemMouseDropped(mapItem* mapitem)
 
 void GameScene::onLocationItemClicked(LocationItem* locItem)
 {
-    PopupDialog* clickDialog = new PopupDialog(locItem, playerInTurn_);
+    if (clickDialog) {
+        clickDialog->close();
+    }
+    clickDialog = new PopupDialog(locItem, playerInTurn_);
     clickDialog->show();
 }
 

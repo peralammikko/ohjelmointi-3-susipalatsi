@@ -72,6 +72,9 @@ void agentItem::spawnDialogue()
 
 void agentItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
+    if (dialog_) {
+        dialog_->close();
+    }
     isSelected = true;
     update();
     if (not homing_){

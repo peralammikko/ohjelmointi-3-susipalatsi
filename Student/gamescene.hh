@@ -17,6 +17,7 @@
 #include "carditem.hh"
 #include "playerhand.hh"
 #include "../Course/deckinterface.h"
+#include "popupdialog.hh"
 
 class GameScene : public QGraphicsScene
 {
@@ -100,6 +101,8 @@ private:
     ResourceMap demandsMap_;
 
     std::shared_ptr<Interface::Player> playerInTurn_ = nullptr;
+
+    PopupDialog* clickDialog = nullptr;
 
 };
 
