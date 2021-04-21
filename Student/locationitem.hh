@@ -59,8 +59,11 @@ public:
 
     void rearrange() override;
 
+    void setNeighbours(std::pair<LocationItem*, LocationItem*> neighbours){neighbours_=neighbours;}
+    std::pair<LocationItem*, LocationItem*> neighbours(){return neighbours_;}
+
 protected:
-    void advance(int phase) override;
+   // void advance(int phase) override;
 
 signals:
     void locationItemPressed(LocationItem*);
@@ -74,6 +77,8 @@ private:
     // Resources are initially set to a constant NULL to avoid errors
     Interface::CommonResource localRes_ = NULLRES;
     Interface::CommonResource demandRes_ = NULLRES;
+
+    std::pair<LocationItem*, LocationItem*> neighbours_;
 
     int mapIndex_;
 

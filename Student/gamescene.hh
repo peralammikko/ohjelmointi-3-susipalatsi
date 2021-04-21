@@ -67,7 +67,6 @@ public:
     void prepareForAction(std::shared_ptr<Interface::ActionInterface> action, mapItem* declaringMapItem);
     void resetAction();
 
-
 signals:
     void actionDeclared(std::shared_ptr<Interface::ActionInterface> action);
 public slots:
@@ -94,6 +93,13 @@ private:
     // changes state of cards in handCards_ to show and arranges them nicely as a hand centered in handAnchorCoords_
     // also connects drag drop signals with those carditems
     void showHandCards();
+
+    // Shuffles locationItems_, and also makes each location item know its new neighbour
+    void shuffleLocationItems();
+    // Places locations in a spherical rotation around center of the scene
+    void rearrangeLocationItems();
+
+    std::vector<LocationItem*> locationItems_;
 
     SceneArrow* arrow1_;
     SceneArrow* arrow2_;
