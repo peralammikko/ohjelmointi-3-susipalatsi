@@ -20,7 +20,10 @@
 
 GameScene::GameScene(QWidget *parent, std::weak_ptr<Interface::Game> game) : QGraphicsScene(parent), game_(game)
 {
-
+    arrow1_ = new SceneArrow(nullptr, nullptr);
+    addItem(arrow1_);
+    arrow2_ = new SceneArrow(nullptr, nullptr);
+    addItem(arrow2_);
 }
 
 void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
@@ -102,18 +105,17 @@ void GameScene::resetAction()
 {
     playerHands_.at(game_.lock()->currentPlayer())->rearrange();
     declaredAction_ = std::shared_ptr<Interface::ActionInterface>();
+    declaringMapItem_->setWaitingForAction(false);
+    declaringMapItem_ = nullptr;
+
+    arrow1_->setStartItem(nullptr);
+    arrow1_->setEndItem(nullptr);
+    arrow1_->hide();
 
 }
 
 void GameScene::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer)
 {
-    /*
-    std::shared_ptr<Interface::Game> gameboard = game_.lock();
-    if (gameboard) {
-        playerInTurn_ = gameboard->currentPlayer();
-    }
-    return;*/
-
     if (actingPlayer != game_.lock()->currentPlayer())
     {
         // If the player has been changed (round changed) then modify hand areas a bit
@@ -121,7 +123,7 @@ void GameScene::onPlayerChanged(std::shared_ptr<const Interface::Player> actingP
         // TODO: Coords for the hand that is going to be hidden are hard coded for now.
         // They should be based on the number of players in the game.
         // TODO: Action cards need to be set "face down" for the passing player
-        // TPDP_ acotpm cards meed tp ne set "face up" for the player who is playing
+        // TODO: Action cards need to be set "face up" for the player who is playing
         auto previousHand = playerHands_.at(actingPlayer);
         auto currentHand = playerHands_.at(game_.lock()->currentPlayer());
 
@@ -221,12 +223,7 @@ void GameScene::onActionDeclared(std::shared_ptr<Interface::ActionInterface> act
                 playerHands_.at(game_.lock()->currentPlayer())->rearrange();
                 // TODO: rearrange building agents too
                 emit actionDeclared(declaredAction_);
-
-
-                // Clearing pointers and variables regarding waiting on actions
-                declaredAction_ = std::shared_ptr<Interface::ActionInterface>();
-                declaringMapItem_->setWaitingForAction(false);
-                declaringMapItem_ = nullptr;
+                resetAction();
             } else {
                 // If there already is an action we can just ignore this one
                 declaringMapItem->goHome();
@@ -236,6 +233,11 @@ void GameScene::onActionDeclared(std::shared_ptr<Interface::ActionInterface> act
             qDebug() << "Action selected. Please play an action card";
             declaredAction_ = action;
             declaringMapItem_ = declaringMapItem;
+
+            arrow1_->setStartItem(declaringMapItem);
+            auto homeItem = dynamic_cast<mapItem*>(declaringMapItem->parentItem());
+            arrow1_->setEndItem(homeItem);
+            arrow1_->updatePosition();
 
             declaringMapItem->setHome(declaringMapItem->parentItem()->mapFromScene(QPointF(600,350)));
             declaringMapItem->goHome();

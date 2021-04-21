@@ -16,6 +16,7 @@
 #include "locationitem.hh"
 #include "carditem.hh"
 #include "playerhand.hh"
+#include "scenearrow.hh"
 #include "../Course/deckinterface.h"
 
 class GameScene : public QGraphicsScene
@@ -91,6 +92,9 @@ private:
     // changes state of cards in handCards_ to show and arranges them nicely as a hand centered in handAnchorCoords_
     // also connects drag drop signals with those carditems
     void showHandCards();
+
+    SceneArrow* arrow1_;
+    SceneArrow* arrow2_;
 
     ResourceMap resMap_;
     ResourceMap demandsMap_;

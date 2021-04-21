@@ -23,6 +23,7 @@ SOURCES += \
     mapitem.cpp \
     playerhand.cpp \
     popupdialog.cpp \
+    scenearrow.cpp \
     sendagentaction.cpp \
     withdrawagentaction.cpp
 
@@ -67,6 +68,7 @@ HEADERS += \
     mapitem.hh \
     playerhand.hh \
     popupdialog.hh \
+    scenearrow.hh \
     sendagentaction.hh \
     withdrawagentaction.hh
 
