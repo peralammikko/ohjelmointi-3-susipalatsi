@@ -10,7 +10,7 @@
 #include "mapitem.hh"
 
 
-class PlayerHand : public QGraphicsItem
+class PlayerHand : public mapItem
 {
 public:
 
@@ -20,6 +20,7 @@ public:
 
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    virtual const QString typeOf() override;
 
     void addMapItem(mapItem* mItem);
 
@@ -27,7 +28,7 @@ public:
 
     std::shared_ptr<const Interface::Player> getOwner();
 
-    void rearrange();
+    void rearrange() override;
 
 private:
     QGraphicsScene* scene_;

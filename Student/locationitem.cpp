@@ -1,11 +1,11 @@
 #include <QDebug>
 
 #include "locationitem.hh"
+#include "gamescene.hh"
 
-LocationItem::LocationItem(const std::shared_ptr<Interface::Location> location, int mapIndex) : locationObject_(location), mapIndex_(mapIndex), basevalue_(1), isSelected(false), isHovered_(false)
+LocationItem::LocationItem(const std::shared_ptr<Interface::Location> location) : locationObject_(location), basevalue_(1), isSelected(false), isHovered_(false)
 {
     setAcceptHoverEvents(true);
-
 }
 
 LocationItem::~LocationItem()
@@ -15,7 +15,7 @@ LocationItem::~LocationItem()
 
 QRectF LocationItem::boundingRect() const
 {
-    return QRectF(0, 0, 120,120);
+    return QRectF(0, 0, 150,150);
 }
 
 void LocationItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -29,7 +29,7 @@ void LocationItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     QPoint upperpos(boundingRect().x()+5, 10);
     QPoint lowerpos(0, boundingRect().height()-10);
     QString placeName = this->getObject()->name();
-    QPen pen(Qt::black, 2);
+    QPen pen;
     painter->drawText(upperpos, placeName);
     painter->drawText(lowerpos, "Base value: " + QString::number(this->getBasevalue()));
 
@@ -40,7 +40,7 @@ void LocationItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     }
     painter->setPen(pen);
     painter->drawRect(rect);
-  ;
+
 }
 
 const std::shared_ptr<Interface::Location> LocationItem::getObject()
@@ -51,16 +51,6 @@ const std::shared_ptr<Interface::Location> LocationItem::getObject()
 int LocationItem::getBasevalue()
 {
     return basevalue_;
-}
-
-int LocationItem::mapIndex()
-{
-    return mapIndex_;
-}
-
-void LocationItem::setMapIndex(int newIndex)
-{
-    mapIndex_ = newIndex;
 }
 
 void LocationItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
@@ -98,7 +88,6 @@ const QString LocationItem::typeOf()
 
 std::vector<int> LocationItem::calculateRewards(std::shared_ptr<Interface::Player> &player)
 {
-
     // WORK IN PROGRESS
     std::vector<int> numbers(3);
     int sum = basevalue_;
@@ -139,6 +128,82 @@ Interface::CommonResource LocationItem::getDemandedResource()
     return demandRes_;
 }
 
+void LocationItem::generateNewDemand()
+{
+    GameScene* scene = dynamic_cast<GameScene*>(this->scene());
+    if (scene) {
+        ResourceMap rmap = scene->getResMap();
+        ResourceMap::iterator it;
+        while (true) {
+            it = rmap.begin();
+            int rndm = Interface::Random::RANDOM.uint(5);
+            std::advance(it, rndm);
+            if (it->first != locationObject_) {
+                demandRes_ = it->second;
+                int amount = 2+ Interface::Random::RANDOM.uint(3);
+                demandRes_.setAmountTo(amount);
+                break;
+            }
+        }
+    }
+}
+
+void LocationItem::addInfluence(std::shared_ptr<Interface::Player> &player)
+{
+    playerInfluence_.at(player) += 1;
+}
+/*
+bool LocationItem::giveCouncilCard(std::shared_ptr<Interface::Agent> &agent)
+{
+    QString councName = "Mr. " + locationObject_->name();
+    std::shared_ptr<Interface::Councilor> counc = std::make_shared<Interface::Councilor>(councName, "Mestari", locationObject_);
+    agent->addCouncilCard(counc);
+}
+*/
+void LocationItem::rearrange()
+{
+    QPointF const center = QPointF(boundingRect().width()/2, boundingRect().height()/2);
+
+    std::vector<mapItem*> aItems;
+
+    QList<QGraphicsItem *> const items = childItems();
+    int count = items.size();
+    if (count) {
+
+        // TODO: Separate agents between players
+        for (int i = 0; i < count; ++i) {
+            auto mItem = dynamic_cast<mapItem*>(items.at(i));
+            if (mItem){
+                aItems.push_back(mItem);
+            }
+        }
+    }
+
+    int radius = boundingRect().width()/3;
+    int agentCount = aItems.size();
+    if (!agentCount)
+    {
+        return;
+    } else if (agentCount==1){
+        radius = 0;
+    }
+    const int degree = 360 / agentCount;
+
+    for (int i = 0; i < agentCount; i++) {
+        auto currentAgent = aItems.at(i);
+        // Geometrinen sijainti kehällä
+        float angleDeg = degree * i;
+        float angleRad = angleDeg * M_PI / 180;
+
+        float x = center.x() + radius * std::cos(angleRad);
+        float y = center.y() + radius * std::sin(angleRad);
+
+        currentAgent->setHome(QPointF(x,y));
+        currentAgent->goHome();
+    }
+
+}
+
 void LocationItem::setLocalResource(Interface::CommonResource &res)
 {
     localRes_ = res;
@@ -148,11 +213,3 @@ Interface::CommonResource LocationItem::getLocalResource()
 {
     return localRes_;
 }
-
-void LocationItem::advance(int phase)
-{
-    // qDebug() << "Tick";
-    // Proof of concept here
-    //setRotation(rotation()+1);
-}
-

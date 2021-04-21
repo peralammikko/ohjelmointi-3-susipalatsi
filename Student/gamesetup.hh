@@ -8,6 +8,11 @@
 // location item
 #include "locationitem.hh"
 
+// creating decks
+#include "../Course/deck.h"
+#include "actioncard.hh"
+
+
 // Agent interface and its class
 #include "agent.hh"
 #include "agentitem.hh"
@@ -39,6 +44,7 @@ private:
     void initResourceMaps();
     void initDemandMaps();
     void initLocItems();
+    void initSceneArrows();
 
     // TODO: logic needed in constructor? Logic needed to return?
     void initLogic();
@@ -46,6 +52,7 @@ private:
 
     void initPlayers();
     void initPlayerHands();
+    void addPlayerSetupCards();
     void initPlayerControls();
 
     void initAgentInterfaces();

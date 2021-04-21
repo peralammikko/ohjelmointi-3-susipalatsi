@@ -8,9 +8,10 @@ CONFIG += c++14
 SOURCES += \
     actioncard.cpp \
     agent.cpp \
+    agentactioninterface.cpp \
     agentdialog.cpp \
     agentitem.cpp \
-    cardinterface.cpp \
+    cardpaymentaction.cpp \
     commonresource.cpp \
     carditem.cpp \
     gamerunner.cpp \
@@ -23,6 +24,7 @@ SOURCES += \
     mapitem.cpp \
     playerhand.cpp \
     popupdialog.cpp \
+    scenearrow.cpp \
     sendagentaction.cpp \
     withdrawagentaction.cpp
 
@@ -53,8 +55,10 @@ else:unix: PRE_TARGETDEPS += \
 HEADERS += \
     actioncard.hh \
     agent.hh \
+    agentactioninterface.hh \
     agentdialog.hh \
     agentitem.hh \
+    cardpaymentaction.hh \
     commonresource.hh \
     carditem.hh \
     gamerunner.hh \
@@ -66,6 +70,7 @@ HEADERS += \
     mapitem.hh \
     playerhand.hh \
     popupdialog.hh \
+    scenearrow.hh \
     sendagentaction.hh \
     withdrawagentaction.hh
 
@@ -78,4 +83,5 @@ RESOURCES += \
     default.jpg
 
 DISTFILES += \
-    defaultsettings.dat
+    defaultsettings.dat \
+    moon.png

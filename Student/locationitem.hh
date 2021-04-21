@@ -7,6 +7,9 @@
 #include "mapitem.hh"
 #include "commonresource.hh"
 #include "agent.hh"
+#include "influence.h"
+#include "../Course/random.h"
+#include <cmath>
 
 class agentItem;
 
@@ -14,7 +17,7 @@ class LocationItem : public mapItem
 {
     Q_OBJECT
 public:
-    LocationItem(const std::shared_ptr<Interface::Location> location, int mapIndex);
+    LocationItem(const std::shared_ptr<Interface::Location> location);
     ~LocationItem();
     // Luodaan itemille muoto (neliö)
     QRectF boundingRect() const override;
@@ -31,10 +34,6 @@ public:
     const std::shared_ptr<Interface::Location> getObject();
 
     int getBasevalue();
-
-    int mapIndex();
-
-    void setMapIndex(int newIndex);
 
     const QString typeOf() override;
 
@@ -54,12 +53,24 @@ public:
     Interface::CommonResource getDemandedResource();
 
     void checkCouncillorCard();
+    
+    void generateNewDemand();
+
+    void addInfluence(std::shared_ptr<Interface::Player> &player);
+
+    // bool giveCouncilCard(std::shared_ptr<Interface::Agent> &agent);
+
+    void rearrange() override;
+
+    void setNeighbours(std::pair<LocationItem*, LocationItem*> neighbours){neighbours_=neighbours;}
+    std::pair<LocationItem*, LocationItem*> neighbours(){return neighbours_;}
 
 protected:
-    void advance(int phase) override;
+   // void advance(int phase) override;
 
 signals:
     void locationItemPressed(LocationItem*);
+    void requestNewDemand(std::shared_ptr<Interface::Location> &loc);
 
 private:
     const std::shared_ptr<Interface::Location> locationObject_;
@@ -70,8 +81,11 @@ private:
     // Resources are initially set to a constant NULL to avoid errors
     Interface::CommonResource localRes_ = NULLRES;
     Interface::CommonResource demandRes_ = NULLRES;
+    
+    std::map<std::shared_ptr<Interface::Player>, int> playerInfluence_;
 
-    int mapIndex_;
+    std::pair<LocationItem*, LocationItem*> neighbours_;
+
 
 };
 

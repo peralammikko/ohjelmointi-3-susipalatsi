@@ -3,6 +3,7 @@
 
 #include "mapitem.hh"
 #include "../Course/cardinterface.h"
+#include "cardpaymentaction.hh"
 
 namespace Interface {
     class CardInterface;
@@ -24,8 +25,9 @@ public:
     // This is called by gamescene when another mapitem is dragged over it
     void setHighLighted(bool state);
 
-    // returns "card". This is useless probably.
+    // returns "actioncard"
     const QString typeOf() override;
+    void rearrange() override{};
 
 
 protected:
@@ -37,6 +39,8 @@ private:
     // Interface from which this item takes all its data (name, owner etc.)
     // Can be at least actioninterface
     std::shared_ptr<Interface::CardInterface> card_;
+
+    virtual std::shared_ptr<Interface::ActionInterface> getDragReleaseAction() override;
 
     int width_;
     int height_;

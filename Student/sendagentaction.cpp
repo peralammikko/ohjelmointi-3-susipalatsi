@@ -8,44 +8,29 @@ SendAgentAction::SendAgentAction(LocationItem* newLocItem, agentItem* aItem) : n
 
 }
 
-SendAgentAction::~SendAgentAction()
-{
-
-}
+SendAgentAction::~SendAgentAction(){}
 
 bool SendAgentAction::canPerform() const
 {
     auto oldLocItem = dynamic_cast<LocationItem*>(aItem_->parentItem());
     if (!oldLocItem)
     {
-        // TODO: require payment
-        // qDebug() << "attempting move an agent from hand to place";
        return true;
     } else if (oldLocItem != newLocItem_){
-       // oldPlacInterface->removeAgent(aInterface);
-        // qDebug() << "attempting move an agent from place to place";
-        // Calculate the distances between locations
-        int dist = abs(newLocItem_->mapIndex() - oldLocItem->mapIndex());
-        // TODO: maybe implement movements which are larger than one
-        // BUG TODO: from max index to min index jumping
-        if ( dist == 1 )
-        {
-          // TODO: maybe additional pooling
-          return true;
+        auto neighbours = oldLocItem->neighbours();
+        if (neighbours.first == newLocItem_ or neighbours.second == newLocItem_){
+            return true;
         }
     }
-    // Action can not be performed
-    aItem_->goHome();
     return false;
 }
 
 void SendAgentAction::perform()
 {
-    std::shared_ptr<Interface::AgentInterface> aInterface = aItem_->getObject();
+    std::shared_ptr<Interface::Agent> aInterface = aItem_->getAgentClass();
     std::shared_ptr<Interface::Location> newPlacInterface = newLocItem_->getObject();
     std::shared_ptr<Interface::Location> oldPlacInterface = aInterface->placement().lock();
 
-    // Removes agent from its previous location, sends the agent to new location and sets new "home coords"
     if (oldPlacInterface){
         oldPlacInterface->removeAgent(aInterface);
     }
@@ -55,11 +40,12 @@ void SendAgentAction::perform()
     // Do this so that the item does not fly far far away
     QPointF currentPos = aItem_->scenePos();
     aItem_->setPos(newLocItem_->mapFromScene(currentPos));
-
     aItem_->setParentItem(newLocItem_);
-
-    aItem_->setHome( QPointF(0,0), true);
-
+    aItem_->setHome(QPointF(0,0));
     aItem_->goHome();
-    //aItem_->setPos(QPointF(0,0));
+}
+
+mapItem *SendAgentAction::getTargetMapItem()
+{
+    return newLocItem_;
 }

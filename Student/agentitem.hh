@@ -16,7 +16,6 @@ public:
     ~agentItem();
 
     bool isSelected = false;
-    std::shared_ptr<Interface::AgentInterface> getObject();
     std::shared_ptr<Interface::Agent> getAgentClass();
 
     // MapItem overridet
@@ -24,6 +23,9 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
     const QString typeOf() override;
+    void rearrange() override{};
+
+
 
 protected:
     // some cool hovering stuff if these are needed.
@@ -46,6 +48,8 @@ private:
 
     // This should probably be moved to agent.hh
     int agentConnections_;
+
+    bool waitingForActionCard_ = false;
 
     // Empty dialog window to be called on mouse hover on/off
     AgentDialog* dialog_ = nullptr;

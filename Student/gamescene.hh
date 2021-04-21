@@ -10,12 +10,16 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
 #include <QList>
+#include <cmath>
 
 #include "game.h"
 #include "agentitem.hh"
 #include "locationitem.hh"
 #include "carditem.hh"
 #include "playerhand.hh"
+#include "scenearrow.hh"
+#include "../Course/deckinterface.h"
+#include "popupdialog.hh"
 
 class GameScene : public QGraphicsScene
 {
@@ -53,7 +57,7 @@ public:
     // Creates a hand area for player
     void initHands(std::shared_ptr<const Interface::Player> Player);
 
-    void turnInfo(int turn, std::shared_ptr<Interface::Player> currentplayer);
+    void turnInfo(std::shared_ptr<Interface::Player> &currentplayer);
 
     void resourceInfo(ResourceMap &rmap, ResourceMap &dmap);
 
@@ -61,15 +65,22 @@ public:
 
     std::map<std::shared_ptr<const Interface::Player>, PlayerHand*> playerHands();
 
+    void prepareForAction(std::shared_ptr<Interface::ActionInterface> action, mapItem* declaringMapItem);
+    void resetAction();
+
+    std::vector<LocationItem *> GetLocItems();
+
+
+    ResourceMap getResMap();
+
 signals:
     void actionDeclared(std::shared_ptr<Interface::ActionInterface> action);
 public slots:
+    void onActionDeclared(std::shared_ptr<Interface::ActionInterface> action, mapItem* declaringMapItem, bool resetting);
     // When the player has been changed, makes every item that does not belong to the player undraggable.
     // This is signaled by game-class
     // Also moves other player hands on the side as face-down versions with shrunken size
     void onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer);
-
-    void onActionDeclared(std::shared_ptr<Interface::ActionInterface> action);
 
 private slots:
     void onMapItemMouseDragged(mapItem* mapitem);
@@ -77,27 +88,34 @@ private slots:
     void onLocationItemClicked(LocationItem * locItem);
 
 private:
-    // These are deprecated for now and waiting for safe removal
-    mapItem* targetedMapItem_;
-
-    PlayerHand* oneHand_ = nullptr;
     std::map<std::shared_ptr<const Interface::Player>, PlayerHand*> playerHands_;
-
-    std::shared_ptr<Interface::Player> playerInTurn_ = nullptr;
-
     std::weak_ptr<Interface::Game> game_;
+
+    // When a manual player declares an action, the game waits for them to choose an action card to discard.
+    std::shared_ptr<Interface::ActionInterface> declaredAction_;
+
+    mapItem* declaringMapItem_;
 
     // changes state of cards in handCards_ to show and arranges them nicely as a hand centered in handAnchorCoords_
     // also connects drag drop signals with those carditems
     void showHandCards();
 
+    // Shuffles locationItems_, and also makes each location item know its new neighbour
+    void shuffleLocationItems();
+    // Places locations in a spherical rotation around center of the scene
+    void rearrangeLocationItems();
+
+    std::vector<LocationItem*> locationItems_;
+
+    SceneArrow* arrow1_;
+    SceneArrow* arrow2_;
+
     ResourceMap resMap_;
     ResourceMap demandsMap_;
 
-    // Sees if aItem can move to newLocation
-    bool canMoveAgent(LocationItem* newLocation, agentItem* aItem);
-    // Moves agent to a new location
-    void moveAgent(LocationItem* newLocItem, agentItem* aItem);
+    std::shared_ptr<Interface::Player> playerInTurn_ = nullptr;
+
+    PopupDialog* clickDialog = nullptr;
 
 };
 

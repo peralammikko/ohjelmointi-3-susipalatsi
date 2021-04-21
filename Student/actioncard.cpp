@@ -1,14 +1,11 @@
 #include "actioncard.hh"
 
-using std::shared_ptr;
-
 namespace Interface {
 
-ActionCard::ActionCard(QString name, QString title) :
-    name_(name), title_(title)
+ActionCard::ActionCard() :
+    name_("name"), title_("title"), description_("Olen kortti. Minut pelatessasi tapahtuu jotain (description)")
 {
-    cardItem_ = nullptr;
-    description_ = "Olen kortti. Minut pelatessasi tapahtuu jotain (description)";
+
 }
 
 ActionCard::~ActionCard(){}

@@ -1,16 +1,17 @@
 #ifndef ACTIONCARD_HH
 #define ACTIONCARD_HH
-#include "../Course/cardinterface.h"
-#include "carditem.hh"
+#include "cardinterface.h"
 
-#include <memory>
+
+
+
 
 namespace Interface {
 
-class ActionCard : public CardInterface
+class ActionCard : public Interface::CardInterface
 {
 public:
-    explicit ActionCard(QString name="NONAME", QString title ="");
+    explicit ActionCard();
     ~ActionCard();
 
     QString typeName() const override;
@@ -20,22 +21,13 @@ public:
     std::weak_ptr<Player> owner() const override;
     void setOwner(std::weak_ptr<Player> owner) override;
 
-    // This is probably useless
-    std::shared_ptr<CardItem> getCardItem();
-
 private:
     QString name_;
     QString title_;
-
     QString description_;
-
-    std::shared_ptr<CardItem> cardItem_;
-
     std::weak_ptr<Player> owner_;
     std::weak_ptr<Location> location_;
-
-
 };
 
+} // Interface
 #endif // ACTIONCARD_HH
-}; // Interface

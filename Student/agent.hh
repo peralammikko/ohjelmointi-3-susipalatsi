@@ -10,6 +10,7 @@
 #include "../Course/agentinterface.h"
 #include "commonresource.hh"
 #include "locationitem.hh"
+#include "../Course/councilor.h"
 
 class LocationItem;
 
@@ -25,6 +26,8 @@ public:
     void initAgentResources(AgentResourceMap agentResMap);
     AgentResourceMap getAgentResources();
     void addResource(std::shared_ptr<Location> agentAt, CommonResource res, int amount);
+    void removeResource(std::shared_ptr<Location> &agentAt, int amount);
+    bool addCouncilCard(std::shared_ptr<Councilor> card);
 
     std::shared_ptr<Interface::Location> whereIsAgent();
 
@@ -52,6 +55,7 @@ private:
     QString title_;
 
     AgentResourceMap gatheredResources_;
+    std::vector<std::shared_ptr<Councilor>> councilCardHolder;
 
 };
 

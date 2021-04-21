@@ -46,5 +46,10 @@ void CommonResource::setOwner(std::weak_ptr<Player> owner)
 
 }
 
+void CommonResource::setAmountTo(int num)
+{
+    amount_ = num;
+}
+
 } // Interface
 
