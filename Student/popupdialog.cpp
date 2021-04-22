@@ -11,17 +11,24 @@ PopupDialog::PopupDialog(LocationItem* &loc, std::shared_ptr<Interface::Player> 
     ui->setupUi(this);
     ui->tradeButton->setDisabled(true);
     ui->canGetCardLabel->hide();
-
-    // Setting up labels
     location_ = loc->getObject();
     locationBV_ = loc->getBasevalue();
     localRes_ = loc->getLocalResource();
     neededRes_ = loc->getDemandedResource();
-    ui->locationNameLabel->setText(location_->name());
+    std::shared_ptr<Interface::Location> demandLoc = neededRes_.location().lock();
+
+    // Setting up labels
+
+    // Resource information
     ui->areaResourceLabel->setText(localRes_.name());
+    ui->deckSizeLabel->setText(QString::number(0));
     ui->BVlabel->setText(QString::number(locationBV_));
+
+    // Councillor & location information
     ui->councillorDemandsLabel->setText(neededRes_.name() + " x " + QString::number(neededRes_.amount()));
     ui->councillorNameLabel->setText(location_->councilor()->name());
+    ui->demandLocLabel->setText("(" + demandLoc->name() + ")");
+
 
     // Calculating friendly and rival agents in location and sum of resource rewards
     std::vector<int> sumAndAgents = locItem->calculateRewards(player);

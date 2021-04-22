@@ -77,6 +77,9 @@ void Logic::rewardResources()
                                 }
                             }
                         }
+                        // Agents not rewarded for being there?
+                        // Influence reward incoming here
+
                     } else {
                         qDebug() << "Agent not found";
                     }
