@@ -49,6 +49,7 @@ GameWindow::GameWindow(QWidget *parent) :
 
     connect(game_.get(), &Interface::Game::playerChanged, this, &GameWindow::onPlayerChanged);
     connect(courseRunner.get(), &Interface::Runner::actionPerformed, this, &GameWindow::onActionPerformed);
+    connect(this, &GameWindow::actionDeclared, logic_.get(), &Logic::onActionDeclared);
     connect(logic_.get(), &Logic::enteredEventPhase, this, &GameWindow::onEnteringEventPhase);
     connect(gameTime_.get(), SIGNAL(timeout()), gameScene_, SLOT(advance()));
     GameSetup setup = GameSetup(gameScene_, game_, courseRunner,  logic_);
@@ -100,8 +101,15 @@ void GameWindow::displayPlayerStats() {
 
 void GameWindow::on_passButton_clicked()
 {
+    if (!game_->active()){
+        return;
+    }
     // TODO: move to logic where player hand is emptied of all action cards
     qDebug() << "Pass button was clicked. TODO: inform logic";
+    auto hand = gameScene_->playerHands().at(game_->currentPlayer());
+
+    emit actionDeclared(std::make_shared<PassAction>(hand));
+
     auto player = game_->currentPlayer();
     //logic_->rewardResources();
     //changeTurn();

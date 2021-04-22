@@ -1,7 +1,7 @@
 #include "passaction.hh"
 
 
-PassAction::PassAction(std::shared_ptr<Interface::Player> player) : player_(player)
+PassAction::PassAction(PlayerHand *hand) : hand_(hand)
 {
 
 }
@@ -13,12 +13,13 @@ bool PassAction::canPerform() const
 
 void PassAction::perform()
 {
-
+    hand_->removeActionCards();
+    hand_->rearrange();
 }
 
 mapItem *PassAction::getTargetMapItem()
 {
-    return nullptr;
+    return hand_;
 }
 
 QString PassAction::pastTenseDescription()

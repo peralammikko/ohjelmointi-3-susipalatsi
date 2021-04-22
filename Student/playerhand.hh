@@ -28,6 +28,8 @@ public:
 
     std::shared_ptr<const Interface::Player> getOwner();
 
+    void removeActionCards();
+
     void rearrange() override;
 
 private:

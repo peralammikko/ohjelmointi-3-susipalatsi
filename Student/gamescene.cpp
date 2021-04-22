@@ -25,8 +25,6 @@ GameScene::GameScene(QWidget *parent, std::weak_ptr<Interface::Game> game) : QGr
     arrow2_ = new SceneArrow(nullptr, nullptr);
     addItem(arrow2_);
 
-    solarsystemCenter_ = QPointF(this->width()/2, this->height()*2/5);
-
 }
 
 void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)

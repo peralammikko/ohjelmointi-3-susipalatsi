@@ -14,6 +14,7 @@
 #include "councilor.h"
 #include "controlinterface.h"
 #include "agentactioninterface.hh"
+#include "passaction.hh"
 
 // Logic testing
 #include "logic.hh"
@@ -65,9 +66,9 @@ private slots:
 
     // Adds history notation that event phase happened
     void onEnteringEventPhase();
-
+signals:
+    void actionDeclared(std::shared_ptr<Interface::ActionInterface> action);
 private:
-
     Ui::GameWindow *gameui_;
     GameScene *gameScene_;
     std::shared_ptr<Interface::Game> game_ = nullptr;

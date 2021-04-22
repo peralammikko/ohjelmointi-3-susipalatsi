@@ -41,6 +41,27 @@ std::shared_ptr<const Interface::Player> PlayerHand::getOwner()
     return player_;
 }
 
+void PlayerHand::removeActionCards()
+{
+    QList<QGraphicsItem *> const items = childItems();
+    int count = items.size();
+    if (count) {
+        std::vector<mapItem*> cItems;
+        // Separate cards from agents and get their total width
+        for (int i = 0; i < count; ++i) {
+        auto mItem = dynamic_cast<CardItem*>(items.at(i));
+            if (mItem){
+                cItems.push_back(mItem);
+                auto cInterface = mItem->getCard();
+                cInterface->owner().lock()->playCard(cInterface);
+            }
+        }
+        for (unsigned int i = 0; i < cItems.size(); ++i){
+            delete cItems.at(i);
+        }
+    }
+}
+
 void PlayerHand::rearrange()
 {
     update();
