@@ -139,8 +139,8 @@
   <widget class="QLabel" name="locationNameLabel">
    <property name="geometry">
     <rect>
-     <x>280</x>
-     <y>30</y>
+     <x>270</x>
+     <y>20</y>
      <width>121</width>
      <height>21</height>
     </rect>
@@ -154,12 +154,15 @@
    <property name="text">
     <string>LocationName</string>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
   </widget>
   <widget class="Line" name="line">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>60</y>
+     <y>40</y>
      <width>621</width>
      <height>20</height>
     </rect>
@@ -172,8 +175,8 @@
    <property name="geometry">
     <rect>
      <x>290</x>
-     <y>90</y>
-     <width>71</width>
+     <y>60</y>
+     <width>91</width>
      <height>20</height>
     </rect>
    </property>
@@ -185,12 +188,15 @@
    <property name="text">
     <string>Demands:</string>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
   </widget>
   <widget class="QLabel" name="councillorText">
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>90</y>
+     <y>60</y>
      <width>141</width>
      <height>20</height>
     </rect>
@@ -203,11 +209,14 @@
    <property name="text">
     <string>Local councillor:</string>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
   </widget>
   <widget class="QLabel" name="areaRewardsText">
    <property name="geometry">
     <rect>
-     <x>60</x>
+     <x>30</x>
      <y>220</y>
      <width>131</width>
      <height>20</height>
@@ -220,6 +229,9 @@
    </property>
    <property name="text">
     <string>Area resources:</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="QListWidget" name="agentListWidget">
@@ -381,7 +393,7 @@
    <property name="geometry">
     <rect>
      <x>510</x>
-     <y>90</y>
+     <y>60</y>
      <width>63</width>
      <height>20</height>
     </rect>
@@ -394,11 +406,14 @@
    <property name="text">
     <string>Reward:</string>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
   </widget>
   <widget class="QLabel" name="agentsInAreaText">
    <property name="geometry">
     <rect>
-     <x>390</x>
+     <x>420</x>
      <y>220</y>
      <width>151</width>
      <height>20</height>
@@ -411,6 +426,9 @@
    </property>
    <property name="text">
     <string>Agents in area:</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="Line" name="line_2">
@@ -429,9 +447,9 @@
   <widget class="QLabel" name="councillorCardText">
    <property name="geometry">
     <rect>
-     <x>480</x>
-     <y>130</y>
-     <width>121</width>
+     <x>460</x>
+     <y>110</y>
+     <width>161</width>
      <height>20</height>
     </rect>
    </property>
@@ -526,15 +544,25 @@
      </disabled>
     </palette>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
    <property name="text">
     <string>Councillor card</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="QLabel" name="canGetCardLabel">
    <property name="geometry">
     <rect>
-     <x>490</x>
-     <y>150</y>
+     <x>480</x>
+     <y>140</y>
      <width>121</width>
      <height>20</height>
     </rect>
@@ -638,31 +666,83 @@
    <property name="text">
     <string>canGet?</string>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
   </widget>
   <widget class="QLabel" name="councillorNameLabel">
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>130</y>
+     <y>180</y>
      <width>131</width>
      <height>20</height>
     </rect>
    </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>196</red>
+         <green>160</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>196</red>
+         <green>160</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="WindowText">
+       <brush brushstyle="SolidPattern">
+        <color alpha="255">
+         <red>238</red>
+         <green>238</green>
+         <blue>236</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
    <property name="text">
     <string>councillorName</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="QLabel" name="councillorDemandsLabel">
    <property name="geometry">
     <rect>
-     <x>240</x>
-     <y>130</y>
-     <width>231</width>
+     <x>250</x>
+     <y>110</y>
+     <width>181</width>
      <height>20</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
    <property name="text">
     <string>councilDemands</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="QPushButton" name="returnButton">
@@ -681,7 +761,7 @@
   <widget class="QLabel" name="areaResourceLabel">
    <property name="geometry">
     <rect>
-     <x>80</x>
+     <x>30</x>
      <y>250</y>
      <width>141</width>
      <height>20</height>
@@ -690,13 +770,16 @@
    <property name="text">
     <string>areaResource</string>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
   </widget>
   <widget class="QFrame" name="frame">
    <property name="geometry">
     <rect>
      <x>30</x>
      <y>380</y>
-     <width>481</width>
+     <width>501</width>
      <height>91</height>
     </rect>
    </property>
@@ -780,13 +863,16 @@
      </rect>
     </property>
     <property name="text">
-     <string>Sum:</string>
+     <string>Rewards:</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QLabel" name="equals">
     <property name="geometry">
      <rect>
-      <x>400</x>
+      <x>390</x>
       <y>50</y>
       <width>16</width>
       <height>20</height>
@@ -795,11 +881,14 @@
     <property name="text">
      <string>=</string>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
    </widget>
    <widget class="QLabel" name="ownAgentsLabel">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>150</x>
       <y>50</y>
       <width>63</width>
       <height>20</height>
@@ -807,6 +896,9 @@
     </property>
     <property name="text">
      <string>own</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QLabel" name="minus">
@@ -858,6 +950,9 @@
     <property name="text">
      <string>-</string>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
    </widget>
    <widget class="QLabel" name="BVtext">
     <property name="geometry">
@@ -871,11 +966,14 @@
     <property name="text">
      <string>Base value:</string>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
    </widget>
    <widget class="QLabel" name="BVlabel">
     <property name="geometry">
      <rect>
-      <x>40</x>
+      <x>20</x>
       <y>50</y>
       <width>63</width>
       <height>20</height>
@@ -884,11 +982,14 @@
     <property name="text">
      <string>BV</string>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
    </widget>
    <widget class="QLabel" name="enemyAgentsLabel">
     <property name="geometry">
      <rect>
-      <x>320</x>
+      <x>300</x>
       <y>50</y>
       <width>63</width>
       <height>20</height>
@@ -897,11 +998,14 @@
     <property name="text">
      <string>ene</string>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
    </widget>
    <widget class="QLabel" name="sumLabel">
     <property name="geometry">
      <rect>
-      <x>440</x>
+      <x>430</x>
       <y>50</y>
       <width>63</width>
       <height>20</height>
@@ -909,6 +1013,9 @@
     </property>
     <property name="text">
      <string>sum</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QLabel" name="ownAgentsText">
@@ -922,6 +1029,9 @@
     </property>
     <property name="text">
      <string>Own agents:</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QLabel" name="plus">
@@ -973,11 +1083,14 @@
     <property name="text">
      <string>+</string>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
    </widget>
    <widget class="QLabel" name="enemyAgentsText">
     <property name="geometry">
      <rect>
-      <x>280</x>
+      <x>270</x>
       <y>20</y>
       <width>121</width>
       <height>20</height>
@@ -985,6 +1098,9 @@
     </property>
     <property name="text">
      <string>Enemy agents:</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
   </widget>
@@ -1144,6 +1260,56 @@
    </property>
    <property name="text">
     <string>Trade</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="demandLocLabel">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>140</y>
+     <width>161</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>demancLocLabel</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="deckText">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>310</y>
+     <width>151</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Cards in area deck:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="deckSizeLabel">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>340</y>
+     <width>101</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>deckSize</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
  </widget>

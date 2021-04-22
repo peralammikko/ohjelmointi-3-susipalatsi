@@ -142,19 +142,6 @@ void LocationItem::generateNewDemand()
     }
 }
 
-void LocationItem::addInfluence(std::shared_ptr<Interface::Player> &player)
-{
-    playerInfluence_.at(player) += 1;
-}
-/*
-bool LocationItem::giveCouncilCard(std::shared_ptr<Interface::Agent> &agent)
-{
-    QString councName = "Mr. " + locationObject_->name();
-    std::shared_ptr<Interface::Councilor> counc = std::make_shared<Interface::Councilor>(councName, "Mestari", locationObject_);
-    agent->addCouncilCard(counc);
-}
-*/
-
 void LocationItem::rearrange()
 {
     QPointF const center = QPointF(boundingRect().width()/2, boundingRect().height()/2);
