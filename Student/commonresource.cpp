@@ -1,10 +1,10 @@
 #include "commonresource.hh"
-
+#include <QDebug>
 using std::shared_ptr;
 
 namespace Interface {
 
-CommonResource::CommonResource(QString name, std::weak_ptr<Location> loc, int amount) : amount_(amount) {
+CommonResource::CommonResource(QString name, std::weak_ptr<Location> loc, QString spritePath, int amount) : amount_(amount), spritePath_(spritePath) {
     name_ = name;
     location_ = loc;
 }

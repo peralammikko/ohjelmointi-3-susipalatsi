@@ -11,7 +11,7 @@ namespace Interface {
 class CommonResource : public Interface::CardInterface
 {
 public:
-    explicit CommonResource(QString name, std::weak_ptr<Location> loc, int amount = 0);
+    explicit CommonResource(QString name, std::weak_ptr<Location> loc, QString spritePath,int amount = 0);
     ~CommonResource();
     int amount();
 
@@ -22,12 +22,16 @@ public:
     std::weak_ptr<Player> owner() const override;
     void setOwner(std::weak_ptr<Player> owner) override;
     void setAmountTo(int num);
+    const QString getSpritePath(){return spritePath_;}
+
 
 private:
     QString name_;
     QString typeName_;
     std::weak_ptr<Location> location_;
     int amount_;
+    QString spritePath_;
+
 };
 
 }
@@ -35,6 +39,6 @@ private:
 using ResourceMap = std::map<std::shared_ptr<Interface::Location>, Interface::CommonResource>;
 using AgentResourceMap = std::map<std::shared_ptr<Interface::Location>, std::deque<Interface::CommonResource>>;
 
-const Interface::CommonResource NULLRES("", std::weak_ptr<Interface::Location>());
+const Interface::CommonResource NULLRES("", std::weak_ptr<Interface::Location>(), "");
 
 #endif // COMMONRESOURCE_HH
