@@ -22,6 +22,8 @@ public:
     virtual void perform() override;
 
     virtual mapItem* getTargetMapItem() override;
+
+    virtual QString pastTenseDescription() override;
 private:
     PlayerHand* hand_;
     agentItem* aItem_;

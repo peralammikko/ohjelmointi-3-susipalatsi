@@ -19,9 +19,11 @@ public:
     virtual void perform() override;
 
     virtual mapItem* getTargetMapItem() override;
+
+     virtual QString pastTenseDescription() override;
 private:
     LocationItem* newLocItem_;
-    LocationItem* oldLocItem_;
+    std::shared_ptr<Interface::Location> oldLocInterface_;
     agentItem* aItem_;
 
 };

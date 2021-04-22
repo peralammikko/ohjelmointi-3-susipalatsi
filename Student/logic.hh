@@ -51,6 +51,8 @@ public slots:
 
     // sent by runner, connected in setup
     void onActionPerformed(std::shared_ptr<const Interface::Player> player, std::shared_ptr<Interface::ActionInterface> action);
+signals:
+    void enteredEventPhase();
 
 private:
     void setNextAction();

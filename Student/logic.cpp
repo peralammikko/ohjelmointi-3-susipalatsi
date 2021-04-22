@@ -117,6 +117,7 @@ void Logic::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlaye
         // If we are just looking for a player who has action cards but could not find one, proceed to even phase
         if (actingPlayer_ != nullptr and actingPlayer_ == actingPlayer){
             qDebug() << "We have gone a full circle of players with no action cards. Proceeding to event phase";
+            emit(enteredEventPhase());
             rewardResources();
             gameScene_->nextRound();
             actingPlayer_ = nullptr;

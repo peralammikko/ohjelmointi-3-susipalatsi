@@ -5,7 +5,7 @@
 
 SendAgentAction::SendAgentAction(LocationItem* newLocItem, agentItem* aItem) : newLocItem_(newLocItem), aItem_(aItem)
 {
-
+    oldLocInterface_ = aItem_->getAgentClass()->placement().lock();
 }
 
 SendAgentAction::~SendAgentAction(){}
@@ -48,4 +48,14 @@ void SendAgentAction::perform()
 mapItem *SendAgentAction::getTargetMapItem()
 {
     return newLocItem_;
+}
+
+QString SendAgentAction::pastTenseDescription()
+{
+    QString description = "sent " + aItem_->getAgentClass()->name();
+    if (oldLocInterface_){
+        description += " from " + oldLocInterface_->name();
+    }
+    description += " to " + newLocItem_->getObject()->name();
+    return description;
 }

@@ -79,13 +79,6 @@ void LocationItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
     QGraphicsItem::hoverLeaveEvent(event);
 }
 
-
-
-const QString LocationItem::typeOf()
-{
-    return "locationitem";
-}
-
 std::vector<int> LocationItem::calculateRewards(std::shared_ptr<Interface::Player> &player)
 {
     // WORK IN PROGRESS

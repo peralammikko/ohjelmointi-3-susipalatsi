@@ -14,6 +14,8 @@ public:
     virtual void perform() override;
 
     virtual mapItem * getTargetMapItem() override {return nullptr;}
+
+    virtual QString pastTenseDescription() override;
 private:
     agentItem *aItem_;
 };

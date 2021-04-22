@@ -35,7 +35,7 @@ public:
 
     int getBasevalue();
 
-    const QString typeOf() override;
+    const QString typeOf() override{return "locationitem";}
 
     // Accepts agent as its child
     // Could change this to bool and return false if this agent is not welcome here
@@ -58,15 +58,11 @@ public:
 
     void addInfluence(std::shared_ptr<Interface::Player> &player);
 
-    // bool giveCouncilCard(std::shared_ptr<Interface::Agent> &agent);
-
     void rearrange() override;
 
     void setNeighbours(std::pair<LocationItem*, LocationItem*> neighbours){neighbours_=neighbours;}
     std::pair<LocationItem*, LocationItem*> neighbours(){return neighbours_;}
 
-protected:
-   // void advance(int phase) override;
 
 signals:
     void locationItemPressed(LocationItem*);

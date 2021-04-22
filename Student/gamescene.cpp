@@ -322,7 +322,7 @@ void GameScene::rearrangeLocationItems()
     const int xCenter = this->width()/2;
     const int yCenter = this->height()*2/5;
 
-    const int radius = 350;
+    const int radius = 320;
     int locationCount = locationItems_.size();
     const int degree = 360 / locationCount;
 

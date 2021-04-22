@@ -13,6 +13,7 @@
 #include "playerhand.hh"
 #include "councilor.h"
 #include "controlinterface.h"
+#include "agentactioninterface.hh"
 
 // Logic testing
 #include "logic.hh"
@@ -57,7 +58,13 @@ public:
 
 private slots:
     void on_passButton_clicked();
+    // Displays the most recent action on the history tab
+    void onActionPerformed(std::shared_ptr<const Interface::Player> player, std::shared_ptr<Interface::ActionInterface> action);
+
     void onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer);
+
+    // Adds history notation that event phase happened
+    void onEnteringEventPhase();
 
 private:
 

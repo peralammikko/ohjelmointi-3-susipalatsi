@@ -27,6 +27,7 @@ GameWindow::GameWindow(QWidget *parent) :
     game_->setActive(true);
 
     gameScene_ = new GameScene(gameui_->graphicsView, game_);
+
     gameui_->graphicsView->setScene(gameScene_);
     gameui_->graphicsView->setMouseTracking(true);
 
@@ -35,19 +36,21 @@ GameWindow::GameWindow(QWidget *parent) :
     // Tell the game to start listening to the timer
     // TODO: move this after settings are selected or something
     gameTime_ =  std::make_unique<QTimer>(this);
-    connect(gameTime_.get(), SIGNAL(timeout()), gameScene_, SLOT(advance()));
+
     gameTime_->start(50);
 
     // Asetetaan graphicViewin ja ikkunan koot staattiseks ensalkuun
     gameui_->graphicsView->setFixedSize(1400, 800);
     gameScene_->setSceneRect(0,0,1400,800);
-    this->setFixedSize(1450, 950);
+   // this->setFixedSize(1450, 950);
     this->setWindowTitle("SUSIPALATSI: TEH GAME");
-
 
     logic_ = std::make_shared<Logic>(courseRunner, game_, gameScene_);
     GameSetup setup = GameSetup(gameScene_, game_, courseRunner,  logic_);
     connect(game_.get(), &Interface::Game::playerChanged, this, &GameWindow::onPlayerChanged);
+    connect(courseRunner.get(), &Interface::Runner::actionPerformed, this, &GameWindow::onActionPerformed);
+    connect(logic_.get(), &Logic::enteredEventPhase, this, &GameWindow::onEnteringEventPhase);
+    connect(gameTime_.get(), SIGNAL(timeout()), gameScene_, SLOT(advance()));
 
     displayPlayerStats();
 }
@@ -94,17 +97,30 @@ void GameWindow::displayPlayerStats() {
     listAgents(currentPlayer);
 }
 
-
-
 void GameWindow::on_passButton_clicked()
 {
     // TODO: move to logic where player hand is emptied of all action cards
     qDebug() << "Pass button was clicked. TODO: inform logic";
-    logic_->rewardResources();
+    auto player = game_->currentPlayer();
+    //logic_->rewardResources();
     //changeTurn();
+}
+
+void GameWindow::onActionPerformed(std::shared_ptr<const Interface::Player> player, std::shared_ptr<Interface::ActionInterface> action)
+{
+    QString history = "";
+    auto agentaction = std::dynamic_pointer_cast<AgentActionInterface>(action);
+
+    history += QString::number(gameui_->actionHistoryWidget->count()+1) + " " + player->name() + " " +agentaction->pastTenseDescription();
+    gameui_->actionHistoryWidget->addItem(history);
 }
 
 void GameWindow::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer)
 {
     displayPlayerStats();
+}
+
+void GameWindow::onEnteringEventPhase()
+{
+    gameui_->actionHistoryWidget->addItem(QString::number(gameui_->actionHistoryWidget->count()+1) + "==EVENT PHASE==");
 }

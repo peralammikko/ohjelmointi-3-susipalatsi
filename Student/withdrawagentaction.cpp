@@ -33,3 +33,8 @@ mapItem *WithdrawAgentAction::getTargetMapItem()
 {
     return hand_;
 }
+
+QString WithdrawAgentAction::pastTenseDescription()
+{
+    return "withdrew " + aItem_->getAgentClass()->name();
+}

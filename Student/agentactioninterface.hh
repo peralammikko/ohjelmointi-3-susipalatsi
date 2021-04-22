@@ -9,6 +9,7 @@ class AgentActionInterface : public Interface::ActionInterface
 public:
     AgentActionInterface();
     virtual mapItem* getTargetMapItem(){return nullptr;}
+    virtual QString pastTenseDescription()=0;
 };
 
 #endif // AGENTACTIONINTERFACE_HH

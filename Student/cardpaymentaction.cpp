@@ -14,3 +14,8 @@ void CardPaymentAction::perform()
 {
     return;
 }
+
+QString CardPaymentAction::pastTenseDescription()
+{
+    return "";
+}
