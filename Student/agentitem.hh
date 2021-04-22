@@ -25,7 +25,7 @@ public:
     const QString typeOf() override;
     void rearrange() override{};
 
-    //void setWaitingForAction(bool state) override;
+    void displayResourceChange(int amount, QString name); // TODO: maybe add sprite too?
 
 
 protected:
@@ -42,6 +42,7 @@ signals:
 
 private slots:
     void spawnDialogue();
+    void clearResGainDisplay();
 
 private:
     // The object from which this card takes its data (name, owner etc)
@@ -55,8 +56,11 @@ private:
     AgentDialog* dialog_ = nullptr;
 
     // Timer used to spawn agent info dialog
-    QTimer* timer_;
+    // TODO: apparently this does nothing
+     QTimer* timer_;
     int dialogDelay_ = 1000;
+
+    QString displayRes_ = "";
 
 };
 

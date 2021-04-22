@@ -1,5 +1,6 @@
 #include "logic.hh"
 #include <algorithm>
+#include "ioexception.h"
 
 Logic::Logic(std::shared_ptr<Interface::Runner> runner, std::shared_ptr<Interface::Game> game, GameScene* gameScene)
     : runner_(runner), game_(game), gameScene_(gameScene)
@@ -32,8 +33,8 @@ void Logic::launchGame()
 void Logic::rewardResources()
 {
     std::vector<LocationItem*> items = gameScene_->GetLocItems();
-
-    // qDebug() << "Reward Resources  in gamewindow - TODO: maybe move to logic";
+    int resourceTotalAmount;
+    agentItem* aItem;
     int rewardAmount = 1;
     for (auto player : game_->players()) {
 
@@ -48,20 +49,24 @@ void Logic::rewardResources()
             // If card is an agent card
             if (agentPtr) {
                 std::shared_ptr<Interface::Location> agentAt = agentPtr->placement().lock();
-
                 if (agentAt) {
                     // If agent is in any location (nullptr means no location a.k.a. "home"
                     if (agentAt != nullptr) {
-
+                        resourceTotalAmount = 0;
                         // Find the correct location item for calculating rewards
                         for (auto loc : items)
                         {
                             if (loc->getObject()->id() == agentAt->id()) {
                                 auto rewards = loc->calculateRewards(player);
                                 rewardAmount = rewards.at(0);
+                                aItem = loc->getAgentItemFor(agentPtr);
+                                if (aItem == nullptr){
+                                    throw Interface::IoException(QString("Agent "+agentPtr->name() +" could not have its agent item located during a parliamentary day"));
+                                }
+                            } else {
+                               // throw Interface::IoException(QString("PD: Could not find location for "+agentPtr->name()));
                             }
                         }
-
                         for (int i = 0; i < rewardAmount; ++i)
                         {
                             if (agentAt->deck()->canDraw()){
@@ -71,6 +76,7 @@ void Logic::rewardResources()
                                 {
                                     Interface::CommonResource res = resMap_.at(agentAt);
                                     agentPtr->addResource(agentAt, res, resu->amount());
+                                    resourceTotalAmount += resu->amount();
                                     agentAt->discards()->addCard(drawnCard);
                                 } else {
                                     auto action = std::dynamic_pointer_cast<Interface::ActionCard>(drawnCard);
@@ -78,12 +84,15 @@ void Logic::rewardResources()
                                         auto owner = agentPtr->owner().lock();
                                         owner->addCard(action);
                                         gameScene_->addActionCardForPlayer(owner, action);
+                                    } else {
+                                        throw Interface::IoException(QString("Agent "+agentPtr->name() +" drew an unsupported type card "+ drawnCard->typeName() +" in " + agentAt->name()));
                                     }
                                 }
                             }
                         }
+                        aItem->displayResourceChange(resourceTotalAmount, "");
                     } else {
-                        qDebug() << "Agent not found";
+                        //throw Interface::IoException(QString("Agent "+agentPtr->name() +" could not be found during a parliamentary day"));
                     }
                 } else {
                     qDebug() << agentPtr->name() << " not in any location";

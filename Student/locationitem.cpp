@@ -199,6 +199,19 @@ void LocationItem::rearrange()
 
 }
 
+agentItem *LocationItem::getAgentItemFor(std::shared_ptr<Interface::AgentInterface> agent)
+{
+    auto childItems = this->childItems();
+    for (int i = 0; i < childItems.size(); ++i){
+        agentItem* aItem = dynamic_cast<agentItem*>(childItems.at(i));
+        if (aItem){
+            if (aItem->getAgentClass() == agent){
+                return aItem;
+            }
+        }
+    }
+}
+
 
 void LocationItem::setLocalResource(Interface::CommonResource &res)
 {

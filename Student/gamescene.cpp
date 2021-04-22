@@ -113,7 +113,7 @@ void GameScene::prepareForAction(std::shared_ptr<Interface::ActionInterface> act
 
 void GameScene::resetAction()
 {
-    if (declaringMapItem_ != nullptr){
+    if (declaringMapItem_ != nullptr and declaringMapItem_->parentItem() != nullptr){
         auto parentMapItem = dynamic_cast<mapItem*>(declaringMapItem_->parentItem());
         if (parentMapItem){
             parentMapItem->rearrange();
