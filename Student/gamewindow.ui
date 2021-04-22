@@ -1543,6 +1543,9 @@
           </item>
           <item>
            <widget class="QFrame" name="frame_3">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
             <property name="frameShape">
              <enum>QFrame::StyledPanel</enum>
             </property>
@@ -1567,44 +1570,9 @@
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="area1infLabel">
-               <property name="text">
-                <string>Area1:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="area2infLabel">
-               <property name="text">
-                <string>Area2:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="area3infLabel">
-               <property name="text">
-                <string>Area3:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="area4infLabel">
-               <property name="text">
-                <string>Area4:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="area5infLabel">
-               <property name="text">
-                <string>Area5:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="area6infLabel">
-               <property name="text">
-                <string>Area6:</string>
+              <widget class="QListWidget" name="influenceList">
+               <property name="wordWrap">
+                <bool>false</bool>
                </property>
               </widget>
              </item>

@@ -1,5 +1,6 @@
 #include "popupdialog.hh"
 #include "ui_popupdialog.h"
+#include "deck.h"
 
 PopupDialog::PopupDialog(LocationItem* &loc, std::shared_ptr<Interface::Player> &player, QWidget *parent) :
     QDialog(parent),
@@ -21,7 +22,7 @@ PopupDialog::PopupDialog(LocationItem* &loc, std::shared_ptr<Interface::Player> 
 
     // Resource information
     ui->areaResourceLabel->setText(localRes_.name());
-    ui->deckSizeLabel->setText(QString::number(0));
+    ui->deckSizeLabel->setText(QString::number(location_->deck()->size()));
     ui->BVlabel->setText(QString::number(locationBV_));
 
     // Councillor & location information
@@ -45,7 +46,7 @@ PopupDialog::PopupDialog(LocationItem* &loc, std::shared_ptr<Interface::Player> 
     // Do these if there are any agents in area
     if (listOfAgents.size() > 0) {
         fillAreaAgentsList(listOfAgents);
-        checkCouncilCard(listOfAgents);
+        checkAgentResources(listOfAgents);
     }
 }
 
@@ -54,7 +55,7 @@ PopupDialog::~PopupDialog()
     delete ui;
 }
 
-void PopupDialog::checkCouncilCard(std::set<std::shared_ptr<Interface::AgentInterface>> &agentsHere)
+void PopupDialog::checkAgentResources(std::set<std::shared_ptr<Interface::AgentInterface>> &agentsHere)
 {
     // Getting the location's required resource
     int reqAmount = neededRes_.amount();
@@ -73,6 +74,8 @@ void PopupDialog::checkCouncilCard(std::set<std::shared_ptr<Interface::AgentInte
             } else {
                 agentHas = agentResources.at(demandLoc).size();
             }
+
+            // Agent has enough resources for the trade
             if (agentHas >= reqAmount) {
                 qDebug() << "enough stuff";
                 ui->canGetCardLabel->setText("Trade available");
@@ -110,24 +113,29 @@ void PopupDialog::fillAreaAgentsList(std::set<std::shared_ptr<Interface::AgentIn
 void PopupDialog::on_tradeButton_clicked()
 {
     // Work still in progress, probably gonna move to locationitem
-
     auto demandLoc = neededRes_.location().lock();
     int demandAmount = neededRes_.amount();
-    if (demandLoc) {
-        // QString councName = "Mr. " + location_->name();
-        // std::shared_ptr<Interface::Councilor> counc = std::make_shared<Interface::Councilor>(councName, "Mestari", location_);
-
-        if (potentialAgent_->addCouncilCard(location_->councilor())) {
-            potentialAgent_->removeResource(demandLoc, demandAmount);
-            ui->councillorDemandsLabel->clear();
-            ui->canGetCardLabel->setText("Fame gained");
-            locItem->generateNewDemand();
-            ui->tradeButton->setDisabled(true);
-        } else {
-            ui->canGetCardLabel->setText("Card holder full!");
-        }
-
+    if (location_->influence(player_) < 5) {
+        ui->canGetCardLabel->setText("Not enough influence \n"
+                                     "on councillor yet");
+        return;
+    } else if (potentialAgent_->getCouncilCard() == location_->councilor()) {
+        ui->canGetCardLabel->setText("You are already endorsed by councilor");
     } else {
-        qDebug() << "Card not found";
+        if (demandLoc) {
+            if (potentialAgent_->addCouncilCard(location_->councilor())) {
+                potentialAgent_->removeResource(demandLoc, demandAmount);
+                ui->councillorDemandsLabel->clear();
+                ui->canGetCardLabel->setText("The councillor endorses you");
+                locItem->generateNewDemand();
+                ui->tradeButton->setDisabled(true);
+            } else {
+                ui->canGetCardLabel->setText("Agent is already carrying \n"
+                                             "another councillor card");
+            }
+
+        } else {
+            qDebug() << "Card not found";
+        }
     }
 }

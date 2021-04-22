@@ -36,6 +36,9 @@ void Logic::rewardResources()
     // qDebug() << "Reward Resources  in gamewindow - TODO: maybe move to logic";
     int rewardAmount = 1;
     for (auto player : game_->players()) {
+        
+        // Container for each unique location player has agents in (used to reward influence points)
+        std::set<std::shared_ptr<Interface::Location>> locationsBeen = {};
 
         for (auto card : player->cards()) {
             std::shared_ptr<Interface::Agent> agentPtr = std::dynamic_pointer_cast<Interface::Agent>(card);
@@ -47,6 +50,8 @@ void Logic::rewardResources()
                 if (agentAt) {
                     // If agent is in any location (nullptr means no location a.k.a. "home"
                     if (agentAt != nullptr) {
+                        locationsBeen.insert(agentAt);
+                        Interface::CommonResource res = resMap_.at(agentAt);
 
                         // Find the correct location item for calculating rewards
                         for (auto loc : items)
@@ -64,7 +69,6 @@ void Logic::rewardResources()
                                 auto resu = std::dynamic_pointer_cast<Interface::CommonResource>(drawnCard);
                                 if (resu)
                                 {
-                                    Interface::CommonResource res = resMap_.at(agentAt);
                                     agentPtr->addResource(agentAt, res, resu->amount());
                                     agentAt->discards()->addCard(drawnCard);
                                 } else {
@@ -77,8 +81,14 @@ void Logic::rewardResources()
                                 }
                             }
                         }
-                        // Agents not rewarded for being there?
-                        // Influence reward incoming here
+                        // Agents earning resources passively by staying at location. Keep or not?
+
+                        // agentPtr->addResource(agentAt, res, rewardAmount);
+
+
+                        ///////////// CHEAT CODE ///////////////
+                        //  agentPtr->addResource(agentAt, res, 100);
+                        ////////////////////////////////////////
 
                     } else {
                         qDebug() << "Agent not found";
@@ -86,6 +96,17 @@ void Logic::rewardResources()
                 } else {
                     qDebug() << agentPtr->name() << " not in any location";
                 }
+            }
+        }
+        for (auto loc : game_->locations()) {
+
+            /////// CHEAT CODE ///////////
+            // loc->setInfluence(player, 50);
+            /////////////////////////////
+
+            if (locationsBeen.find(loc) != locationsBeen.end()) {
+                int inf = loc->influence(player);
+                loc->setInfluence(player, inf+1);
             }
         }
     }

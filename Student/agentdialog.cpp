@@ -42,3 +42,10 @@ void AgentDialog::listResources()
         }
     }
 }
+
+void AgentDialog::displayCouncilCard()
+{
+    if (agent_->hasCouncilCard()) {
+        ui->cardBox->setText(agent_->getCouncilCard()->name());
+    }
+}

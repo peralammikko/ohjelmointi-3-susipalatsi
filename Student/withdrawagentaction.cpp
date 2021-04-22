@@ -27,6 +27,12 @@ void WithdrawAgentAction::perform()
     hand_->addMapItem(aItem_);
 
     aItem_->getAgentClass()->owner().lock()->addCard(agent);
+
+    if (agent->hasCouncilCard()) {
+        agent->owner().lock()->addCard(agent->getCouncilCard());
+        qDebug() << "Council card added";
+        agent->addCouncilCard(nullptr);
+    }
 }
 
 mapItem *WithdrawAgentAction::getTargetMapItem()

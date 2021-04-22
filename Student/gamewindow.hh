@@ -55,6 +55,7 @@ public:
     void rewardResources();
 
     void listAgents(std::shared_ptr<Interface::Player> &currentPlayer);
+    void listInfluence(std::shared_ptr<Interface::Player> &currentPlayer);
 
 
 private slots:
