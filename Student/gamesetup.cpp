@@ -1,6 +1,6 @@
 #include "gamesetup.hh"
 #include "gamescene.hh"
-
+#include <QDirIterator>
 
 GameSetup::GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game, std::shared_ptr<GameRunner> courseRunner, std::shared_ptr<Logic> logic)
     : gameScene_(gameScene), game_(game), courseRunner_(courseRunner), logic_(logic)
@@ -49,6 +49,7 @@ void GameSetup::initLocations()
         std::shared_ptr<Interface::Councilor> areaCouncillor = std::make_shared<Interface::Councilor>(councillors.at(i), "Councillor", location);
         location->initialize();
 
+        unsigned int j = Interface::Random::RANDOM.uint(i);
 
         for  (int j = 0; j < 10; j++) {
             location->deck()->addCard(std::make_shared<Interface::CommonResource>(
@@ -109,8 +110,45 @@ void GameSetup::initDemandMaps()
 void GameSetup::initLocItems()
 {
     std::vector<std::shared_ptr<Interface::Location>> locvec = game_->locations();
+    std::vector<std::pair<std::shared_ptr<Interface::Location>, std::vector<std::pair<QString, QString>>>> locationInformation;
+    std::unique_ptr<QDirIterator> it;
+
+    std::vector<std::pair<QString, QString>> types;
+    types = {{"governorLbl",":/img/governors/img/governors/"},
+            {"planet",":/img/planets/img/some sprites"},
+            {"resourceLbl",":/img/res/img/resources/"}};
+
+    std::map<QString, std::vector<QString>> typedata;
+    std::vector<std::pair<QString, QString>>::iterator type = types.begin();
+    while (type != types.end()){
+        std::vector<QString> paths = {};
+        it.reset(new QDirIterator(type->second, QDirIterator::Subdirectories));
+        while (it->hasNext()) {
+            paths.push_back(it->next());
+        }
+        Q_ASSERT(paths.size() >= locvec.size());
+        typedata[type->first] = paths;
+        ++type;
+    }
+
+    int num = 0;
+    for (unsigned int i = 0; i < locvec.size(); ++i){
+        auto loc = locvec.at(i);
+        std::vector<std::pair<QString, QString>> pathData;
+        for (unsigned int j = 0; j < types.size(); ++j){
+            QString key = types.at(j).first;
+            std::vector<QString> spritePaths = typedata.at(key);
+            num = Interface::Random::RANDOM.uint(spritePaths.size()-1);
+            QString spritePath = spritePaths.at(num);
+            pathData.push_back({key, spritePath});
+            spritePaths.erase(spritePaths.begin() + num);
+        }
+        locationInformation.push_back({loc, pathData});
+    }
+
     gameScene_->resourceInfo(initResourceMap_, councillorDemandsMap_);
-    gameScene_->drawLocations(locvec);
+
+    gameScene_->drawLocations(locationInformation);
 }
 
 void GameSetup::initLogic()

@@ -3,14 +3,23 @@
 #include "locationitem.hh"
 #include "gamescene.hh"
 
-LocationItem::LocationItem(const std::shared_ptr<Interface::Location> location) : locationObject_(location), basevalue_(1), isSelected(false), isHovered_(false)
+LocationItem::LocationItem(const std::shared_ptr<Interface::Location> location, std::vector<std::pair<QString, QString> > spritePaths) : locationObject_(location), basevalue_(1), isSelected(false), isHovered_(false)
 {
-    setAcceptHoverEvents(true);
-
-    governorImage_ = new QPixmap(":/img/governors/img/governors/2.png");
     planetImage_ = new QPixmap(":/img/planets/img/some sprites/planet iridium.png");
-    resourceImage_ = new QPixmap(":/img/res/img/resources/1.png");
-
+    governorImage_ = new QPixmap(":/img/governors/img/governors/2.png");
+    setAcceptHoverEvents(true);
+    for (int i = 0; i < spritePaths.size(); ++i){
+        QString spritePath = spritePaths.at(i).second;
+        if (spritePaths.at(i).first == "planet"){
+            planetImage_ = new QPixmap(spritePath);
+        }
+        if (spritePaths.at(i).first == "governorLbl") {
+            governorImage_ = new QPixmap(spritePath);
+        }
+        if (spritePaths.at(i).first == "resourceLbl") {
+            resourceImage_ = new QPixmap(spritePath);
+        }
+    }
 }
 
 LocationItem::~LocationItem()

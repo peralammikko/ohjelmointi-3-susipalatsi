@@ -17,7 +17,7 @@ class LocationItem : public mapItem
 {
     Q_OBJECT
 public:
-    LocationItem(const std::shared_ptr<Interface::Location> location);
+    LocationItem(const std::shared_ptr<Interface::Location> location, std::vector<std::pair<QString, QString>> spritePaths);
     ~LocationItem();
     // Luodaan itemille muoto (neliö)
     QRectF boundingRect() const override;
