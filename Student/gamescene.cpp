@@ -34,14 +34,14 @@ void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
     QGraphicsScene::mousePressEvent(event);
 }
 
-void GameScene::drawLocations(std::vector<std::shared_ptr<Interface::Location>> &locvec)
+void GameScene::drawLocations(std::vector<std::pair<std::shared_ptr<Interface::Location>, std::vector<std::pair<QString, QString>>>> locationInformation)
 {
     std::shared_ptr<Interface::Location> currentLocation = nullptr;
-    int locationCount = locvec.size();
+    int locationCount = locationInformation.size();
 
     for (int i = 0; i < locationCount; i++) {
-        currentLocation = locvec.at(i);
-        LocationItem* locItem = new LocationItem(currentLocation);
+        currentLocation = locationInformation.at(i).first;
+        LocationItem* locItem = new LocationItem(currentLocation, locationInformation.at(i).second);
         connect(locItem, &LocationItem::locationItemPressed, this, &GameScene::onLocationItemClicked);
         Interface::CommonResource localRes = resMap_.at(currentLocation);
         locItem->setLocalResource(localRes);

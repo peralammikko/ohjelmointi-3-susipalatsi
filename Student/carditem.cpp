@@ -14,14 +14,16 @@ CardItem::CardItem(std::shared_ptr<Interface::CardInterface> card, QObject *pare
     // This will be useful when we want card to be snapped back after dragging
     homeCoords_ = QPointF(x(), y());
 
-    // setting up center sprite
-    centerimage_ = new QPixmap();
-    if (not  centerimage_->load(":default.jpg")) {
+    QString path = ":/img/governors/img/governors/1.png";
+    centerimage_ = new QPixmap(path);
+    /*
+
+    if (not  centerimage_->load(path)) {
        qDebug() << "Image failed to load";
     } else {
-        centerimage_ = new QPixmap(":default.jpg");
+        centerimage_ = new QPixmap(path);
     }
-
+*/
     // Required for mousehovering magics
     setAcceptHoverEvents(true);
 

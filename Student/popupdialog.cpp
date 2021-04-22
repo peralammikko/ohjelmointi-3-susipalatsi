@@ -34,6 +34,17 @@ PopupDialog::PopupDialog(LocationItem* &loc, std::shared_ptr<Interface::Player> 
                                     + location_->councilor()->name());
 
 
+    ui->governorPortrait->setPixmap(*loc->governorPixmap());
+
+    // Load resource pixmap
+    qDebug() << localRes_.name() << localRes_.getSpritePath();
+    QPixmap* localResSprite = new QPixmap(loc->getLocalResource().getSpritePath());
+    QPixmap* demandResSprite = new QPixmap(loc->getDemandedResource().getSpritePath());
+
+
+    auto ss = (loc->getLocalResource().getSpritePath());
+
+    ui->resourceImageLabel->setPixmap(QPixmap(loc->getDemandedResource().getSpritePath()));
     // Calculating friendly and rival agents in location and sum of resource rewards
     std::vector<int> sumAndAgents = locItem->calculateRewards(player);
     int rewardSum = sumAndAgents.at(0);
