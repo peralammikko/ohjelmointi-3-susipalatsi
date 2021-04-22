@@ -131,5 +131,5 @@ void GameWindow::onPlayerChanged(std::shared_ptr<const Interface::Player> acting
 
 void GameWindow::onEnteringEventPhase()
 {
-    gameui_->actionHistoryWidget->addItem(QString::number(gameui_->actionHistoryWidget->count()+1) + "==EVENT PHASE==");
+    gameui_->actionHistoryWidget->addItem(QString::number(gameui_->actionHistoryWidget->count()+1) + "==PARLIAMENTARY DAY==");
 }

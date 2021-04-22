@@ -37,6 +37,11 @@ void Logic::rewardResources()
     int rewardAmount = 1;
     for (auto player : game_->players()) {
 
+        // Always give players one action card so they don't get stuck!
+        std::shared_ptr<Interface::ActionCard> card = std::make_shared<Interface::ActionCard>();
+        player->addCard(card);
+        gameScene_->addActionCardForPlayer(player, card);
+
         for (auto card : player->cards()) {
             std::shared_ptr<Interface::Agent> agentPtr = std::dynamic_pointer_cast<Interface::Agent>(card);
 

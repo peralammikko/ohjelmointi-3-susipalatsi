@@ -133,6 +133,9 @@ private:
 
     QPointF solarsystemCenter_;
 
+    QPointF const activePlayerHandAnchor_ = QPointF(150,650);
+    QPointF const waitingPlayerHandAnchor_ = QPointF(0,0);
+
     std::shared_ptr<Interface::Player> playerInTurn_ = nullptr;
 
     PopupDialog* clickDialog = nullptr;

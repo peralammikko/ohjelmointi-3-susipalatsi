@@ -25,6 +25,7 @@ public:
     const QString typeOf() override;
     void rearrange() override{};
 
+    //void setWaitingForAction(bool state) override;
 
 
 protected:
@@ -49,7 +50,6 @@ private:
     // This should probably be moved to agent.hh
     int agentConnections_;
 
-    bool waitingForActionCard_ = false;
 
     // Empty dialog window to be called on mouse hover on/off
     AgentDialog* dialog_ = nullptr;

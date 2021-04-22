@@ -50,6 +50,11 @@ void agentItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     }
     painter->setPen(pen);
     painter->drawEllipse(rect);
+    if (waitingForActionCard_){
+        painter->drawText(QPointF(0, rect.height()/2-7), "Drag an action");
+        painter->drawText(QPointF(0, rect.height()/2+7), "card on me!");
+    }
+
 
 }
 
