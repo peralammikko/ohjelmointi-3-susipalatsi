@@ -46,11 +46,12 @@ GameWindow::GameWindow(QWidget *parent) :
     this->setWindowTitle("SUSIPALATSI: TEH GAME");
 
     logic_ = std::make_shared<Logic>(courseRunner, game_, gameScene_);
-    GameSetup setup = GameSetup(gameScene_, game_, courseRunner,  logic_);
+
     connect(game_.get(), &Interface::Game::playerChanged, this, &GameWindow::onPlayerChanged);
     connect(courseRunner.get(), &Interface::Runner::actionPerformed, this, &GameWindow::onActionPerformed);
     connect(logic_.get(), &Logic::enteredEventPhase, this, &GameWindow::onEnteringEventPhase);
     connect(gameTime_.get(), SIGNAL(timeout()), gameScene_, SLOT(advance()));
+    GameSetup setup = GameSetup(gameScene_, game_, courseRunner,  logic_);
 
     displayPlayerStats();
 }

@@ -98,7 +98,6 @@ public slots:
 
 private slots:
     void onMapItemMouseDragged(mapItem* mapitem);
-    void onMapItemMouseDropped(mapItem* mapitem);
     void onLocationItemClicked(LocationItem * locItem);
 
 private:

@@ -42,7 +42,7 @@ public :
     void infoResourceMaps(ResourceMap &rmap, ResourceMap &dmap);
 
 public slots:
-    void actionSelected(std::shared_ptr<Interface::ActionInterface> action);
+    void onActionDeclared(std::shared_ptr<Interface::ActionInterface> action);
     // tell the game scene to switch player
     void onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer);
 

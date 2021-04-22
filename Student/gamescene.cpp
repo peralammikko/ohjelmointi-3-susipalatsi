@@ -66,7 +66,6 @@ void GameScene::hideAgents(std::vector<agentItem *> &agents)
         current->hide();
         // TODO: better toggling
         disconnect(current, &mapItem::mapItemMouseDragged, this, &GameScene::onMapItemMouseDragged);
-        disconnect(current, &mapItem::mapItemMouseReleased, this, &GameScene::onMapItemMouseDropped);
         //current->setPos(300+current->boundingRect().width()*i,300);
     }
 }
@@ -265,11 +264,6 @@ void GameScene::onMapItemMouseDragged(mapItem* mapitem)
              }
         }
     }
-}
-
-void GameScene::onMapItemMouseDropped(mapItem* mapitem)
-{
-    // This used to have most of the actioninterface stuff but it might not be needed anymore
 }
 
 void GameScene::onLocationItemClicked(LocationItem* locItem)

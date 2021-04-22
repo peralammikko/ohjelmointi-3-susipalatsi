@@ -22,6 +22,7 @@ SOURCES += \
     logic.cpp \
     main.cc \
     mapitem.cpp \
+    passaction.cpp \
     playerhand.cpp \
     popupdialog.cpp \
     scenearrow.cpp \
@@ -68,6 +69,7 @@ HEADERS += \
     locationitem.hh \
     logic.hh \
     mapitem.hh \
+    passaction.hh \
     playerhand.hh \
     popupdialog.hh \
     scenearrow.hh \

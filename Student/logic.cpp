@@ -4,7 +4,7 @@
 Logic::Logic(std::shared_ptr<Interface::Runner> runner, std::shared_ptr<Interface::Game> game, GameScene* gameScene)
     : runner_(runner), game_(game), gameScene_(gameScene)
 {
-    connect(gameScene_.get(), &GameScene::actionDeclared, this, &Logic::actionSelected);
+    connect(gameScene_.get(), &GameScene::actionDeclared, this, &Logic::onActionDeclared);
 }
 
 Logic::~Logic()
@@ -94,7 +94,7 @@ void Logic::infoResourceMaps(ResourceMap &rmap, ResourceMap &dmap)
     demandsMap_ = dmap;
 }
 
-void Logic::actionSelected(std::shared_ptr<Interface::ActionInterface> action)
+void Logic::onActionDeclared(std::shared_ptr<Interface::ActionInterface> action)
 {
     action_ = action;
     std::shared_ptr<Interface::ManualControl> manualCtrl = std::dynamic_pointer_cast<Interface::ManualControl>(ctrl_);
@@ -102,7 +102,6 @@ void Logic::actionSelected(std::shared_ptr<Interface::ActionInterface> action)
     {
         manualCtrl->setNextAction(action_);
         doTheRunning();
-
     } else {
         qDebug() << "Manual Control was not found";
         // AI?
@@ -124,27 +123,23 @@ void Logic::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlaye
             game_->nextPlayer();
 
         } else {
-                std::vector<std::weak_ptr<const Interface::CardInterface>> actionCards;
-                auto currentPlayerCards = game_->currentPlayer()->cards();
-                qDebug() << game_->currentPlayer()->name() << "changed to " << actingPlayer->name();
-
-                // Copies every card in player's cards vector to a new actioncards vector
-                std::copy_if (currentPlayerCards.begin(), currentPlayerCards.end(), std::back_inserter(actionCards),
-                              [](std::shared_ptr<const Interface::CardInterface> card){return card->typeName()=="actioncard";} );
-                if (actionCards.size())
-                {
-                    qDebug() << "Changing player HAS action cards";
-                    gameScene_->onPlayerChanged(actingPlayer);
-                    actingPlayer_ = nullptr;
-                } else {
-                    // If changing player has no action cards, start searching for a player who does.
-                    // If one is not found (actingPlayer_ == actingPlayer) proceed to event phase
-                    qDebug() << "Chaning player DOES NOT HAVE action cards";
-                    if (not actingPlayer_){
-                        actingPlayer_ = actingPlayer;
-                    }
-                    game_->nextPlayer();
+            // check if new player has action cards
+            std::vector<std::weak_ptr<const Interface::CardInterface>> actionCards;
+            auto currentPlayerCards = game_->currentPlayer()->cards();
+            qDebug() << game_->currentPlayer()->name() << "changed to " << actingPlayer->name();
+            std::copy_if (currentPlayerCards.begin(), currentPlayerCards.end(), std::back_inserter(actionCards),
+                          [](std::shared_ptr<const Interface::CardInterface> card){return card->typeName()=="actioncard";} );
+            if (actionCards.size())
+            {
+                gameScene_->onPlayerChanged(actingPlayer);
+                actingPlayer_ = nullptr;
+            } else {
+                qDebug() << "Chaning player DOES NOT HAVE action cards";
+                if (not actingPlayer_){
+                    actingPlayer_ = actingPlayer;
                 }
+                game_->nextPlayer();
+            }
         }
     }
     
@@ -167,5 +162,4 @@ void Logic::deckChanged(std::shared_ptr<const Interface::Location> location) con
 void Logic::onActionPerformed(std::shared_ptr<const Interface::Player> player, std::shared_ptr<Interface::ActionInterface> action)
 {
     game_->nextPlayer();
-    std::shared_ptr<Interface::Player> current = game_->currentPlayer();
 }
