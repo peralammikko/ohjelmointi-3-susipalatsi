@@ -90,6 +90,7 @@ public:
 
     ResourceMap getResMap();
 
+
 signals:
     void actionDeclared(std::shared_ptr<Interface::ActionInterface> action);
 public slots:
@@ -118,6 +119,10 @@ private:
     // Places locations in a spherical rotation around center of the scene
     void rearrangeLocationItems();
 
+    // Refreshes location items so that each location has a neighbour
+    void resetLocationNeighbours();
+
+
     std::vector<LocationItem*> locationItems_;
 
     SceneArrow* arrow1_;
@@ -125,6 +130,8 @@ private:
 
     ResourceMap resMap_;
     ResourceMap demandsMap_;
+
+    QPointF solarsystemCenter_;
 
     std::shared_ptr<Interface::Player> playerInTurn_ = nullptr;
 

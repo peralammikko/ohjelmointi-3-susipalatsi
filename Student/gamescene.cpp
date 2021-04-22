@@ -24,6 +24,9 @@ GameScene::GameScene(QWidget *parent, std::weak_ptr<Interface::Game> game) : QGr
     addItem(arrow1_);
     arrow2_ = new SceneArrow(nullptr, nullptr);
     addItem(arrow2_);
+
+    solarsystemCenter_ = QPointF(this->width()/2, this->height()*2/5);
+
 }
 
 void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
@@ -52,6 +55,7 @@ void GameScene::drawLocations(std::vector<std::shared_ptr<Interface::Location>> 
     }
     shuffleLocationItems();
     rearrangeLocationItems();
+    resetLocationNeighbours();
 }
 
 void GameScene::drawItem(mapItem *item)
@@ -104,7 +108,7 @@ void GameScene::prepareForAction(std::shared_ptr<Interface::ActionInterface> act
         arrow2_->setEndItem(agAc.get()->getTargetMapItem());
         arrow2_->updatePosition();
     }
-    declaringMapItem->setHome(declaringMapItem->parentItem()->mapFromScene(QPointF(600,350)));
+    declaringMapItem->setHome(declaringMapItem->parentItem()->mapFromScene(solarsystemCenter_));
     declaringMapItem->goHome();
     declaringMapItem->setWaitingForAction(true);
 }
@@ -212,6 +216,7 @@ void GameScene::nextRound()
 {
     shuffleLocationItems();
     rearrangeLocationItems();
+    resetLocationNeighbours();
 }
 
 void GameScene::initHands(std::shared_ptr<const Interface::Player> player)
@@ -289,8 +294,37 @@ void GameScene::shuffleLocationItems()
             std::swap(locationItems_.at(i), locationItems_.at(j));
         }
     }
+}
+
+void GameScene::rearrangeLocationItems()
+{
+
+    solarsystemCenter_ = QPointF(this->width()/2, this->height()*2/5);
+    const int radius = 320;
+    int locationCount = locationItems_.size();
+    const int degree = 360 / locationCount;
+
+    for (int i = 0; i < locationCount; i++) {
+        auto currentLocItem = locationItems_.at(i);
+
+        // Geometrinen sijainti kehällä
+        float angleDeg = degree * i;
+        float angleRad = angleDeg * M_PI / 180;
+
+        float x = solarsystemCenter_.x() + radius * std::cos(angleRad);
+        // Squash the y a little bit
+        float y = solarsystemCenter_.y()  - 0.7* radius * std::sin(angleRad);
+        currentLocItem->setHome(QPointF(x,y));
+        currentLocItem->goHome();
+    }
+}
+
+void GameScene::resetLocationNeighbours()
+{
+    std::pair<LocationItem*, LocationItem*> neighbours;
+    unsigned int locCount = locationItems_.size();
     if (locCount > 2) {
-        for (unsigned int i = 1; i < locCount; ++i)
+        for (unsigned int i = 0; i < locCount; ++i)
         {
             int j = i+1;
             int k = i-1;
@@ -307,31 +341,6 @@ void GameScene::shuffleLocationItems()
         locationItems_.at(0)->setNeighbours(neighbours);
         neighbours = {locationItems_.at(0), locationItems_.at(0)};
         locationItems_.at(locCount-1)->setNeighbours(neighbours);
-    }
-}
-
-void GameScene::rearrangeLocationItems()
-{
-    // Piirretään rakennukset "ympyrän" kehälle
-    const int xCenter = this->width()/2;
-    const int yCenter = this->height()*2/5;
-
-    const int radius = 320;
-    int locationCount = locationItems_.size();
-    const int degree = 360 / locationCount;
-
-    for (int i = 0; i < locationCount; i++) {
-        auto currentLocItem = locationItems_.at(i);
-
-        // Geometrinen sijainti kehällä
-        float angleDeg = degree * i;
-        float angleRad = angleDeg * M_PI / 180;
-
-        float x = xCenter + radius * std::cos(angleRad);
-        // Squash the y a little bit
-        float y = yCenter  - 0.7* radius * std::sin(angleRad);
-        currentLocItem->setHome(QPointF(x,y));
-        currentLocItem->goHome();
     }
 }
 
