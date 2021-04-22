@@ -46,6 +46,9 @@ public slots:
     // tell the game scene to switch player
     void onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer);
 
+    // If the deck has ran out, this method would reshuffle the discards back in the deck. But it will not.
+    void deckChanged(std::shared_ptr<const Interface::Location> location) const;
+
     // sent by runner, connected in setup
     void onActionPerformed(std::shared_ptr<const Interface::Player> player, std::shared_ptr<Interface::ActionInterface> action);
 

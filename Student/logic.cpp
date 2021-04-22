@@ -49,27 +49,31 @@ void Logic::rewardResources()
                     if (agentAt != nullptr) {
 
                         // Find the correct location item for calculating rewards
-                        for (auto loc : items) {
+                        for (auto loc : items)
+                        {
                             if (loc->getObject()->id() == agentAt->id()) {
                                 auto rewards = loc->calculateRewards(player);
                                 rewardAmount = rewards.at(0);
                             }
                         }
 
-                        for (int i = 0; i < rewardAmount; ++i){
-                            auto drawnCard = agentAt->deck()->draw();
-                            auto resu = std::dynamic_pointer_cast<Interface::CommonResource>(drawnCard);
-                            if (resu)
-                            {
-                                Interface::CommonResource res = resMap_.at(agentAt);
-                                agentPtr->addResource(agentAt, res, resu->amount());
-                                agentAt->discards()->addCard(drawnCard);
-                            } else {
-                                auto action = std::dynamic_pointer_cast<Interface::ActionCard>(drawnCard);
-                                if (action) {
-                                    auto owner = agentPtr->owner().lock();
-                                    owner->addCard(action);
-                                    gameScene_->addActionCardForPlayer(owner, action);
+                        for (int i = 0; i < rewardAmount; ++i)
+                        {
+                            if (agentAt->deck()->canDraw()){
+                                auto drawnCard = agentAt->deck()->draw();
+                                auto resu = std::dynamic_pointer_cast<Interface::CommonResource>(drawnCard);
+                                if (resu)
+                                {
+                                    Interface::CommonResource res = resMap_.at(agentAt);
+                                    agentPtr->addResource(agentAt, res, resu->amount());
+                                    agentAt->discards()->addCard(drawnCard);
+                                } else {
+                                    auto action = std::dynamic_pointer_cast<Interface::ActionCard>(drawnCard);
+                                    if (action) {
+                                        auto owner = agentPtr->owner().lock();
+                                        owner->addCard(action);
+                                        gameScene_->addActionCardForPlayer(owner, action);
+                                    }
                                 }
                             }
                         }
@@ -143,6 +147,20 @@ void Logic::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlaye
         }
     }
     
+}
+
+void Logic::deckChanged(std::shared_ptr<const Interface::Location> location) const
+{
+    if (!location->deck()->canDraw()){
+        if(!location->discards()->canDraw()){
+            // Here I would shuffle the discards back to the main deck, but the signal gives me a const which I can't change unless I am to break a contract, and location doesn't have a reshuffle method anyway.
+            // So I guess I wont Reshuffle the deck and it will eventually dry out. Too bad! I won't even connect this slot
+            //while(location->discards()->size()){
+            //    auto card = location->discards()->cardAt(0);
+
+           // }
+        }
+    }
 }
 
 void Logic::onActionPerformed(std::shared_ptr<const Interface::Player> player, std::shared_ptr<Interface::ActionInterface> action)
