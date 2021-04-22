@@ -237,10 +237,10 @@
   <widget class="QListWidget" name="agentListWidget">
    <property name="geometry">
     <rect>
-     <x>390</x>
+     <x>420</x>
      <y>240</y>
-     <width>211</width>
-     <height>111</height>
+     <width>181</width>
+     <height>91</height>
     </rect>
    </property>
    <property name="palette">
@@ -413,7 +413,7 @@
   <widget class="QLabel" name="agentsInAreaText">
    <property name="geometry">
     <rect>
-     <x>420</x>
+     <x>430</x>
      <y>220</y>
      <width>151</width>
      <height>20</height>
@@ -448,9 +448,9 @@
    <property name="geometry">
     <rect>
      <x>460</x>
-     <y>110</y>
+     <y>80</y>
      <width>161</width>
-     <height>20</height>
+     <height>61</height>
     </rect>
    </property>
    <property name="palette">
@@ -561,10 +561,10 @@
   <widget class="QLabel" name="canGetCardLabel">
    <property name="geometry">
     <rect>
-     <x>480</x>
+     <x>450</x>
      <y>140</y>
-     <width>121</width>
-     <height>20</height>
+     <width>181</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="palette">
@@ -727,9 +727,9 @@
    <property name="geometry">
     <rect>
      <x>250</x>
-     <y>110</y>
+     <y>79</y>
      <width>181</width>
-     <height>20</height>
+     <height>61</height>
     </rect>
    </property>
    <property name="font">
@@ -1268,7 +1268,7 @@
      <x>260</x>
      <y>140</y>
      <width>161</width>
-     <height>20</height>
+     <height>41</height>
     </rect>
    </property>
    <property name="font">
@@ -1307,6 +1307,38 @@
    </property>
    <property name="text">
     <string>deckSize</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="influenceText">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>220</y>
+     <width>121</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Influence:</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="influenceNum">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>250</y>
+     <width>63</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>inf</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>

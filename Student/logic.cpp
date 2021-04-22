@@ -1,6 +1,7 @@
 #include "logic.hh"
 #include <algorithm>
 #include "ioexception.h"
+#include "councilor.h"
 
 Logic::Logic(std::shared_ptr<Interface::Runner> runner, std::shared_ptr<Interface::Game> game, GameScene* gameScene)
     : runner_(runner), game_(game), gameScene_(gameScene)
@@ -121,7 +122,9 @@ void Logic::rewardResources()
 
             if (locationsBeen.find(loc) != locationsBeen.end()) {
                 int inf = loc->influence(player);
-                loc->setInfluence(player, inf+1);
+                if (inf < 5) {
+                    loc->setInfluence(player, inf+1);
+                }
             }
         }
     }
@@ -131,6 +134,29 @@ void Logic::infoResourceMaps(ResourceMap &rmap, ResourceMap &dmap)
 {
     resMap_ = rmap;
     demandsMap_ = dmap;
+}
+
+void Logic::checkWin()
+{
+    // Checking which player(s) holds at least 3 councilor cards
+    std::set<std::shared_ptr<Interface::Player>> winners = {};
+    for (auto player : game_->players()) {
+        int cardCount = 0;
+        for (auto card : player->cards()) {
+            std::shared_ptr<Interface::Councilor> councilCard = std::dynamic_pointer_cast<Interface::Councilor>(card);
+            if (councilCard) {
+                cardCount++;
+            }
+        }
+        if (cardCount >= 3) {
+            winners.insert(player);
+        }
+
+        // Multiple winners allowed?
+        for (auto player : winners) {
+            qDebug() << "Long live " << player->name();
+        }
+    }
 }
 
 void Logic::onActionDeclared(std::shared_ptr<Interface::ActionInterface> action)

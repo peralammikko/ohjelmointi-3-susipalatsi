@@ -24,11 +24,14 @@ PopupDialog::PopupDialog(LocationItem* &loc, std::shared_ptr<Interface::Player> 
     ui->areaResourceLabel->setText(localRes_.name());
     ui->deckSizeLabel->setText(QString::number(location_->deck()->size()));
     ui->BVlabel->setText(QString::number(locationBV_));
+    ui->influenceNum->setText(QString::number(location_->influence(player_)));
 
     // Councillor & location information
     ui->councillorDemandsLabel->setText(neededRes_.name() + " x " + QString::number(neededRes_.amount()));
     ui->councillorNameLabel->setText(location_->councilor()->name());
     ui->demandLocLabel->setText("(" + demandLoc->name() + ")");
+    ui->councillorCardText->setText("Councillor card: \n"
+                                    + location_->councilor()->name());
 
 
     // Calculating friendly and rival agents in location and sum of resource rewards

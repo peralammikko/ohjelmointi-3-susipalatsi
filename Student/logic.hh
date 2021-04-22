@@ -40,6 +40,7 @@ public :
     void createLocations();
     void rewardResources();
     void infoResourceMaps(ResourceMap &rmap, ResourceMap &dmap);
+    void checkWin();
 
 public slots:
     void onActionDeclared(std::shared_ptr<Interface::ActionInterface> action);
