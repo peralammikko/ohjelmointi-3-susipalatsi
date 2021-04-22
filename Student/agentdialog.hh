@@ -20,6 +20,7 @@ public:
     explicit AgentDialog(std::shared_ptr<Interface::Agent> agentClicked, QWidget *parent = nullptr);
     ~AgentDialog();
     void listResources();
+    void displayCouncilCard();
 
 private:
     Ui::AgentDialog *ui;
