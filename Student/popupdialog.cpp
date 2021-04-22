@@ -23,6 +23,8 @@ PopupDialog::PopupDialog(LocationItem* &loc, std::shared_ptr<Interface::Player> 
     ui->councillorDemandsLabel->setText(neededRes_.name() + " x " + QString::number(neededRes_.amount()));
     ui->councillorNameLabel->setText(location_->councilor()->name());
 
+    ui->governorPortrait->setPixmap(*loc->governorPixmap());
+    ui->resourceImageLabel->setPixmap(*loc->resourcePixmap());
     // Calculating friendly and rival agents in location and sum of resource rewards
     std::vector<int> sumAndAgents = locItem->calculateRewards(player);
     int rewardSum = sumAndAgents.at(0);

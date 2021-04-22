@@ -82,7 +82,7 @@ FORMS += \
     popupdialog.ui
 
 RESOURCES += \
-    default.jpg
+    studentresources.qrc
 
 DISTFILES += \
     defaultsettings.dat \

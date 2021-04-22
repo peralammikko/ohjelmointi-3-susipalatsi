@@ -51,6 +51,7 @@ private:
     // This should probably be moved to agent.hh
     int agentConnections_;
 
+    QPixmap *centerimage_;
 
     // Empty dialog window to be called on mouse hover on/off
     AgentDialog* dialog_ = nullptr;

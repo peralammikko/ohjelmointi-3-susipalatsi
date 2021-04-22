@@ -65,6 +65,9 @@ public:
 
     agentItem *getAgentItemFor(std::shared_ptr<Interface::AgentInterface> agent);
 
+    QPixmap* governorPixmap(){return governorImage_;}
+    QPixmap* resourcePixmap(){return resourceImage_;}
+
 
 signals:
     void locationItemPressed(LocationItem*);
@@ -83,6 +86,11 @@ private:
     std::map<std::shared_ptr<Interface::Player>, int> playerInfluence_;
 
     std::pair<LocationItem*, LocationItem*> neighbours_;
+
+    QPixmap* governorImage_;
+    QPixmap* planetImage_;
+    QPixmap* resourceImage_;
+
 
 
 };

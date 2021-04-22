@@ -6,6 +6,11 @@
 LocationItem::LocationItem(const std::shared_ptr<Interface::Location> location) : locationObject_(location), basevalue_(1), isSelected(false), isHovered_(false)
 {
     setAcceptHoverEvents(true);
+
+    governorImage_ = new QPixmap(":/img/governors/img/governors/2.png");
+    planetImage_ = new QPixmap(":/img/planets/img/some sprites/planet iridium.png");
+    resourceImage_ = new QPixmap(":/img/res/img/resources/1.png");
+
 }
 
 LocationItem::~LocationItem()
@@ -20,11 +25,9 @@ QRectF LocationItem::boundingRect() const
 
 void LocationItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    // Piirretään paikat ja niiden nimet.
-    // Maalataan punaiseksi jos "valittu"
+    painter->drawPixmap(0, 0, boundingRect().width(), boundingRect().height(),  *planetImage_);
 
     QRectF rect = boundingRect();
-    painter->fillRect(rect, Qt::gray);
 
     QPoint upperpos(boundingRect().x()+5, 10);
     QPoint lowerpos(0, boundingRect().height()-10);
