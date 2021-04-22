@@ -132,16 +132,20 @@ void GameSetup::initLocItems()
     }
 
     int num = 0;
+    QString spritePath = "";
+    QString key = "";
     for (unsigned int i = 0; i < locvec.size(); ++i){
         auto loc = locvec.at(i);
         std::vector<std::pair<QString, QString>> pathData;
         for (unsigned int j = 0; j < types.size(); ++j){
-            QString key = types.at(j).first;
-            std::vector<QString> spritePaths = typedata.at(key);
-            num = Interface::Random::RANDOM.uint(spritePaths.size()-1);
-            QString spritePath = spritePaths.at(num);
+            key = types.at(j).first;
+            std::vector<QString>* spritePaths = &typedata.at(key);
+            num = Interface::Random::RANDOM.uint(spritePaths->size()-1);
+            spritePath = spritePaths->at(num);
             pathData.push_back({key, spritePath});
-            spritePaths.erase(spritePaths.begin() + num);
+            spritePaths->erase(spritePaths->begin() + num);
+            spritePath = "";
+            key = "";
         }
         locationInformation.push_back({loc, pathData});
     }
