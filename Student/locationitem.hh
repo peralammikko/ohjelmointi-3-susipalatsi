@@ -61,6 +61,8 @@ public:
     void setNeighbours(std::pair<LocationItem*, LocationItem*> neighbours){neighbours_=neighbours;}
     std::pair<LocationItem*, LocationItem*> neighbours(){return neighbours_;}
 
+    agentItem *getAgentItemFor(std::shared_ptr<Interface::AgentInterface> agent);
+
 
 signals:
     void locationItemPressed(LocationItem*);

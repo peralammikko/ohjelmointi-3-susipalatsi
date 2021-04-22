@@ -3,7 +3,7 @@
 namespace Interface {
 
 ActionCard::ActionCard() :
-    name_("name"), title_("title"), description_("Olen kortti. Minut pelatessasi tapahtuu jotain (description)")
+    name_("Action Card"), title_("title"), description_("Olen kortti. Minut pelatessasi tapahtuu jotain (description)")
 {
 
 }

@@ -117,6 +117,7 @@ void GameWindow::on_passButton_clicked()
     // TODO: move to logic where player hand is emptied of all action cards
     qDebug() << "Pass button was clicked. TODO: inform logic";
     auto hand = gameScene_->playerHands().at(game_->currentPlayer());
+    gameScene_->resetAction();
 
     emit actionDeclared(std::make_shared<PassAction>(hand));
 
@@ -139,5 +140,5 @@ void GameWindow::onPlayerChanged(std::shared_ptr<const Interface::Player> acting
 
 void GameWindow::onEnteringEventPhase()
 {
-    gameui_->actionHistoryWidget->addItem(QString::number(gameui_->actionHistoryWidget->count()+1) + "==EVENT PHASE==");
+    gameui_->actionHistoryWidget->addItem(QString::number(gameui_->actionHistoryWidget->count()+1) + "==PARLIAMENTARY DAY==");
 }

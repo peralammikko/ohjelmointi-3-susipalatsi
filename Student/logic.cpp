@@ -1,5 +1,6 @@
 #include "logic.hh"
 #include <algorithm>
+#include "ioexception.h"
 
 Logic::Logic(std::shared_ptr<Interface::Runner> runner, std::shared_ptr<Interface::Game> game, GameScene* gameScene)
     : runner_(runner), game_(game), gameScene_(gameScene)
@@ -32,13 +33,18 @@ void Logic::launchGame()
 void Logic::rewardResources()
 {
     std::vector<LocationItem*> items = gameScene_->GetLocItems();
-
-    // qDebug() << "Reward Resources  in gamewindow - TODO: maybe move to logic";
+    int resourceTotalAmount;
+    agentItem* aItem;
     int rewardAmount = 1;
     for (auto player : game_->players()) {
         
         // Container for each unique location player has agents in (used to reward influence points)
         std::set<std::shared_ptr<Interface::Location>> locationsBeen = {};
+
+        // Always give players one action card so they don't get stuck!
+        std::shared_ptr<Interface::ActionCard> card = std::make_shared<Interface::ActionCard>();
+        player->addCard(card);
+        gameScene_->addActionCardForPlayer(player, card);
 
         for (auto card : player->cards()) {
             std::shared_ptr<Interface::Agent> agentPtr = std::dynamic_pointer_cast<Interface::Agent>(card);
@@ -46,10 +52,10 @@ void Logic::rewardResources()
             // If card is an agent card
             if (agentPtr) {
                 std::shared_ptr<Interface::Location> agentAt = agentPtr->placement().lock();
-
                 if (agentAt) {
                     // If agent is in any location (nullptr means no location a.k.a. "home"
                     if (agentAt != nullptr) {
+                        resourceTotalAmount = 0;
                         locationsBeen.insert(agentAt);
                         Interface::CommonResource res = resMap_.at(agentAt);
 
@@ -59,9 +65,14 @@ void Logic::rewardResources()
                             if (loc->getObject()->id() == agentAt->id()) {
                                 auto rewards = loc->calculateRewards(player);
                                 rewardAmount = rewards.at(0);
+                                aItem = loc->getAgentItemFor(agentPtr);
+                                if (aItem == nullptr){
+                                    throw Interface::IoException(QString("Agent "+agentPtr->name() +" could not have its agent item located during a parliamentary day"));
+                                }
+                            } else {
+                               // throw Interface::IoException(QString("PD: Could not find location for "+agentPtr->name()));
                             }
                         }
-
                         for (int i = 0; i < rewardAmount; ++i)
                         {
                             if (agentAt->deck()->canDraw()){
@@ -70,6 +81,7 @@ void Logic::rewardResources()
                                 if (resu)
                                 {
                                     agentPtr->addResource(agentAt, res, resu->amount());
+                                    resourceTotalAmount += resu->amount();
                                     agentAt->discards()->addCard(drawnCard);
                                 } else {
                                     auto action = std::dynamic_pointer_cast<Interface::ActionCard>(drawnCard);
@@ -77,10 +89,13 @@ void Logic::rewardResources()
                                         auto owner = agentPtr->owner().lock();
                                         owner->addCard(action);
                                         gameScene_->addActionCardForPlayer(owner, action);
+                                    } else {
+                                        throw Interface::IoException(QString("Agent "+agentPtr->name() +" drew an unsupported type card "+ drawnCard->typeName() +" in " + agentAt->name()));
                                     }
                                 }
                             }
                         }
+                        aItem->displayResourceChange(resourceTotalAmount, "");
                         // Agents earning resources passively by staying at location. Keep or not?
 
                         // agentPtr->addResource(agentAt, res, rewardAmount);
@@ -91,7 +106,7 @@ void Logic::rewardResources()
                         ////////////////////////////////////////
 
                     } else {
-                        qDebug() << "Agent not found";
+                        //throw Interface::IoException(QString("Agent "+agentPtr->name() +" could not be found during a parliamentary day"));
                     }
                 } else {
                     qDebug() << agentPtr->name() << " not in any location";
@@ -139,18 +154,16 @@ void Logic::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlaye
     {
         // If we are just looking for a player who has action cards but could not find one, proceed to even phase
         if (actingPlayer_ != nullptr and actingPlayer_ == actingPlayer){
-            qDebug() << "We have gone a full circle of players with no action cards. Proceeding to event phase";
+            // "We have gone a full circle of players with no action cards. Proceeding to event phase"
             emit(enteredEventPhase());
             rewardResources();
             gameScene_->nextRound();
             actingPlayer_ = nullptr;
             game_->nextPlayer();
-
         } else {
             // check if new player has action cards
             std::vector<std::weak_ptr<const Interface::CardInterface>> actionCards;
             auto currentPlayerCards = game_->currentPlayer()->cards();
-            qDebug() << game_->currentPlayer()->name() << "changed to " << actingPlayer->name();
             std::copy_if (currentPlayerCards.begin(), currentPlayerCards.end(), std::back_inserter(actionCards),
                           [](std::shared_ptr<const Interface::CardInterface> card){return card->typeName()=="actioncard";} );
             if (actionCards.size())

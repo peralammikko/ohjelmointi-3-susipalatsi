@@ -17,7 +17,7 @@ agentItem::agentItem(std::shared_ptr<Interface::Agent> &agentInterface) : agentC
     agentObject_ = agentInterface;
     setFlags(ItemIsMovable | ItemIsSelectable);
     homing_ = false;
-    timer_ = new QTimer(this);
+    //timer_ = new QTimer(this);
     setAcceptHoverEvents(true);
 }
 
@@ -50,12 +50,26 @@ void agentItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     }
     painter->setPen(pen);
     painter->drawEllipse(rect);
+    if (waitingForActionCard_){
+        painter->drawText(QPointF(0, rect.height()/2-7), "Drag an action");
+        painter->drawText(QPointF(0, rect.height()/2+7), "card on me!");
+    }
+    painter->drawText(QPointF(rect.width()/2-7, rect.height()/2-7), displayRes_);
+
 
 }
 
 const QString agentItem::typeOf()
 {
     return "agentitem";
+}
+
+void agentItem::displayResourceChange(int amount, QString name)
+{
+    if (amount > 0 ){
+        QString resourceAmount = QString::number(amount);
+        displayRes_ = "+" + resourceAmount + " " + name;
+    }
 }
 
 void agentItem::spawnDialogue()
@@ -72,12 +86,18 @@ void agentItem::spawnDialogue()
     }
 }
 
+void agentItem::clearResGainDisplay()
+{
+    displayRes_ = "";
+}
+
 void agentItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     if (dialog_) {
         dialog_->close();
     }
     isSelected = true;
+    displayRes_ = "";
     update();
     if (not homing_){
         // Find out which agent was pointed at and get it's Agent class object
