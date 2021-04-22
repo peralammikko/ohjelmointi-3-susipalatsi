@@ -49,13 +49,27 @@ void Agent::removeResource(std::shared_ptr<Location> &agentAt,  int amount)
 
 bool Agent::addCouncilCard(std::shared_ptr<Councilor> card)
 {
-    if (councilCardHolder.size() == 0) {
-        councilCardHolder.push_back(card);
+    if (councilCardHolder == nullptr) {
+        councilCardHolder = card;
         qDebug() << this->name() << "is now holding " << card->name() << " card";
         return true;
     } else {
         return false;
     }
+}
+
+bool Agent::hasCouncilCard()
+{
+    if (councilCardHolder == nullptr) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+std::shared_ptr<Councilor> Agent::getCouncilCard()
+{
+    return councilCardHolder;
 }
 
 std::shared_ptr<Location> Agent::whereIsAgent()

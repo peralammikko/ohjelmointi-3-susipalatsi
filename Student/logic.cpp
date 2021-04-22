@@ -1,6 +1,7 @@
 #include "logic.hh"
 #include <algorithm>
 #include "ioexception.h"
+#include "councilor.h"
 
 Logic::Logic(std::shared_ptr<Interface::Runner> runner, std::shared_ptr<Interface::Game> game, GameScene* gameScene)
     : runner_(runner), game_(game), gameScene_(gameScene)
@@ -37,6 +38,9 @@ void Logic::rewardResources()
     agentItem* aItem;
     int rewardAmount = 1;
     for (auto player : game_->players()) {
+        
+        // Container for each unique location player has agents in (used to reward influence points)
+        std::set<std::shared_ptr<Interface::Location>> locationsBeen = {};
 
         // Always give players one action card so they don't get stuck!
         std::shared_ptr<Interface::ActionCard> card = std::make_shared<Interface::ActionCard>();
@@ -53,6 +57,9 @@ void Logic::rewardResources()
                     // If agent is in any location (nullptr means no location a.k.a. "home"
                     if (agentAt != nullptr) {
                         resourceTotalAmount = 0;
+                        locationsBeen.insert(agentAt);
+                        Interface::CommonResource res = resMap_.at(agentAt);
+
                         // Find the correct location item for calculating rewards
                         for (auto loc : items)
                         {
@@ -74,7 +81,6 @@ void Logic::rewardResources()
                                 auto resu = std::dynamic_pointer_cast<Interface::CommonResource>(drawnCard);
                                 if (resu)
                                 {
-                                    Interface::CommonResource res = resMap_.at(agentAt);
                                     agentPtr->addResource(agentAt, res, resu->amount());
                                     resourceTotalAmount += resu->amount();
                                     agentAt->discards()->addCard(drawnCard);
@@ -91,11 +97,33 @@ void Logic::rewardResources()
                             }
                         }
                         aItem->displayResourceChange(resourceTotalAmount, "");
+                        // Agents earning resources passively by staying at location. Keep or not?
+
+                        // agentPtr->addResource(agentAt, res, rewardAmount);
+
+
+                        ///////////// CHEAT CODE ///////////////
+                        //  agentPtr->addResource(agentAt, res, 100);
+                        ////////////////////////////////////////
+
                     } else {
                         //throw Interface::IoException(QString("Agent "+agentPtr->name() +" could not be found during a parliamentary day"));
                     }
                 } else {
                     qDebug() << agentPtr->name() << " not in any location";
+                }
+            }
+        }
+        for (auto loc : game_->locations()) {
+
+            /////// CHEAT CODE ///////////
+            // loc->setInfluence(player, 50);
+            /////////////////////////////
+
+            if (locationsBeen.find(loc) != locationsBeen.end()) {
+                int inf = loc->influence(player);
+                if (inf < 5) {
+                    loc->setInfluence(player, inf+1);
                 }
             }
         }
@@ -106,6 +134,29 @@ void Logic::infoResourceMaps(ResourceMap &rmap, ResourceMap &dmap)
 {
     resMap_ = rmap;
     demandsMap_ = dmap;
+}
+
+void Logic::checkWin()
+{
+    // Checking which player(s) holds at least 3 councilor cards
+    std::set<std::shared_ptr<Interface::Player>> winners = {};
+    for (auto player : game_->players()) {
+        int cardCount = 0;
+        for (auto card : player->cards()) {
+            std::shared_ptr<Interface::Councilor> councilCard = std::dynamic_pointer_cast<Interface::Councilor>(card);
+            if (councilCard) {
+                cardCount++;
+            }
+        }
+        if (cardCount >= 3) {
+            winners.insert(player);
+        }
+
+        // Multiple winners allowed?
+        for (auto player : winners) {
+            qDebug() << "Long live " << player->name();
+        }
+    }
 }
 
 void Logic::onActionDeclared(std::shared_ptr<Interface::ActionInterface> action)
