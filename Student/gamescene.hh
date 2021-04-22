@@ -134,7 +134,8 @@ private:
     QPointF solarsystemCenter_;
 
     QPointF const activePlayerHandAnchor_ = QPointF(150,650);
-    QPointF const waitingPlayerHandAnchor_ = QPointF(0,0);
+    QPointF const waitingPlayerHandAnchor_ = QPointF(20,20);
+    int const SPACEBETWEENHANDS = 200;
 
     std::shared_ptr<Interface::Player> playerInTurn_ = nullptr;
 

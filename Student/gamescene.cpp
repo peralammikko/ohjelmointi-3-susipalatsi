@@ -113,22 +113,24 @@ void GameScene::prepareForAction(std::shared_ptr<Interface::ActionInterface> act
 
 void GameScene::resetAction()
 {
-    auto parentMapItem = dynamic_cast<mapItem*>(declaringMapItem_->parentItem());
-    if (parentMapItem){
-        parentMapItem->rearrange();
+    if (declaringMapItem_ != nullptr){
+        auto parentMapItem = dynamic_cast<mapItem*>(declaringMapItem_->parentItem());
+        if (parentMapItem){
+            parentMapItem->rearrange();
+        }
+
+        declaredAction_ = std::shared_ptr<Interface::ActionInterface>();
+        declaringMapItem_->setWaitingForAction(false);
+        declaringMapItem_ = nullptr;
+
+        arrow1_->setStartItem(nullptr);
+        arrow1_->setEndItem(nullptr);
+        arrow1_->hide();
+
+        arrow2_->setStartItem(nullptr);
+        arrow2_->setEndItem(nullptr);
+        arrow2_->hide();
     }
-
-    declaredAction_ = std::shared_ptr<Interface::ActionInterface>();
-    declaringMapItem_->setWaitingForAction(false);
-    declaringMapItem_ = nullptr;
-
-    arrow1_->setStartItem(nullptr);
-    arrow1_->setEndItem(nullptr);
-    arrow1_->hide();
-
-    arrow2_->setStartItem(nullptr);
-    arrow2_->setEndItem(nullptr);
-    arrow2_->hide();
 
 }
 
@@ -161,24 +163,18 @@ void GameScene::onPlayerChanged(std::shared_ptr<const Interface::Player> actingP
 
     if (actingPlayer != game_.lock()->currentPlayer())
     {
-        // If the player has been changed (round changed) then modify hand areas a bit
-
-        // TODO: Coords for the hand that is going to be hidden are hard coded for now.
-        // They should be based on the number of players in the game.
-        // TODO: Action cards need to be set "face down" for the passing player
-        // TODO: Action cards need to be set "face up" for the player who is playing
         auto previousHand = playerHands_.at(actingPlayer);
         auto currentHand = playerHands_.at(game_.lock()->currentPlayer());
 
         previousHand->rearrange();
-        previousHand->setHome(currentHand->pos());
+        previousHand->setHome(QPointF(SPACEBETWEENHANDS*actingPlayer->id(), 0) + waitingPlayerHandAnchor_);
         previousHand->goHome();
         previousHand->setScale(0.25);
         previousHand->setEnabled(false);
 
         currentHand->rearrange();
         currentHand->setEnabled(true);
-        currentHand->setHome(previousHand->pos());
+        currentHand->setHome(activePlayerHandAnchor_);
         currentHand->goHome();
         currentHand->setScale(1);
 

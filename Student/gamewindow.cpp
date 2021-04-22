@@ -107,6 +107,7 @@ void GameWindow::on_passButton_clicked()
     // TODO: move to logic where player hand is emptied of all action cards
     qDebug() << "Pass button was clicked. TODO: inform logic";
     auto hand = gameScene_->playerHands().at(game_->currentPlayer());
+    gameScene_->resetAction();
 
     emit actionDeclared(std::make_shared<PassAction>(hand));
 
