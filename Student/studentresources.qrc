@@ -5,12 +5,12 @@
         <file>img/some sprites/spacecowboyBIG.png</file>
     </qresource>
     <qresource prefix="/img/res">
-        <file>img/resources/1.png</file>
-        <file>img/resources/2.png</file>
-        <file>img/resources/3.png</file>
-        <file>img/resources/4.png</file>
-        <file>img/resources/5.png</file>
-        <file>img/resources/6.png</file>
+        <file>img/resources/Plasmastone.png</file>
+        <file>img/resources/Gold.png</file>
+        <file>img/resources/Sproutling.png</file>
+        <file>img/resources/Ambrosia.png</file>
+        <file>img/resources/El.png</file>
+        <file>img/resources/Strange mushrooms.png</file>
     </qresource>
     <qresource prefix="/img/governors">
         <file>img/governors/1.png</file>
