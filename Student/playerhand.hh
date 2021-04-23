@@ -3,12 +3,8 @@
 
 #include <QObject>
 #include <QGraphicsScene>
-
-
 #include "../Course/player.h"
-// For now we use just simple card items
 #include "mapitem.hh"
-
 
 class PlayerHand : public mapItem
 {
@@ -36,7 +32,10 @@ private:
     QGraphicsScene* scene_;
     std::shared_ptr<const Interface::Player> player_;
 
+    QPixmap* handPixmap_;
     std::vector<mapItem*> items_;
+
+    QColor playerColor_;
 
     void arrangeAroundPoint(int startx, std::vector<mapItem *> mItems, int padding);
     

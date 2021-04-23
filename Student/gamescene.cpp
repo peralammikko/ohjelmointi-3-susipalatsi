@@ -293,7 +293,7 @@ void GameScene::shuffleLocationItems()
 void GameScene::rearrangeLocationItems()
 {
 
-    solarsystemCenter_ = QPointF(this->width()/2, this->height()*2/5);
+    solarsystemCenter_ = QPointF(this->width()/2, this->height()*2/6);
     const int radius = 320;
     int locationCount = locationItems_.size();
     const int degree = 360 / locationCount;

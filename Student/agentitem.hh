@@ -48,10 +48,11 @@ private:
     // The object from which this card takes its data (name, owner etc)
     std::shared_ptr<Interface::Agent> agentObject_;
 
-    // This should probably be moved to agent.hh
     int agentConnections_;
 
     QPixmap *centerimage_;
+
+    QColor playerColor_;
 
     // Empty dialog window to be called on mouse hover on/off
     AgentDialog* dialog_ = nullptr;

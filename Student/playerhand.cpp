@@ -4,17 +4,21 @@
 
 PlayerHand::PlayerHand(QGraphicsScene* scene, std::shared_ptr<const Interface::Player> player) : scene_(scene), player_(player)
 {
-
+    handPixmap_ = new QPixmap(":/img/img/hand.png");
+    Q_ASSERT(player->id() < PlayerColors.size());
+    playerColor_ = PlayerColors.at(player->id());
 }
 
 QRectF PlayerHand::boundingRect() const
 {
-    return QRectF(0,0,400,100);
+    return QRectF(0,0,800,200);
 }
 
 void PlayerHand::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    QPen pen(Qt::red, 2);
+    QPen pen(playerColor_, 2);
+    painter->drawPixmap(0, 0, boundingRect().width(), boundingRect().height(),  *handPixmap_);
+
     painter->setPen(pen);
     painter->drawRect(boundingRect());
 }

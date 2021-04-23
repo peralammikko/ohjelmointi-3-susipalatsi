@@ -20,6 +20,13 @@ agentItem::agentItem(std::shared_ptr<Interface::Agent> &agentInterface) : agentC
     //timer_ = new QTimer(this);
     setAcceptHoverEvents(true);
     centerimage_ = new QPixmap(":/img/img/some sprites/spacecowboyBIG.png");
+    if (agentObject_->owner().lock()){
+        unsigned int id = agentObject_->owner().lock()->id();
+        Q_ASSERT(id < PlayerColors.size());
+        playerColor_ = PlayerColors.at(id);
+    }
+
+
 }
 
 agentItem::~agentItem()
@@ -39,21 +46,14 @@ QRectF agentItem::boundingRect() const
 
 void agentItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    QPen pen;
     QRectF rect = boundingRect();
     // the text should always be withing boundingrect
 
     painter->drawPixmap(0, 0, boundingRect().width(), boundingRect().height(),  *centerimage_);
 
-    painter->setPen(QPen(Qt::red, 2));
+    painter->setPen(QPen(playerColor_, 2));
     painter->drawText(10, rect.height()-10, agentObject_->name());
 
-    if (isSelected) {
-        QPen pen(Qt::red, 2);
-    } else {
-        QPen pen(Qt::black, 2);
-    }
-    painter->setPen(pen);
     painter->drawEllipse(rect);
     if (waitingForActionCard_){
         painter->setPen(QPen(Qt::yellow, 5));
