@@ -9,6 +9,11 @@ PlayerHand::PlayerHand(QGraphicsScene* scene, std::shared_ptr<const Interface::P
     playerColor_ = PlayerColors.at(player->id());
 }
 
+PlayerHand::~PlayerHand()
+{
+    delete handPixmap_;
+}
+
 QRectF PlayerHand::boundingRect() const
 {
     return QRectF(0,0,800,200);

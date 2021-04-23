@@ -27,6 +27,13 @@ GameScene::GameScene(QWidget *parent, std::weak_ptr<Interface::Game> game) : QGr
 
 }
 
+GameScene::~GameScene()
+{
+    delete arrow1_;
+    delete arrow2_;
+
+}
+
 void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     qDebug() << "mouse pos on click:" <<event->scenePos();
@@ -59,17 +66,6 @@ void GameScene::drawLocations(std::vector<std::pair<std::shared_ptr<Interface::L
 void GameScene::drawItem(mapItem *item)
 {
     addItem(item);
-}
-
-void GameScene::hideAgents(std::vector<agentItem *> &agents)
-{
-    for (unsigned int i = 0; i < agents.size(); i++) {
-        agentItem* current = agents.at(i);
-        current->hide();
-        // TODO: better toggling
-        disconnect(current, &mapItem::mapItemMouseDragged, this, &GameScene::onMapItemMouseDragged);
-        //current->setPos(300+current->boundingRect().width()*i,300);
-    }
 }
 
 void GameScene::initPlayerHandFor(std::shared_ptr<Interface::Player> player)
@@ -359,7 +355,8 @@ void GameScene::onActionDeclared(std::shared_ptr<Interface::ActionInterface> act
                         location->discards().get()->addCard(card->getCard());
                     }
                 }
-                declaringMapItem->~mapItem();
+                //declaringMapItem->~mapItem();
+                delete declaringMapItem;
                 playerHands_.at(game_.lock()->currentPlayer())->rearrange();
                 // TODO: rearrange building agents too
                 emit actionDeclared(declaredAction_);

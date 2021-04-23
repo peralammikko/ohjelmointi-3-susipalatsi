@@ -5,43 +5,49 @@
 
 LocationItem::LocationItem(const std::shared_ptr<Interface::Location> location, std::vector<std::pair<QString, QString> > spritePaths) : locationObject_(location), basevalue_(1), isSelected(false), isHovered_(false)
 {
+    // Default sprites
     planetImage_ = new QPixmap(":/img/planets/img/some sprites/planet iridium.png");
     governorImage_ = new QPixmap(":/img/governors/img/governors/2.png");
     setAcceptHoverEvents(true);
     for (int i = 0; i < spritePaths.size(); ++i){
         QString spritePath = spritePaths.at(i).second;
         if (spritePaths.at(i).first == "planet"){
+            delete planetImage_;
             planetImage_ = new QPixmap(spritePath);
         }
         if (spritePaths.at(i).first == "governorLbl") {
+            delete governorImage_;
             governorImage_ = new QPixmap(spritePath);
-        }
-        if (spritePaths.at(i).first == "resourceLbl") {
-            resourceImage_ = new QPixmap(spritePath);
         }
     }
 }
 
 LocationItem::~LocationItem()
 {
-
+    delete governorImage_;
+    delete planetImage_;
 }
 
 QRectF LocationItem::boundingRect() const
 {
-    return QRectF(0, 0, 150,150);
+    return QRectF(0, 0, 180,180);
 }
 
 void LocationItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    painter->drawPixmap(0, 0, boundingRect().width(), boundingRect().height(),  *planetImage_);
+    painter->drawPixmap(20, 20, boundingRect().width()-70, boundingRect().height()-70,  *planetImage_);
 
-    QPoint upperpos(boundingRect().x()+5, 10);
-    QPoint lowerpos(0, boundingRect().height()-10);
+    QRectF govrect = QRectF(30, 30, 30, 30);
+    painter->setBrush(QColor(145, 145, 145, 125));
+    painter->drawEllipse(govrect);
+    painter->drawPixmap(govrect.x()+5, govrect.y()+5, govrect.width()-10, govrect.height()-10, localRes_.getSpritePath());
+
+    QPoint upperpos(boundingRect().x()+20, 20);
+    QPoint lowerpos(0, boundingRect().height()-20);
     QString placeName = this->getObject()->name();
     QPen pen;
     painter->drawText(upperpos, placeName);
-    painter->drawText(lowerpos, "Base value: " + QString::number(this->getBasevalue()));
+    // painter->drawText(lowerpos, "Base value: " + QString::number(this->getBasevalue()));
 
 }
 
@@ -84,6 +90,7 @@ void LocationItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 std::vector<int> LocationItem::calculateRewards(std::shared_ptr<Interface::Player> &player)
 {
     // WORK IN PROGRESS
+
     std::vector<int> numbers(3);
     int sum = basevalue_;
     int ownAgents = 0;
@@ -146,7 +153,7 @@ void LocationItem::generateNewDemand()
 
 void LocationItem::rearrange()
 {
-    QPointF const center = QPointF(boundingRect().width()/2, boundingRect().height()/2);
+    QPointF const center = QPointF(boundingRect().width()/2 -50, boundingRect().height()/2-50);
 
     std::vector<mapItem*> aItems;
 
@@ -162,8 +169,7 @@ void LocationItem::rearrange()
             }
         }
     }
-
-    int radius = boundingRect().width()/2;
+    int radius = boundingRect().width()/2 -30;
     int agentCount = aItems.size();
     if (!agentCount)
     {

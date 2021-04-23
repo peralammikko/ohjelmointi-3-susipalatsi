@@ -61,6 +61,7 @@ PopupDialog::PopupDialog(LocationItem* &loc, std::shared_ptr<Interface::Player> 
 
 PopupDialog::~PopupDialog()
 {
+
     delete ui;
 }
 

@@ -13,6 +13,7 @@ public:
     // This class is more or less deprecated and probably requires a removal.
     // stays here in case we get a nice idea how to use this as a hand display.
     PlayerHand(QGraphicsScene* scene, std::shared_ptr<const Interface::Player> player);
+    ~PlayerHand();
 
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;

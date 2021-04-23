@@ -12,22 +12,15 @@ AgentDialog::AgentDialog(std::shared_ptr<Interface::Agent> agentClicked, QWidget
 
     // Frameless windows cool as HECK
     setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
-
     ui->agentNameLabel->setText(agent_->name());
     std::shared_ptr<Interface::Location> agentLocation = agent_->placement().lock();
     if (!agentLocation) {
-        if (agentLocation != nullptr) {
-            ui->locationBox->setText("Consumed by the void...");
-        } else {
-            ui->locationBox->setText("Home");
-        }
+        ui->locationBox->setText("Mother Ship");
     } else {
         ui->locationBox->setText(agentLocation->name());
     }
-
     ui->locationBox->setReadOnly(true);
     listResources();
-
 }
 
 AgentDialog::~AgentDialog()
