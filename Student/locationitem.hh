@@ -56,8 +56,6 @@ public:
     
     void generateNewDemand();
 
-    void addInfluence(std::shared_ptr<Interface::Player> &player);
-
     void rearrange() override;
 
     void setNeighbours(std::pair<LocationItem*, LocationItem*> neighbours){neighbours_=neighbours;}

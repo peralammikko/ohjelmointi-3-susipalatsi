@@ -89,14 +89,24 @@ void GameWindow::listAgents(std::shared_ptr<Interface::Player> &currentPlayer)
     }
 }
 
+void GameWindow::listInfluence(std::shared_ptr<Interface::Player> &currentPlayer)
+{
+    // int id = currentPlayer->id();
+    gameui_->influenceList->clear();
+    for (auto loc : game_->locations()) {
+        int playerInf = loc->influence(currentPlayer);
+        gameui_->influenceList->addItem(loc->name() + ": " + QString::number(playerInf));
+    }
+}
+
 void GameWindow::displayPlayerStats() {
 
-    // This is temporarily broken
     std::shared_ptr<Interface::Player> currentPlayer = game_->currentPlayer();
     gameui_->currentRoundLabel->setText("Current round: " + QString::number(current_round));
 
     gameui_->playerNameLabel->setText(currentPlayer->name());
     listAgents(currentPlayer);
+    listInfluence(currentPlayer);
 }
 
 void GameWindow::on_passButton_clicked()
@@ -112,8 +122,6 @@ void GameWindow::on_passButton_clicked()
     emit actionDeclared(std::make_shared<PassAction>(hand));
 
     auto player = game_->currentPlayer();
-    //logic_->rewardResources();
-    //changeTurn();
 }
 
 void GameWindow::onActionPerformed(std::shared_ptr<const Interface::Player> player, std::shared_ptr<Interface::ActionInterface> action)
@@ -123,6 +131,7 @@ void GameWindow::onActionPerformed(std::shared_ptr<const Interface::Player> play
 
     history += QString::number(gameui_->actionHistoryWidget->count()+1) + " " + player->name() + " " +agentaction->pastTenseDescription();
     gameui_->actionHistoryWidget->addItem(history);
+    gameui_->actionHistoryWidget->scrollToBottom();
 }
 
 void GameWindow::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer)
@@ -133,4 +142,5 @@ void GameWindow::onPlayerChanged(std::shared_ptr<const Interface::Player> acting
 void GameWindow::onEnteringEventPhase()
 {
     gameui_->actionHistoryWidget->addItem(QString::number(gameui_->actionHistoryWidget->count()+1) + "==PARLIAMENTARY DAY==");
+    gameui_->actionHistoryWidget->scrollToBottom();
 }

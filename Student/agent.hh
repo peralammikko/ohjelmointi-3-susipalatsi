@@ -28,6 +28,8 @@ public:
     void addResource(std::shared_ptr<Location> agentAt, CommonResource res, int amount);
     void removeResource(std::shared_ptr<Location> &agentAt, int amount);
     bool addCouncilCard(std::shared_ptr<Councilor> card);
+    bool hasCouncilCard();
+    std::shared_ptr<Councilor> getCouncilCard();
 
     std::shared_ptr<Interface::Location> whereIsAgent();
 
@@ -55,7 +57,7 @@ private:
     QString title_;
 
     AgentResourceMap gatheredResources_;
-    std::vector<std::shared_ptr<Councilor>> councilCardHolder;
+    std::shared_ptr<Councilor> councilCardHolder = nullptr;
 
 };
 

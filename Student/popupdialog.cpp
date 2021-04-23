@@ -1,5 +1,6 @@
 #include "popupdialog.hh"
 #include "ui_popupdialog.h"
+#include "deck.h"
 
 PopupDialog::PopupDialog(LocationItem* &loc, std::shared_ptr<Interface::Player> &player, QWidget *parent) :
     QDialog(parent),
@@ -11,29 +12,34 @@ PopupDialog::PopupDialog(LocationItem* &loc, std::shared_ptr<Interface::Player> 
     ui->setupUi(this);
     ui->tradeButton->setDisabled(true);
     ui->canGetCardLabel->hide();
-
-    // Setting up labels
     location_ = loc->getObject();
     locationBV_ = loc->getBasevalue();
     localRes_ = loc->getLocalResource();
     neededRes_ = loc->getDemandedResource();
-    ui->locationNameLabel->setText(location_->name());
+    std::shared_ptr<Interface::Location> demandLoc = neededRes_.location().lock();
+
+    // Setting up labels
+
+    // Resource information
     ui->areaResourceLabel->setText(localRes_.name());
+    ui->deckSizeLabel->setText(QString::number(location_->deck()->size()));
     ui->BVlabel->setText(QString::number(locationBV_));
+    ui->influenceNum->setText(QString::number(location_->influence(player_)));
+
+    // Councillor & location information
     ui->councillorDemandsLabel->setText(neededRes_.name() + " x " + QString::number(neededRes_.amount()));
     ui->councillorNameLabel->setText(location_->councilor()->name());
-
-    ui->governorPortrait->setPixmap(*loc->governorPixmap());
-
-    // Load resource pixmap
-    qDebug() << localRes_.name() << localRes_.getSpritePath();
-    QPixmap* localResSprite = new QPixmap(loc->getLocalResource().getSpritePath());
-    QPixmap* demandResSprite = new QPixmap(loc->getDemandedResource().getSpritePath());
+    ui->demandLocLabel->setText("(in " + demandLoc->name() + ")");
+    ui->councillorCardText->setText("Councillor card: \n"
+                                    + location_->councilor()->name());
+    auto satan = QPixmap(loc->getLocalResource().getSpritePath());
 
 
-    auto ss = (loc->getLocalResource().getSpritePath());
+    ui->localResLbl->setPixmap(QPixmap(loc->getLocalResource().getSpritePath()).scaled(ui->localResLbl->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->demandSpriteLbl->setPixmap(QPixmap(loc->getDemandedResource().getSpritePath()).scaled(ui->demandSpriteLbl->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->councilorLbl->setPixmap((*loc->governorPixmap()).scaled(ui->councilorLbl->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation) );
 
-    ui->resourceImageLabel->setPixmap(QPixmap(loc->getDemandedResource().getSpritePath()));
+    //ui->deman->setPixmap(QPixmap(loc->getDemandedResource().getSpritePath()));
     // Calculating friendly and rival agents in location and sum of resource rewards
     std::vector<int> sumAndAgents = locItem->calculateRewards(player);
     int rewardSum = sumAndAgents.at(0);
@@ -49,7 +55,7 @@ PopupDialog::PopupDialog(LocationItem* &loc, std::shared_ptr<Interface::Player> 
     // Do these if there are any agents in area
     if (listOfAgents.size() > 0) {
         fillAreaAgentsList(listOfAgents);
-        checkCouncilCard(listOfAgents);
+        checkAgentResources(listOfAgents);
     }
 }
 
@@ -58,7 +64,7 @@ PopupDialog::~PopupDialog()
     delete ui;
 }
 
-void PopupDialog::checkCouncilCard(std::set<std::shared_ptr<Interface::AgentInterface>> &agentsHere)
+void PopupDialog::checkAgentResources(std::set<std::shared_ptr<Interface::AgentInterface>> &agentsHere)
 {
     // Getting the location's required resource
     int reqAmount = neededRes_.amount();
@@ -77,6 +83,8 @@ void PopupDialog::checkCouncilCard(std::set<std::shared_ptr<Interface::AgentInte
             } else {
                 agentHas = agentResources.at(demandLoc).size();
             }
+
+            // Agent has enough resources for the trade
             if (agentHas >= reqAmount) {
                 qDebug() << "enough stuff";
                 ui->canGetCardLabel->setText("Trade available");
@@ -114,24 +122,29 @@ void PopupDialog::fillAreaAgentsList(std::set<std::shared_ptr<Interface::AgentIn
 void PopupDialog::on_tradeButton_clicked()
 {
     // Work still in progress, probably gonna move to locationitem
-
     auto demandLoc = neededRes_.location().lock();
     int demandAmount = neededRes_.amount();
-    if (demandLoc) {
-        // QString councName = "Mr. " + location_->name();
-        // std::shared_ptr<Interface::Councilor> counc = std::make_shared<Interface::Councilor>(councName, "Mestari", location_);
-
-        if (potentialAgent_->addCouncilCard(location_->councilor())) {
-            potentialAgent_->removeResource(demandLoc, demandAmount);
-            ui->councillorDemandsLabel->clear();
-            ui->canGetCardLabel->setText("Fame gained");
-            locItem->generateNewDemand();
-            ui->tradeButton->setDisabled(true);
-        } else {
-            ui->canGetCardLabel->setText("Card holder full!");
-        }
-
+    if (location_->influence(player_) < 5) {
+        ui->canGetCardLabel->setText("Not enough influence \n"
+                                     "on councillor yet");
+        return;
+    } else if (potentialAgent_->getCouncilCard() == location_->councilor()) {
+        ui->canGetCardLabel->setText("You are already endorsed by councilor");
     } else {
-        qDebug() << "Card not found";
+        if (demandLoc) {
+            if (potentialAgent_->addCouncilCard(location_->councilor())) {
+                potentialAgent_->removeResource(demandLoc, demandAmount);
+                ui->councillorDemandsLabel->clear();
+                ui->canGetCardLabel->setText("The councillor endorses you");
+                locItem->generateNewDemand();
+                ui->tradeButton->setDisabled(true);
+            } else {
+                ui->canGetCardLabel->setText("Agent is already carrying \n"
+                                             "another councillor card");
+            }
+
+        } else {
+            qDebug() << "Card not found";
+        }
     }
 }
