@@ -57,6 +57,7 @@ void Logic::rewardResources()
                     // If agent is in any location (nullptr means no location a.k.a. "home"
                     if (agentAt != nullptr) {
                         resourceTotalAmount = 0;
+                        QString resSpritePth = "";
                         locationsBeen.insert(agentAt);
                         Interface::CommonResource res = resMap_.at(agentAt);
 
@@ -83,6 +84,7 @@ void Logic::rewardResources()
                                 {
                                     agentPtr->addResource(agentAt, res, resu->amount());
                                     resourceTotalAmount += resu->amount();
+                                    resSpritePth = resu->getSpritePath();
                                     agentAt->discards()->addCard(drawnCard);
                                 } else {
                                     auto action = std::dynamic_pointer_cast<Interface::ActionCard>(drawnCard);
@@ -96,7 +98,7 @@ void Logic::rewardResources()
                                 }
                             }
                         }
-                        aItem->displayResourceChange(resourceTotalAmount, "");
+                        aItem->displayResourceChange(resourceTotalAmount, resSpritePth);
                         // Agents earning resources passively by staying at location. Keep or not?
 
                         // agentPtr->addResource(agentAt, res, rewardAmount);

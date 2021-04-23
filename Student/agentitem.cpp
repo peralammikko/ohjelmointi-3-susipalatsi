@@ -44,6 +44,9 @@ void agentItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     // the text should always be withing boundingrect
 
     painter->drawPixmap(0, 0, boundingRect().width(), boundingRect().height(),  *centerimage_);
+
+
+
     painter->setPen(QPen(Qt::red, 2));
     painter->drawText(5, 10, agentObject_->name());
 
@@ -56,11 +59,22 @@ void agentItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->drawEllipse(rect);
     if (waitingForActionCard_){
         painter->setPen(QPen(Qt::yellow, 5));
-        painter->drawText(QPointF(0, rect.height()/2-7), "Drag an action");
-        painter->drawText(QPointF(0, rect.height()/2+7), "card on me!");
+        QRectF notify = QRectF(0, rect.height()/3*2, rect.width(), rect.height()/3);
+        painter->fillRect(notify, QBrush(Qt::red));
+        painter->drawText(QPointF(0, rect.height()/3*2+14), "Drag an action");
+        painter->drawText(QPointF(0, rect.height()/3*2+28), "card on me!");
     }
-    painter->setPen(QPen(Qt::red, 2));
-    painter->drawText(QPointF(rect.width()/2-7, rect.height()/2-7), displayRes_);
+
+    if (displayRes_ != "") {
+        QRectF bonusrect = QRectF(rect.width()-70, rect.height()-40, 70, 40);
+        painter->fillRect(bonusrect, QBrush(Qt::gray));
+        painter->setPen(QPen(Qt::black, 2));
+        painter->drawRect(bonusrect);
+        painter->setPen(QPen(Qt::red, 2));
+        painter->drawText(QPointF(rect.width()-60, rect.height()-10), displayRes_);
+        painter->drawPixmap(rect.width()-40, rect.height()-40, 40, 40,displayResSprite_);
+    }
+
 
 
 
@@ -71,11 +85,12 @@ const QString agentItem::typeOf()
     return "agentitem";
 }
 
-void agentItem::displayResourceChange(int amount, QString name)
+void agentItem::displayResourceChange(int amount, QString path)
 {
     if (amount > 0 ){
         QString resourceAmount = QString::number(amount);
-        displayRes_ = "+" + resourceAmount + " " + name;
+        displayRes_ = "+" + resourceAmount;
+        displayResSprite_ = QPixmap(path);
     }
 }
 
@@ -105,6 +120,7 @@ void agentItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
     }
     isSelected = true;
     displayRes_ = "";
+    displayResSprite_ = QPixmap("");
     update();
     if (not homing_){
         // Find out which agent was pointed at and get it's Agent class object

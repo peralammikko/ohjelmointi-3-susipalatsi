@@ -36,22 +36,12 @@ void LocationItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 {
     painter->drawPixmap(0, 0, boundingRect().width(), boundingRect().height(),  *planetImage_);
 
-    QRectF rect = boundingRect();
-
     QPoint upperpos(boundingRect().x()+5, 10);
     QPoint lowerpos(0, boundingRect().height()-10);
     QString placeName = this->getObject()->name();
     QPen pen;
     painter->drawText(upperpos, placeName);
     painter->drawText(lowerpos, "Base value: " + QString::number(this->getBasevalue()));
-
-    if (isHovered_) {
-        pen.setColor(Qt::red);
-    } else {
-        pen.setColor(Qt::black);
-    }
-    painter->setPen(pen);
-    painter->drawRect(rect);
 
 }
 
