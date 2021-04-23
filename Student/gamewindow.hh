@@ -67,6 +67,9 @@ private slots:
 
     // Adds history notation that event phase happened
     void onEnteringEventPhase();
+
+    void getStartingInfo(std::vector<QString> playerNames, std::vector<int> gameSettings);
+
 signals:
     void actionDeclared(std::shared_ptr<Interface::ActionInterface> action);
 private:
@@ -87,6 +90,9 @@ private:
     mapItem* targetedMapItem_;
 
     int current_round = 1;
+
+    std::vector<QString> playerNames_ = {};
+    std::vector<int> gameSettings_ = {};
 
 };
 

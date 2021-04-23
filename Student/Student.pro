@@ -27,6 +27,8 @@ SOURCES += \
     popupdialog.cpp \
     scenearrow.cpp \
     sendagentaction.cpp \
+    settingsscreen.cpp \
+    startingscreen.cpp \
     withdrawagentaction.cpp
 
 win32:CONFIG(release, debug|release): LIBS += \
@@ -74,12 +76,16 @@ HEADERS += \
     popupdialog.hh \
     scenearrow.hh \
     sendagentaction.hh \
+    settingsscreen.hh \
+    startingscreen.hh \
     withdrawagentaction.hh
 
 FORMS += \
     agentdialog.ui \
     gamewindow.ui \
-    popupdialog.ui
+    popupdialog.ui \
+    settingsscreen.ui \
+    startingscreen.ui
 
 RESOURCES += \
     studentresources.qrc

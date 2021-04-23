@@ -9,6 +9,10 @@ AgentDialog::AgentDialog(std::shared_ptr<Interface::Agent> agentClicked, QWidget
     agent_(agentClicked)
 {
     ui->setupUi(this);
+
+    // Frameless windows cool as HECK
+    setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
+
     ui->agentNameLabel->setText(agent_->name());
     std::shared_ptr<Interface::Location> agentLocation = agent_->placement().lock();
     if (!agentLocation) {

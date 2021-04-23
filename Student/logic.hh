@@ -39,7 +39,7 @@ public :
     void launchGame();
     void createLocations();
     void rewardResources();
-    void infoResourceMaps(ResourceMap &rmap, ResourceMap &dmap);
+    void infoResourceMaps(ResourceMap &rmap, ResourceMap &dmap, int WINCOND);
     void checkWin();
 
 public slots:
@@ -52,6 +52,7 @@ public slots:
 
     // sent by runner, connected in setup
     void onActionPerformed(std::shared_ptr<const Interface::Player> player, std::shared_ptr<Interface::ActionInterface> action);
+
 signals:
     void enteredEventPhase();
 
@@ -73,11 +74,7 @@ private:
     ResourceMap resMap_;
     ResourceMap demandsMap_;
     
-    // Holds info on players and their currency
-    std::map<std::shared_ptr<Interface::Player>, int> playerWallets_;
-
-    // Holds info on influence gained from locations by players
-    // std::map<std::shared_ptr<Interface::Player>, std::map<std::shared_ptr<Interface::Location>, int>> playerInfluenceMap_;
+    int winCondition_;
 
 
 };
