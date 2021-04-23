@@ -131,6 +131,7 @@ void GameWindow::onActionPerformed(std::shared_ptr<const Interface::Player> play
 
     history += QString::number(gameui_->actionHistoryWidget->count()+1) + " " + player->name() + " " +agentaction->pastTenseDescription();
     gameui_->actionHistoryWidget->addItem(history);
+    gameui_->actionHistoryWidget->scrollToBottom();
 }
 
 void GameWindow::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer)
@@ -141,4 +142,5 @@ void GameWindow::onPlayerChanged(std::shared_ptr<const Interface::Player> acting
 void GameWindow::onEnteringEventPhase()
 {
     gameui_->actionHistoryWidget->addItem(QString::number(gameui_->actionHistoryWidget->count()+1) + "==PARLIAMENTARY DAY==");
+    gameui_->actionHistoryWidget->scrollToBottom();
 }

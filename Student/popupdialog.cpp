@@ -29,22 +29,17 @@ PopupDialog::PopupDialog(LocationItem* &loc, std::shared_ptr<Interface::Player> 
     // Councillor & location information
     ui->councillorDemandsLabel->setText(neededRes_.name() + " x " + QString::number(neededRes_.amount()));
     ui->councillorNameLabel->setText(location_->councilor()->name());
-    ui->demandLocLabel->setText("(" + demandLoc->name() + ")");
+    ui->demandLocLabel->setText("(in " + demandLoc->name() + ")");
     ui->councillorCardText->setText("Councillor card: \n"
                                     + location_->councilor()->name());
+    auto satan = QPixmap(loc->getLocalResource().getSpritePath());
 
 
-    ui->governorPortrait->setPixmap(*loc->governorPixmap());
+    ui->localResLbl->setPixmap(QPixmap(loc->getLocalResource().getSpritePath()).scaled(ui->localResLbl->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->demandSpriteLbl->setPixmap(QPixmap(loc->getDemandedResource().getSpritePath()).scaled(ui->demandSpriteLbl->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->councilorLbl->setPixmap((*loc->governorPixmap()).scaled(ui->councilorLbl->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation) );
 
-    // Load resource pixmap
-    qDebug() << localRes_.name() << localRes_.getSpritePath();
-    QPixmap* localResSprite = new QPixmap(loc->getLocalResource().getSpritePath());
-    QPixmap* demandResSprite = new QPixmap(loc->getDemandedResource().getSpritePath());
-
-
-    auto ss = (loc->getLocalResource().getSpritePath());
-
-    ui->resourceImageLabel->setPixmap(QPixmap(loc->getDemandedResource().getSpritePath()));
+    //ui->deman->setPixmap(QPixmap(loc->getDemandedResource().getSpritePath()));
     // Calculating friendly and rival agents in location and sum of resource rewards
     std::vector<int> sumAndAgents = locItem->calculateRewards(player);
     int rewardSum = sumAndAgents.at(0);
