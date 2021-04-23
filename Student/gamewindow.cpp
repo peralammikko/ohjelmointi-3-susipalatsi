@@ -14,6 +14,7 @@
 #include "playerhand.hh"
 #include "../Course/manualcontrol.h"
 #include "commonresource.hh"
+#include "startingscreen.hh"
 
 
 GameWindow::GameWindow(QWidget *parent) :
@@ -21,6 +22,13 @@ GameWindow::GameWindow(QWidget *parent) :
     gameui_(new Ui::GameWindow)
 {
     gameui_->setupUi(this);
+    StartingScreen* start = new StartingScreen(this);
+    connect(start, &StartingScreen::sendStartingInfo, this, &GameWindow::getStartingInfo);
+    int ret = start->exec();
+    if (ret == QDialog::Rejected) {
+        this->~GameWindow();
+        close();
+    }
 
     // Declare the game first before gameScene, so we can give game_ to gameScene's constructor
     game_ = std::make_shared<Interface::Game>();
@@ -52,7 +60,7 @@ GameWindow::GameWindow(QWidget *parent) :
     connect(this, &GameWindow::actionDeclared, logic_.get(), &Logic::onActionDeclared);
     connect(logic_.get(), &Logic::enteredEventPhase, this, &GameWindow::onEnteringEventPhase);
     connect(gameTime_.get(), SIGNAL(timeout()), gameScene_, SLOT(advance()));
-    GameSetup setup = GameSetup(gameScene_, game_, courseRunner,  logic_);
+    GameSetup setup = GameSetup(gameScene_, game_, courseRunner,  logic_, playerNames_, gameSettings_);
 
     displayPlayerStats();
 }
@@ -144,3 +152,14 @@ void GameWindow::onEnteringEventPhase()
     gameui_->actionHistoryWidget->addItem(QString::number(gameui_->actionHistoryWidget->count()+1) + "==PARLIAMENTARY DAY==");
     gameui_->actionHistoryWidget->scrollToBottom();
 }
+
+void GameWindow::getStartingInfo(std::vector<QString> playerNames, std::vector<int> gameSettings)
+{
+    playerNames_ = playerNames;
+    gameSettings_ = gameSettings;
+
+    for (auto i : playerNames_) {
+        qDebug() << "player: " + i;
+    }
+}
+
