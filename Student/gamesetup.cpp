@@ -115,7 +115,7 @@ void GameSetup::initDemandMaps()
         // Make it so that location's demands can not be it's own resource
         while (true) {
             it = initResourceMap_.begin();
-            int num = Interface::Random::RANDOM.uint(5);
+            int num = Interface::Random::RANDOM.uint(LOCATIONS-1);
             std::advance(it, num);
             if (it->first != location) {
                 res = it->second;
