@@ -130,10 +130,11 @@ void Logic::rewardResources()
     }
 }
 
-void Logic::infoResourceMaps(ResourceMap &rmap, ResourceMap &dmap)
+void Logic::infoResourceMaps(ResourceMap &rmap, ResourceMap &dmap, int WINCOND)
 {
     resMap_ = rmap;
     demandsMap_ = dmap;
+    winCondition_ = WINCOND;
 }
 
 void Logic::checkWin()
@@ -148,7 +149,7 @@ void Logic::checkWin()
                 cardCount++;
             }
         }
-        if (cardCount >= 3) {
+        if (cardCount >= winCondition_) {
             winners.insert(player);
         }
 

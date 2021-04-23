@@ -37,8 +37,11 @@
 class GameSetup
 {
 public:
-    GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game, std::shared_ptr<GameRunner> courseRunner, std::shared_ptr<Logic> logic);
+    GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game, std::shared_ptr<GameRunner> courseRunner, std::shared_ptr<Logic> logic,
+              std::vector<QString> playerNames, std::vector<int> customSettings);
 private:
+    void checkStartingInfo(std::vector<QString> playerNames, std::vector<int> customSettings);
+
     void initLocations();
     void initLocationDecks();
     void initResourceMaps();
@@ -48,7 +51,6 @@ private:
 
     // TODO: logic needed in constructor? Logic needed to return?
     void initLogic();
-
 
     void initPlayers();
     void initPlayerHands();
@@ -60,6 +62,7 @@ private:
     void sendAgentsToStartLocations();
 
 
+
     GameScene* gameScene_;
     std::shared_ptr<Interface::Game> game_;
     std::shared_ptr<GameRunner> courseRunner_;
@@ -69,7 +72,14 @@ private:
     ResourceMap councillorDemandsMap_;
     AgentResourceMap initAgentBackpack_;
 
+    std::vector<QString> playerNames_ = {};
 
+    unsigned int PLAYERCOUNT;
+    unsigned int AGENTCOUNT;
+    unsigned int LOCATIONS;
+    unsigned int WINCONDITION;
+
+    bool useCustomSettings = false;
 };
 
 #endif // GAMESETUP_HH
