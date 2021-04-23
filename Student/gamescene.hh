@@ -53,7 +53,7 @@ public:
     // Draws a mapitem for every location (aka buildings or planets)
     // pre: there are locations stored in locvec
     // post: scene has locations drawn on scene
-    void drawLocations(std::vector<std::shared_ptr<Interface::Location>> &locvec);
+    void drawLocations(std::vector<std::pair<std::shared_ptr<Interface::Location>, std::vector<std::pair<QString, QString>>>> locationInformation);
 
     // Creates a hand area for player
     void initHands(std::shared_ptr<const Interface::Player> Player);

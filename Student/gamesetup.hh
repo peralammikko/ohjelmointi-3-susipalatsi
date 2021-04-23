@@ -47,6 +47,7 @@ private:
     void initResourceMaps();
     void initDemandMaps();
     void initLocItems();
+    void initLocDecks();
     void initSceneArrows();
 
     // TODO: logic needed in constructor? Logic needed to return?

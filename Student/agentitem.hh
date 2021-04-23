@@ -25,7 +25,7 @@ public:
     const QString typeOf() override;
     void rearrange() override{};
 
-    void displayResourceChange(int amount, QString name); // TODO: maybe add sprite too?
+    void displayResourceChange(int amount, QString path); // TODO: maybe add sprite too?
 
 
 protected:
@@ -51,6 +51,7 @@ private:
     // This should probably be moved to agent.hh
     int agentConnections_;
 
+    QPixmap *centerimage_;
 
     // Empty dialog window to be called on mouse hover on/off
     AgentDialog* dialog_ = nullptr;
@@ -61,6 +62,7 @@ private:
     int dialogDelay_ = 1000;
 
     QString displayRes_ = "";
+    QPixmap displayResSprite_;
 
 };
 

@@ -1,0 +1,40 @@
+<RCC>
+    <qresource prefix="/img">
+        <file>img/some sprites/agentbobby.png</file>
+        <file>img/some sprites/spacecowboy.png</file>
+        <file>img/some sprites/spacecowboyBIG.png</file>
+    </qresource>
+    <qresource prefix="/img/res">
+        <file>img/resources/Plasmastone.png</file>
+        <file>img/resources/Gold.png</file>
+        <file>img/resources/Sproutling.png</file>
+        <file>img/resources/Ambrosia.png</file>
+        <file>img/resources/El.png</file>
+        <file>img/resources/Strange mushrooms.png</file>
+    </qresource>
+    <qresource prefix="/img/governors">
+        <file>img/governors/1.png</file>
+        <file>img/governors/2.png</file>
+        <file>img/governors/3.png</file>
+        <file>img/governors/4.png</file>
+        <file>img/governors/5.png</file>
+        <file>img/governors/6.png</file>
+    </qresource>
+    <qresource prefix="/img/planets">
+        <file>img/some sprites/moon.png</file>
+        <file>img/some sprites/planet blood.png</file>
+        <file>img/some sprites/planet blue.png</file>
+        <file>img/some sprites/planet brown.png</file>
+        <file>img/some sprites/planet dark.png</file>
+        <file>img/some sprites/planet dark blue.png</file>
+        <file>img/some sprites/planet golden.png</file>
+        <file>img/some sprites/planet gray.png</file>
+        <file>img/some sprites/planet gray 2.png</file>
+        <file>img/some sprites/planet greenish.png</file>
+        <file>img/some sprites/planet iridium.png</file>
+        <file>img/some sprites/planet notsure.png</file>
+        <file>img/some sprites/planet orange.png</file>
+        <file>img/some sprites/planet pale.png</file>
+        <file>img/some sprites/planet red.png</file>
+    </qresource>
+</RCC>

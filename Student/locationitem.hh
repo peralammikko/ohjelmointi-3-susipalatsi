@@ -17,7 +17,7 @@ class LocationItem : public mapItem
 {
     Q_OBJECT
 public:
-    LocationItem(const std::shared_ptr<Interface::Location> location);
+    LocationItem(const std::shared_ptr<Interface::Location> location, std::vector<std::pair<QString, QString>> spritePaths);
     ~LocationItem();
     // Luodaan itemille muoto (neliö)
     QRectF boundingRect() const override;
@@ -63,6 +63,9 @@ public:
 
     agentItem *getAgentItemFor(std::shared_ptr<Interface::AgentInterface> agent);
 
+    QPixmap* governorPixmap(){return governorImage_;}
+    QPixmap* resourcePixmap(){return resourceImage_;}
+
 
 signals:
     void locationItemPressed(LocationItem*);
@@ -81,6 +84,11 @@ private:
     std::map<std::shared_ptr<Interface::Player>, int> playerInfluence_;
 
     std::pair<LocationItem*, LocationItem*> neighbours_;
+
+    QPixmap* governorImage_;
+    QPixmap* planetImage_;
+    QPixmap* resourceImage_;
+
 
 
 };

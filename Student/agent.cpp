@@ -8,7 +8,7 @@ namespace Interface {
 
 Agent::Agent(QString name, std::weak_ptr<Player> owner) : name_(name), owner_(owner), placement_(std::weak_ptr<Location>())
 {
-    placement_.reset(); // wtf is this for
+    placement_.reset();
 }
 
 Agent::~Agent()
@@ -25,18 +25,12 @@ AgentResourceMap Agent::getAgentResources()
 {
     return gatheredResources_;
 }
-/*
-ResourceMap Agent::getResources()
-{
-    return gatheredResources_;
-}
-*/
+
 void Agent::addResource(std::shared_ptr<Interface::Location> agentAt, CommonResource res, int amount)
 {
     AgentResourceMap::iterator iter = gatheredResources_.find(agentAt);
     for (int i = 0; i < amount; i++) {
         iter->second.push_back(res);
-        qDebug() << amount << " resources added to " << this->name();
     }
 }
 
