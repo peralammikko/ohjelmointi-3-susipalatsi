@@ -45,10 +45,8 @@ void agentItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
     painter->drawPixmap(0, 0, boundingRect().width(), boundingRect().height(),  *centerimage_);
 
-
-
     painter->setPen(QPen(Qt::red, 2));
-    painter->drawText(5, 10, agentObject_->name());
+    painter->drawText(10, rect.height()-10, agentObject_->name());
 
     if (isSelected) {
         QPen pen(Qt::red, 2);
@@ -91,6 +89,8 @@ void agentItem::displayResourceChange(int amount, QString path)
         QString resourceAmount = QString::number(amount);
         displayRes_ = "+" + resourceAmount;
         displayResSprite_ = QPixmap(path);
+    } else {
+        displayRes_ = "";
     }
 }
 
