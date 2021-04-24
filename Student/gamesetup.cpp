@@ -7,6 +7,7 @@ GameSetup::GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game
 {
     Interface::SettingsReader& reader = Interface::SettingsReader::READER;
     reader.readSettings();
+    PLAYERCOUNT = reader.getValue("PLAYERS").toInt();
 
     game_.get()->connect(game_.get(), &Interface::Game::playerChanged, logic_.get(), &Logic::onPlayerChanged);
     courseRunner_->connect(courseRunner_.get(), &Interface::Runner::actionPerformed, logic_.get(), &Logic::onActionPerformed);
@@ -35,18 +36,24 @@ GameSetup::GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game
 
 }
 
-void GameSetup::checkStartingInfo(std::vector<QString> playerNames, std::vector<int> customSettings)
+void GameSetup::checkStartingInfo(std::vector<QString> names, std::vector<int> settings)
 {
-    for ( auto player : playerNames ) {
-        playerNames_.push_back(player);
+    std::vector<QString> some_names = {"RED", "BLUE", "KALJAMIES", "KURKI", "NAPANUORA", "VAIKKU", "LASKIJA"};
+
+    for (unsigned int i = 0; i < names.size(); i++ ) {
+        if (names.at(i).trimmed().isEmpty()) {
+            playerNames_.push_back(some_names.at(i));
+        } else {
+            playerNames_.push_back(names.at(i));
+        }
     }
     PLAYERCOUNT = playerNames_.size();
 
-    if (customSettings.size() != 0) {
+    if (settings.size() != 0) {
         useCustomSettings = true;
-        AGENTCOUNT = customSettings.at(0);
-        LOCATIONS = customSettings.at(1);
-        WINCONDITION = customSettings.at(2);
+        AGENTCOUNT = settings.at(0);
+        LOCATIONS = settings.at(1);
+        WINCONDITION = settings.at(2);
     } else {
         useCustomSettings = false;
     }
@@ -200,14 +207,6 @@ void GameSetup::initLogic()
 
 void GameSetup::initPlayers()
 {
-    if (useCustomSettings == false) {
-        Interface::SettingsReader& reader = Interface::SettingsReader::READER;
-        PLAYERCOUNT = reader.getValue("PLAYERS").toInt();
-    }
-
-    // TODO: Make names not hard coded maybe
-    std::vector<QString> some_names = {"RED", "BLUE", "KALJAMIES", "KURKI", "NAPANUORA", "VAIKKU", "LASKIJA"};
-
     for (unsigned int i = 0; i < PLAYERCOUNT; ++i)
     {
         game_->addPlayer(std::make_shared<Interface::Player>(game_, i, playerNames_.at(i)));
