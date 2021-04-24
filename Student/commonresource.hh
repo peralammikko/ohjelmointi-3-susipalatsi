@@ -34,11 +34,11 @@ private:
 
 };
 
+// const Interface::CommonResource NULLRES("", std::weak_ptr<Interface::Location>(), "");
+
 }
 
-using ResourceMap = std::map<std::shared_ptr<Interface::Location>, Interface::CommonResource>;
-using AgentResourceMap = std::map<std::shared_ptr<Interface::Location>, std::deque<Interface::CommonResource>>;
-
-const Interface::CommonResource NULLRES("", std::weak_ptr<Interface::Location>(), "");
+using ResourceMap = std::map<std::shared_ptr<Interface::Location>, std::shared_ptr<Interface::CommonResource>>;
+using AgentResourceMap = std::map<std::shared_ptr<Interface::Location>, std::deque<std::shared_ptr<Interface::CommonResource>>>;
 
 #endif // COMMONRESOURCE_HH

@@ -25,7 +25,7 @@ public:
     // Initialize agent's backpack for resources to gather
     void initAgentResources(AgentResourceMap agentResMap);
     AgentResourceMap getAgentResources();
-    void addResource(std::shared_ptr<Location> agentAt, CommonResource res, int amount);
+    void addResource(std::shared_ptr<Location> agentAt, std::shared_ptr<CommonResource> res, int amount);
     void removeResource(std::shared_ptr<Location> &agentAt, int amount);
     bool addCouncilCard(std::shared_ptr<Councilor> card);
     bool hasCouncilCard();

@@ -71,6 +71,7 @@ private:
 
     ResourceMap initResourceMap_;
     ResourceMap councillorDemandsMap_;
+    // std::map<std::shared_ptr<Interface::Location>, std::unique_ptr<Interface::CommonResource>> councillorDemandsMap_;
     AgentResourceMap initAgentBackpack_;
 
     std::vector<QString> playerNames_ = {};

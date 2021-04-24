@@ -17,7 +17,7 @@ class LocationItem : public mapItem
 {
     Q_OBJECT
 public:
-    LocationItem(const std::shared_ptr<Interface::Location> location, std::vector<std::pair<QString, QString>> spritePaths);
+    LocationItem(const std::shared_ptr<Interface::Location> location, std::vector<std::pair<QString, QString>> spritePaths, std::shared_ptr<Interface::CommonResource> localRes, std::shared_ptr<Interface::CommonResource> demandRes);
     ~LocationItem();
     // Luodaan itemille muoto (neliö)
     QRectF boundingRect() const override;
@@ -45,12 +45,12 @@ public:
     std::vector<int> calculateRewards(std::shared_ptr<Interface::Player> &player);
 
     // Methods for location's local resource
-    void setLocalResource(Interface::CommonResource &res);
-    Interface::CommonResource getLocalResource();
+    void setLocalResource(std::shared_ptr<Interface::CommonResource> &res);
+    std::shared_ptr<Interface::CommonResource> getLocalResource();
 
     // Methods for location's demanded resources
-    void setDemandedResource(Interface::CommonResource &res);
-    Interface::CommonResource getDemandedResource();
+    void setDemandedResource(std::shared_ptr<Interface::CommonResource> &res);
+    std::shared_ptr<Interface::CommonResource> getDemandedResource();
 
     void checkCouncillorCard();
     
@@ -78,8 +78,8 @@ private:
     bool isHovered_ = false;
 
     // Resources are initially set to a constant NULL to avoid errors
-    Interface::CommonResource localRes_ = NULLRES;
-    Interface::CommonResource demandRes_ = NULLRES;
+    std::shared_ptr<Interface::CommonResource> localRes_ = nullptr;
+    std::shared_ptr<Interface::CommonResource> demandRes_ = nullptr;
     
     std::map<std::shared_ptr<Interface::Player>, int> playerInfluence_;
 
