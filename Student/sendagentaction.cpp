@@ -41,8 +41,9 @@ void SendAgentAction::perform()
     QPointF currentPos = aItem_->scenePos();
     aItem_->setPos(newLocItem_->mapFromScene(currentPos));
     aItem_->setParentItem(newLocItem_);
-    aItem_->setHome(QPointF(0,0));
-    aItem_->goHome();
+    newLocItem_->rearrange();
+   // aItem_->setHome(QPointF(0,0));
+   // aItem_->goHome();
 }
 
 mapItem *SendAgentAction::getTargetMapItem()

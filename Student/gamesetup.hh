@@ -23,15 +23,14 @@
 #include "../Course/runner.h"
 
 // reads settings
-#include "../Course/settingsreader.h"
+
 
 #include <cmath>
 
-// Maybe do not need these?
-
-#include "../Course/player.h"
-#include "../Course/actioninterface.h"
-#include "../Course/controlinterface.h"
+#include "aicontrol.hh"
+#include "gamescene.hh"
+#include "startingscreen.hh"
+#include "../Course/settingsreader.h"
 
 
 class GameSetup

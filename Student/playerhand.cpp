@@ -1,6 +1,4 @@
 #include "playerhand.hh"
-#include "carditem.hh"
-#include "agentitem.hh"
 
 PlayerHand::PlayerHand(QGraphicsScene* scene, std::shared_ptr<const Interface::Player> player) : scene_(scene), player_(player)
 {
@@ -40,14 +38,46 @@ void PlayerHand::addMapItem(mapItem* mItem)
     rearrange();
 }
 
-void PlayerHand::setActability(bool canAct)
-{
-
-}
-
 std::shared_ptr<const Interface::Player> PlayerHand::getOwner()
 {
     return player_;
+}
+
+std::vector<agentItem *> PlayerHand::getAgentItems()
+{
+    std::vector<agentItem*> aItems = {};
+    QList<QGraphicsItem *> const items = childItems();
+    int count = items.size();
+    if (count) {
+
+        // Separate cards from agents and get their total width
+        for (int i = 0; i < count; ++i) {
+            //items.at(i)->show();
+            auto mItem = dynamic_cast<agentItem*>(items.at(i));
+            if (mItem){
+                aItems.push_back(mItem);
+            }
+        }
+    }
+    return aItems;
+}
+
+std::vector<CardItem *> PlayerHand::getCardItems()
+{
+    std::vector<CardItem*> cItems = {};
+    QList<QGraphicsItem *> const items = childItems();
+    int count = items.size();
+    if (count) {
+        // Separate cards from agents and get their total width
+        for (int i = 0; i < count; ++i) {
+            //items.at(i)->show();
+            auto mItem = dynamic_cast<CardItem*>(items.at(i));
+            if (mItem){
+                cItems.push_back(mItem);
+            }
+        }
+    }
+    return cItems;
 }
 
 void PlayerHand::removeActionCards()

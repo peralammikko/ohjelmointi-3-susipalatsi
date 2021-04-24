@@ -11,6 +11,7 @@ SOURCES += \
     agentactioninterface.cpp \
     agentdialog.cpp \
     agentitem.cpp \
+    aicontrol.cpp \
     cardpaymentaction.cpp \
     commonresource.cpp \
     carditem.cpp \
@@ -61,6 +62,7 @@ HEADERS += \
     agentactioninterface.hh \
     agentdialog.hh \
     agentitem.hh \
+    aicontrol.hh \
     cardpaymentaction.hh \
     commonresource.hh \
     carditem.hh \

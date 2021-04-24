@@ -130,7 +130,6 @@ Interface::CommonResource LocationItem::getDemandedResource()
     return demandRes_;
 }
 
-
 void LocationItem::generateNewDemand()
 {
     GameScene* scene = dynamic_cast<GameScene*>(this->scene());

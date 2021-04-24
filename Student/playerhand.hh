@@ -5,6 +5,10 @@
 #include <QGraphicsScene>
 #include "../Course/player.h"
 #include "mapitem.hh"
+#include "carditem.hh"
+#include "agentitem.hh"
+
+class CardItem;
 
 class PlayerHand : public mapItem
 {
@@ -24,6 +28,9 @@ public:
     void setActability(bool canAct);
 
     std::shared_ptr<const Interface::Player> getOwner();
+
+    std::vector<agentItem *> getAgentItems();
+    std::vector<CardItem *> getCardItems();
 
     void removeActionCards();
 

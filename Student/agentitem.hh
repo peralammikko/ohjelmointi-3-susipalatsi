@@ -27,7 +27,6 @@ public:
 
     void displayResourceChange(int amount, QString path); // TODO: maybe add sprite too?
 
-
 protected:
     // some cool hovering stuff if these are needed.
     // TODO: these do nothing now

@@ -1,8 +1,6 @@
 #include <QDirIterator>
 #include "gamesetup.hh"
-#include "gamescene.hh"
-#include "startingscreen.hh"
-#include "settingsscreen.hh"
+
 
 GameSetup::GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game, std::shared_ptr<GameRunner> courseRunner, std::shared_ptr<Logic> logic, std::vector<QString> playerNames, std::vector<int> customSettings)
     : gameScene_(gameScene), game_(game), courseRunner_(courseRunner), logic_(logic)
@@ -264,8 +262,12 @@ void GameSetup::initPlayerControls()
     auto players = game_->players();
     for (unsigned int i = 0; i < players.size(); ++i)
     {
-        // Does every player need its own control class?
-        courseRunner_->setPlayerControl(players.at(i), std::make_shared<Interface::ManualControl>());
+        if (i == 1){
+              courseRunner_->setPlayerControl(players.at(i),  std::make_shared<Interface::AiControl>(gameScene_, players.at(i)));
+        } else {
+             courseRunner_->setPlayerControl(players.at(i), std::make_shared<Interface::ManualControl>());
+        }
+
     }
 }
 

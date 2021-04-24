@@ -68,7 +68,7 @@ public:
     // A declared action is forgotten and declaring MapItem is returned back to its home position
     void resetAction();
 
-    // Returns every location item (planet)
+    // Returns every location item on the scene
     std::vector<LocationItem *> GetLocItems();
 
     // When the player has been changed, makes every item that does not belong to the player undraggable.
@@ -80,6 +80,9 @@ public:
     void nextRound();
 
     ResourceMap getResMap();
+
+    // Returns vector of map items which belong to the player. AI needs this.
+    std::vector<agentItem *> getAgentItemsForPlayer(std::shared_ptr<Interface::Player> player);
 
 
 signals:
@@ -104,7 +107,7 @@ private:
 
     // When a manual player declares an action, the game waits for them to choose an action card to discard.
     std::shared_ptr<Interface::ActionInterface> declaredAction_;
-    mapItem* declaringMapItem_;
+    mapItem* declaringMapItem_ = nullptr;
 
     // changes state of cards in handCards_ to show and arranges them nicely as a hand centered in handAnchorCoords_
     // also connects drag drop signals with those carditems
