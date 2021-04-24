@@ -97,14 +97,14 @@ void GameSetup::initResourceMaps()
     }
     for (auto loc : game_->locations()) {
         //QString resName = paikkaresut_.at(i);
-        Interface::CommonResource res(resources.at(i).first, loc, resources.at(i).second,0);
+        std::shared_ptr<Interface::CommonResource> res = std::make_shared<Interface::CommonResource>(resources.at(i).first, loc, resources.at(i).second);
 
         // Resource map for locations & runners
-        std::pair<std::shared_ptr<Interface::Location>, Interface::CommonResource> pair(loc, res);
+        std::pair<std::shared_ptr<Interface::Location>, std::shared_ptr<Interface::CommonResource>> pair(loc, res);
         initResourceMap_.insert(pair);
 
         // Resource map for agents
-        std::pair<std::shared_ptr<Interface::Location>, std::deque<Interface::CommonResource>> pair2;
+        std::pair<std::shared_ptr<Interface::Location>, std::deque<std::shared_ptr<Interface::CommonResource>>> pair2;
         pair2.first = loc;
         initAgentBackpack_.insert(pair2);
 
@@ -127,7 +127,8 @@ void GameSetup::initDemandMaps()
             if (it->first != location) {
                 res = it->second;
                 int amount = 2 + Interface::Random::RANDOM.uint(3);
-                Interface::CommonResource demand(res.name(), it->first, res.getSpritePath(), amount);
+                // std::shared_ptr<Interface::CommonResource> demand = std::make_shared<Interface::CommonResource>(res->name(), it->first, res->getSpritePath(), amount);
+                std::shared_ptr<Interface::CommonResource> demand = std::make_shared<Interface::CommonResource>(res->name(), it->first, res->getSpritePath(), amount);
                 councillorDemandsMap_.insert({location, demand});
                 break;
             }
@@ -139,7 +140,7 @@ void GameSetup::initLocItems()
 {
     std::vector<std::shared_ptr<Interface::Location>> locvec = game_->locations();
     std::vector<std::pair<std::shared_ptr<Interface::Location>, std::vector<std::pair<QString, QString>>>> locationInformation;
-    std::unique_ptr<QDirIterator> it;
+    std::shared_ptr<QDirIterator> it;
 
     std::vector<std::pair<QString, QString>> types;
     types = {{"governorLbl",":/img/governors/img/governors/"},
@@ -191,7 +192,7 @@ void GameSetup::initLocDecks()
         auto resource = locations.at(i)->getLocalResource();
 
             for  (int j = 0; j < 10; j++) {
-                location->deck()->addCard(std::make_shared<Interface::CommonResource>(resource.name(), location, resource.getSpritePath(), 1));
+                location->deck()->addCard(std::make_shared<Interface::CommonResource>(resource->name(), location, resource->getSpritePath(), 1));
                 location->deck()->addCard(std::make_shared<Interface::ActionCard>());
             }
             location->deck()->shuffle();

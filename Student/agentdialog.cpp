@@ -41,7 +41,8 @@ void AgentDialog::listResources()
     for (auto res : agent_->getAgentResources()) {
         int resAmount = res.second.size();
         if (resAmount > 0) {
-            QString resName = res.second.begin()->name();
+            std::shared_ptr<Interface::CommonResource> resCard = res.second.at(0);
+            QString resName = resCard->name();
             ui->resourceList->addItem(resName + ": " + QString::number(resAmount));
         }
     }

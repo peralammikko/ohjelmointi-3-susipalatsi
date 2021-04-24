@@ -16,27 +16,27 @@ PopupDialog::PopupDialog(LocationItem* &loc, std::shared_ptr<Interface::Player> 
     locationBV_ = loc->getBasevalue();
     localRes_ = loc->getLocalResource();
     neededRes_ = loc->getDemandedResource();
-    std::shared_ptr<Interface::Location> demandLoc = neededRes_.location().lock();
+    std::shared_ptr<Interface::Location> demandLoc = neededRes_->location().lock();
 
     // Setting up labels
 
     // Resource information
-    ui->areaResourceLabel->setText(localRes_.name());
+    ui->areaResourceLabel->setText(localRes_->name());
     ui->deckSizeLabel->setText(QString::number(location_->deck()->size()));
     ui->BVlabel->setText(QString::number(locationBV_));
     ui->influenceNum->setText(QString::number(location_->influence(player_)));
 
     // Councillor & location information
-    ui->councillorDemandsLabel->setText(neededRes_.name() + " x " + QString::number(neededRes_.amount()));
+    ui->councillorDemandsLabel->setText(neededRes_->name() + " x " + QString::number(neededRes_->amount()));
     ui->councillorNameLabel->setText(location_->councilor()->name());
     ui->demandLocLabel->setText("(in " + demandLoc->name() + ")");
     ui->councillorCardText->setText("Councillor card: \n"
                                     + location_->councilor()->name());
-    auto satan = QPixmap(loc->getLocalResource().getSpritePath());
+    auto satan = QPixmap(loc->getLocalResource()->getSpritePath());
 
 
-    ui->localResLbl->setPixmap(QPixmap(loc->getLocalResource().getSpritePath()).scaled(ui->localResLbl->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
-    ui->demandSpriteLbl->setPixmap(QPixmap(loc->getDemandedResource().getSpritePath()).scaled(ui->demandSpriteLbl->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->localResLbl->setPixmap(QPixmap(loc->getLocalResource()->getSpritePath()).scaled(ui->localResLbl->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->demandSpriteLbl->setPixmap(QPixmap(loc->getDemandedResource()->getSpritePath()).scaled(ui->demandSpriteLbl->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
     ui->councilorLbl->setPixmap((*loc->governorPixmap()).scaled(ui->councilorLbl->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation) );
 
     //ui->deman->setPixmap(QPixmap(loc->getDemandedResource().getSpritePath()));
@@ -67,7 +67,7 @@ PopupDialog::~PopupDialog()
 void PopupDialog::checkAgentResources(std::set<std::shared_ptr<Interface::AgentInterface>> &agentsHere)
 {
     // Getting the location's required resource
-    int reqAmount = neededRes_.amount();
+    int reqAmount = neededRes_->amount();
     int agentHas = 0;
     // Seek those agents (cards) from player that are in current location
     for (auto card : player_->cards()) {
@@ -75,7 +75,7 @@ void PopupDialog::checkAgentResources(std::set<std::shared_ptr<Interface::AgentI
 
         // Potential agent found
         if (agent and agentsHere.find(agent) != agentsHere.end()) {
-            std::shared_ptr<Interface::Location> demandLoc = neededRes_.location().lock();
+            std::shared_ptr<Interface::Location> demandLoc = neededRes_->location().lock();
             auto agentResources = agent->getAgentResources();
 
             if (!demandLoc) {
@@ -122,8 +122,8 @@ void PopupDialog::fillAreaAgentsList(std::set<std::shared_ptr<Interface::AgentIn
 void PopupDialog::on_tradeButton_clicked()
 {
     // Work still in progress, probably gonna move to locationitem
-    auto demandLoc = neededRes_.location().lock();
-    int demandAmount = neededRes_.amount();
+    auto demandLoc = neededRes_->location().lock();
+    int demandAmount = neededRes_->amount();
     if (location_->influence(player_) < 5) {
         ui->canGetCardLabel->setText("Not enough influence \n"
                                      "on councillor yet");
