@@ -1,4 +1,5 @@
 #include "aicontrol.hh"
+#include <algorithm>
 
 namespace Interface {
 
@@ -96,20 +97,20 @@ std::shared_ptr<ActionInterface> AiControl::ponderActions()
             }
         }
 
-        // Agent has a small chance to be moved if the AI already has sufficient influence in the area
-        if (homeItem->getObject()->influence(player_) > 4){
-            unsigned int rand = Interface::Random::RANDOM.uint(6);
-            if (rand == 0){
-                action = std::make_shared<SendAgentAction>(neighbours.first, aitem);
+        // Agent has a small chance to be moved to a neighbouring location.
+        // This chance increases as the agent's influence in the area increases (the agent gets bored!)
+        int influence = homeItem->getObject()->influence(player_);
+        unsigned int rand = Interface::Random::RANDOM.uint(std::max(10-influence, 2));
+        if (rand == 0){
+            action = std::make_shared<SendAgentAction>(neighbours.first, aitem);
+            if (action->canPerform()){
+                return action;
+            }
+        } else if (rand == 1) {
+            if (canGetCounilorCard(aitem, neighbours.second)){
+                action = std::make_shared<SendAgentAction>(neighbours.second, aitem);
                 if (action->canPerform()){
                     return action;
-                }
-            } else if (rand == 1) {
-                if (canGetCounilorCard(aitem, neighbours.second)){
-                    action = std::make_shared<SendAgentAction>(neighbours.second, aitem);
-                    if (action->canPerform()){
-                        return action;
-                    }
                 }
             }
         }
