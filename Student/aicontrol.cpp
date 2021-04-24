@@ -28,8 +28,6 @@ std::shared_ptr<ActionInterface> AiControl::nextAction()
          hand->rearrange();
          return action;
      }
-
-
 }
 
 std::shared_ptr<ActionInterface> AiControl::ponderActions()
@@ -45,7 +43,6 @@ std::shared_ptr<ActionInterface> AiControl::ponderActions()
 
     // The AI prioritizes playing agents from its hand
     if (handAgents.size()){
-
         unsigned int randomLocIndex = Interface::Random::RANDOM.uint(locItems.size()-1);
         action = std::make_shared<SendAgentAction>(locItems.at(randomLocIndex), handAgents.at(0));
         if (action->canPerform()){
@@ -98,6 +95,24 @@ std::shared_ptr<ActionInterface> AiControl::ponderActions()
                 return action;
             }
         }
+
+        // Agent has a small chance to be moved if the AI already has sufficient influence in the area
+        if (homeItem->getObject()->influence(player_) > 4){
+            unsigned int rand = Interface::Random::RANDOM.uint(6);
+            if (rand == 0){
+                action = std::make_shared<SendAgentAction>(neighbours.first, aitem);
+                if (action->canPerform()){
+                    return action;
+                }
+            } else if (rand == 1) {
+                if (canGetCounilorCard(aitem, neighbours.second)){
+                    action = std::make_shared<SendAgentAction>(neighbours.second, aitem);
+                    if (action->canPerform()){
+                        return action;
+                    }
+                }
+            }
+        }
     }
 
     return action;
@@ -108,6 +123,12 @@ bool AiControl::canGetCounilorCard(agentItem *aitem, LocationItem *locItem)
     if (aitem->getAgentClass()->hasCouncilCard()){
         return false;
     }
+    if (locItem->getObject()->influence(player_) < 5){
+        return false;
+    } else {
+        qDebug() << "AI has agent with 5 or more influence in a location";
+    }
+
     auto neededRes = locItem->getDemandedResource();
     int reqAmount = neededRes.amount();
     int agentHas = 0;
