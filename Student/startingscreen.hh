@@ -37,6 +37,8 @@ private slots:
 
     void on_pushButton_clicked();
 
+    void on_closeFrameButton_clicked();
+
 private:
     Ui::StartingScreen *ui;
     SettingsScreen* settings = nullptr;
@@ -45,6 +47,8 @@ private:
     QList<QLineEdit*> qlist;
 
     std::vector<int> customSettings = {};
+
+    const QFont consoleFont = QFont("Console Regular", 11);
 };
 
 #endif // STARTINGSCREEN_HH

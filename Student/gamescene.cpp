@@ -24,7 +24,6 @@ GameScene::GameScene(QWidget *parent, std::weak_ptr<Interface::Game> game) : QGr
     addItem(arrow1_);
     arrow2_ = new SceneArrow(nullptr, nullptr);
     addItem(arrow2_);
-
 }
 
 GameScene::~GameScene()
@@ -48,12 +47,14 @@ void GameScene::drawLocations(std::vector<std::pair<std::shared_ptr<Interface::L
 
     for (int i = 0; i < locationCount; i++) {
         currentLocation = locationInformation.at(i).first;
-        LocationItem* locItem = new LocationItem(currentLocation, locationInformation.at(i).second);
+        std::shared_ptr<Interface::CommonResource> localRes = resMap_.at(currentLocation);
+        std::shared_ptr<Interface::CommonResource> demandRes = demandsMap_.at(currentLocation);
+
+        LocationItem* locItem = new LocationItem(currentLocation, locationInformation.at(i).second, localRes, demandRes);
         connect(locItem, &LocationItem::locationItemPressed, this, &GameScene::onLocationItemClicked);
-        Interface::CommonResource localRes = resMap_.at(currentLocation);
-        locItem->setLocalResource(localRes);
-        Interface::CommonResource demandRes = demandsMap_.at(currentLocation);
-        locItem->setDemandedResource(demandRes);
+        // locItem->setLocalResource(localRes);
+        // locItem->setDemandedResource(demandRes);
+
         drawItem(locItem);
         locItem->setParent(this);
         locationItems_.push_back(locItem);

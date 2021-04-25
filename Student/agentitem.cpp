@@ -19,13 +19,13 @@ agentItem::agentItem(std::shared_ptr<Interface::Agent> &agentInterface) : agentC
     homing_ = false;
     //timer_ = new QTimer(this);
     setAcceptHoverEvents(true);
-    centerimage_ = new QPixmap(":/img/img/some sprites/spacecowboyBIG.png");
+
+    centerimage_ = new QPixmap(":/img/img/some sprites/spaceagent.png");
     if (agentObject_->owner().lock()){
         unsigned int id = agentObject_->owner().lock()->id();
         Q_ASSERT(id < PlayerColors.size());
         playerColor_ = PlayerColors.at(id);
     }
-
 
 }
 
@@ -51,8 +51,10 @@ void agentItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
     painter->drawPixmap(0, 0, boundingRect().width(), boundingRect().height(),  *centerimage_);
 
-    painter->setPen(QPen(playerColor_, 2));
-    painter->drawText(10, rect.height()-10, agentObject_->name());
+    painter->setPen(QPen(Qt::yellow, 2));
+    QRect textBox(boundingRect().x(), boundingRect().y()+30, boundingRect().width(), boundingRect().height());
+    painter->drawText(textBox, Qt::AlignCenter, agentObject_->name());
+
 
     painter->drawEllipse(rect);
     if (waitingForActionCard_){

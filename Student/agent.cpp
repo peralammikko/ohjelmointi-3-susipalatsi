@@ -26,7 +26,7 @@ AgentResourceMap Agent::getAgentResources()
     return gatheredResources_;
 }
 
-void Agent::addResource(std::shared_ptr<Interface::Location> agentAt, CommonResource res, int amount)
+void Agent::addResource(std::shared_ptr<Interface::Location> agentAt, std::shared_ptr<CommonResource> res, int amount)
 {
     AgentResourceMap::iterator iter = gatheredResources_.find(agentAt);
     for (int i = 0; i < amount; i++) {

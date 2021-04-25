@@ -3,7 +3,13 @@
 #include "locationitem.hh"
 #include "gamescene.hh"
 
-LocationItem::LocationItem(const std::shared_ptr<Interface::Location> location, std::vector<std::pair<QString, QString> > spritePaths) : locationObject_(location), basevalue_(1), isSelected(false), isHovered_(false)
+LocationItem::LocationItem(const std::shared_ptr<Interface::Location> location, std::vector<std::pair<QString, QString> > spritePaths, std::shared_ptr<Interface::CommonResource> localRes, std::shared_ptr<Interface::CommonResource> demandRes) :
+    locationObject_(location),
+    basevalue_(1),
+    localRes_(localRes),
+    demandRes_(demandRes),
+    isSelected(false),
+    isHovered_(false)
 {
     // Default sprites
     planetImage_ = new QPixmap(":/img/planets/img/some sprites/planet iridium.png");
@@ -42,12 +48,15 @@ void LocationItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     painter->drawEllipse(govrect);
     painter->drawPixmap(govrect.x()+5, govrect.y()+5, govrect.width()-10, govrect.height()-10, localRes_.getSpritePath());
 
-    QPoint upperpos(boundingRect().x()+20, 20);
-    QPoint lowerpos(0, boundingRect().height()-20);
+    
+    int xPos = boundingRect().x();
+    int yPos = boundingRect().y();
+    int yPadding = 70;
     QString placeName = this->getObject()->name();
-    QPen pen;
-    painter->drawText(upperpos, placeName);
-    // painter->drawText(lowerpos, "Base value: " + QString::number(this->getBasevalue()));
+    QRect nameRect(xPos, yPos-yPadding, boundingRect().width(),boundingRect().height());
+
+    painter->drawPixmap(0, 0, boundingRect().width(), boundingRect().height(),  *planetImage_);
+    painter->drawText(nameRect, Qt::AlignCenter, placeName);
 
 }
 
@@ -120,12 +129,12 @@ std::vector<int> LocationItem::calculateRewards(std::shared_ptr<Interface::Playe
 
 }
 
-void LocationItem::setDemandedResource(Interface::CommonResource &res)
+void LocationItem::setDemandedResource(std::shared_ptr<Interface::CommonResource> &res)
 {
     demandRes_ = res;
 }
 
-Interface::CommonResource LocationItem::getDemandedResource()
+std::shared_ptr<Interface::CommonResource> LocationItem::getDemandedResource()
 {
     return demandRes_;
 }
@@ -143,7 +152,7 @@ void LocationItem::generateNewDemand()
             if (it->first != locationObject_) {
                 demandRes_ = it->second;
                 int amount = 2+ Interface::Random::RANDOM.uint(3);
-                demandRes_.setAmountTo(amount);
+                demandRes_->setAmountTo(amount);
                 break;
             }
         }
@@ -207,12 +216,12 @@ agentItem *LocationItem::getAgentItemFor(std::shared_ptr<Interface::AgentInterfa
 }
 
 
-void LocationItem::setLocalResource(Interface::CommonResource &res)
+void LocationItem::setLocalResource(std::shared_ptr<Interface::CommonResource> &res)
 {
     localRes_ = res;
 }
 
-Interface::CommonResource LocationItem::getLocalResource()
+std::shared_ptr<Interface::CommonResource> LocationItem::getLocalResource()
 {
     return localRes_;
 }

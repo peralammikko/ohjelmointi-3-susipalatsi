@@ -48,9 +48,12 @@ GameWindow::GameWindow(QWidget *parent) :
     gameTime_->start(50);
 
     // Asetetaan graphicViewin ja ikkunan koot staattiseks ensalkuun
-    gameui_->graphicsView->setFixedSize(1400, 800);
+    gameui_->graphicsView->setFixedSize(1410, 810);
     gameScene_->setSceneRect(0,0,1400,800);
-   // this->setFixedSize(1450, 950);
+    auto background = QPixmap(":/img/background/background.png");
+    QBrush brushBackground = QBrush(background);
+    gameui_->graphicsView->setBackgroundBrush(brushBackground);
+
     this->setWindowTitle("SUSIPALATSI: TEH GAME");
 
     logic_ = std::make_shared<Logic>(courseRunner, game_, gameScene_);
@@ -104,6 +107,21 @@ void GameWindow::listInfluence(std::shared_ptr<Interface::Player> &currentPlayer
     for (auto loc : game_->locations()) {
         int playerInf = loc->influence(currentPlayer);
         gameui_->influenceList->addItem(loc->name() + ": " + QString::number(playerInf));
+    }
+}
+
+void GameWindow::listCouncilCards()
+{
+    std::vector<std::shared_ptr<Interface::Councilor>> cardVector;
+    for (auto pl : game_->players()) {
+        cardVector = {};
+        for (auto card : pl->cards()) {
+            std::shared_ptr<Interface::Councilor> councilCard = std::dynamic_pointer_cast<Interface::Councilor>(card);
+            if (councilCard) {
+                cardVector.push_back(councilCard);
+            }
+        }
+        gameui_->councilCardBoard->addItem(pl->name() + ": " + cardVector.size());
     }
 }
 

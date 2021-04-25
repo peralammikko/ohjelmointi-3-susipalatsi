@@ -57,6 +57,8 @@ public:
     void listAgents(std::shared_ptr<Interface::Player> &currentPlayer);
     void listInfluence(std::shared_ptr<Interface::Player> &currentPlayer);
 
+    void listCouncilCards();
+
 
 private slots:
     void on_passButton_clicked();

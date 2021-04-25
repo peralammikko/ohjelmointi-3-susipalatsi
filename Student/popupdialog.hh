@@ -30,8 +30,8 @@ private:
     std::shared_ptr<Interface::Location> location_ = nullptr;
     std::shared_ptr<Interface::Player> player_ = nullptr;
     int locationBV_ = 0;
-    Interface::CommonResource localRes_ = NULLRES;
-    Interface::CommonResource neededRes_ = NULLRES;
+    std::shared_ptr<Interface::CommonResource> localRes_ = nullptr;
+    std::shared_ptr<Interface::CommonResource> neededRes_ = nullptr;
     std::shared_ptr<Interface::Agent> potentialAgent_ = nullptr;
 };
 
