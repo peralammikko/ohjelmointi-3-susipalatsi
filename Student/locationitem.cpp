@@ -40,14 +40,14 @@ QRectF LocationItem::boundingRect() const
 
 void LocationItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    painter->drawPixmap(0, 0, boundingRect().width(), boundingRect().height(),  *planetImage_);
-
-    QPoint upperpos(boundingRect().x()+5, 10);
-    QPoint lowerpos(0, boundingRect().height()-10);
+    int xPos = boundingRect().x();
+    int yPos = boundingRect().y();
+    int yPadding = 70;
     QString placeName = this->getObject()->name();
-    QPen pen;
-    painter->drawText(upperpos, placeName);
-    painter->drawText(lowerpos, "Base value: " + QString::number(this->getBasevalue()));
+    QRect nameRect(xPos, yPos-yPadding, boundingRect().width(),boundingRect().height());
+
+    painter->drawPixmap(0, 0, boundingRect().width(), boundingRect().height(),  *planetImage_);
+    painter->drawText(nameRect, Qt::AlignCenter, placeName);
 
 }
 

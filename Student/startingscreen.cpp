@@ -12,9 +12,10 @@ StartingScreen::StartingScreen(QWidget *parent) :
     ui->nameFrame->hide();
     ui->errorLabel->hide();
     connect(settings, &SettingsScreen::sendInfo, this, &StartingScreen::getSettings);
+    this->setWindowTitle("Susipalatsi");
+    ui->logoLabel->setPixmap(logo);
 
     ui->namesLayout->setAlignment(Qt::AlignTop);
-
     qlist.push_back(ui->nameLine1);
     qlist.push_back(ui->nameLine2);
 }
@@ -46,7 +47,6 @@ void StartingScreen::on_addPlayerBtn_clicked()
         qlist.push_back(lineEd);
         ui->namesLayout->addWidget(lineEd);
 
-        // lineEd->setObjectName("nameLine"+QString::number(qlist.count()));
     } else {
         ui->errorLabel->setText("Maximum player capacity reached");
         ui->errorLabel->show();
@@ -93,4 +93,9 @@ void StartingScreen::on_pushButton_clicked()
     }
     emit sendStartingInfo(playerNames, customSettings);
     accept();
+}
+
+void StartingScreen::on_closeFrameButton_clicked()
+{
+    ui->nameFrame->close();
 }

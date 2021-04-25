@@ -3,6 +3,8 @@
         <file>img/some sprites/agentbobby.png</file>
         <file>img/some sprites/spacecowboy.png</file>
         <file>img/some sprites/spacecowboyBIG.png</file>
+        <file>img/some sprites/spacegoon.png</file>
+        <file>img/some sprites/spaceagent.png</file>
     </qresource>
     <qresource prefix="/img/res">
         <file>img/resources/Plasmastone.png</file>
@@ -36,5 +38,9 @@
         <file>img/some sprites/planet orange.png</file>
         <file>img/some sprites/planet pale.png</file>
         <file>img/some sprites/planet red.png</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>img/background/background.png</file>
+        <file>img/logo.png</file>
     </qresource>
 </RCC>

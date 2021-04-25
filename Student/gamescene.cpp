@@ -24,7 +24,6 @@ GameScene::GameScene(QWidget *parent, std::weak_ptr<Interface::Game> game) : QGr
     addItem(arrow1_);
     arrow2_ = new SceneArrow(nullptr, nullptr);
     addItem(arrow2_);
-
 }
 
 void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
