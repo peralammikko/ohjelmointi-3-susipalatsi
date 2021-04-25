@@ -40,6 +40,7 @@ GameSetup::GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game
 
 void GameSetup::checkStartingInfo(std::vector<QString> names, std::vector<int> settings)
 {
+    Interface::SettingsReader& reader = Interface::SettingsReader::READER;
     std::vector<QString> some_names = {"RED", "BLUE", "KALJAMIES", "KURKI", "NAPANUORA", "VAIKKU", "LASKIJA"};
 
     for (unsigned int i = 0; i < names.size(); i++ ) {
@@ -52,22 +53,27 @@ void GameSetup::checkStartingInfo(std::vector<QString> names, std::vector<int> s
     PLAYERCOUNT = playerNames_.size();
 
     if (settings.size() != 0) {
-        useCustomSettings = true;
         AGENTCOUNT = settings.at(0);
         LOCATIONS = settings.at(1);
         WINCONDITION = settings.at(2);
     } else {
-        useCustomSettings = false;
+        AGENTCOUNT = reader.getValue("STARTING_AGENTS").toInt();
+        LOCATIONS = std::min(reader.getValue("LOCATIONS").toInt(), reader.getValue("MAX_LOCATIONS").toInt());
+        WINCONDITION = 3;
     }
-
+    qDebug() << AGENTCOUNT;
+    qDebug() << LOCATIONS;
+    qDebug() << WINCONDITION;
 }
 
 void GameSetup::initLocations()
 {
+    /*
     if (useCustomSettings == false) {
         Interface::SettingsReader& reader = Interface::SettingsReader::READER;
         LOCATIONS = std::min(reader.getValue("LOCATIONS").toInt(), reader.getValue("MAX_LOCATIONS").toInt());
     }
+    */
 
     // TODO: move names to settingsreader file maybe
     const std::vector<QString> paikat_ = {"Marketti", "Kirkko", "Taverna", "Kauppiaiden kilta", "Menomesta", "Salapaikka"};
@@ -120,9 +126,10 @@ void GameSetup::initDemandMaps()
         auto res = pair.second;
 
         // Make it so that location's demands can not be it's own resource
+        int maxRandomRoll = LOCATIONS-1;
         while (true) {
             it = initResourceMap_.begin();
-            int num = Interface::Random::RANDOM.uint(5);
+            int num = Interface::Random::RANDOM.uint(maxRandomRoll);
             std::advance(it, num);
             if (it->first != location) {
                 res = it->second;
@@ -202,9 +209,11 @@ void GameSetup::initLocDecks()
 
 void GameSetup::initLogic()
 {
+    /*
     if (useCustomSettings == false) {
         WINCONDITION = 3;
     }
+    */
     logic_->infoResourceMaps(initResourceMap_, councillorDemandsMap_, WINCONDITION);
 }
 
@@ -240,9 +249,11 @@ void GameSetup::initPlayerHands()
 void GameSetup::addPlayerSetupCards()
 {
     int cards = AGENTCOUNT;
+    /*
     if (useCustomSettings == false) {
         cards = Interface::SettingsReader::READER.getValue("STARTING_AGENTS").toInt();
     }
+    */
 
     for (unsigned int i=0; i<game_->players().size(); ++i) {
         std::shared_ptr<Interface::Player> player = game_->players().at(i);
@@ -271,10 +282,12 @@ void GameSetup::initPlayerControls()
 
 void GameSetup::initAgentInterfaces()
 {
+    /*
     if (useCustomSettings == false) {
         Interface::SettingsReader& reader = Interface::SettingsReader::READER;
         AGENTCOUNT = reader.getValue("STARTING_AGENTS").toInt();
     }
+    */
 
     // TODO: Make names not hard coded maybe
     std::vector<QString> some_names = {"PERRY", "KARHU", "VALDEMAR", "PONTIKKA", "KUMi",

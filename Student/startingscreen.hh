@@ -48,7 +48,7 @@ private:
 
     std::vector<int> customSettings = {};
 
-    const QPixmap logo = QPixmap(":/img/logo.png");
+    const QFont consoleFont = QFont("Console Regular", 11);
 };
 
 #endif // STARTINGSCREEN_HH

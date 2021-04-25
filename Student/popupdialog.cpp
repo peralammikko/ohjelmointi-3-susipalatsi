@@ -27,6 +27,7 @@ PopupDialog::PopupDialog(LocationItem* &loc, std::shared_ptr<Interface::Player> 
     ui->influenceNum->setText(QString::number(location_->influence(player_)));
 
     // Councillor & location information
+    ui->locationNameLabel->setText(location_->name());
     ui->councillorDemandsLabel->setText(neededRes_->name() + " x " + QString::number(neededRes_->amount()));
     ui->councillorNameLabel->setText(location_->councilor()->name());
     ui->demandLocLabel->setText("(in " + demandLoc->name() + ")");

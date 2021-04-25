@@ -81,7 +81,6 @@ private:
     unsigned int LOCATIONS;
     unsigned int WINCONDITION;
 
-    bool useCustomSettings = false;
 };
 
 #endif // GAMESETUP_HH
