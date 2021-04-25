@@ -29,11 +29,6 @@ public:
     GameScene(QWidget* parent, std::weak_ptr<Interface::Game> game);
 
     ~GameScene();
-    // This is a deprecated method which needs to be replaced or removed
-    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
-
-
-    void drawItem(mapItem* item);
 
     // Makes agents visible and places them in a "deployment zone" (?) a hand-like area where agents are
     // and where they can be dragged to locations

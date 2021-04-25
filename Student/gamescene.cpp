@@ -33,13 +33,6 @@ GameScene::~GameScene()
 
 }
 
-void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-    qDebug() << "mouse pos on click:" <<event->scenePos();
-    update();
-    QGraphicsScene::mousePressEvent(event);
-}
-
 void GameScene::drawLocations(std::vector<std::pair<std::shared_ptr<Interface::Location>, std::vector<std::pair<QString, QString>>>> locationInformation)
 {
     std::shared_ptr<Interface::Location> currentLocation = nullptr;
@@ -52,21 +45,14 @@ void GameScene::drawLocations(std::vector<std::pair<std::shared_ptr<Interface::L
 
         LocationItem* locItem = new LocationItem(currentLocation, locationInformation.at(i).second, localRes, demandRes);
         connect(locItem, &LocationItem::locationItemPressed, this, &GameScene::onLocationItemClicked);
-        // locItem->setLocalResource(localRes);
-        // locItem->setDemandedResource(demandRes);
 
-        drawItem(locItem);
+        addItem(locItem);
         locItem->setParent(this);
         locationItems_.push_back(locItem);
     }
     shuffleLocationItems();
     rearrangeLocationItems();
     resetLocationNeighbours();
-}
-
-void GameScene::drawItem(mapItem *item)
-{
-    addItem(item);
 }
 
 void GameScene::initPlayerHandFor(std::shared_ptr<Interface::Player> player)

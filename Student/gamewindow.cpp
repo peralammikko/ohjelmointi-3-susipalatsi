@@ -74,11 +74,6 @@ GameWindow::~GameWindow()
 }
 
 
-void GameWindow::drawItem(mapItem *item)
-{
-    gameScene_->drawItem(item);
-}
-
 const std::vector<std::shared_ptr<Interface::Location> > GameWindow::getLocations()
 {
     return game_->locations();
