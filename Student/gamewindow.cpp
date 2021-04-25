@@ -63,7 +63,7 @@ GameWindow::GameWindow(QWidget *parent) :
     connect(this, &GameWindow::actionDeclared, logic_.get(), &Logic::onActionDeclared);
     connect(logic_.get(), &Logic::enteredEventPhase, this, &GameWindow::onEnteringEventPhase);
     connect(gameTime_.get(), SIGNAL(timeout()), gameScene_, SLOT(advance()));
-    GameSetup setup = GameSetup(gameScene_, game_, courseRunner,  logic_, playerNames_, gameSettings_);
+    GameSetup setup = GameSetup(gameScene_, game_, courseRunner,  logic_, playerNames_, gameSettings_, bots_);
 
     displayPlayerStats();
 }
@@ -112,6 +112,7 @@ void GameWindow::listInfluence(std::shared_ptr<Interface::Player> &currentPlayer
 
 void GameWindow::listCouncilCards()
 {
+    gameui_->councilCardBoard->clear();
     std::vector<std::shared_ptr<Interface::Councilor>> cardVector;
     for (auto pl : game_->players()) {
         cardVector = {};
@@ -121,7 +122,11 @@ void GameWindow::listCouncilCards()
                 cardVector.push_back(councilCard);
             }
         }
-        gameui_->councilCardBoard->addItem(pl->name() + ": " + cardVector.size());
+        if (cardVector.size() == 0) {
+            gameui_->councilCardBoard->addItem(pl->name() + ": 0 / 3");
+        } else {
+            gameui_->councilCardBoard->addItem(pl->name() + ": " + cardVector.size() + " / 3");
+        }
     }
 }
 
@@ -163,6 +168,7 @@ void GameWindow::onActionPerformed(std::shared_ptr<const Interface::Player> play
 void GameWindow::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer)
 {
     displayPlayerStats();
+    listCouncilCards();
 }
 
 void GameWindow::onEnteringEventPhase()
@@ -171,13 +177,27 @@ void GameWindow::onEnteringEventPhase()
     gameui_->actionHistoryWidget->scrollToBottom();
 }
 
-void GameWindow::getStartingInfo(std::vector<QString> playerNames, std::vector<int> gameSettings)
+void GameWindow::getStartingInfo(std::vector<QString> playerNames, std::vector<int> gameSettings, int bots)
 {
     playerNames_ = playerNames;
     gameSettings_ = gameSettings;
+    bots_ = bots;
 
-    for (auto i : playerNames_) {
-        qDebug() << "player: " + i;
+    /*
+    Interface::SettingsReader& reader = Interface::SettingsReader::READER;
+    reader.setPath(":/defaultsettings.dat");  // ???
+    reader.readSettings();
+    if (gameSettings.size() == 0) {
+        winCondition = reader.getValue("WINCONDITION").toInt();
     }
+    */
+
+    if (gameSettings.size() == 0) {
+        winCondition = 3;
+    } else {
+        winCondition = gameSettings.at(2);
+    }
+
+
 }
 

@@ -70,7 +70,7 @@ private slots:
     // Adds history notation that event phase happened
     void onEnteringEventPhase();
 
-    void getStartingInfo(std::vector<QString> playerNames, std::vector<int> gameSettings);
+    void getStartingInfo(std::vector<QString> playerNames, std::vector<int> gameSettings, int bots);
 
 signals:
     void actionDeclared(std::shared_ptr<Interface::ActionInterface> action);
@@ -95,6 +95,8 @@ private:
 
     std::vector<QString> playerNames_ = {};
     std::vector<int> gameSettings_ = {};
+    int bots_ = 0;
+    int winCondition = 3;
 
 };
 

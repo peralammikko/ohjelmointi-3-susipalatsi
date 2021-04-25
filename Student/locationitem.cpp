@@ -46,7 +46,7 @@ void LocationItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     QRectF govrect = QRectF(30, 30, 30, 30);
     painter->setBrush(QColor(145, 145, 145, 125));
     painter->drawEllipse(govrect);
-    painter->drawPixmap(govrect.x()+5, govrect.y()+5, govrect.width()-10, govrect.height()-10, localRes_.getSpritePath());
+    painter->drawPixmap(govrect.x()+5, govrect.y()+5, govrect.width()-10, govrect.height()-10, localRes_->getSpritePath());
 
     
     int xPos = boundingRect().x();
@@ -55,7 +55,6 @@ void LocationItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     QString placeName = this->getObject()->name();
     QRect nameRect(xPos, yPos-yPadding, boundingRect().width(),boundingRect().height());
 
-    painter->drawPixmap(0, 0, boundingRect().width(), boundingRect().height(),  *planetImage_);
     painter->drawText(nameRect, Qt::AlignCenter, placeName);
 
 }

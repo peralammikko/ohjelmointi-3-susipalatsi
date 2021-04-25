@@ -93,5 +93,4 @@ RESOURCES += \
     studentresources.qrc
 
 DISTFILES += \
-    defaultsettings.dat \
-    moon.png
+    defaultsettings.dat

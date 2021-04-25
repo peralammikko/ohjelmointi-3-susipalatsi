@@ -37,7 +37,7 @@ class GameSetup
 {
 public:
     GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game, std::shared_ptr<GameRunner> courseRunner, std::shared_ptr<Logic> logic,
-              std::vector<QString> playerNames, std::vector<int> customSettings);
+              std::vector<QString> playerNames, std::vector<int> customSettings, int bots);
 private:
     void checkStartingInfo(std::vector<QString> playerNames, std::vector<int> customSettings);
 
@@ -79,6 +79,7 @@ private:
     unsigned int AGENTCOUNT;
     unsigned int LOCATIONS;
     unsigned int WINCONDITION;
+    unsigned int BOTCOUNT;
 
 };
 

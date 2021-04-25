@@ -65,11 +65,11 @@ bool AiControl::canGetCounilorCard(agentItem *aitem, LocationItem *locItem)
     }
 
     auto neededRes = locItem->getDemandedResource();
-    int reqAmount = neededRes.amount();
+    int reqAmount = neededRes->amount();
     int agentHas = 0;
     std::shared_ptr<Interface::Agent> agent = aitem->getAgentClass();
     auto agentResources = agent->getAgentResources();
-    std::shared_ptr<Interface::Location> demandLoc = neededRes.location().lock();
+    std::shared_ptr<Interface::Location> demandLoc = neededRes->location().lock();
 
     if (demandLoc) {
         agentHas = agentResources.at(demandLoc).size();
@@ -193,11 +193,11 @@ LocationItem* AiControl::findHomeItemFor(agentItem *aItem)
 void AiControl::getCouncilorCard(agentItem *aitem, LocationItem *locItem)
 {
     auto neededRes = locItem->getDemandedResource();
-    int reqAmount = neededRes.amount();
+    int reqAmount = neededRes->amount();
 
     std::shared_ptr<Interface::Agent> agent = aitem->getAgentClass();
     auto agentResources = agent->getAgentResources();
-    std::shared_ptr<Interface::Location> demandLoc = neededRes.location().lock();
+    std::shared_ptr<Interface::Location> demandLoc = neededRes->location().lock();
     Q_ASSERT(demandLoc);
 
     aitem->getAgentClass()->addCouncilCard(locItem->getObject()->councilor());
