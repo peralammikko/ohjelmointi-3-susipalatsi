@@ -33,14 +33,12 @@ PopupDialog::PopupDialog(LocationItem* &loc, std::shared_ptr<Interface::Player> 
     ui->demandLocLabel->setText("(in " + demandLoc->name() + ")");
     ui->councillorCardText->setText("Councillor card: \n"
                                     + location_->councilor()->name());
-    auto satan = QPixmap(loc->getLocalResource()->getSpritePath());
-
 
     ui->localResLbl->setPixmap(QPixmap(loc->getLocalResource()->getSpritePath()).scaled(ui->localResLbl->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
     ui->demandSpriteLbl->setPixmap(QPixmap(loc->getDemandedResource()->getSpritePath()).scaled(ui->demandSpriteLbl->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
     ui->councilorLbl->setPixmap((*loc->governorPixmap()).scaled(ui->councilorLbl->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation) );
 
-    //ui->deman->setPixmap(QPixmap(loc->getDemandedResource().getSpritePath()));
+
     // Calculating friendly and rival agents in location and sum of resource rewards
     std::vector<int> sumAndAgents = locItem->calculateRewards(player);
     int rewardSum = sumAndAgents.at(0);
@@ -62,6 +60,7 @@ PopupDialog::PopupDialog(LocationItem* &loc, std::shared_ptr<Interface::Player> 
 
 PopupDialog::~PopupDialog()
 {
+
     delete ui;
 }
 

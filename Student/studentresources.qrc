@@ -3,8 +3,10 @@
         <file>img/some sprites/agentbobby.png</file>
         <file>img/some sprites/spacecowboy.png</file>
         <file>img/some sprites/spacecowboyBIG.png</file>
+        <file>img/hand.png</file>
         <file>img/some sprites/spacegoon.png</file>
         <file>img/some sprites/spaceagent.png</file>
+
     </qresource>
     <qresource prefix="/img/res">
         <file>img/resources/Plasmastone.png</file>

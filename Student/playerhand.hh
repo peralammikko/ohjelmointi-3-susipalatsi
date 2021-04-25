@@ -3,12 +3,12 @@
 
 #include <QObject>
 #include <QGraphicsScene>
-
-
 #include "../Course/player.h"
-// For now we use just simple card items
 #include "mapitem.hh"
+#include "carditem.hh"
+#include "agentitem.hh"
 
+class CardItem;
 
 class PlayerHand : public mapItem
 {
@@ -17,6 +17,7 @@ public:
     // This class is more or less deprecated and probably requires a removal.
     // stays here in case we get a nice idea how to use this as a hand display.
     PlayerHand(QGraphicsScene* scene, std::shared_ptr<const Interface::Player> player);
+    ~PlayerHand();
 
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
@@ -28,6 +29,9 @@ public:
 
     std::shared_ptr<const Interface::Player> getOwner();
 
+    std::vector<agentItem *> getAgentItems();
+    std::vector<CardItem *> getCardItems();
+
     void removeActionCards();
 
     void rearrange() override;
@@ -36,7 +40,10 @@ private:
     QGraphicsScene* scene_;
     std::shared_ptr<const Interface::Player> player_;
 
+    QPixmap* handPixmap_;
     std::vector<mapItem*> items_;
+
+    QColor playerColor_;
 
     void arrangeAroundPoint(int startx, std::vector<mapItem *> mItems, int padding);
     

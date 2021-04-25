@@ -16,6 +16,12 @@ namespace Interface {
     class AgentActionInterface;
 }
 
+const std::vector<QColor> PlayerColors = { QColor(209, 60, 54), QColor(66, 135, 245),
+                                           QColor(135, 57, 230), QColor(35, 166, 50),
+                                           QColor(208, 217, 128), QColor(0, 255, 200),
+                                           QColor(255, 140, 180), QColor(130, 81, 7) };
+
+
 class mapItem : public QObject, public QGraphicsItem
 {
     Q_OBJECT

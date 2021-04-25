@@ -40,7 +40,6 @@ public :
     void createLocations();
     void rewardResources();
     void infoResourceMaps(ResourceMap &rmap, ResourceMap &dmap, int WINCOND);
-    void checkWin();
 
 public slots:
     void onActionDeclared(std::shared_ptr<Interface::ActionInterface> action);
@@ -58,6 +57,7 @@ signals:
 
 private:
     void setNextAction();
+    bool thereIsWinner();
 
     std::shared_ptr<Interface::Runner> runner_;
     std::shared_ptr<Interface::Game> game_;

@@ -139,7 +139,7 @@ void Logic::infoResourceMaps(ResourceMap &rmap, ResourceMap &dmap, int WINCOND)
     winCondition_ = WINCOND;
 }
 
-void Logic::checkWin()
+bool Logic::thereIsWinner()
 {
     // Checking which player(s) holds at least 3 councilor cards
     std::set<std::shared_ptr<Interface::Player>> winners = {};
@@ -158,8 +158,10 @@ void Logic::checkWin()
         // Multiple winners allowed?
         for (auto player : winners) {
             qDebug() << "Long live " << player->name();
+            return true;
         }
     }
+    return false;
 }
 
 void Logic::onActionDeclared(std::shared_ptr<Interface::ActionInterface> action)
@@ -184,6 +186,10 @@ void Logic::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlaye
         // If we are just looking for a player who has action cards but could not find one, proceed to even phase
         if (actingPlayer_ != nullptr and actingPlayer_ == actingPlayer){
             // "We have gone a full circle of players with no action cards. Proceeding to event phase"
+            if (thereIsWinner()){
+                game_->setActive(false);
+                return;
+            }
             emit(enteredEventPhase());
             rewardResources();
             gameScene_->nextRound();

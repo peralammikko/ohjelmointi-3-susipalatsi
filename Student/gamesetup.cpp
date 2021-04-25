@@ -1,8 +1,6 @@
 #include <QDirIterator>
 #include "gamesetup.hh"
-#include "gamescene.hh"
-#include "startingscreen.hh"
-#include "settingsscreen.hh"
+
 
 GameSetup::GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game, std::shared_ptr<GameRunner> courseRunner, std::shared_ptr<Logic> logic, std::vector<QString> playerNames, std::vector<int> customSettings)
     : gameScene_(gameScene), game_(game), courseRunner_(courseRunner), logic_(logic)
@@ -275,8 +273,12 @@ void GameSetup::initPlayerControls()
     auto players = game_->players();
     for (unsigned int i = 0; i < players.size(); ++i)
     {
-        // Does every player need its own control class?
-        courseRunner_->setPlayerControl(players.at(i), std::make_shared<Interface::ManualControl>());
+        if (i == 1){
+              courseRunner_->setPlayerControl(players.at(i),  std::make_shared<Interface::AiControl>(gameScene_, players.at(i)));
+        } else {
+             courseRunner_->setPlayerControl(players.at(i), std::make_shared<Interface::ManualControl>());
+        }
+
     }
 }
 
@@ -290,8 +292,15 @@ void GameSetup::initAgentInterfaces()
     */
 
     // TODO: Make names not hard coded maybe
-    std::vector<QString> some_names = {"PERRY", "KARHU", "VALDEMAR", "PONTIKKA", "KUMi",
-                                       "KAHLAAJA", "VEITSI", "SAHANISKA", "KRAPULA", "VAHTIMESTARI", "LAKRITSIPORTTERI"};
+    std::vector<QString> some_names = {"Perry", "Karhu", "Valdemar", "Pontsi", "Kumi",
+                                       "Kahlis", "Veitsi", "Sahaniska", "Krapula", "Vahtimestari", "Lakritsiportteri",
+                                      "Tyttö", "Kovistelija", "Klovni", "Jäätelö", "Rasvakeitin", "Jeppu", "Salalabra",
+                                      "Myyrä", "Tismal Leen", "Amppari", "Rock", "Viskoosi", "Heräte", "Vaapukka", "Satsi",
+                                      "Lasku", "Snaidi", "Stögis", "II Pause", "Hön Sai", "Niilo", "Kaski", "Araki",
+                                      "Herman", "Agent Orange", "JC Denton", "Aprilli", "P-Peli", "Kasvomaski", "Luotto",
+                                      "Hanhi", "Drina", "Kebab", "Maukas", "Suosittelu", "Salainen", "Viski", "Vermouth", "Conan",
+                                       "Gin", "Absintti", "Ressu", "Heprea", "Caramel", "Salsa", "O'nkissa", "Vipu"};
+    Q_ASSERT(some_names.size() > AGENTCOUNT*PLAYERCOUNT);
     auto players = game_->players();
     for (unsigned int i = 0; i < players.size(); ++i)
     {
@@ -300,10 +309,9 @@ void GameSetup::initAgentInterfaces()
         for (unsigned int j = 0; j < AGENTCOUNT; ++j)
         {
             // Sort of randomize a name
-            unsigned int pseudorandomIndex = pow((i+1)*j, 3);
-            pseudorandomIndex = pseudorandomIndex % (some_names.size()-1);
+            unsigned int index = Interface::Random::RANDOM.uint(some_names.size()-1);
             // create the interface
-            std::shared_ptr<Interface::Agent> agentInter = std::make_shared<Interface::Agent>(some_names.at(pseudorandomIndex) + player->name(), player);
+            std::shared_ptr<Interface::Agent> agentInter = std::make_shared<Interface::Agent>(some_names.at(index), player);
             agentInter->initAgentResources(initAgentBackpack_);
             player->addCard(agentInter);
 
@@ -312,6 +320,7 @@ void GameSetup::initAgentInterfaces()
             gameScene_->connect(agenttiesine, &agentItem::actionDeclared, gameScene_, &GameScene::onActionDeclared);
             gameScene_->addItem(agenttiesine);
             hand->addMapItem(agenttiesine);
+            some_names.erase(some_names.begin() + index);
         }
     }
 }

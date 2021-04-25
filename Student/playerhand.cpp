@@ -1,20 +1,27 @@
 #include "playerhand.hh"
-#include "carditem.hh"
-#include "agentitem.hh"
 
 PlayerHand::PlayerHand(QGraphicsScene* scene, std::shared_ptr<const Interface::Player> player) : scene_(scene), player_(player)
 {
+    handPixmap_ = new QPixmap(":/img/img/hand.png");
+    Q_ASSERT(player->id() < PlayerColors.size());
+    playerColor_ = PlayerColors.at(player->id());
+}
 
+PlayerHand::~PlayerHand()
+{
+    delete handPixmap_;
 }
 
 QRectF PlayerHand::boundingRect() const
 {
-    return QRectF(0,0,400,100);
+    return QRectF(0,0,800,200);
 }
 
 void PlayerHand::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    QPen pen(Qt::red, 2);
+    QPen pen(playerColor_, 2);
+    painter->drawPixmap(0, 0, boundingRect().width(), boundingRect().height(),  *handPixmap_);
+
     painter->setPen(pen);
     painter->drawRect(boundingRect());
 }
@@ -31,14 +38,46 @@ void PlayerHand::addMapItem(mapItem* mItem)
     rearrange();
 }
 
-void PlayerHand::setActability(bool canAct)
-{
-
-}
-
 std::shared_ptr<const Interface::Player> PlayerHand::getOwner()
 {
     return player_;
+}
+
+std::vector<agentItem *> PlayerHand::getAgentItems()
+{
+    std::vector<agentItem*> aItems = {};
+    QList<QGraphicsItem *> const items = childItems();
+    int count = items.size();
+    if (count) {
+
+        // Separate cards from agents and get their total width
+        for (int i = 0; i < count; ++i) {
+            //items.at(i)->show();
+            auto mItem = dynamic_cast<agentItem*>(items.at(i));
+            if (mItem){
+                aItems.push_back(mItem);
+            }
+        }
+    }
+    return aItems;
+}
+
+std::vector<CardItem *> PlayerHand::getCardItems()
+{
+    std::vector<CardItem*> cItems = {};
+    QList<QGraphicsItem *> const items = childItems();
+    int count = items.size();
+    if (count) {
+        // Separate cards from agents and get their total width
+        for (int i = 0; i < count; ++i) {
+            //items.at(i)->show();
+            auto mItem = dynamic_cast<CardItem*>(items.at(i));
+            if (mItem){
+                cItems.push_back(mItem);
+            }
+        }
+    }
+    return cItems;
 }
 
 void PlayerHand::removeActionCards()

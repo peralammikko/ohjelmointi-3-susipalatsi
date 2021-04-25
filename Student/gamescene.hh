@@ -28,17 +28,11 @@ class GameScene : public QGraphicsScene
 public:
     GameScene(QWidget* parent, std::weak_ptr<Interface::Game> game);
 
+    ~GameScene();
     // This is a deprecated method which needs to be replaced or removed
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
 
-    // //////////////////////////////////
-    // TODO: maybe merge drawItem, drawLocations, createHand and the like?
-    // Every map item could just have on constructor method to keep thing simple
-    // //////////////////////////////////
-    // Draws mapitems
-    // pre: nothing
-    // post: scene has one more extra mapitem displayed
-    // TODO:Is this useless?
+
     void drawItem(mapItem* item);
 
     // Makes agents visible and places them in a "deployment zone" (?) a hand-like area where agents are
@@ -46,9 +40,6 @@ public:
     // Also connects these agent's onMapItemMouse* events to this scene
     // TODO: better name showDeployableAgents ?
     void drawAgents(std::vector<agentItem*> &agents);
-
-    // Does the opposite of drawAgents, and hides all agents in vector and disconnects mouse-events
-    void hideAgents( std::vector<agentItem*> &agents);
 
     // Draws a mapitem for every location (aka buildings or planets)
     // pre: there are locations stored in locvec
@@ -77,7 +68,7 @@ public:
     // A declared action is forgotten and declaring MapItem is returned back to its home position
     void resetAction();
 
-    // Returns every location item (planet)
+    // Returns every location item on the scene
     std::vector<LocationItem *> GetLocItems();
 
     // When the player has been changed, makes every item that does not belong to the player undraggable.
@@ -90,25 +81,33 @@ public:
 
     ResourceMap getResMap();
 
+    // Returns vector of map items which belong to the player. AI needs this.
+    std::vector<agentItem *> getAgentItemsForPlayer(std::shared_ptr<Interface::Player> player);
+
 
 signals:
+    // Sent when an Agent has declared an action (eg. User has dragged it from hand to a planet) AND paid for the aciton card
     void actionDeclared(std::shared_ptr<Interface::ActionInterface> action);
 public slots:
+    // Recieved when a mapItem (Agent or a CardItem) is dragged and dropped and the item has recognized a valid action.
+    // If the item is an agent card, it will start waiting for an action card, or until the action has been cancelled by dragging it again.
+    // If the dropped item is a carditem on a waiting agent, the card is discard and logic is informed with actionDeclared signal
     void onActionDeclared(std::shared_ptr<Interface::ActionInterface> action, mapItem* declaringMapItem, bool resetting);
 
-
 private slots:
+    // These are cut content for highlighting (making things larger) as you mouse over them.
+    // We are afraid that removing this will cause bad trouble so it is here for now
     void onMapItemMouseDragged(mapItem* mapitem);
+    // Location Items have their dialogs opened
     void onLocationItemClicked(LocationItem * locItem);
 
 private:
-    std::map<std::shared_ptr<const Interface::Player>, PlayerHand*> playerHands_;
     std::weak_ptr<Interface::Game> game_;
+    std::map<std::shared_ptr<const Interface::Player>, PlayerHand*> playerHands_;
 
     // When a manual player declares an action, the game waits for them to choose an action card to discard.
     std::shared_ptr<Interface::ActionInterface> declaredAction_;
-
-    mapItem* declaringMapItem_;
+    mapItem* declaringMapItem_ = nullptr;
 
     // changes state of cards in handCards_ to show and arranges them nicely as a hand centered in handAnchorCoords_
     // also connects drag drop signals with those carditems
@@ -122,9 +121,9 @@ private:
     // Refreshes location items so that each location has a neighbour
     void resetLocationNeighbours();
 
-
     std::vector<LocationItem*> locationItems_;
 
+    // "Arrows" (or lines!) that indicate from where agent is coming from and where it is heading
     SceneArrow* arrow1_;
     SceneArrow* arrow2_;
 
@@ -132,7 +131,6 @@ private:
     ResourceMap demandsMap_;
 
     QPointF solarsystemCenter_;
-
     QPointF const activePlayerHandAnchor_ = QPointF(150,650);
     QPointF const waitingPlayerHandAnchor_ = QPointF(20,20);
     int const SPACEBETWEENHANDS = 200;
@@ -140,7 +138,6 @@ private:
     std::shared_ptr<Interface::Player> playerInTurn_ = nullptr;
 
     PopupDialog* clickDialog = nullptr;
-
 };
 
 #endif // GAMESCENE_HH
