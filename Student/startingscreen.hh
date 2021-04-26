@@ -22,7 +22,7 @@ public slots:
     void getSettings(int agentCount, int locCount, int winCardCount);
 
 signals:
-    void sendStartingInfo(std::vector<QString> playerNames, std::vector<int> customSettings);
+    void sendStartingInfo(std::vector<QString> playerNames, std::vector<int> customSettings, int botPlayers);
 
 private slots:
     void on_newGameButton_clicked();
@@ -35,7 +35,15 @@ private slots:
 
     void on_removePlayerBtn_clicked();
 
-    void on_pushButton_clicked();
+    void on_startButton_clicked();
+
+    void on_closeFrameButton_clicked();
+
+    void on_aiCheckbox_stateChanged(int arg1);
+
+    void on_addCPUbtn_clicked();
+
+    void on_removeCPUbtn_clicked();
 
 private:
     Ui::StartingScreen *ui;
@@ -45,6 +53,7 @@ private:
     QList<QLineEdit*> qlist;
 
     std::vector<int> customSettings = {};
+    int botPlayers = 0;
 };
 
 #endif // STARTINGSCREEN_HH

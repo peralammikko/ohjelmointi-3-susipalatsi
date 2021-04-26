@@ -48,9 +48,12 @@ GameWindow::GameWindow(QWidget *parent) :
     gameTime_->start(50);
 
     // Asetetaan graphicViewin ja ikkunan koot staattiseks ensalkuun
-    gameui_->graphicsView->setFixedSize(1400, 800);
+    gameui_->graphicsView->setFixedSize(1410, 810);
     gameScene_->setSceneRect(0,0,1400,800);
-   // this->setFixedSize(1450, 950);
+    auto background = QPixmap(":/img/background/background.png");
+    QBrush brushBackground = QBrush(background);
+    gameui_->graphicsView->setBackgroundBrush(brushBackground);
+
     this->setWindowTitle("SUSIPALATSI: TEH GAME");
 
     logic_ = std::make_shared<Logic>(courseRunner, game_, gameScene_);
@@ -60,9 +63,10 @@ GameWindow::GameWindow(QWidget *parent) :
     connect(this, &GameWindow::actionDeclared, logic_.get(), &Logic::onActionDeclared);
     connect(logic_.get(), &Logic::enteredEventPhase, this, &GameWindow::onEnteringEventPhase);
     connect(gameTime_.get(), SIGNAL(timeout()), gameScene_, SLOT(advance()));
-    GameSetup setup = GameSetup(gameScene_, game_, courseRunner,  logic_, playerNames_, gameSettings_);
+    GameSetup setup = GameSetup(gameScene_, game_, courseRunner,  logic_, playerNames_, gameSettings_, bots_);
 
     displayPlayerStats();
+    startingDialog();
 }
 
 GameWindow::~GameWindow()
@@ -70,11 +74,6 @@ GameWindow::~GameWindow()
     delete gameui_;
 }
 
-
-void GameWindow::drawItem(mapItem *item)
-{
-    gameScene_->drawItem(item);
-}
 
 const std::vector<std::shared_ptr<Interface::Location> > GameWindow::getLocations()
 {
@@ -105,6 +104,38 @@ void GameWindow::listInfluence(std::shared_ptr<Interface::Player> &currentPlayer
         int playerInf = loc->influence(currentPlayer);
         gameui_->influenceList->addItem(loc->name() + ": " + QString::number(playerInf));
     }
+}
+
+void GameWindow::listCouncilCards()
+{
+    gameui_->councilCardBoard->clear();
+    std::set<std::shared_ptr<Interface::Councilor>> cardVector;
+    for (auto pl : game_->players()) {
+        cardVector = {};
+        for (auto card : pl->cards()) {
+            std::shared_ptr<Interface::Councilor> councilCard = std::dynamic_pointer_cast<Interface::Councilor>(card);
+            if (councilCard) {
+                cardVector.insert(councilCard);
+            }
+        }
+        gameui_->councilCardBoard->addItem(pl->name() + ": " + QString::number(cardVector.size()) + " / " + QString::number(winCondition));
+    }
+}
+
+void GameWindow::startingDialog()
+{
+    QFile *textfile = new QFile("/home/peralam/susipalatsi/2-guys-1-git/master/Student/startingText");
+    infoBox_ = new QMessageBox();
+    if (textfile->open(QIODevice::ReadOnly) == true)
+    {
+        infoBox_->setText(QString (textfile->readAll()));
+        textfile->close();
+    }
+    QPixmap pic = QPixmap(":/img/img/some sprites/spacegoon.png");
+    infoBox_->setWindowTitle("Introduction");
+    infoBox_->setIconPixmap(pic);
+    infoBox_->setStyleSheet("background-image: url(:/img/background/background.png); border: none; font-family: Console; color: white;");
+    infoBox_->show();
 }
 
 void GameWindow::displayPlayerStats() {
@@ -145,6 +176,7 @@ void GameWindow::onActionPerformed(std::shared_ptr<const Interface::Player> play
 void GameWindow::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer)
 {
     displayPlayerStats();
+    listCouncilCards();
 }
 
 void GameWindow::onEnteringEventPhase()
@@ -153,13 +185,38 @@ void GameWindow::onEnteringEventPhase()
     gameui_->actionHistoryWidget->scrollToBottom();
 }
 
-void GameWindow::getStartingInfo(std::vector<QString> playerNames, std::vector<int> gameSettings)
+void GameWindow::getStartingInfo(std::vector<QString> playerNames, std::vector<int> gameSettings, int bots)
 {
     playerNames_ = playerNames;
     gameSettings_ = gameSettings;
+    bots_ = bots;
 
-    for (auto i : playerNames_) {
-        qDebug() << "player: " + i;
+    Interface::SettingsReader& reader = Interface::SettingsReader::READER;
+    reader.setPath("/home/peralam/susipalatsi/2-guys-1-git/master/Student/defaultsettings.dat");  // ???
+    reader.readSettings();
+    qDebug() << "settings read";
+    if (gameSettings.size() == 0) {
+        winCondition = reader.getValue("WINCONDITION").toInt();
+    } else {
+        winCondition = gameSettings.at(2);
     }
+    qDebug() << winCondition << " cards to win";
 }
 
+
+void GameWindow::on_helpButton_clicked()
+{
+
+    QFile *textfile = new QFile("/home/peralam/susipalatsi/2-guys-1-git/master/Student/helpText");
+    infoBox_ = new QMessageBox();
+    if (textfile->open(QIODevice::ReadOnly) == true)
+    {
+        infoBox_->setText(QString (textfile->readAll()));
+        textfile->close();
+    }
+    QPixmap pic = QPixmap(":/img/img/some sprites/spacegoon.png");
+    infoBox_->setWindowTitle("How to play");
+    infoBox_->setIconPixmap(pic);
+    infoBox_->setStyleSheet("background-image: url(:/img/background/background.png); border: none; font-family: Console; color: white;");
+    infoBox_->exec();
+}

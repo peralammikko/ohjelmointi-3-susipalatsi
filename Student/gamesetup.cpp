@@ -2,8 +2,8 @@
 #include "gamesetup.hh"
 
 
-GameSetup::GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game, std::shared_ptr<GameRunner> courseRunner, std::shared_ptr<Logic> logic, std::vector<QString> playerNames, std::vector<int> customSettings)
-    : gameScene_(gameScene), game_(game), courseRunner_(courseRunner), logic_(logic)
+GameSetup::GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game, std::shared_ptr<GameRunner> courseRunner, std::shared_ptr<Logic> logic, std::vector<QString> playerNames, std::vector<int> customSettings, int bots)
+    : gameScene_(gameScene), game_(game), courseRunner_(courseRunner), logic_(logic), BOTCOUNT(bots)
 {
     Interface::SettingsReader& reader = Interface::SettingsReader::READER;
     reader.readSettings();
@@ -38,6 +38,7 @@ GameSetup::GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game
 
 void GameSetup::checkStartingInfo(std::vector<QString> names, std::vector<int> settings)
 {
+    Interface::SettingsReader& reader = Interface::SettingsReader::READER;
     std::vector<QString> some_names = {"RED", "BLUE", "KALJAMIES", "KURKI", "NAPANUORA", "VAIKKU", "LASKIJA"};
 
     for (unsigned int i = 0; i < names.size(); i++ ) {
@@ -50,23 +51,18 @@ void GameSetup::checkStartingInfo(std::vector<QString> names, std::vector<int> s
     PLAYERCOUNT = playerNames_.size();
 
     if (settings.size() != 0) {
-        useCustomSettings = true;
         AGENTCOUNT = settings.at(0);
         LOCATIONS = settings.at(1);
         WINCONDITION = settings.at(2);
     } else {
-        useCustomSettings = false;
+        AGENTCOUNT = reader.getValue("STARTING_AGENTS").toInt();
+        LOCATIONS = std::min(reader.getValue("LOCATIONS").toInt(), reader.getValue("MAX_LOCATIONS").toInt());
+        WINCONDITION = 3;
     }
-
 }
 
 void GameSetup::initLocations()
 {
-    if (useCustomSettings == false) {
-        Interface::SettingsReader& reader = Interface::SettingsReader::READER;
-        LOCATIONS = std::min(reader.getValue("LOCATIONS").toInt(), reader.getValue("MAX_LOCATIONS").toInt());
-    }
-
     // TODO: move names to settingsreader file maybe
     const std::vector<QString> paikat_ = {"Marketti", "Kirkko", "Taverna", "Kauppiaiden kilta", "Menomesta", "Salapaikka"};
     const std::vector<QString> councillors = {"KKK Kauppias", "Paavi", "Baarimikko", "Aallon kylteri", "Shaq O'Neil", "Muumipappa"};
@@ -95,14 +91,14 @@ void GameSetup::initResourceMaps()
     }
     for (auto loc : game_->locations()) {
         //QString resName = paikkaresut_.at(i);
-        Interface::CommonResource res(resources.at(i).first, loc, resources.at(i).second,0);
+        std::shared_ptr<Interface::CommonResource> res = std::make_shared<Interface::CommonResource>(resources.at(i).first, loc, resources.at(i).second);
 
         // Resource map for locations & runners
-        std::pair<std::shared_ptr<Interface::Location>, Interface::CommonResource> pair(loc, res);
+        std::pair<std::shared_ptr<Interface::Location>, std::shared_ptr<Interface::CommonResource>> pair(loc, res);
         initResourceMap_.insert(pair);
 
         // Resource map for agents
-        std::pair<std::shared_ptr<Interface::Location>, std::deque<Interface::CommonResource>> pair2;
+        std::pair<std::shared_ptr<Interface::Location>, std::deque<std::shared_ptr<Interface::CommonResource>>> pair2;
         pair2.first = loc;
         initAgentBackpack_.insert(pair2);
 
@@ -118,14 +114,16 @@ void GameSetup::initDemandMaps()
         auto res = pair.second;
 
         // Make it so that location's demands can not be it's own resource
+        int maxRandomRoll = LOCATIONS-1;
         while (true) {
             it = initResourceMap_.begin();
-            int num = Interface::Random::RANDOM.uint(LOCATIONS-1);
+            int num = Interface::Random::RANDOM.uint(maxRandomRoll);
             std::advance(it, num);
             if (it->first != location) {
                 res = it->second;
                 int amount = 2 + Interface::Random::RANDOM.uint(3);
-                Interface::CommonResource demand(res.name(), it->first, res.getSpritePath(), amount);
+                // std::shared_ptr<Interface::CommonResource> demand = std::make_shared<Interface::CommonResource>(res->name(), it->first, res->getSpritePath(), amount);
+                std::shared_ptr<Interface::CommonResource> demand = std::make_shared<Interface::CommonResource>(res->name(), it->first, res->getSpritePath(), amount);
                 councillorDemandsMap_.insert({location, demand});
                 break;
             }
@@ -137,7 +135,7 @@ void GameSetup::initLocItems()
 {
     std::vector<std::shared_ptr<Interface::Location>> locvec = game_->locations();
     std::vector<std::pair<std::shared_ptr<Interface::Location>, std::vector<std::pair<QString, QString>>>> locationInformation;
-    std::unique_ptr<QDirIterator> it;
+    std::shared_ptr<QDirIterator> it;
 
     std::vector<std::pair<QString, QString>> types;
     types = {{"governorLbl",":/img/governors/img/governors/"},
@@ -189,7 +187,7 @@ void GameSetup::initLocDecks()
         auto resource = locations.at(i)->getLocalResource();
 
             for  (int j = 0; j < 10; j++) {
-                location->deck()->addCard(std::make_shared<Interface::CommonResource>(resource.name(), location, resource.getSpritePath(), 1));
+                location->deck()->addCard(std::make_shared<Interface::CommonResource>(resource->name(), location, resource->getSpritePath(), 1));
                 location->deck()->addCard(std::make_shared<Interface::ActionCard>());
             }
             location->deck()->shuffle();
@@ -199,17 +197,23 @@ void GameSetup::initLocDecks()
 
 void GameSetup::initLogic()
 {
-    if (useCustomSettings == false) {
-        WINCONDITION = 3;
-    }
     logic_->infoResourceMaps(initResourceMap_, councillorDemandsMap_, WINCONDITION);
 }
 
 void GameSetup::initPlayers()
 {
+    std::vector<QString> botNames = {"BOT Anna", "A.I. Joe", "R2-D2", "ROBOT9000", "XTERMIN8", "Roomba", "HAL",
+                                     "K-9", "T-800", "Ultron", "ED-E"};
     for (unsigned int i = 0; i < PLAYERCOUNT; ++i)
     {
         game_->addPlayer(std::make_shared<Interface::Player>(game_, i, playerNames_.at(i)));
+    }
+
+    if (BOTCOUNT > 0) {
+        for (unsigned int i = PLAYERCOUNT; i < BOTCOUNT+PLAYERCOUNT; i++) {
+            int randomIndex = Interface::Random::RANDOM.uint(botNames.size()-1);
+            game_->addPlayer(std::make_shared<Interface::Player>(game_, i, botNames.at(randomIndex)));
+        }
     }
 }
 
@@ -237,9 +241,6 @@ void GameSetup::initPlayerHands()
 void GameSetup::addPlayerSetupCards()
 {
     int cards = AGENTCOUNT;
-    if (useCustomSettings == false) {
-        cards = Interface::SettingsReader::READER.getValue("STARTING_AGENTS").toInt();
-    }
 
     for (unsigned int i=0; i<game_->players().size(); ++i) {
         std::shared_ptr<Interface::Player> player = game_->players().at(i);
@@ -255,28 +256,20 @@ void GameSetup::addPlayerSetupCards()
 
 void GameSetup::initPlayerControls()
 {
-    //std::shared_ptr<Interface::ManualControl> mancontrol = std::make_shared<Interface::ManualControl>();
-
     // TODO: maybe other than manual controls too like the AI Stuff? doubt we have time for that
     auto players = game_->players();
     for (unsigned int i = 0; i < players.size(); ++i)
     {
-        if (i == 1){
+        if (i >= PLAYERCOUNT){
               courseRunner_->setPlayerControl(players.at(i),  std::make_shared<Interface::AiControl>(gameScene_, players.at(i)));
         } else {
              courseRunner_->setPlayerControl(players.at(i), std::make_shared<Interface::ManualControl>());
         }
-
     }
 }
 
 void GameSetup::initAgentInterfaces()
 {
-    if (useCustomSettings == false) {
-        Interface::SettingsReader& reader = Interface::SettingsReader::READER;
-        AGENTCOUNT = reader.getValue("STARTING_AGENTS").toInt();
-    }
-
     // TODO: Make names not hard coded maybe
     std::vector<QString> some_names = {"Perry", "Karhu", "Valdemar", "Pontsi", "Kumi",
                                        "Kahlis", "Veitsi", "Sahaniska", "Krapula", "Vahtimestari", "Lakritsiportteri",

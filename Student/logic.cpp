@@ -59,7 +59,7 @@ void Logic::rewardResources()
                         resourceTotalAmount = 0;
                         QString resSpritePth = "";
                         locationsBeen.insert(agentAt);
-                        Interface::CommonResource res = resMap_.at(agentAt);
+                        std::shared_ptr<Interface::CommonResource> res = resMap_.at(agentAt);
 
                         // Find the correct location item for calculating rewards
                         for (auto loc : items)
@@ -105,7 +105,7 @@ void Logic::rewardResources()
 
 
                         ///////////// CHEAT CODE ///////////////
-                        //  agentPtr->addResource(agentAt, res, 100);
+                        agentPtr->addResource(agentAt, res, 100);
                         ////////////////////////////////////////
 
                     } else {
@@ -119,7 +119,7 @@ void Logic::rewardResources()
         for (auto loc : game_->locations()) {
 
             /////// CHEAT CODE ///////////
-            // loc->setInfluence(player, 50);
+            loc->setInfluence(player, 50);
             /////////////////////////////
 
             if (locationsBeen.find(loc) != locationsBeen.end()) {

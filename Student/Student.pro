@@ -94,4 +94,5 @@ RESOURCES += \
 
 DISTFILES += \
     defaultsettings.dat \
-    moon.png
+    helpText \
+    startingText

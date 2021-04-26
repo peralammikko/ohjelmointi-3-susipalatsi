@@ -37,16 +37,43 @@ class GameSetup
 {
 public:
     GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game, std::shared_ptr<GameRunner> courseRunner, std::shared_ptr<Logic> logic,
-              std::vector<QString> playerNames, std::vector<int> customSettings);
+              std::vector<QString> playerNames, std::vector<int> customSettings, int bots);
 private:
     void checkStartingInfo(std::vector<QString> playerNames, std::vector<int> customSettings);
 
+    /**
+     * @brief initLocations
+     */
     void initLocations();
+
+    /**
+     * @brief initLocationDecks
+     */
     void initLocationDecks();
+
+    /**
+     * @brief initResourceMaps
+     */
     void initResourceMaps();
+
+    /**
+     * @brief initDemandMaps
+     */
     void initDemandMaps();
+
+    /**
+     * @brief initLocItems
+     */
     void initLocItems();
+
+    /**
+     * @brief initLocDecks
+     */
     void initLocDecks();
+
+    /**
+     * @brief initSceneArrows
+     */
     void initSceneArrows();
 
     // TODO: logic needed in constructor? Logic needed to return?
@@ -70,6 +97,7 @@ private:
 
     ResourceMap initResourceMap_;
     ResourceMap councillorDemandsMap_;
+    // std::map<std::shared_ptr<Interface::Location>, std::unique_ptr<Interface::CommonResource>> councillorDemandsMap_;
     AgentResourceMap initAgentBackpack_;
 
     std::vector<QString> playerNames_ = {};
@@ -78,8 +106,8 @@ private:
     unsigned int AGENTCOUNT;
     unsigned int LOCATIONS;
     unsigned int WINCONDITION;
+    unsigned int BOTCOUNT;
 
-    bool useCustomSettings = false;
 };
 
 #endif // GAMESETUP_HH

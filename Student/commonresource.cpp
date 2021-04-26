@@ -9,7 +9,9 @@ CommonResource::CommonResource(QString name, std::weak_ptr<Location> loc, QStrin
     location_ = loc;
 }
 
-CommonResource::~CommonResource(){}
+CommonResource::~CommonResource(){
+
+}
 
 int CommonResource::amount()
 {

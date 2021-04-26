@@ -17,50 +17,124 @@ class LocationItem : public mapItem
 {
     Q_OBJECT
 public:
-    LocationItem(const std::shared_ptr<Interface::Location> location, std::vector<std::pair<QString, QString>> spritePaths);
+    LocationItem(const std::shared_ptr<Interface::Location> location, std::vector<std::pair<QString, QString>> spritePaths, std::shared_ptr<Interface::CommonResource> localRes, std::shared_ptr<Interface::CommonResource> demandRes);
     ~LocationItem();
-    // Luodaan itemille muoto (neliö)
+
+    /**
+     * @brief Creates a shape for drawable objects (a rectangle)
+     * @return Returns a drawable square item
+     */
     QRectF boundingRect() const override;
 
-    // Piirretään neliöt ja nimet + maalataan jos valittuna
+    /**
+     * @brief Draws the square items, their sprites and their names
+     * @param painter
+     * @param option
+     * @param widget
+     */
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
-    // Klikkauksesta tapahtuva metodi
+    /**
+     * @brief Method triggered by clicking a LocationItem on scene
+     * @param event
+     */
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
-    void hoverEnterEvent(QGraphicsSceneHoverEvent *event) override;
-    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override;
+    /**
+     * @brief hoverEnterEvent
+     * @param event
+     */
+    void hoverEnterEvent(QGraphicsSceneHoverEvent *event) override; // Käytössä?
+    /**
+     * @brief hoverLeaveEvent
+     * @param event
+     */
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) override; // Käytössä?
 
-    // Haetaan itemin kantaluokka (Location)
+    /**
+     * @brief Returns the base class of LocationItem
+     * @return Returns a shared pointer to base class Interface::Location
+     */
     const std::shared_ptr<Interface::Location> getObject();
 
+    /**
+     * @brief Returns the base value for each location used for resource distribution
+     * @return
+     */
     int getBasevalue();
 
-    const QString typeOf() override{return "locationitem";}
+    /**
+     * @brief Test to see if an item is a LocationItem
+     * @return Returns a string of it's type's name
+     */
 
-    // Accepts agent as its child
-    // Could change this to bool and return false if this agent is not welcome here
+    const QString typeOf() override{return "locationitem";} // KÄytössä?
+
+    /**
+     * @brief Accepts agent as its child
+     * @param aItem: AgentItem incoming to LocationItem
+     *
+     */
     void acceptAgent(agentItem* aItem);
 
-    // Calculate how much resources one player gets after round
+    /**
+     * @brief Calculate how much resource rewards a player can receive after round
+     * @param player: Player in question (who clicked on location)
+     * @return Returns a vector consisting of calculated sum of receivable rewards, amount of player's own agents and rivaling agents in location.
+     * @pre Location has base value and resources to distribute
+     * @post Numbers are displayed on Popup Dialog displayed when clicked on a LocationItem
+     */
     std::vector<int> calculateRewards(std::shared_ptr<Interface::Player> &player);
 
     // Methods for location's local resource
-    void setLocalResource(Interface::CommonResource &res);
-    Interface::CommonResource getLocalResource();
+    /**
+     * @brief setLocalResource
+     * @param res
+     */
+    void setLocalResource(std::shared_ptr<Interface::CommonResource> &res); // Käytössä? Mikko tutkii
+    /**
+     * @brief Get the locations local resource
+     * @return Return a pointer to the local resource
+     */
+    std::shared_ptr<Interface::CommonResource> getLocalResource();
 
     // Methods for location's demanded resources
-    void setDemandedResource(Interface::CommonResource &res);
-    Interface::CommonResource getDemandedResource();
-
-    void checkCouncillorCard();
+    /**
+     * @brief Sets a demanded resource for a location. Used for generating new resource demands.
+     * @param res: Resource to be set for demand
+     * @pre New resource demand is generated properly and not the same as local resource
+     * @post New demand is displayed on Popup window after one demand gets completed
+     */
+    void setDemandedResource(std::shared_ptr<Interface::CommonResource> &res);
+    /**
+     * @brief Get the demanded resource of a locations
+     * @return Returns a pointer to a demanded resource in location
+     */
+    std::shared_ptr<Interface::CommonResource> getDemandedResource();
     
+    /**
+     * @brief Generates a new demand for location to be completed.
+     * @pre Old demand is completed. New demanded resource is not the same as the local collectible resource.
+     * @post New demand is set for location and displayed on popup dialog
+     */
     void generateNewDemand();
 
+    /**
+     * @brief rearrange
+     */
     void rearrange() override;
 
+    /**
+     * @brief setNeighbours
+     * @param neighbours
+     */
     void setNeighbours(std::pair<LocationItem*, LocationItem*> neighbours){neighbours_=neighbours;}
     std::pair<LocationItem*, LocationItem*> neighbours(){return neighbours_;}
 
+    /**
+     * @brief Get the derived class AgentItem pointer for an AgentInterface object
+     * @param agent: Agent whose graphical item is needed
+     * @return Agent's corresponding AgentItem
+     */
     agentItem *getAgentItemFor(std::shared_ptr<Interface::AgentInterface> agent);
 
     QPixmap* governorPixmap(){return governorImage_;}
@@ -69,7 +143,6 @@ public:
 
 signals:
     void locationItemPressed(LocationItem*);
-    void requestNewDemand(std::shared_ptr<Interface::Location> &loc);
 
 private:
     const std::shared_ptr<Interface::Location> locationObject_;
@@ -78,8 +151,8 @@ private:
     bool isHovered_ = false;
 
     // Resources are initially set to a constant NULL to avoid errors
-    Interface::CommonResource localRes_ = NULLRES;
-    Interface::CommonResource demandRes_ = NULLRES;
+    std::shared_ptr<Interface::CommonResource> localRes_ = nullptr;
+    std::shared_ptr<Interface::CommonResource> demandRes_ = nullptr;
     
     std::map<std::shared_ptr<Interface::Player>, int> playerInfluence_;
 
@@ -88,8 +161,6 @@ private:
     QPixmap* governorImage_;
     QPixmap* planetImage_;
     QPixmap* resourceImage_;
-
-
 
 };
 
