@@ -11,6 +11,9 @@ namespace Interface {
 class ActionCard : public Interface::CardInterface
 {
 public:
+    /**
+     * @brief ActionCard is a type of a card which is used for paying agent actions
+     */
     explicit ActionCard();
     ~ActionCard();
 

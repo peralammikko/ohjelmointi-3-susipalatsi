@@ -245,6 +245,7 @@ void Logic::onActionPerformed(std::shared_ptr<const Interface::Player> player, s
 
 void Logic::onInterphaseTimeout()
 {
+    // TODO: check if the game is actually over ( there is a winner )
     game_->setActive(true);
 
     doTheRunning();

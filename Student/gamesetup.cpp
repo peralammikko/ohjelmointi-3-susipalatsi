@@ -2,7 +2,7 @@
 #include "gamesetup.hh"
 
 
-GameSetup::GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game, std::shared_ptr<GameRunner> courseRunner, std::shared_ptr<Logic> logic, std::vector<QString> playerNames, std::vector<int> customSettings, int bots)
+GameSetup::GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game, std::shared_ptr<Interface::Runner> courseRunner, std::shared_ptr<Logic> logic, std::vector<QString> playerNames, std::vector<int> customSettings, int bots)
     : gameScene_(gameScene), game_(game), courseRunner_(courseRunner), logic_(logic), BOTCOUNT(bots)
 {
     Interface::SettingsReader& reader = Interface::SettingsReader::READER;

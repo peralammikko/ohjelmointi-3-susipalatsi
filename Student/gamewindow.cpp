@@ -39,12 +39,10 @@ GameWindow::GameWindow(QWidget *parent) :
     gameui_->graphicsView->setScene(gameScene_);
     gameui_->graphicsView->setMouseTracking(true);
 
-    courseRunner = std::make_shared<GameRunner>(game_);
+    courseRunner = std::make_shared<Interface::Runner>(game_);
 
     // Tell the game to start listening to the timer
-    // TODO: move this after settings are selected or something
     gameTime_ =  std::make_unique<QTimer>(this);
-
     gameTime_->start(50);
 
     // Asetetaan graphicViewin ja ikkunan koot staattiseks ensalkuun
@@ -100,7 +98,6 @@ void GameWindow::listAgents(std::shared_ptr<Interface::Player> &currentPlayer)
 
 void GameWindow::listInfluence(std::shared_ptr<Interface::Player> &currentPlayer)
 {
-    // int id = currentPlayer->id();
     gameui_->influenceList->clear();
     for (auto loc : game_->locations()) {
         int playerInf = loc->influence(currentPlayer);

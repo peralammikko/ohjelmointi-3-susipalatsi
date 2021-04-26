@@ -36,7 +36,7 @@
 class GameSetup
 {
 public:
-    GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game, std::shared_ptr<GameRunner> courseRunner, std::shared_ptr<Logic> logic,
+    GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game, std::shared_ptr<Interface::Runner> courseRunner, std::shared_ptr<Logic> logic,
               std::vector<QString> playerNames, std::vector<int> customSettings, int bots);
 private:
     void checkStartingInfo(std::vector<QString> playerNames, std::vector<int> customSettings);
@@ -92,7 +92,7 @@ private:
 
     GameScene* gameScene_;
     std::shared_ptr<Interface::Game> game_;
-    std::shared_ptr<GameRunner> courseRunner_;
+    std::shared_ptr<Interface::Runner> courseRunner_;
     std::shared_ptr<Logic> logic_;
 
     ResourceMap initResourceMap_;

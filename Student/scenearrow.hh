@@ -7,14 +7,33 @@
 class SceneArrow : public QGraphicsLineItem
 {
 public:
-    // When actions are selected, graphicsview spawns two arrows to point from where map item is going and where it came from
+
+    // DISCLAIMER:
     // This has been mostly done with the help of official doc.qt.io tutorial qtwidgets-graphicsview-diagramscene-example.html#arrow-class-definition
     // Full link to the tutorial: https://doc.qt.io/qt-5/qtwidgets-graphicsview-diagramscene-example.html#arrow-class-definition
+    /**
+     * @brief SceneArrow When actions are selected, graphicsview spawns two arrows to point from where map item is going and where it came from
+     * @param startItem control point parent item for the arrow
+     * @param endItem control point parent item for the arrow
+     * @param parent
+     */
     SceneArrow(mapItem *startItem, mapItem *endItem, QGraphicsItem *parent = nullptr);
-    void setColor(const QColor &color){color_=color;}
 
+
+
+    /**
+     * @brief setStartItem the item which the arrow is "rooted to". It's center serves as a control point
+     * @param startItem
+     */
     void setStartItem(mapItem* startItem){startItem_=startItem;}
+
+    /**
+     * @brief setStartItem the other control point item
+     * @param startItem
+     */
     void setEndItem(mapItem* endItem){endItem_=endItem;}
+
+    void setColor(const QColor &color){color_=color;}
     void updatePosition();
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
@@ -24,8 +43,7 @@ protected:
 private:
     mapItem *startItem_;
     mapItem *endItem_;
-    QPolygonF arrowHead;
-    QColor color_ = Qt::black;
+    QColor color_ = Qt::yellow;
 
 };
 
