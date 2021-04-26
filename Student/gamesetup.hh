@@ -26,7 +26,7 @@
 #include "../Course/settingsreader.h"
 
 #include <cmath>
-
+#include "resourcedealer.hh"
 // Maybe do not need these?
 
 #include "../Course/player.h"
@@ -38,7 +38,7 @@ class GameSetup
 {
 public:
     GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game, std::shared_ptr<GameRunner> courseRunner, std::shared_ptr<Logic> logic,
-              std::vector<QString> playerNames, std::vector<int> customSettings);
+              std::vector<QString> playerNames, std::vector<int> customSettings, std::shared_ptr<ResourceDealer> resDealer);
 private:
     void checkStartingInfo(std::vector<QString> playerNames, std::vector<int> customSettings);
 
@@ -50,8 +50,7 @@ private:
     void initLocDecks();
     void initSceneArrows();
 
-    // TODO: logic needed in constructor? Logic needed to return?
-    void initLogic();
+    void initResDealer();
 
     void initPlayers();
     void initPlayerHands();
@@ -73,6 +72,8 @@ private:
     ResourceMap councillorDemandsMap_;
     // std::map<std::shared_ptr<Interface::Location>, std::unique_ptr<Interface::CommonResource>> councillorDemandsMap_;
     AgentResourceMap initAgentBackpack_;
+
+    std::shared_ptr<ResourceDealer> resDealer_;
 
     std::vector<QString> playerNames_ = {};
 

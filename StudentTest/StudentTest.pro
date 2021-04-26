@@ -1,7 +1,7 @@
 QT += testlib
 QT += widgets testlib
 
-QT += core gui widgets network multimedia
+QT -= gui
 
 CONFIG += qt console warn_on depend_includepath testcase
 CONFIG += console
@@ -18,12 +18,20 @@ SOURCES +=  \
     tst_studenttest.cc \
     ../Student/agent.cpp \
     ../Student/commonresource.cpp \
+    ../Student/logic.cpp \
+
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 HEADERS += \
     ../Student/agent.hh \
     ../Student/commonresource.hh \
+    ../Student/logic.hh \
+
+
+
+#include "../Student/logic.hh"
+#include "../Student/logic.cpp"
 
 
 win32:CONFIG(release, debug|release): LIBS += \
@@ -43,4 +51,6 @@ DEPENDPATH += \
     $$PWD/../course/Course \
     $$PWD/../Student
 
+RESOURCES += \
+    $$PWD/../course/Course/default_assets.qrc
 

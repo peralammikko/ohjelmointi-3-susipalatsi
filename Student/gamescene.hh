@@ -76,8 +76,6 @@ public:
     // Also moves other player hands on the side as face-down versions with shrunken size
     void onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer);
 
-    // Shuffles locations
-    void nextRound();
 
     ResourceMap getResMap();
 
@@ -90,6 +88,8 @@ public slots:
     // If the item is an agent card, it will start waiting for an action card, or until the action has been cancelled by dragging it again.
     // If the dropped item is a carditem on a waiting agent, the card is discard and logic is informed with actionDeclared signal
     void onActionDeclared(std::shared_ptr<Interface::ActionInterface> action, mapItem* declaringMapItem, bool resetting);
+
+    void onEnteringNextRound();
 
 private slots:
     // These are cut content for highlighting (making things larger) as you mouse over them.

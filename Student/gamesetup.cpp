@@ -4,7 +4,7 @@
 #include "startingscreen.hh"
 #include "settingsscreen.hh"
 
-GameSetup::GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game, std::shared_ptr<GameRunner> courseRunner, std::shared_ptr<Logic> logic, std::vector<QString> playerNames, std::vector<int> customSettings)
+GameSetup::GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game, std::shared_ptr<GameRunner> courseRunner, std::shared_ptr<Logic> logic, std::vector<QString> playerNames, std::vector<int> customSettings, std::shared_ptr<ResourceDealer> resDealer)
     : gameScene_(gameScene), game_(game), courseRunner_(courseRunner), logic_(logic)
 {
     Interface::SettingsReader& reader = Interface::SettingsReader::READER;
@@ -22,7 +22,9 @@ GameSetup::GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game
     initLocItems();
     initLocDecks();
 
-    initLogic();
+    initResDealer();
+    logic_.get()->connect(gameScene_, &GameScene::actionDeclared, logic_.get(), &Logic::onActionDeclared);
+    logic_.get()->connect(logic_.get(), &Logic::enteringNextRound, gameScene_, &GameScene::onEnteringNextRound);
 
     initPlayers();
     initPlayerHands();
@@ -200,12 +202,13 @@ void GameSetup::initLocDecks()
 
 }
 
-void GameSetup::initLogic()
+void GameSetup::initResDealer()
 {
+    // TODO: this part is broken for now
     if (useCustomSettings == false) {
         WINCONDITION = 3;
     }
-    logic_->infoResourceMaps(initResourceMap_, councillorDemandsMap_, WINCONDITION);
+    resDealer_->infoResourceMaps(initResourceMap_, councillorDemandsMap_);
 }
 
 void GameSetup::initPlayers()
@@ -223,6 +226,7 @@ void GameSetup::initPlayerHands()
     {
         auto player = players.at(i);
         gameScene_->initHands(player);
+        // TODO: use some rearrangement method in scene instead
         if ( i != 0)//player != game_->currentPlayer())
         {
             // Player who is not in turn has their hand hidden

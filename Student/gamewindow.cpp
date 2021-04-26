@@ -7,7 +7,6 @@
 #include "gamescene.hh"
 #include <cmath>
 
-// Kokeilu gamesetup
 #include "gamesetup.hh"
 
 #include "actioncard.hh"
@@ -53,14 +52,17 @@ GameWindow::GameWindow(QWidget *parent) :
    // this->setFixedSize(1450, 950);
     this->setWindowTitle("SUSIPALATSI: TEH GAME");
 
-    logic_ = std::make_shared<Logic>(courseRunner, game_, gameScene_);
+    logic_ = std::make_shared<Logic>(courseRunner, game_);
+
+    resDealer_ = std::make_shared<ResourceDealer>(gameScene_, game_);
+    connect(logic_.get(), &Logic::readyToRewardResources, resDealer_.get(), &ResourceDealer::onReadyForResources);
 
     connect(game_.get(), &Interface::Game::playerChanged, this, &GameWindow::onPlayerChanged);
     connect(courseRunner.get(), &Interface::Runner::actionPerformed, this, &GameWindow::onActionPerformed);
     connect(this, &GameWindow::actionDeclared, logic_.get(), &Logic::onActionDeclared);
     connect(logic_.get(), &Logic::enteredEventPhase, this, &GameWindow::onEnteringEventPhase);
     connect(gameTime_.get(), SIGNAL(timeout()), gameScene_, SLOT(advance()));
-    GameSetup setup = GameSetup(gameScene_, game_, courseRunner,  logic_, playerNames_, gameSettings_);
+    GameSetup setup = GameSetup(gameScene_, game_, courseRunner,  logic_, playerNames_, gameSettings_, resDealer_);
 
     displayPlayerStats();
 }

@@ -2,7 +2,7 @@
 #include "carditem.hh"
 #include "agentitem.hh"
 
-PlayerHand::PlayerHand(QGraphicsScene* scene, std::shared_ptr<const Interface::Player> player) : scene_(scene), player_(player)
+PlayerHand::PlayerHand(std::shared_ptr<const Interface::Player> player) : player_(player)
 {
     handPixmap_ = new QPixmap(":/img/img/hand.png");
     Q_ASSERT(player->id() < PlayerColors.size());

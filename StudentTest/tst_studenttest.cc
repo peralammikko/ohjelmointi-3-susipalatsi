@@ -1,5 +1,6 @@
 #include <QtTest>
 #include <memory>
+#include <algorithm>
 
 
 #include "../Student/agent.hh"
@@ -7,9 +8,14 @@
 
 #include "../Course/game.h"
 
-#include "gamescene.hh"
 #include "../Student/agentitem.hh"
+#include "settingsreader.h"
 
+
+// For game end check
+#include "../course/Course/runner.h"
+#include "../Student/logic.hh"
+#include "../course/Course/councilor.h"
 
 class StudentTest : public QObject
 {
@@ -100,12 +106,54 @@ void StudentTest::test_resources_data()
 
 void StudentTest::test_game_end()
 {
+    auto game = std::make_shared<Interface::Game>();
+    auto runner = std::make_shared<Interface::Runner>(game);
+    auto logic = std::make_shared<Logic>(runner, game);
+
+    QFETCH(unsigned int, numberOfCouncilorCards0);
+    QFETCH(unsigned int, numberOfCouncilorCards1);
+    QFETCH(unsigned int, requiredForVictory);
+    QFETCH(bool, player0ExpectedToWin);
+    QFETCH(bool, player1ExpectedToWin);
+
+    auto player0 = std::make_shared<Interface::Player>(game, 0, "0");
+    game->addPlayer(player0);
+    auto player1 = std::make_shared<Interface::Player>(game, 1, "1");
+    game->addPlayer(player1);
+
+    for (unsigned int i = 0; i < numberOfCouncilorCards0; ++i){
+        player0->addCard(std::make_shared<Interface::Councilor>("", "", std::shared_ptr<Interface::Location>()));
+    }
+    for (unsigned int i = 0; i < numberOfCouncilorCards1; ++i){
+        player1->addCard(std::make_shared<Interface::Councilor>("", "", std::shared_ptr<Interface::Location>()));
+    }
+
+    std::set<std::shared_ptr<Interface::Player>> winners = logic->checkWin({player0, player1});
+    QVERIFY2(player0ExpectedToWin == (std::find(winners.begin(), winners.end(), player0) != winners.end()), "Wrong win state for player0");
+    QVERIFY2(player1ExpectedToWin == (std::find(winners.begin(), winners.end(), player1) != winners.end()), "Wrong win state for player1");
 
 }
 
 void StudentTest::test_game_end_data()
 {
+    /*
+    QFETCH(unsigned int, numberOfCouncilorCards0);
+    QFETCH(unsigned int, numberOfCouncilorCards1);
+    QFETCH(unsigned int, requiredForVictory);
+    QFETCH(bool, player0ExpectedToWin);
+    QFETCH(bool, player1ExpectedToWin);*/
 
+    QTest::addColumn<unsigned int>("numberOfCouncilorCards0");
+    QTest::addColumn<unsigned int>("numberOfCouncilorCards1");
+    QTest::addColumn<unsigned int>("requiredForVictory");
+    QTest::addColumn<bool>("player0ExpectedToWin");
+    QTest::addColumn<bool>("player1ExpectedToWin");
+
+    QTest::newRow("3/3, 0/3") << 3u << 0u << 3u << true << false;
+    QTest::newRow("2/3, 2/3") << 2u << 2u << 3u << false << false;
+    QTest::newRow("4/4, 4/4") << 4u << 4u << 4u << true << true;
+    QTest::newRow("2/5, 8/5") << 2u << 8u << 5u << false << true;
+    QTest::newRow("0/0, 0/0") << 0u << 0u << 0u << false << false;
 }
 
 

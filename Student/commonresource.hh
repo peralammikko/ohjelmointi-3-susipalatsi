@@ -11,7 +11,7 @@ namespace Interface {
 class CommonResource : public Interface::CardInterface
 {
 public:
-    explicit CommonResource(QString name, std::weak_ptr<Location> loc, QString spritePath,int amount = 0);
+    explicit CommonResource(QString name, std::weak_ptr<Location> loc, QString spritePath ="", int amount = 0);
     ~CommonResource();
     int amount();
 

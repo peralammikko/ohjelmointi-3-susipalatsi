@@ -5,24 +5,20 @@
 
 LocationItem::LocationItem(const std::shared_ptr<Interface::Location> location, std::vector<std::pair<QString, QString> > spritePaths, std::shared_ptr<Interface::CommonResource> localRes, std::shared_ptr<Interface::CommonResource> demandRes) :
     locationObject_(location),
-    basevalue_(1),
-    localRes_(localRes),
-    demandRes_(demandRes),
+    basevalue_(1),  
     isSelected(false),
-    isHovered_(false)
+    isHovered_(false),
+    localRes_(localRes),
+    demandRes_(demandRes)
+
 {
-    // Default sprites
-    planetImage_ = new QPixmap(":/img/planets/img/some sprites/planet iridium.png");
-    governorImage_ = new QPixmap(":/img/governors/img/governors/2.png");
     setAcceptHoverEvents(true);
-    for (int i = 0; i < spritePaths.size(); ++i){
+    for (unsigned int i = 0; i < spritePaths.size(); ++i){
         QString spritePath = spritePaths.at(i).second;
         if (spritePaths.at(i).first == "planet"){
-            delete planetImage_;
             planetImage_ = new QPixmap(spritePath);
         }
         if (spritePaths.at(i).first == "governorLbl") {
-            delete governorImage_;
             governorImage_ = new QPixmap(spritePath);
         }
     }
@@ -46,7 +42,8 @@ void LocationItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     QRectF govrect = QRectF(30, 30, 30, 30);
     painter->setBrush(QColor(145, 145, 145, 125));
     painter->drawEllipse(govrect);
-    painter->drawPixmap(govrect.x()+5, govrect.y()+5, govrect.width()-10, govrect.height()-10, localRes_.getSpritePath());
+
+    painter->drawPixmap(govrect.x()+5, govrect.y()+5, govrect.width()-10, govrect.height()-10, localRes_->getSpritePath());
 
     QPoint upperpos(boundingRect().x()+20, 20);
     QPoint lowerpos(0, boundingRect().height()-20);
@@ -211,6 +208,7 @@ agentItem *LocationItem::getAgentItemFor(std::shared_ptr<Interface::AgentInterfa
             }
         }
     }
+    return nullptr;
 }
 
 
