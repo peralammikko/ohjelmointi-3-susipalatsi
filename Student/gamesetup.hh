@@ -41,12 +41,39 @@ public:
 private:
     void checkStartingInfo(std::vector<QString> playerNames, std::vector<int> customSettings);
 
+    /**
+     * @brief initLocations
+     */
     void initLocations();
+
+    /**
+     * @brief initLocationDecks
+     */
     void initLocationDecks();
+
+    /**
+     * @brief initResourceMaps
+     */
     void initResourceMaps();
+
+    /**
+     * @brief initDemandMaps
+     */
     void initDemandMaps();
+
+    /**
+     * @brief initLocItems
+     */
     void initLocItems();
+
+    /**
+     * @brief initLocDecks
+     */
     void initLocDecks();
+
+    /**
+     * @brief initSceneArrows
+     */
     void initSceneArrows();
 
     // TODO: logic needed in constructor? Logic needed to return?

@@ -7,6 +7,7 @@
 #include <QMouseEvent>
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
+#include <QMessageBox>
 
 #include "gamescene.hh"
 #include "game.h"
@@ -43,8 +44,8 @@ public:
     ~GameWindow();
 
     /**
-     * @brief getLocations: palauttaa pelin sijainnit pointtereina
-     * @return vektori jaetuista pointereista pelin sijainteihin
+     * @brief Returns all locations in game in a vector
+     * @return Vector consisting of shared pointers of Locations
      */
     const std::vector<std::shared_ptr<Interface::Location>> getLocations();
 
@@ -66,77 +67,84 @@ public:
     void showHand(); // Poistoon?
 
     /**
-     * @brief Päivittää ruudulla olevat tiedot vuorossa olevalle pelaajalle
-     * @pre Pelissä on pelaajia ja vuoro vaihtuu seuraavalle
+     * @brief Updates the player stats for the player in turn
+     * @pre Game has players and turns are being switched
      */
     void displayPlayerStats();
 
     /**
-     * @brief Listaa nykyisen pelaajan agentit sijainteineen sivupaneeliin
-     * @param currentPlayer: vuorossa oleva pelaaja
-     * @pre
+     * @brief Lists all the available agents for the current player
+     * @param currentPlayer: player in turn
+     * @pre Game has players and player has agents
+     * @post All of players (available) agents are displayed in the side panel
      */
     void listAgents(std::shared_ptr<Interface::Player> &currentPlayer);
 
     /**
-     * @brief Listaa nykyisen pelaaja vaikutusvallan sijainteihin sivupaneeliin
-     * @param currentPlayer: vuorossa oleva pelaaja
+     * @brief Displays all the influences a player has on Locations
+     * @param currentPlayer: player in turn
      */
     void listInfluence(std::shared_ptr<Interface::Player> &currentPlayer);
 
     /**
-     * @brief Listaa kaikkien pelaajien "pisteet" neuvoston jäsenten korttien lukumäärän mukaan
+     * @brief Displays and lists score as council cards collected for all players
      */
     void listCouncilCards();
 
     /**
-     * @brief Antaa 1. pelaajalle lyhyen tietoiskun pelin päämäärästä ja tavoitteista
+     * @brief Gives a brief explanation to players about the game's goal and objectives
      */
     void startingDialog();
 
 
 private slots:
     /**
-     * @brief Päättää pelaajan kierroksen
-     * @pre Klikkaava pelaaja on vuorossa
-     * @post Pelaajan kierros päättyy ja käsikortit hävitetään
+     * @brief Ends the turn for player
+     * @pre Player who clicks it is in turn
+     * @post Player can't interact for the rest of the turn and hand cards are discarded
      */
     void on_passButton_clicked();
 
 
     /**
-     * @brief Esittää vuorossa olleen pelaajan viimeisimmän tapahtuman sivupaneelin History-ikkunaan
-     * @param player: vuorossa ollut pelaaja
-     * @param action: pelaajan toteuttama toiminto
+     * @brief Displays the latest action a player has commited in the side panel
+     * @param player: player in turn
+     * @param action: action performed by player
+     * @pre player has actions to perform, player is in turn
+     * @post player's action is displayed in the History window in main window
      */
     void onActionPerformed(std::shared_ptr<const Interface::Player> player, std::shared_ptr<Interface::ActionInterface> action);
 
     /**
-     * @brief Ottaa vastaan tiedon siitä, että vuoro on vaihtunut
-     * @param actingPlayer: edellisen kierroksen pelaaja
+     * @brief Receives information about player's turn ending
+     * @param actingPlayer: previous turn's player
      */
     void onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer);
 
 
     /**
-     * @brief Esittää History-ikkunaan tiedon siitä, että event-vaihe on tapahtunut kierroksen päätteeksi
+     * @brief Displays a message on the History window about Event phase happening.
+     * @pre Event phase has happened (all players have ended their turn)
+     * @post Message is displayed in the side panel History window
      */
     void onEnteringEventPhase();
 
     /**
-     * @brief Ottaa vastaan aloitusruudusta tulevat asetukset ja tiedot
-     * @param playerNames: pelaajien nimet
-     * @param gameSettings: pelaajan valitsemat asetukset peliin
-     * @param bots: pelaajan asettama tekoälypelaajien määrä
-     * @pre Aloitusikkuna on avattu ja peli käynnistetty sieltä
-     * @post Alustaa vektorit pelin pystyttämistä varten
+     * @brief Receives player names and game settings from the starting screen
+     * @param playerNames: names for all registered players
+     * @param gameSettings: settings chosen by the player
+     * @param bots: Number of AI opponents chosen by the player
+     * @pre Starting screen has opened and the Start game has been pressed
+     * @post Initializes vectors used for setting up the game
      */
     void getStartingInfo(std::vector<QString> playerNames, std::vector<int> gameSettings, int bots);
 
+    void on_helpButton_clicked();
+
 signals:
     /**
-     * @brief Lähettää tiedon pelaajan tekemästä toiminnosta
-     * @param action: pelaajan tekemä toiminto (tässä luokassa kierroksen ohitus eli Pass)
+     * @brief Sends information about player performing an action
+     * @param action: Action performed by player (in this case Pass)
      */
     void actionDeclared(std::shared_ptr<Interface::ActionInterface> action);
 private:
@@ -163,7 +171,7 @@ private:
     int bots_ = 0;
     int winCondition = 3;
 
-    QDialog* helpDialog_;
+    QMessageBox* infoBox_;
 
 };
 

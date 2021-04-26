@@ -36,9 +36,12 @@ void Agent::addResource(std::shared_ptr<Interface::Location> agentAt, std::share
 
 void Agent::removeResource(std::shared_ptr<Location> &agentAt,  int amount)
 {
+    int resourcesAt = gatheredResources_.at(agentAt).size();
+    if (resourcesAt >= amount) {
         for (int i = 0; i < amount; i++) {
             gatheredResources_.at(agentAt).pop_back();
         }
+    }
 }
 
 bool Agent::addCouncilCard(std::shared_ptr<Councilor> card)

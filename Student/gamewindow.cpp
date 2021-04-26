@@ -66,6 +66,7 @@ GameWindow::GameWindow(QWidget *parent) :
     GameSetup setup = GameSetup(gameScene_, game_, courseRunner,  logic_, playerNames_, gameSettings_, bots_);
 
     displayPlayerStats();
+    startingDialog();
 }
 
 GameWindow::~GameWindow()
@@ -108,21 +109,33 @@ void GameWindow::listInfluence(std::shared_ptr<Interface::Player> &currentPlayer
 void GameWindow::listCouncilCards()
 {
     gameui_->councilCardBoard->clear();
-    std::vector<std::shared_ptr<Interface::Councilor>> cardVector;
+    std::set<std::shared_ptr<Interface::Councilor>> cardVector;
     for (auto pl : game_->players()) {
         cardVector = {};
         for (auto card : pl->cards()) {
             std::shared_ptr<Interface::Councilor> councilCard = std::dynamic_pointer_cast<Interface::Councilor>(card);
             if (councilCard) {
-                cardVector.push_back(councilCard);
+                cardVector.insert(councilCard);
             }
         }
-        if (cardVector.size() == 0) {
-            gameui_->councilCardBoard->addItem(pl->name() + ": 0 / 3");
-        } else {
-            gameui_->councilCardBoard->addItem(pl->name() + ": " + cardVector.size() + " / 3");
-        }
+        gameui_->councilCardBoard->addItem(pl->name() + ": " + QString::number(cardVector.size()) + " / " + QString::number(winCondition));
     }
+}
+
+void GameWindow::startingDialog()
+{
+    QFile *textfile = new QFile("/home/peralam/susipalatsi/2-guys-1-git/master/Student/startingText");
+    infoBox_ = new QMessageBox();
+    if (textfile->open(QIODevice::ReadOnly) == true)
+    {
+        infoBox_->setText(QString (textfile->readAll()));
+        textfile->close();
+    }
+    QPixmap pic = QPixmap(":/img/img/some sprites/spacegoon.png");
+    infoBox_->setWindowTitle("Introduction");
+    infoBox_->setIconPixmap(pic);
+    infoBox_->setStyleSheet("background-image: url(:/img/background/background.png); border: none; font-family: Console; color: white;");
+    infoBox_->show();
 }
 
 void GameWindow::displayPlayerStats() {
@@ -178,21 +191,32 @@ void GameWindow::getStartingInfo(std::vector<QString> playerNames, std::vector<i
     gameSettings_ = gameSettings;
     bots_ = bots;
 
-    /*
     Interface::SettingsReader& reader = Interface::SettingsReader::READER;
-    reader.setPath(":/defaultsettings.dat");  // ???
+    reader.setPath("/home/peralam/susipalatsi/2-guys-1-git/master/Student/defaultsettings.dat");  // ???
     reader.readSettings();
+    qDebug() << "settings read";
     if (gameSettings.size() == 0) {
         winCondition = reader.getValue("WINCONDITION").toInt();
-    }
-    */
-
-    if (gameSettings.size() == 0) {
-        winCondition = 3;
     } else {
         winCondition = gameSettings.at(2);
     }
-
-
+    qDebug() << winCondition << " cards to win";
 }
 
+
+void GameWindow::on_helpButton_clicked()
+{
+
+    QFile *textfile = new QFile("/home/peralam/susipalatsi/2-guys-1-git/master/Student/helpText");
+    infoBox_ = new QMessageBox();
+    if (textfile->open(QIODevice::ReadOnly) == true)
+    {
+        infoBox_->setText(QString (textfile->readAll()));
+        textfile->close();
+    }
+    QPixmap pic = QPixmap(":/img/img/some sprites/spacegoon.png");
+    infoBox_->setWindowTitle("How to play");
+    infoBox_->setIconPixmap(pic);
+    infoBox_->setStyleSheet("background-image: url(:/img/background/background.png); border: none; font-family: Console; color: white;");
+    infoBox_->exec();
+}

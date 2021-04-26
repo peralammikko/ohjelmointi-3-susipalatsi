@@ -19,7 +19,14 @@ class AgentDialog : public QDialog
 public:
     explicit AgentDialog(std::shared_ptr<Interface::Agent> agentClicked, QWidget *parent = nullptr);
     ~AgentDialog();
+    /**
+     * @brief Lists resources carried by the agent hovered on
+     */
     void listResources();
+
+    /**
+     * @brief Displays the council card an agent is carrying (if any)
+     */
     void displayCouncilCard();
 
 private:

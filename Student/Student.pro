@@ -93,4 +93,6 @@ RESOURCES += \
     studentresources.qrc
 
 DISTFILES += \
-    defaultsettings.dat
+    defaultsettings.dat \
+    helpText \
+    startingText
