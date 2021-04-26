@@ -47,4 +47,8 @@
     <qresource prefix="/settings">
         <file>defaultsettings.dat</file>
     </qresource>
+    <qresource prefix="/textfiles">
+        <file>helpText</file>
+        <file>startingText</file>
+    </qresource>
 </RCC>

@@ -60,6 +60,10 @@ public slots:
 signals:
     void enteredEventPhase();
 
+    void readyToRewardResources();
+
+    void enteringNextRound();
+
     /**
      * @brief requestInterphase tells the GameWindow to disable graphicsview for a while
      * @param time the amount of time to be disabled in ms

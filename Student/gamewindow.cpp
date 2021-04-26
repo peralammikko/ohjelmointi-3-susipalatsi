@@ -125,22 +125,6 @@ void GameWindow::listCouncilCards()
     }
 }
 
-void GameWindow::startingDialog()
-{
-    QFile *textfile = new QFile("");
-    infoBox_ = new QMessageBox();
-    if (textfile->open(QIODevice::ReadOnly) == true)
-    {
-        infoBox_->setText(QString (textfile->readAll()));
-        textfile->close();
-    }
-    QPixmap pic = QPixmap(":/img/img/some sprites/spacegoon.png");
-    infoBox_->setWindowTitle("Introduction");
-    infoBox_->setIconPixmap(pic);
-    infoBox_->setStyleSheet("background-image: url(:/img/background/background.png); border: none; font-family: Console; color: white;");
-    infoBox_->show();
-}
-
 void GameWindow::displayPlayerStats() {
 
     std::shared_ptr<Interface::Player> currentPlayer = game_->currentPlayer();
@@ -202,29 +186,21 @@ void GameWindow::getStartingInfo(std::vector<QString> playerNames, std::vector<i
     gameSettings_ = gameSettings;
     bots_ = bots;
 
-    winCondition = 3;
-    /*
     Interface::SettingsReader& reader = Interface::SettingsReader::READER;
-<<<<<<< Student/gamewindow.cpp
     reader.setPath(":/settings/defaultsettings.dat");
-=======
-    reader.setPath("");  // ???
->>>>>>> Student/gamewindow.cpp
     reader.readSettings();
-    qDebug() << "settings read";
     if (gameSettings.size() == 0) {
         winCondition = reader.getValue("WINCONDITION").toInt();
     } else {
         winCondition = gameSettings.at(2);
     }
-    */
 }
 
 
 void GameWindow::on_helpButton_clicked()
 {
 
-    QFile *textfile = new QFile("");
+    QFile *textfile = new QFile(":/textfiles/helpText");
     infoBox_ = new QMessageBox();
     if (textfile->open(QIODevice::ReadOnly) == true)
     {
@@ -236,6 +212,22 @@ void GameWindow::on_helpButton_clicked()
     infoBox_->setIconPixmap(pic);
     infoBox_->setStyleSheet("background-image: url(:/img/background/background.png); border: none; font-family: Console; color: white;");
     infoBox_->exec();
+}
+
+void GameWindow::startingDialog()
+{
+    QFile *textfile = new QFile(":/textfiles/startingText");
+    infoBox_ = new QMessageBox();
+    if (textfile->open(QIODevice::ReadOnly) == true)
+    {
+        infoBox_->setText(QString (textfile->readAll()));
+        textfile->close();
+    }
+    QPixmap pic = QPixmap(":/img/img/some sprites/spacegoon.png");
+    infoBox_->setWindowTitle("Introduction");
+    infoBox_->setIconPixmap(pic);
+    infoBox_->setStyleSheet("background-image: url(:/img/background/background.png); border: none; font-family: Console; color: white;");
+    infoBox_->show();
 }
 
 void GameWindow::onInterphaseTimeout()
