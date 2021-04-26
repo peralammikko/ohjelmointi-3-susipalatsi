@@ -1,8 +1,8 @@
 #include <QDirIterator>
 #include "gamesetup.hh"
 
-GameSetup::GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game, std::shared_ptr<GameRunner> courseRunner, std::shared_ptr<Logic> logic, std::vector<QString> playerNames, std::vector<int> customSettings, int bots)
-    : gameScene_(gameScene), game_(game), courseRunner_(courseRunner), logic_(logic), BOTCOUNT(bots)
+GameSetup::GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game, std::shared_ptr<GameRunner> courseRunner, std::shared_ptr<Logic> logic, std::vector<QString> playerNames, std::vector<int> customSettings, int bots, std::shared_ptr<ResourceDealer> resDealer)
+    : gameScene_(gameScene), game_(game), courseRunner_(courseRunner), logic_(logic), BOTCOUNT(bots), resDealer_(resDealer)
 {
     Interface::SettingsReader& reader = Interface::SettingsReader::READER;
     reader.readSettings();
@@ -198,13 +198,7 @@ void GameSetup::initLocDecks()
 
 void GameSetup::initResDealer()
 {
-
-    // TODO: this part is broken for now
-    if (useCustomSettings == false) {
-        WINCONDITION = 3;
-    }
     resDealer_->infoResourceMaps(initResourceMap_, councillorDemandsMap_);
-
 }
 
 void GameSetup::initPlayers()

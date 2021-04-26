@@ -31,8 +31,6 @@ void Logic::launchGame()
     game_->setActive(true);
 }
 
-bool Logic::thereIsWinner()
-
 std::set<std::shared_ptr<Interface::Player>> Logic::checkWin(std::vector<std::shared_ptr<Interface::Player> > players)
 {
     // Checking which player(s) holds councilor cards according to win condition
@@ -74,10 +72,6 @@ void Logic::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlaye
         // If we are just looking for a player who has action cards but could not find one, proceed to even phase
         if (actingPlayer_ != nullptr and actingPlayer_ == actingPlayer){
             // "We have gone a full circle of players with no action cards. Proceeding to event phase"
-            if (thereIsWinner()){
-                game_->setActive(false);
-                return;
-            }
             emit(enteredEventPhase());
             emit(readyToRewardResources());
             emit(enteringNextRound());

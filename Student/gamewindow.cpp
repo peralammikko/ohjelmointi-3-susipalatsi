@@ -65,7 +65,7 @@ GameWindow::GameWindow(QWidget *parent) :
     connect(this, &GameWindow::actionDeclared, logic_.get(), &Logic::onActionDeclared);
     connect(logic_.get(), &Logic::enteredEventPhase, this, &GameWindow::onEnteringEventPhase);
     connect(gameTime_.get(), SIGNAL(timeout()), gameScene_, SLOT(advance()));
-    GameSetup setup = GameSetup(gameScene_, game_, courseRunner,  logic_, playerNames_, gameSettings_, resDealer_);
+    GameSetup setup = GameSetup(gameScene_, game_, courseRunner,  logic_, playerNames_, gameSettings_, bots_, resDealer_);
 
     displayPlayerStats();
     startingDialog();
@@ -193,6 +193,8 @@ void GameWindow::getStartingInfo(std::vector<QString> playerNames, std::vector<i
     gameSettings_ = gameSettings;
     bots_ = bots;
 
+    winCondition = 3;
+    /*
     Interface::SettingsReader& reader = Interface::SettingsReader::READER;
     reader.setPath("");  // ???
     reader.readSettings();
@@ -202,7 +204,7 @@ void GameWindow::getStartingInfo(std::vector<QString> playerNames, std::vector<i
     } else {
         winCondition = gameSettings.at(2);
     }
-    qDebug() << winCondition << " cards to win";
+    */
 }
 
 

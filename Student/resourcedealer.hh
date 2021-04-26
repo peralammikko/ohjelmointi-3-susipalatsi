@@ -20,9 +20,8 @@ private:
     GameScene* gameScene_;
     std::shared_ptr<Interface::Game> game_;
 
-    ResourceMap resMap_;
-    ResourceMap demandsMap_;
-
+    ResourceMap resMap_ = {};
+    ResourceMap demandsMap_ = {};
 
 signals:
 
