@@ -4,7 +4,7 @@
 #include <memory>
 
 #include "gamewindow.hh"
-#include "ui_gamewindow.h"
+//#include "ui_gamewindow.h"
 
 
 #include "gamescene.hh"
@@ -27,19 +27,19 @@
 
 class ActionCard;
 
+
 class Logic : public QObject
 {
     Q_OBJECT
 public :
-    Logic(std::shared_ptr<Interface::Runner> runner, std::shared_ptr<Interface::Game> game, GameScene *gameScene);
+    Logic(std::shared_ptr<Interface::Runner> runner, std::shared_ptr<Interface::Game> game);
     ~Logic();
 
     void doTheRunning();
     // Attempting to move almost everything in mainwindow which is related to game rule intialisation here
     void launchGame();
     void createLocations();
-    void rewardResources();
-    void infoResourceMaps(ResourceMap &rmap, ResourceMap &dmap, int WINCOND);
+    std::set<std::shared_ptr<Interface::Player>> checkWin(std::vector<std::shared_ptr<Interface::Player>> players);
 
 public slots:
     void onActionDeclared(std::shared_ptr<Interface::ActionInterface> action);
@@ -73,7 +73,6 @@ private:
 
     std::shared_ptr<Interface::Runner> runner_;
     std::shared_ptr<Interface::Game> game_;
-    std::shared_ptr<GameScene> gameScene_;
 
     // Honestly no clue yet
     std::shared_ptr<Interface::ControlInterface> ctrl_;
@@ -83,10 +82,7 @@ private:
     std::shared_ptr<const Interface::Player>  actingPlayer_;
     int current_turn = 1;
 
-    ResourceMap resMap_;
-    ResourceMap demandsMap_;
-    
-    int winCondition_;
+    int winCondition_ = 3;
 
 
 };

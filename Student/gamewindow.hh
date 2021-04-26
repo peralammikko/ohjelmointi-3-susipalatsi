@@ -17,9 +17,9 @@
 #include "agentactioninterface.hh"
 #include "passaction.hh"
 
-// Logic testing
-#include "logic.hh"
 
+#include "logic.hh"
+#include "resourcedealer.hh"
 #include "../Course/game.h"
 #include "../Course/runner.h"
 
@@ -164,8 +164,9 @@ private:
     std::shared_ptr<Interface::Game> game_ = nullptr;
     std::shared_ptr<GameRunner> courseRunner = nullptr;
 
-    // Logic testing
+
     std::shared_ptr<Logic> logic_;
+    std::shared_ptr<ResourceDealer> resDealer_;
 
     std::unique_ptr<QTimer> gameTime_;   
     QTimer* interphaseTimer_ = nullptr;

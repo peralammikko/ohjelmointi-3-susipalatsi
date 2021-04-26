@@ -1,17 +1,37 @@
 QT += testlib
-#QT -= gui
+QT += widgets testlib
+
+QT -= gui
 
 CONFIG += qt console warn_on depend_includepath testcase
+CONFIG += console
 CONFIG -= app_bundle
+
+CONFIG += c++11
 
 QT += core gui widgets network multimedia
 TARGET = tst_studenttest
 
 TEMPLATE = app
 
-SOURCES +=  tst_studenttest.cpp \
+SOURCES +=  \
+    tst_studenttest.cc \
+    ../Student/agent.cpp \
+    ../Student/commonresource.cpp \
+    ../Student/logic.cpp \
+
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
+
+HEADERS += \
+    ../Student/agent.hh \
+    ../Student/commonresource.hh \
+    ../Student/logic.hh \
+
+
+
+#include "../Student/logic.hh"
+#include "../Student/logic.cpp"
 
 
 win32:CONFIG(release, debug|release): LIBS += \
@@ -24,9 +44,13 @@ else:unix: LIBS += \
 
 INCLUDEPATH += \
     $$PWD/../course/Course \
-    $$PWD/../Student
+    $$PWD/../Student \
+    $$PWD/Student
 
 DEPENDPATH += \
     $$PWD/../course/Course \
     $$PWD/../Student
+
+RESOURCES += \
+    $$PWD/../course/Course/default_assets.qrc
 

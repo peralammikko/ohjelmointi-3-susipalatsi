@@ -7,7 +7,6 @@
 #include "gamescene.hh"
 #include <cmath>
 
-// Kokeilu gamesetup
 #include "gamesetup.hh"
 
 #include "actioncard.hh"
@@ -56,7 +55,10 @@ GameWindow::GameWindow(QWidget *parent) :
 
     this->setWindowTitle("SUSIPALATSI: TEH GAME");
 
-    logic_ = std::make_shared<Logic>(courseRunner, game_, gameScene_);
+    logic_ = std::make_shared<Logic>(courseRunner, game_);
+
+    resDealer_ = std::make_shared<ResourceDealer>(gameScene_, game_);
+    connect(logic_.get(), &Logic::readyToRewardResources, resDealer_.get(), &ResourceDealer::onReadyForResources);
 
     connect(game_.get(), &Interface::Game::playerChanged, this, &GameWindow::onPlayerChanged);
     connect(courseRunner.get(), &Interface::Runner::actionPerformed, this, &GameWindow::onActionPerformed);
@@ -64,8 +66,7 @@ GameWindow::GameWindow(QWidget *parent) :
     connect(logic_.get(), &Logic::enteredEventPhase, this, &GameWindow::onEnteringEventPhase);
     connect(gameTime_.get(), SIGNAL(timeout()), gameScene_, SLOT(advance()));
     connect(logic_.get(), &Logic::requestInterphase, this, &GameWindow::onInterphaseRequested);
-
-    GameSetup setup = GameSetup(gameScene_, game_, courseRunner,  logic_, playerNames_, gameSettings_, bots_);
+    GameSetup setup = GameSetup(gameScene_, game_, courseRunner,  logic_, playerNames_, gameSettings_, bots_, resDealer_);
 
     displayPlayerStats();
     startingDialog();
@@ -126,7 +127,7 @@ void GameWindow::listCouncilCards()
 
 void GameWindow::startingDialog()
 {
-    QFile *textfile = new QFile("/home/peralam/susipalatsi/2-guys-1-git/master/Student/startingText");
+    QFile *textfile = new QFile("");
     infoBox_ = new QMessageBox();
     if (textfile->open(QIODevice::ReadOnly) == true)
     {
@@ -201,8 +202,14 @@ void GameWindow::getStartingInfo(std::vector<QString> playerNames, std::vector<i
     gameSettings_ = gameSettings;
     bots_ = bots;
 
+    winCondition = 3;
+    /*
     Interface::SettingsReader& reader = Interface::SettingsReader::READER;
+<<<<<<< Student/gamewindow.cpp
     reader.setPath(":/settings/defaultsettings.dat");
+=======
+    reader.setPath("");  // ???
+>>>>>>> Student/gamewindow.cpp
     reader.readSettings();
     qDebug() << "settings read";
     if (gameSettings.size() == 0) {
@@ -210,14 +217,14 @@ void GameWindow::getStartingInfo(std::vector<QString> playerNames, std::vector<i
     } else {
         winCondition = gameSettings.at(2);
     }
-    qDebug() << winCondition << " cards to win";
+    */
 }
 
 
 void GameWindow::on_helpButton_clicked()
 {
 
-    QFile *textfile = new QFile("/home/peralam/susipalatsi/2-guys-1-git/master/Student/helpText");
+    QFile *textfile = new QFile("");
     infoBox_ = new QMessageBox();
     if (textfile->open(QIODevice::ReadOnly) == true)
     {

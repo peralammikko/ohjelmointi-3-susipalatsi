@@ -9,8 +9,6 @@
 
 #include <QDebug>
 
-class LocationItem;
-class AgentActionInterface;
 
 agentItem::agentItem(std::shared_ptr<Interface::Agent> &agentInterface) : agentConnections_(0)
 {
@@ -26,7 +24,6 @@ agentItem::agentItem(std::shared_ptr<Interface::Agent> &agentInterface) : agentC
         Q_ASSERT(id < PlayerColors.size());
         playerColor_ = PlayerColors.at(id);
     }
-
 }
 
 agentItem::~agentItem()

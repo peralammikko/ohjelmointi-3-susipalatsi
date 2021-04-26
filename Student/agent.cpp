@@ -132,7 +132,7 @@ std::weak_ptr<Player> Agent::owner() const
 
 void Agent::setOwner(std::weak_ptr<Player> owner)
 {
-
+    owner_ = owner;
 }
 
 
