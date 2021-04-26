@@ -156,6 +156,8 @@ public slots:
      */
     void onActionDeclared(std::shared_ptr<Interface::ActionInterface> action, mapItem* declaringMapItem, bool resetting);
 
+    void onEnteringNextRound();
+
 private slots:
     // These are cut content for highlighting (making things larger) as you mouse over them.
     // We are afraid that removing this will cause bad trouble so it is here for now

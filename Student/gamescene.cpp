@@ -9,7 +9,8 @@
 #include "agentdialog.hh"
 #include "game.h"
 
-#include "../Course/game.h"
+#include "player.h"
+
 
 
 // RUNNER TESTING
@@ -57,7 +58,7 @@ void GameScene::drawLocations(std::vector<std::pair<std::shared_ptr<Interface::L
 
 void GameScene::initPlayerHandFor(std::shared_ptr<Interface::Player> player)
 {
-    playerHands_.insert(std::make_pair(player, new PlayerHand(this, player)));
+    playerHands_.insert(std::make_pair(player, new PlayerHand(player)));
 }
 
 void GameScene::resourceInfo(ResourceMap &rmap, ResourceMap &dmap)
@@ -221,16 +222,9 @@ void GameScene::onPlayerChanged(std::shared_ptr<const Interface::Player> actingP
     }
 }
 
-void GameScene::nextRound()
-{
-    shuffleLocationItems();
-    rearrangeLocationItems();
-    resetLocationNeighbours();
-}
-
 void GameScene::initHands(std::shared_ptr<const Interface::Player> player)
 {
-    PlayerHand* hand = new PlayerHand(this, player);
+    PlayerHand* hand = new PlayerHand(player);
     this->addItem(hand);
     playerHands_.insert(std::pair<std::shared_ptr<const Interface::Player>,PlayerHand*>(player, hand));
     hand->setPos(600, 400);
@@ -392,5 +386,12 @@ void GameScene::onActionDeclared(std::shared_ptr<Interface::ActionInterface> act
         qDebug() << "Action was declared on scene but there is no game";
         return;
     }
+}
+
+void GameScene::onEnteringNextRound()
+{
+    shuffleLocationItems();
+    rearrangeLocationItems();
+    resetLocationNeighbours();
 }
 
