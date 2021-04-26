@@ -13,11 +13,6 @@
 
 
 
-// RUNNER TESTING
-
-
-// required for signaling??
-#include <QObject>
 
 GameScene::GameScene(QWidget *parent, std::weak_ptr<Interface::Game> game) : QGraphicsScene(parent), game_(game)
 {
@@ -300,7 +295,6 @@ void GameScene::shuffleLocationItems()
 
 void GameScene::rearrangeLocationItems()
 {
-
     solarsystemCenter_ = QPointF(this->width()/2, this->height()*2/6);
     const int radius = 320;
     int locationCount = locationItems_.size();
@@ -317,7 +311,7 @@ void GameScene::rearrangeLocationItems()
         // Squash the y a little bit
         float y = solarsystemCenter_.y()  - 0.7* radius * std::sin(angleRad);
         currentLocItem->setHome(QPointF(x,y));
-        currentLocItem->goHome();
+        currentLocItem->goHome(1000);
     }
 }
 
@@ -351,7 +345,6 @@ void GameScene::onActionDeclared(std::shared_ptr<Interface::ActionInterface> act
     if (game_.lock() and game_.lock()->active())
     {
         if (resetting){
-            qDebug() << "Resetting action";
             resetAction();
             return;
         }

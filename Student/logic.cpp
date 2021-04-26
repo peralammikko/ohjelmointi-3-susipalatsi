@@ -56,6 +56,7 @@ void Logic::onActionDeclared(std::shared_ptr<Interface::ActionInterface> action)
     std::shared_ptr<Interface::ManualControl> manualCtrl = std::dynamic_pointer_cast<Interface::ManualControl>(ctrl_);
     if (manualCtrl)
     {
+        qDebug() << "Manual Control was found";
         manualCtrl->setNextAction(action_);
         doTheRunning();
     } else {
@@ -115,5 +116,18 @@ void Logic::deckChanged(std::shared_ptr<const Interface::Location> location) con
 
 void Logic::onActionPerformed(std::shared_ptr<const Interface::Player> player, std::shared_ptr<Interface::ActionInterface> action)
 {
+    // Signal the gamewindow to disable gameview for a while.
+    emit(requestInterphase(1200));
     game_->nextPlayer();
+    game_->setActive(false);
+    //gameScene_->onPlayerChanged(game);
+    actingPlayer_ = nullptr;
+
+}
+
+void Logic::onInterphaseTimeout()
+{
+    game_->setActive(true);
+
+    doTheRunning();
 }

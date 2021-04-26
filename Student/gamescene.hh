@@ -173,6 +173,7 @@ private slots:
      */
     void onLocationItemClicked(LocationItem * locItem);
 
+
 private:
     std::weak_ptr<Interface::Game> game_;
     std::map<std::shared_ptr<const Interface::Player>, PlayerHand*> playerHands_;
@@ -225,6 +226,7 @@ private:
     int const SPACEBETWEENHANDS = 200;
 
     std::shared_ptr<Interface::Player> playerInTurn_ = nullptr;
+
 
     /**
      * @brief A custom QDialog spawned by clicking on locations
