@@ -109,7 +109,7 @@ protected:
 
     bool waitingForActionCard_ = false;
 
-    QTimer* homingTimer_;
+    QTimer* homingTimer_ = nullptr;
     bool homing_ = false;
 
 signals:

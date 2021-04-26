@@ -63,6 +63,8 @@ GameWindow::GameWindow(QWidget *parent) :
     connect(this, &GameWindow::actionDeclared, logic_.get(), &Logic::onActionDeclared);
     connect(logic_.get(), &Logic::enteredEventPhase, this, &GameWindow::onEnteringEventPhase);
     connect(gameTime_.get(), SIGNAL(timeout()), gameScene_, SLOT(advance()));
+    connect(logic_.get(), &Logic::requestInterphase, this, &GameWindow::onInterphaseRequested);
+
     GameSetup setup = GameSetup(gameScene_, game_, courseRunner,  logic_, playerNames_, gameSettings_, bots_);
 
     displayPlayerStats();
@@ -181,7 +183,15 @@ void GameWindow::onPlayerChanged(std::shared_ptr<const Interface::Player> acting
 
 void GameWindow::onEnteringEventPhase()
 {
-    gameui_->actionHistoryWidget->addItem(QString::number(gameui_->actionHistoryWidget->count()+1) + "==PARLIAMENTARY DAY==");
+    gameui_->actionHistoryWidget->addItem(QString::number(gameui_->actionHistoryWidget->count()+1) + "==ROUND OVER==");
+    gameui_->actionHistoryWidget->addItem("Councilors gather to discuss who is fit to rule Susipalatsi");
+    // TODO: Fix the logic victory check
+    if (false){
+        gameui_->actionHistoryWidget->addItem("Councilors have now decided!");
+    } else {
+        gameui_->actionHistoryWidget->addItem("Councilors did not decide the winner yet");
+        gameui_->actionHistoryWidget->addItem("Cosmic Forces change the order of planets!");
+    }
     gameui_->actionHistoryWidget->scrollToBottom();
 }
 
@@ -192,7 +202,7 @@ void GameWindow::getStartingInfo(std::vector<QString> playerNames, std::vector<i
     bots_ = bots;
 
     Interface::SettingsReader& reader = Interface::SettingsReader::READER;
-    reader.setPath("/home/peralam/susipalatsi/2-guys-1-git/master/Student/defaultsettings.dat");  // ???
+    reader.setPath(":/settings/defaultsettings.dat");
     reader.readSettings();
     qDebug() << "settings read";
     if (gameSettings.size() == 0) {
@@ -219,4 +229,24 @@ void GameWindow::on_helpButton_clicked()
     infoBox_->setIconPixmap(pic);
     infoBox_->setStyleSheet("background-image: url(:/img/background/background.png); border: none; font-family: Console; color: white;");
     infoBox_->exec();
+}
+
+void GameWindow::onInterphaseTimeout()
+{
+    gameui_->graphicsView->setMouseTracking(true);
+    gameui_->graphicsView->setEnabled(true);
+}
+
+void GameWindow::onInterphaseRequested(int time = 1500)
+{
+    if (interphaseTimer_ != nullptr){
+        delete interphaseTimer_;
+    }
+    interphaseTimer_ = new QTimer(this);
+    interphaseTimer_->setSingleShot(true);
+    interphaseTimer_->start(time);
+   // gameui_->graphicsView->setMouseTracking(false);
+    gameui_->graphicsView->setEnabled(false);
+    connect(interphaseTimer_, &QTimer::timeout, this, &GameWindow::onInterphaseTimeout);
+    connect(interphaseTimer_, &QTimer::timeout, logic_.get(), &Logic::onInterphaseTimeout);
 }

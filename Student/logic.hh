@@ -52,8 +52,20 @@ public slots:
     // sent by runner, connected in setup
     void onActionPerformed(std::shared_ptr<const Interface::Player> player, std::shared_ptr<Interface::ActionInterface> action);
 
+    /**
+     * @brief onInterphaseTimeout Calls the game to move on to the next player, which in turn signals onPlayerChanged (if the game is still ongoing)
+     */
+    void onInterphaseTimeout();
+
 signals:
     void enteredEventPhase();
+
+    /**
+     * @brief requestInterphase tells the GameWindow to disable graphicsview for a while
+     * @param time the amount of time to be disabled in ms
+     * @pre the gamewindow must exist, and the gamewindow must be connected to this signal
+     */
+    void requestInterphase(int time);
 
 private:
     void setNextAction();

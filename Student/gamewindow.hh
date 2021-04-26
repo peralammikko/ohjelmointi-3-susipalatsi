@@ -96,6 +96,12 @@ public:
      */
     void startingDialog();
 
+public slots:
+    /**
+     * @brief onInterphaseRequested disables the gamescene and starts a timer, which on time-out calls onInterphaseTimeout
+     * @param time time in mseconds
+     */
+    void onInterphaseRequested(int time);
 
 private slots:
     /**
@@ -141,6 +147,11 @@ private slots:
 
     void on_helpButton_clicked();
 
+    /**
+     * @brief onInterphaseTimeout re-enables graphicsView_
+     */
+    void onInterphaseTimeout();
+
 signals:
     /**
      * @brief Sends information about player performing an action
@@ -156,7 +167,8 @@ private:
     // Logic testing
     std::shared_ptr<Logic> logic_;
 
-    std::unique_ptr<QTimer> gameTime_;
+    std::unique_ptr<QTimer> gameTime_;   
+    QTimer* interphaseTimer_ = nullptr;
 
     // Usefulness to be decided.
     std::map<std::shared_ptr<Interface::Player>, std::vector<agentItem*>> playerAgentItems_;
