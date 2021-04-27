@@ -1,0 +1,101 @@
+\hypertarget{class_interface_1_1_common_resource}{\section{Interface\-:\-:Common\-Resource Class Reference}
+\label{class_interface_1_1_common_resource}\index{Interface\-::\-Common\-Resource@{Interface\-::\-Common\-Resource}}
+}
+Inheritance diagram for Interface\-:\-:Common\-Resource\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_interface_1_1_common_resource}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_interface_1_1_common_resource_a1b219e14bb85f9ed32848bba3f3acae5}{{\bfseries Common\-Resource} (Q\-String name, std\-::weak\-\_\-ptr$<$ Location $>$ loc, Q\-String sprite\-Path=\char`\"{}\char`\"{}, int \hyperlink{class_interface_1_1_common_resource_a80c78bd1ca1ffbf1281507e4b1fa7519}{amount}=0)}\label{class_interface_1_1_common_resource_a1b219e14bb85f9ed32848bba3f3acae5}
+
+\item 
+int \hyperlink{class_interface_1_1_common_resource_a80c78bd1ca1ffbf1281507e4b1fa7519}{amount} ()
+\begin{DoxyCompactList}\small\item\em Returns the set amount of a resource. \end{DoxyCompactList}\item 
+\hypertarget{class_interface_1_1_common_resource_add7d68536ba103eb0b76bfbaba3fb1a6}{Q\-String \hyperlink{class_interface_1_1_common_resource_add7d68536ba103eb0b76bfbaba3fb1a6}{type\-Name} () const override}\label{class_interface_1_1_common_resource_add7d68536ba103eb0b76bfbaba3fb1a6}
+
+\begin{DoxyCompactList}\small\item\em Card\-Interface overridden functions, most of which aren't used for this class. \end{DoxyCompactList}\item 
+\hypertarget{class_interface_1_1_common_resource_a4687234bc1162c7e52365ebf3d709b18}{Q\-String {\bfseries title} () const override}\label{class_interface_1_1_common_resource_a4687234bc1162c7e52365ebf3d709b18}
+
+\item 
+\hypertarget{class_interface_1_1_common_resource_af865b2e86d525307f1ae9d6d13f28723}{Q\-String {\bfseries name} () const override}\label{class_interface_1_1_common_resource_af865b2e86d525307f1ae9d6d13f28723}
+
+\item 
+\hypertarget{class_interface_1_1_common_resource_a5f95047d800f33707067ea14b40a07c6}{std\-::weak\-\_\-ptr$<$ Location $>$ {\bfseries location} () const override}\label{class_interface_1_1_common_resource_a5f95047d800f33707067ea14b40a07c6}
+
+\item 
+\hypertarget{class_interface_1_1_common_resource_a4cf73885abd180224d82d82c82f6bb61}{std\-::weak\-\_\-ptr$<$ Player $>$ {\bfseries owner} () const override}\label{class_interface_1_1_common_resource_a4cf73885abd180224d82d82c82f6bb61}
+
+\item 
+\hypertarget{class_interface_1_1_common_resource_a043ab81885bb98e756f6deee1e1723c0}{void {\bfseries set\-Owner} (std\-::weak\-\_\-ptr$<$ Player $>$ owner) override}\label{class_interface_1_1_common_resource_a043ab81885bb98e756f6deee1e1723c0}
+
+\item 
+void \hyperlink{class_interface_1_1_common_resource_a0eeed00a0225e796950dd407ca688caf}{set\-Amount\-To} (int num)
+\begin{DoxyCompactList}\small\item\em Sets the resources Amount variable to desired. Used for generating demands on locations. \end{DoxyCompactList}\item 
+const Q\-String \hyperlink{class_interface_1_1_common_resource_a4222250c13bdd13c85831604a1ca30bb}{get\-Sprite\-Path} ()
+\begin{DoxyCompactList}\small\item\em Used to get the file path for corresponding sprite to a resource. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_interface_1_1_common_resource_a80c78bd1ca1ffbf1281507e4b1fa7519}{\index{Interface\-::\-Common\-Resource@{Interface\-::\-Common\-Resource}!amount@{amount}}
+\index{amount@{amount}!Interface::CommonResource@{Interface\-::\-Common\-Resource}}
+\subsubsection[{amount}]{\setlength{\rightskip}{0pt plus 5cm}int Interface\-::\-Common\-Resource\-::amount (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_interface_1_1_common_resource_a80c78bd1ca1ffbf1281507e4b1fa7519}
+
+
+Returns the set amount of a resource. 
+
+\begin{DoxyReturn}{Returns}
+Amount of resource in question. 
+\end{DoxyReturn}
+\hypertarget{class_interface_1_1_common_resource_a4222250c13bdd13c85831604a1ca30bb}{\index{Interface\-::\-Common\-Resource@{Interface\-::\-Common\-Resource}!get\-Sprite\-Path@{get\-Sprite\-Path}}
+\index{get\-Sprite\-Path@{get\-Sprite\-Path}!Interface::CommonResource@{Interface\-::\-Common\-Resource}}
+\subsubsection[{get\-Sprite\-Path}]{\setlength{\rightskip}{0pt plus 5cm}const Q\-String Interface\-::\-Common\-Resource\-::get\-Sprite\-Path (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_interface_1_1_common_resource_a4222250c13bdd13c85831604a1ca30bb}
+
+
+Used to get the file path for corresponding sprite to a resource. 
+
+\begin{DoxyReturn}{Returns}
+File path in Q\-String form 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+File exists in presumed location 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Path is found and resource gets it's respective sprite 
+\end{DoxyPostcond}
+\hypertarget{class_interface_1_1_common_resource_a0eeed00a0225e796950dd407ca688caf}{\index{Interface\-::\-Common\-Resource@{Interface\-::\-Common\-Resource}!set\-Amount\-To@{set\-Amount\-To}}
+\index{set\-Amount\-To@{set\-Amount\-To}!Interface::CommonResource@{Interface\-::\-Common\-Resource}}
+\subsubsection[{set\-Amount\-To}]{\setlength{\rightskip}{0pt plus 5cm}void Interface\-::\-Common\-Resource\-::set\-Amount\-To (
+\begin{DoxyParamCaption}
+\item[{int}]{num}
+\end{DoxyParamCaption}
+)}}\label{class_interface_1_1_common_resource_a0eeed00a0225e796950dd407ca688caf}
+
+
+Sets the resources Amount variable to desired. Used for generating demands on locations. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em num,\-:} & Desired number for resource \char`\"{}value\char`\"{} \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+Resource exists 
+\end{DoxyPrecond}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+Student/commonresource.\-hh\item 
+Student/commonresource.\-cpp\end{DoxyCompactItemize}

@@ -1,0 +1,4 @@
+<map id="mapItem::typeOf" name="mapItem::typeOf">
+<area shape="rect" id="node2" href="$class_game_scene.html#aa9cca2fe921183eca8d44d7d57cd2c11" title="Recieved when a mapItem (Agent or a CardItem) is dragged and dropped and the item has recognized a va..." alt="" coords="187,12,410,39"/>
+<area shape="rect" id="node3" href="$class_game_scene.html#a05c9687d7d9d4ca8a9b3c21eea841393" title="Adds an action card to players hand. " alt="" coords="459,5,661,46"/>
+</map>

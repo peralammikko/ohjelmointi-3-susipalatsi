@@ -4,7 +4,10 @@
 #include "agentactioninterface.hh"
 #include <memory>
 
-
+/**
+ * @file
+ * @brief a basic action for agents to move them to locations
+ */
 class LocationItem;
 class agentItem;
 

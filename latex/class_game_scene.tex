@@ -1,0 +1,375 @@
+\hypertarget{class_game_scene}{\section{Game\-Scene Class Reference}
+\label{class_game_scene}\index{Game\-Scene@{Game\-Scene}}
+}
+Inheritance diagram for Game\-Scene\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_game_scene}
+\end{center}
+\end{figure}
+\subsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{class_game_scene_aa9cca2fe921183eca8d44d7d57cd2c11}{on\-Action\-Declared} (std\-::shared\-\_\-ptr$<$ Interface\-::\-Action\-Interface $>$ action, \hyperlink{classmap_item}{map\-Item} $\ast$declaring\-Map\-Item, bool resetting)
+\begin{DoxyCompactList}\small\item\em Recieved when a \hyperlink{classmap_item}{map\-Item} (Agent or a \hyperlink{class_card_item}{Card\-Item}) is dragged and dropped and the item has recognized a valid action. \end{DoxyCompactList}\item 
+\hypertarget{class_game_scene_a0001cdbbd1652668fff2d88c44f6d98f}{void {\bfseries on\-Entering\-Next\-Round} ()}\label{class_game_scene_a0001cdbbd1652668fff2d88c44f6d98f}
+
+\end{DoxyCompactItemize}
+\subsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{class_game_scene_a94f992c47762987c54c8dc17c142d6cf}{action\-Declared} (std\-::shared\-\_\-ptr$<$ Interface\-::\-Action\-Interface $>$ action)
+\begin{DoxyCompactList}\small\item\em Sent when an Agent has declared an action (eg. User has dragged it from hand to a planet) A\-N\-D paid for the aciton card. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_game_scene_a963c269703f813ed748497a6e5a7fc4f}{{\bfseries Game\-Scene} (Q\-Widget $\ast$parent, std\-::weak\-\_\-ptr$<$ Interface\-::\-Game $>$ game)}\label{class_game_scene_a963c269703f813ed748497a6e5a7fc4f}
+
+\item 
+void \hyperlink{class_game_scene_a40a26801a9db12c1684df5fd106b5b19}{draw\-Agents} (std\-::vector$<$ \hyperlink{classagent_item}{agent\-Item} $\ast$ $>$ \&agents)
+\begin{DoxyCompactList}\small\item\em Makes agents visible and places them in a hand-\/like deployment zone. \end{DoxyCompactList}\item 
+void \hyperlink{class_game_scene_ae634b53a8a148208b804b7e16d16c2b6}{draw\-Locations} (std\-::vector$<$ std\-::pair$<$ std\-::shared\-\_\-ptr$<$ Interface\-::\-Location $>$, std\-::vector$<$ std\-::pair$<$ Q\-String, Q\-String $>$$>$$>$$>$ location\-Information)
+\begin{DoxyCompactList}\small\item\em Draws game's locations to scene and initializes them as \hyperlink{class_location_item}{Location\-Item} objects. \end{DoxyCompactList}\item 
+void \hyperlink{class_game_scene_a21620dbdbc47b5ff57dfb4ee8c96d857}{init\-Hands} (std\-::shared\-\_\-ptr$<$ const Interface\-::\-Player $>$ Player)
+\begin{DoxyCompactList}\small\item\em Creates a hand area for player to hold cards \& agents. \end{DoxyCompactList}\item 
+void \hyperlink{class_game_scene_a05c9687d7d9d4ca8a9b3c21eea841393}{add\-Action\-Card\-For\-Player} (std\-::shared\-\_\-ptr$<$ const Interface\-::\-Player $>$ player, std\-::shared\-\_\-ptr$<$ \hyperlink{class_interface_1_1_action_card}{Interface\-::\-Action\-Card} $>$ card)
+\begin{DoxyCompactList}\small\item\em Adds an action card to players hand. \end{DoxyCompactList}\item 
+void \hyperlink{class_game_scene_aecf15f36605b407bb9b8e03fa8e9bb90}{turn\-Info} (std\-::shared\-\_\-ptr$<$ Interface\-::\-Player $>$ \&currentplayer)
+\begin{DoxyCompactList}\small\item\em Receives information about turns. \end{DoxyCompactList}\item 
+void \hyperlink{class_game_scene_a0a0a26f1f1cff77e2a1241f86c188d2b}{resource\-Info} (Resource\-Map \&rmap, Resource\-Map \&dmap)
+\begin{DoxyCompactList}\small\item\em Receives information about resources in each location. \end{DoxyCompactList}\item 
+void \hyperlink{class_game_scene_a265e6279eb81aa208cfdcbe5d88a54d3}{init\-Player\-Hand\-For} (std\-::shared\-\_\-ptr$<$ Interface\-::\-Player $>$ player)
+\begin{DoxyCompactList}\small\item\em Initializes player hand for a player. \end{DoxyCompactList}\item 
+std\-::map$<$ std\-::shared\-\_\-ptr\\*
+$<$ const Interface\-::\-Player $>$\\*
+, \hyperlink{class_player_hand}{Player\-Hand} $\ast$ $>$ \hyperlink{class_game_scene_a8aca0638d635fbc852852a143e0f4065}{player\-Hands} ()
+\begin{DoxyCompactList}\small\item\em Returns all players' hands. \end{DoxyCompactList}\item 
+void \hyperlink{class_game_scene_aff91a4c8ac929067c540765db170bd36}{prepare\-For\-Action} (std\-::shared\-\_\-ptr$<$ Interface\-::\-Action\-Interface $>$ action, \hyperlink{classmap_item}{map\-Item} $\ast$declaring\-Map\-Item)
+\begin{DoxyCompactList}\small\item\em Sets the declaring mapitem in a visible place, and draw arrows from its original position to its targeted mapitem The game will start waiting for the manual player to use an action card. Also sets up few mapitem variables which allow us to reset this ready-\/state. \end{DoxyCompactList}\item 
+void \hyperlink{class_game_scene_a68d471f7b7e1eed4e39182dcd4a1f6ab}{reset\-Action} ()
+\begin{DoxyCompactList}\small\item\em A declared action is forgotten and declaring Map\-Item is returned back to its home position. \end{DoxyCompactList}\item 
+std\-::vector$<$ \hyperlink{class_location_item}{Location\-Item} $\ast$ $>$ \hyperlink{class_game_scene_a5be65ea748b373b7c1300240b06764ae}{Get\-Loc\-Items} ()
+\begin{DoxyCompactList}\small\item\em Returns every location item on the scene. \end{DoxyCompactList}\item 
+void \hyperlink{class_game_scene_a6c75de62e9b64bafac9a587375a6ac4f}{on\-Player\-Changed} (std\-::shared\-\_\-ptr$<$ const Interface\-::\-Player $>$ acting\-Player)
+\begin{DoxyCompactList}\small\item\em When the player has been changed, makes every item that does not belong to the player undraggable. Signaled by Game class. \end{DoxyCompactList}\item 
+\hypertarget{class_game_scene_ab2e564b0b6e6eb7f755aa9b869a80ad0}{void \hyperlink{class_game_scene_ab2e564b0b6e6eb7f755aa9b869a80ad0}{next\-Round} ()}\label{class_game_scene_ab2e564b0b6e6eb7f755aa9b869a80ad0}
+
+\begin{DoxyCompactList}\small\item\em Shuffles game's locations around in what's called the Event phase. \end{DoxyCompactList}\item 
+Resource\-Map \hyperlink{class_game_scene_a3da045e05df93c42ccd861f1b57f72ef}{get\-Res\-Map} ()
+\begin{DoxyCompactList}\small\item\em Return the games resource (collectible) resources per location. \end{DoxyCompactList}\item 
+std\-::vector$<$ \hyperlink{classagent_item}{agent\-Item} $\ast$ $>$ \hyperlink{class_game_scene_a837bf75aae00e5eeeddfd22e3c36b133}{get\-Agent\-Items\-For\-Player} (std\-::shared\-\_\-ptr$<$ Interface\-::\-Player $>$ player)
+\begin{DoxyCompactList}\small\item\em Returns vector of map items which belong to the player. A\-I needs this. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_game_scene_a94f992c47762987c54c8dc17c142d6cf}{\index{Game\-Scene@{Game\-Scene}!action\-Declared@{action\-Declared}}
+\index{action\-Declared@{action\-Declared}!GameScene@{Game\-Scene}}
+\subsubsection[{action\-Declared}]{\setlength{\rightskip}{0pt plus 5cm}void Game\-Scene\-::action\-Declared (
+\begin{DoxyParamCaption}
+\item[{std\-::shared\-\_\-ptr$<$ Interface\-::\-Action\-Interface $>$}]{action}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_game_scene_a94f992c47762987c54c8dc17c142d6cf}
+
+
+Sent when an Agent has declared an action (eg. User has dragged it from hand to a planet) A\-N\-D paid for the aciton card. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em action} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_game_scene_a05c9687d7d9d4ca8a9b3c21eea841393}{\index{Game\-Scene@{Game\-Scene}!add\-Action\-Card\-For\-Player@{add\-Action\-Card\-For\-Player}}
+\index{add\-Action\-Card\-For\-Player@{add\-Action\-Card\-For\-Player}!GameScene@{Game\-Scene}}
+\subsubsection[{add\-Action\-Card\-For\-Player}]{\setlength{\rightskip}{0pt plus 5cm}void Game\-Scene\-::add\-Action\-Card\-For\-Player (
+\begin{DoxyParamCaption}
+\item[{std\-::shared\-\_\-ptr$<$ const Interface\-::\-Player $>$}]{player, }
+\item[{std\-::shared\-\_\-ptr$<$ {\bf Interface\-::\-Action\-Card} $>$}]{card}
+\end{DoxyParamCaption}
+)}}\label{class_game_scene_a05c9687d7d9d4ca8a9b3c21eea841393}
+
+
+Adds an action card to players hand. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player,\-:} & Player in question \\
+\hline
+{\em card,\-:} & Action card to be added \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+Action card is properly initialized and drawn 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Player gets a new action card in his hand 
+\end{DoxyPostcond}
+\hypertarget{class_game_scene_a40a26801a9db12c1684df5fd106b5b19}{\index{Game\-Scene@{Game\-Scene}!draw\-Agents@{draw\-Agents}}
+\index{draw\-Agents@{draw\-Agents}!GameScene@{Game\-Scene}}
+\subsubsection[{draw\-Agents}]{\setlength{\rightskip}{0pt plus 5cm}void Game\-Scene\-::draw\-Agents (
+\begin{DoxyParamCaption}
+\item[{std\-::vector$<$ {\bf agent\-Item} $\ast$ $>$ \&}]{agents}
+\end{DoxyParamCaption}
+)}}\label{class_game_scene_a40a26801a9db12c1684df5fd106b5b19}
+
+
+Makes agents visible and places them in a hand-\/like deployment zone. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em agents,\-:} & Drawable Agent\-Item objects for each player \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+Agents have been properly initialized and distributed 
+\end{DoxyPrecond}
+\hypertarget{class_game_scene_ae634b53a8a148208b804b7e16d16c2b6}{\index{Game\-Scene@{Game\-Scene}!draw\-Locations@{draw\-Locations}}
+\index{draw\-Locations@{draw\-Locations}!GameScene@{Game\-Scene}}
+\subsubsection[{draw\-Locations}]{\setlength{\rightskip}{0pt plus 5cm}void Game\-Scene\-::draw\-Locations (
+\begin{DoxyParamCaption}
+\item[{std\-::vector$<$ std\-::pair$<$ std\-::shared\-\_\-ptr$<$ Interface\-::\-Location $>$, std\-::vector$<$ std\-::pair$<$ Q\-String, Q\-String $>$$>$$>$$>$}]{location\-Information}
+\end{DoxyParamCaption}
+)}}\label{class_game_scene_ae634b53a8a148208b804b7e16d16c2b6}
+
+
+Draws game's locations to scene and initializes them as \hyperlink{class_location_item}{Location\-Item} objects. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em location\-Information,\-:} & vector of Locations and their relative information \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+Vector contains Locations and their information 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+All locations are displayed on screen as \hyperlink{class_location_item}{Location\-Item} objects 
+\end{DoxyPostcond}
+\hypertarget{class_game_scene_a837bf75aae00e5eeeddfd22e3c36b133}{\index{Game\-Scene@{Game\-Scene}!get\-Agent\-Items\-For\-Player@{get\-Agent\-Items\-For\-Player}}
+\index{get\-Agent\-Items\-For\-Player@{get\-Agent\-Items\-For\-Player}!GameScene@{Game\-Scene}}
+\subsubsection[{get\-Agent\-Items\-For\-Player}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ {\bf agent\-Item} $\ast$ $>$ Game\-Scene\-::get\-Agent\-Items\-For\-Player (
+\begin{DoxyParamCaption}
+\item[{std\-::shared\-\_\-ptr$<$ Interface\-::\-Player $>$}]{player}
+\end{DoxyParamCaption}
+)}}\label{class_game_scene_a837bf75aae00e5eeeddfd22e3c36b133}
+
+
+Returns vector of map items which belong to the player. A\-I needs this. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player,\-:} & Player in question \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Vector of agents owned by player 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+Player owns agents 
+\end{DoxyPrecond}
+\hypertarget{class_game_scene_a5be65ea748b373b7c1300240b06764ae}{\index{Game\-Scene@{Game\-Scene}!Get\-Loc\-Items@{Get\-Loc\-Items}}
+\index{Get\-Loc\-Items@{Get\-Loc\-Items}!GameScene@{Game\-Scene}}
+\subsubsection[{Get\-Loc\-Items}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ {\bf Location\-Item} $\ast$ $>$ Game\-Scene\-::\-Get\-Loc\-Items (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_game_scene_a5be65ea748b373b7c1300240b06764ae}
+
+
+Returns every location item on the scene. 
+
+\begin{DoxyReturn}{Returns}
+Vector of \hyperlink{class_location_item}{Location\-Item} pointers 
+\end{DoxyReturn}
+\hypertarget{class_game_scene_a3da045e05df93c42ccd861f1b57f72ef}{\index{Game\-Scene@{Game\-Scene}!get\-Res\-Map@{get\-Res\-Map}}
+\index{get\-Res\-Map@{get\-Res\-Map}!GameScene@{Game\-Scene}}
+\subsubsection[{get\-Res\-Map}]{\setlength{\rightskip}{0pt plus 5cm}Resource\-Map Game\-Scene\-::get\-Res\-Map (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_game_scene_a3da045e05df93c42ccd861f1b57f72ef}
+
+
+Return the games resource (collectible) resources per location. 
+
+\begin{DoxyReturn}{Returns}
+Map of locations and their local resources 
+\end{DoxyReturn}
+\hypertarget{class_game_scene_a21620dbdbc47b5ff57dfb4ee8c96d857}{\index{Game\-Scene@{Game\-Scene}!init\-Hands@{init\-Hands}}
+\index{init\-Hands@{init\-Hands}!GameScene@{Game\-Scene}}
+\subsubsection[{init\-Hands}]{\setlength{\rightskip}{0pt plus 5cm}void Game\-Scene\-::init\-Hands (
+\begin{DoxyParamCaption}
+\item[{std\-::shared\-\_\-ptr$<$ const Interface\-::\-Player $>$}]{Player}
+\end{DoxyParamCaption}
+)}}\label{class_game_scene_a21620dbdbc47b5ff57dfb4ee8c96d857}
+
+
+Creates a hand area for player to hold cards \& agents. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Player,\-:} & Player in game \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_game_scene_a265e6279eb81aa208cfdcbe5d88a54d3}{\index{Game\-Scene@{Game\-Scene}!init\-Player\-Hand\-For@{init\-Player\-Hand\-For}}
+\index{init\-Player\-Hand\-For@{init\-Player\-Hand\-For}!GameScene@{Game\-Scene}}
+\subsubsection[{init\-Player\-Hand\-For}]{\setlength{\rightskip}{0pt plus 5cm}void Game\-Scene\-::init\-Player\-Hand\-For (
+\begin{DoxyParamCaption}
+\item[{std\-::shared\-\_\-ptr$<$ Interface\-::\-Player $>$}]{player}
+\end{DoxyParamCaption}
+)}}\label{class_game_scene_a265e6279eb81aa208cfdcbe5d88a54d3}
+
+
+Initializes player hand for a player. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player,\-:} & Player in question \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+Player exists 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Player now has a hand 
+\end{DoxyPostcond}
+\hypertarget{class_game_scene_aa9cca2fe921183eca8d44d7d57cd2c11}{\index{Game\-Scene@{Game\-Scene}!on\-Action\-Declared@{on\-Action\-Declared}}
+\index{on\-Action\-Declared@{on\-Action\-Declared}!GameScene@{Game\-Scene}}
+\subsubsection[{on\-Action\-Declared}]{\setlength{\rightskip}{0pt plus 5cm}void Game\-Scene\-::on\-Action\-Declared (
+\begin{DoxyParamCaption}
+\item[{std\-::shared\-\_\-ptr$<$ Interface\-::\-Action\-Interface $>$}]{action, }
+\item[{{\bf map\-Item} $\ast$}]{declaring\-Map\-Item, }
+\item[{bool}]{resetting}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_game_scene_aa9cca2fe921183eca8d44d7d57cd2c11}
+
+
+Recieved when a \hyperlink{classmap_item}{map\-Item} (Agent or a \hyperlink{class_card_item}{Card\-Item}) is dragged and dropped and the item has recognized a valid action. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em action,\-:} & Action performed \\
+\hline
+{\em declaring\-Map\-Item,\-:} & Targeted Map\-Item. If an agent card, scene will wait for an action card to be dragged or the action to be cancelled. \\
+\hline
+{\em resetting,\-:} & Check if action will be cancelled \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+Player has Map\-Items to move around and perform actions upon 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Dropped item is a carditem on a waiting agent, the card is discard and logic is informed with action\-Declared signal or action is cancelled 
+\end{DoxyPostcond}
+\hypertarget{class_game_scene_a6c75de62e9b64bafac9a587375a6ac4f}{\index{Game\-Scene@{Game\-Scene}!on\-Player\-Changed@{on\-Player\-Changed}}
+\index{on\-Player\-Changed@{on\-Player\-Changed}!GameScene@{Game\-Scene}}
+\subsubsection[{on\-Player\-Changed}]{\setlength{\rightskip}{0pt plus 5cm}void Game\-Scene\-::on\-Player\-Changed (
+\begin{DoxyParamCaption}
+\item[{std\-::shared\-\_\-ptr$<$ const Interface\-::\-Player $>$}]{acting\-Player}
+\end{DoxyParamCaption}
+)}}\label{class_game_scene_a6c75de62e9b64bafac9a587375a6ac4f}
+
+
+When the player has been changed, makes every item that does not belong to the player undraggable. Signaled by Game class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em acting\-Player,\-:} & Previous turn's player \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+Player has ended his turn 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Other players hands are moved away and shrunk from current players view 
+\end{DoxyPostcond}
+\hypertarget{class_game_scene_a8aca0638d635fbc852852a143e0f4065}{\index{Game\-Scene@{Game\-Scene}!player\-Hands@{player\-Hands}}
+\index{player\-Hands@{player\-Hands}!GameScene@{Game\-Scene}}
+\subsubsection[{player\-Hands}]{\setlength{\rightskip}{0pt plus 5cm}std\-::map$<$ std\-::shared\-\_\-ptr$<$ const Interface\-::\-Player $>$, {\bf Player\-Hand} $\ast$ $>$ Game\-Scene\-::player\-Hands (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_game_scene_a8aca0638d635fbc852852a143e0f4065}
+
+
+Returns all players' hands. 
+
+\begin{DoxyReturn}{Returns}
+Map of player hands 
+\end{DoxyReturn}
+\hypertarget{class_game_scene_aff91a4c8ac929067c540765db170bd36}{\index{Game\-Scene@{Game\-Scene}!prepare\-For\-Action@{prepare\-For\-Action}}
+\index{prepare\-For\-Action@{prepare\-For\-Action}!GameScene@{Game\-Scene}}
+\subsubsection[{prepare\-For\-Action}]{\setlength{\rightskip}{0pt plus 5cm}void Game\-Scene\-::prepare\-For\-Action (
+\begin{DoxyParamCaption}
+\item[{std\-::shared\-\_\-ptr$<$ Interface\-::\-Action\-Interface $>$}]{action, }
+\item[{{\bf map\-Item} $\ast$}]{declaring\-Map\-Item}
+\end{DoxyParamCaption}
+)}}\label{class_game_scene_aff91a4c8ac929067c540765db170bd36}
+
+
+Sets the declaring mapitem in a visible place, and draw arrows from its original position to its targeted mapitem The game will start waiting for the manual player to use an action card. Also sets up few mapitem variables which allow us to reset this ready-\/state. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em action,\-:} & Action performed by player \\
+\hline
+{\em declaring\-Map\-Item,\-:} & Map\-Item player has targeted \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_game_scene_a68d471f7b7e1eed4e39182dcd4a1f6ab}{\index{Game\-Scene@{Game\-Scene}!reset\-Action@{reset\-Action}}
+\index{reset\-Action@{reset\-Action}!GameScene@{Game\-Scene}}
+\subsubsection[{reset\-Action}]{\setlength{\rightskip}{0pt plus 5cm}void Game\-Scene\-::reset\-Action (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_game_scene_a68d471f7b7e1eed4e39182dcd4a1f6ab}
+
+
+A declared action is forgotten and declaring Map\-Item is returned back to its home position. 
+
+\begin{DoxyPrecond}{Precondition}
+An action is perfomed 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Action is reversed and player is back in time before said action 
+\end{DoxyPostcond}
+\hypertarget{class_game_scene_a0a0a26f1f1cff77e2a1241f86c188d2b}{\index{Game\-Scene@{Game\-Scene}!resource\-Info@{resource\-Info}}
+\index{resource\-Info@{resource\-Info}!GameScene@{Game\-Scene}}
+\subsubsection[{resource\-Info}]{\setlength{\rightskip}{0pt plus 5cm}void Game\-Scene\-::resource\-Info (
+\begin{DoxyParamCaption}
+\item[{Resource\-Map \&}]{rmap, }
+\item[{Resource\-Map \&}]{dmap}
+\end{DoxyParamCaption}
+)}}\label{class_game_scene_a0a0a26f1f1cff77e2a1241f86c188d2b}
+
+
+Receives information about resources in each location. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rmap,\-:} & Local collectable resources in each location \\
+\hline
+{\em dmap,\-:} & Initial demanded resource in each location \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_game_scene_aecf15f36605b407bb9b8e03fa8e9bb90}{\index{Game\-Scene@{Game\-Scene}!turn\-Info@{turn\-Info}}
+\index{turn\-Info@{turn\-Info}!GameScene@{Game\-Scene}}
+\subsubsection[{turn\-Info}]{\setlength{\rightskip}{0pt plus 5cm}void Game\-Scene\-::turn\-Info (
+\begin{DoxyParamCaption}
+\item[{std\-::shared\-\_\-ptr$<$ Interface\-::\-Player $>$ \&}]{currentplayer}
+\end{DoxyParamCaption}
+)}}\label{class_game_scene_aecf15f36605b407bb9b8e03fa8e9bb90}
+
+
+Receives information about turns. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em currentplayer,\-:} & player in turn \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+Student/gamescene.\-hh\item 
+Student/gamescene.\-cpp\end{DoxyCompactItemize}

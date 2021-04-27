@@ -1,0 +1,5 @@
+<map id="LocationItem::boundingRect" name="LocationItem::boundingRect">
+<area shape="rect" id="node2" href="$class_location_item.html#acf2aadefadabc9fcf37eacebc7df6b0d" title="Draws the square items, their sprites and their names. " alt="" coords="271,5,419,32"/>
+<area shape="rect" id="node3" href="$class_location_item.html#a810089a1d70ce51f4f97583ba9a551a6" title="rearrange " alt="" coords="256,56,435,83"/>
+<area shape="rect" id="node4" href="$class_send_agent_action.html#a2a3a88e5385724b502d1185f5ca7c9d9" title="perform Moves the agent to its target location item. " alt="" coords="483,56,677,83"/>
+</map>

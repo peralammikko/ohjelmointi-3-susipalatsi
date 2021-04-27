@@ -9,7 +9,10 @@
 
 namespace Interface {
 
-
+/**
+ * @file
+ * @brief AiControl a fairly smart AI control interface for robot players
+ */
 
 class AiControl : public ControlInterface
 {
@@ -19,6 +22,7 @@ public:
      * @brief AiControl a fairly smart AI control interface for robot players
      * @param gameScene
      * @param player
+     * @pre gamScene != nullptr, player != nullptr
      */
     explicit AiControl(GameScene* gameScene, std::shared_ptr<Player> player);
 

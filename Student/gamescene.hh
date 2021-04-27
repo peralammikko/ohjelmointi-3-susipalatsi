@@ -21,7 +21,10 @@
 #include "../Course/deckinterface.h"
 #include "actioncard.hh"
 #include "popupdialog.hh"
-
+/**
+ * @file
+ * @brief The GameScene class for the bigger graphicsview
+ */
 class GameScene : public QGraphicsScene
 {
     Q_OBJECT

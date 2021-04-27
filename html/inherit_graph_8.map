@@ -1,0 +1,9 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node2" href="$classmap_item.html" title="mapItem" alt="" coords="195,81,277,108"/>
+<area shape="rect" id="node3" href="$classagent_item.html" title="agentItem" alt="" coords="355,5,445,32"/>
+<area shape="rect" id="node4" href="$class_card_item.html" title="CardItem" alt="" coords="359,56,441,83"/>
+<area shape="rect" id="node5" href="$class_location_item.html" title="LocationItem" alt="" coords="347,107,453,133"/>
+<area shape="rect" id="node6" href="$class_player_hand.html" title="PlayerHand" alt="" coords="351,157,449,184"/>
+<area shape="rect" id="node8" href="$class_logic.html" title="Logic" alt="" coords="208,132,264,159"/>
+<area shape="rect" id="node9" href="$class_resource_dealer.html" title="ResourceDealer" alt="" coords="174,183,298,209"/>
+</map>

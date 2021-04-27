@@ -1,0 +1,374 @@
+\hypertarget{class_location_item}{\section{Location\-Item Class Reference}
+\label{class_location_item}\index{Location\-Item@{Location\-Item}}
+}
+Inheritance diagram for Location\-Item\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_location_item}
+\end{center}
+\end{figure}
+\subsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_location_item_a7278dba6a4c23f6a4caab6ec92207864}{void {\bfseries location\-Item\-Pressed} (\hyperlink{class_location_item}{Location\-Item} $\ast$)}\label{class_location_item_a7278dba6a4c23f6a4caab6ec92207864}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_location_item_ad79b09601410e4dd78a3475d8643f8ae}{{\bfseries Location\-Item} (const std\-::shared\-\_\-ptr$<$ Interface\-::\-Location $>$ location, std\-::vector$<$ std\-::pair$<$ Q\-String, Q\-String $>$$>$ sprite\-Paths, std\-::shared\-\_\-ptr$<$ \hyperlink{class_interface_1_1_common_resource}{Interface\-::\-Common\-Resource} $>$ local\-Res, std\-::shared\-\_\-ptr$<$ \hyperlink{class_interface_1_1_common_resource}{Interface\-::\-Common\-Resource} $>$ demand\-Res)}\label{class_location_item_ad79b09601410e4dd78a3475d8643f8ae}
+
+\item 
+Q\-Rect\-F \hyperlink{class_location_item_a0c2e8a4c232ea4d02776b4692fb3cd9f}{bounding\-Rect} () const override
+\begin{DoxyCompactList}\small\item\em Creates a shape for drawable objects (a rectangle) \end{DoxyCompactList}\item 
+void \hyperlink{class_location_item_acf2aadefadabc9fcf37eacebc7df6b0d}{paint} (Q\-Painter $\ast$painter, const Q\-Style\-Option\-Graphics\-Item $\ast$option, Q\-Widget $\ast$widget=nullptr) override
+\begin{DoxyCompactList}\small\item\em Draws the square items, their sprites and their names. \end{DoxyCompactList}\item 
+void \hyperlink{class_location_item_aeaa18d3bcdfd3afe7364e47ad59ecc55}{mouse\-Press\-Event} (Q\-Graphics\-Scene\-Mouse\-Event $\ast$event) override
+\begin{DoxyCompactList}\small\item\em Method triggered by clicking a \hyperlink{class_location_item}{Location\-Item} on scene. \end{DoxyCompactList}\item 
+void \hyperlink{class_location_item_ab465252ded656215f4fb1db9174c2135}{hover\-Enter\-Event} (Q\-Graphics\-Scene\-Hover\-Event $\ast$event) override
+\begin{DoxyCompactList}\small\item\em hover\-Enter\-Event \end{DoxyCompactList}\item 
+void \hyperlink{class_location_item_a80ca01d3d5142e11699aa404b005cc9d}{hover\-Leave\-Event} (Q\-Graphics\-Scene\-Hover\-Event $\ast$event) override
+\begin{DoxyCompactList}\small\item\em hover\-Leave\-Event \end{DoxyCompactList}\item 
+const std\-::shared\-\_\-ptr\\*
+$<$ Interface\-::\-Location $>$ \hyperlink{class_location_item_a6ea096d95f6a102ce0f186274dcfe870}{get\-Object} ()
+\begin{DoxyCompactList}\small\item\em Returns the base class of \hyperlink{class_location_item}{Location\-Item}. \end{DoxyCompactList}\item 
+int \hyperlink{class_location_item_afcb08ce61dd7334ce4f02fff8ae863fc}{get\-Basevalue} ()
+\begin{DoxyCompactList}\small\item\em Returns the base value for each location used for resource distribution. \end{DoxyCompactList}\item 
+const Q\-String \hyperlink{class_location_item_aee0b13a778813517b94fde896eb8183a}{type\-Of} () override
+\begin{DoxyCompactList}\small\item\em Test to see if an item is a \hyperlink{class_location_item}{Location\-Item}. \end{DoxyCompactList}\item 
+void \hyperlink{class_location_item_a1b7917cc5b87af2062ef60ece7c935ee}{accept\-Agent} (\hyperlink{classagent_item}{agent\-Item} $\ast$a\-Item)
+\begin{DoxyCompactList}\small\item\em Accepts agent as its child. \end{DoxyCompactList}\item 
+std\-::vector$<$ int $>$ \hyperlink{class_location_item_a7937ae3d8c33057583b0c1c38127a685}{calculate\-Rewards} (std\-::shared\-\_\-ptr$<$ Interface\-::\-Player $>$ \&player)
+\begin{DoxyCompactList}\small\item\em Calculate how much resource rewards a player can receive after round. \end{DoxyCompactList}\item 
+void \hyperlink{class_location_item_ad6b0c5f25ed3fc2e08f74ce537468c2d}{set\-Local\-Resource} (std\-::shared\-\_\-ptr$<$ \hyperlink{class_interface_1_1_common_resource}{Interface\-::\-Common\-Resource} $>$ \&res)
+\begin{DoxyCompactList}\small\item\em set\-Local\-Resource \end{DoxyCompactList}\item 
+std\-::shared\-\_\-ptr\\*
+$<$ \hyperlink{class_interface_1_1_common_resource}{Interface\-::\-Common\-Resource} $>$ \hyperlink{class_location_item_a1d3330454656a31510843bfa8c2ac969}{get\-Local\-Resource} ()
+\begin{DoxyCompactList}\small\item\em Get the locations local resource. \end{DoxyCompactList}\item 
+void \hyperlink{class_location_item_a241a9da96a287caeb9ec2e7af88e33c1}{set\-Demanded\-Resource} (std\-::shared\-\_\-ptr$<$ \hyperlink{class_interface_1_1_common_resource}{Interface\-::\-Common\-Resource} $>$ \&res)
+\begin{DoxyCompactList}\small\item\em Sets a demanded resource for a location. Used for generating new resource demands. \end{DoxyCompactList}\item 
+std\-::shared\-\_\-ptr\\*
+$<$ \hyperlink{class_interface_1_1_common_resource}{Interface\-::\-Common\-Resource} $>$ \hyperlink{class_location_item_a8d5355c30c32f6386094c05eddaf70ba}{get\-Demanded\-Resource} ()
+\begin{DoxyCompactList}\small\item\em Get the demanded resource of a locations. \end{DoxyCompactList}\item 
+void \hyperlink{class_location_item_a2700aaeb5d684ee2e4582855d5341937}{generate\-New\-Demand} ()
+\begin{DoxyCompactList}\small\item\em Generates a new demand for location to be completed. \end{DoxyCompactList}\item 
+\hypertarget{class_location_item_a810089a1d70ce51f4f97583ba9a551a6}{void \hyperlink{class_location_item_a810089a1d70ce51f4f97583ba9a551a6}{rearrange} () override}\label{class_location_item_a810089a1d70ce51f4f97583ba9a551a6}
+
+\begin{DoxyCompactList}\small\item\em rearrange \end{DoxyCompactList}\item 
+void \hyperlink{class_location_item_ae0057f8fa67c8cd5738fd574433254db}{set\-Neighbours} (std\-::pair$<$ \hyperlink{class_location_item}{Location\-Item} $\ast$, \hyperlink{class_location_item}{Location\-Item} $\ast$ $>$ neighbours)
+\begin{DoxyCompactList}\small\item\em set\-Neighbours \end{DoxyCompactList}\item 
+\hypertarget{class_location_item_abce0f5607ed14d3da2762d76fc78a996}{std\-::pair$<$ \hyperlink{class_location_item}{Location\-Item} \\*
+$\ast$, \hyperlink{class_location_item}{Location\-Item} $\ast$ $>$ {\bfseries neighbours} ()}\label{class_location_item_abce0f5607ed14d3da2762d76fc78a996}
+
+\item 
+\hyperlink{classagent_item}{agent\-Item} $\ast$ \hyperlink{class_location_item_a8795de5968592595a8868a5439dfa7b6}{get\-Agent\-Item\-For} (std\-::shared\-\_\-ptr$<$ Interface\-::\-Agent\-Interface $>$ agent)
+\begin{DoxyCompactList}\small\item\em Get the derived class Agent\-Item pointer for an Agent\-Interface object. \end{DoxyCompactList}\item 
+\hypertarget{class_location_item_a295b32c12b813cebd5aea8eea256812a}{Q\-Pixmap $\ast$ {\bfseries governor\-Pixmap} ()}\label{class_location_item_a295b32c12b813cebd5aea8eea256812a}
+
+\item 
+\hypertarget{class_location_item_adb3aa4c7560a6612cfd103f25937ad15}{Q\-Pixmap $\ast$ {\bfseries resource\-Pixmap} ()}\label{class_location_item_adb3aa4c7560a6612cfd103f25937ad15}
+
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_location_item_a1b7917cc5b87af2062ef60ece7c935ee}{\index{Location\-Item@{Location\-Item}!accept\-Agent@{accept\-Agent}}
+\index{accept\-Agent@{accept\-Agent}!LocationItem@{Location\-Item}}
+\subsubsection[{accept\-Agent}]{\setlength{\rightskip}{0pt plus 5cm}void Location\-Item\-::accept\-Agent (
+\begin{DoxyParamCaption}
+\item[{{\bf agent\-Item} $\ast$}]{a\-Item}
+\end{DoxyParamCaption}
+)}}\label{class_location_item_a1b7917cc5b87af2062ef60ece7c935ee}
+
+
+Accepts agent as its child. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a\-Item,\-:} & Agent\-Item incoming to \hyperlink{class_location_item}{Location\-Item} \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_location_item_a0c2e8a4c232ea4d02776b4692fb3cd9f}{\index{Location\-Item@{Location\-Item}!bounding\-Rect@{bounding\-Rect}}
+\index{bounding\-Rect@{bounding\-Rect}!LocationItem@{Location\-Item}}
+\subsubsection[{bounding\-Rect}]{\setlength{\rightskip}{0pt plus 5cm}Q\-Rect\-F Location\-Item\-::bounding\-Rect (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [override]}}}\label{class_location_item_a0c2e8a4c232ea4d02776b4692fb3cd9f}
+
+
+Creates a shape for drawable objects (a rectangle) 
+
+\begin{DoxyReturn}{Returns}
+Returns a drawable square item 
+\end{DoxyReturn}
+\hypertarget{class_location_item_a7937ae3d8c33057583b0c1c38127a685}{\index{Location\-Item@{Location\-Item}!calculate\-Rewards@{calculate\-Rewards}}
+\index{calculate\-Rewards@{calculate\-Rewards}!LocationItem@{Location\-Item}}
+\subsubsection[{calculate\-Rewards}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$ int $>$ Location\-Item\-::calculate\-Rewards (
+\begin{DoxyParamCaption}
+\item[{std\-::shared\-\_\-ptr$<$ Interface\-::\-Player $>$ \&}]{player}
+\end{DoxyParamCaption}
+)}}\label{class_location_item_a7937ae3d8c33057583b0c1c38127a685}
+
+
+Calculate how much resource rewards a player can receive after round. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em player,\-:} & Player in question (who clicked on location) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns a vector consisting of calculated sum of receivable rewards, amount of player's own agents and rivaling agents in location. 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+Location has base value and resources to distribute 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Numbers are displayed on Popup Dialog displayed when clicked on a \hyperlink{class_location_item}{Location\-Item} 
+\end{DoxyPostcond}
+\hypertarget{class_location_item_a2700aaeb5d684ee2e4582855d5341937}{\index{Location\-Item@{Location\-Item}!generate\-New\-Demand@{generate\-New\-Demand}}
+\index{generate\-New\-Demand@{generate\-New\-Demand}!LocationItem@{Location\-Item}}
+\subsubsection[{generate\-New\-Demand}]{\setlength{\rightskip}{0pt plus 5cm}void Location\-Item\-::generate\-New\-Demand (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_location_item_a2700aaeb5d684ee2e4582855d5341937}
+
+
+Generates a new demand for location to be completed. 
+
+\begin{DoxyPrecond}{Precondition}
+Old demand is completed. New demanded resource is not the same as the local collectible resource. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+New demand is set for location and displayed on popup dialog 
+\end{DoxyPostcond}
+\hypertarget{class_location_item_a8795de5968592595a8868a5439dfa7b6}{\index{Location\-Item@{Location\-Item}!get\-Agent\-Item\-For@{get\-Agent\-Item\-For}}
+\index{get\-Agent\-Item\-For@{get\-Agent\-Item\-For}!LocationItem@{Location\-Item}}
+\subsubsection[{get\-Agent\-Item\-For}]{\setlength{\rightskip}{0pt plus 5cm}{\bf agent\-Item} $\ast$ Location\-Item\-::get\-Agent\-Item\-For (
+\begin{DoxyParamCaption}
+\item[{std\-::shared\-\_\-ptr$<$ Interface\-::\-Agent\-Interface $>$}]{agent}
+\end{DoxyParamCaption}
+)}}\label{class_location_item_a8795de5968592595a8868a5439dfa7b6}
+
+
+Get the derived class Agent\-Item pointer for an Agent\-Interface object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em agent,\-:} & Agent whose graphical item is needed \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Agent's corresponding Agent\-Item 
+\end{DoxyReturn}
+\hypertarget{class_location_item_afcb08ce61dd7334ce4f02fff8ae863fc}{\index{Location\-Item@{Location\-Item}!get\-Basevalue@{get\-Basevalue}}
+\index{get\-Basevalue@{get\-Basevalue}!LocationItem@{Location\-Item}}
+\subsubsection[{get\-Basevalue}]{\setlength{\rightskip}{0pt plus 5cm}int Location\-Item\-::get\-Basevalue (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_location_item_afcb08ce61dd7334ce4f02fff8ae863fc}
+
+
+Returns the base value for each location used for resource distribution. 
+
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\hypertarget{class_location_item_a8d5355c30c32f6386094c05eddaf70ba}{\index{Location\-Item@{Location\-Item}!get\-Demanded\-Resource@{get\-Demanded\-Resource}}
+\index{get\-Demanded\-Resource@{get\-Demanded\-Resource}!LocationItem@{Location\-Item}}
+\subsubsection[{get\-Demanded\-Resource}]{\setlength{\rightskip}{0pt plus 5cm}std\-::shared\-\_\-ptr$<$ {\bf Interface\-::\-Common\-Resource} $>$ Location\-Item\-::get\-Demanded\-Resource (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_location_item_a8d5355c30c32f6386094c05eddaf70ba}
+
+
+Get the demanded resource of a locations. 
+
+\begin{DoxyReturn}{Returns}
+Returns a pointer to a demanded resource in location 
+\end{DoxyReturn}
+\hypertarget{class_location_item_a1d3330454656a31510843bfa8c2ac969}{\index{Location\-Item@{Location\-Item}!get\-Local\-Resource@{get\-Local\-Resource}}
+\index{get\-Local\-Resource@{get\-Local\-Resource}!LocationItem@{Location\-Item}}
+\subsubsection[{get\-Local\-Resource}]{\setlength{\rightskip}{0pt plus 5cm}std\-::shared\-\_\-ptr$<$ {\bf Interface\-::\-Common\-Resource} $>$ Location\-Item\-::get\-Local\-Resource (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_location_item_a1d3330454656a31510843bfa8c2ac969}
+
+
+Get the locations local resource. 
+
+\begin{DoxyReturn}{Returns}
+Return a pointer to the local resource 
+\end{DoxyReturn}
+\hypertarget{class_location_item_a6ea096d95f6a102ce0f186274dcfe870}{\index{Location\-Item@{Location\-Item}!get\-Object@{get\-Object}}
+\index{get\-Object@{get\-Object}!LocationItem@{Location\-Item}}
+\subsubsection[{get\-Object}]{\setlength{\rightskip}{0pt plus 5cm}const std\-::shared\-\_\-ptr$<$ Interface\-::\-Location $>$ Location\-Item\-::get\-Object (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_location_item_a6ea096d95f6a102ce0f186274dcfe870}
+
+
+Returns the base class of \hyperlink{class_location_item}{Location\-Item}. 
+
+\begin{DoxyReturn}{Returns}
+Returns a shared pointer to base class Interface\-::\-Location 
+\end{DoxyReturn}
+\hypertarget{class_location_item_ab465252ded656215f4fb1db9174c2135}{\index{Location\-Item@{Location\-Item}!hover\-Enter\-Event@{hover\-Enter\-Event}}
+\index{hover\-Enter\-Event@{hover\-Enter\-Event}!LocationItem@{Location\-Item}}
+\subsubsection[{hover\-Enter\-Event}]{\setlength{\rightskip}{0pt plus 5cm}void Location\-Item\-::hover\-Enter\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Graphics\-Scene\-Hover\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}}}\label{class_location_item_ab465252ded656215f4fb1db9174c2135}
+
+
+hover\-Enter\-Event 
+
+
+\begin{DoxyParams}{Parameters}
+{\em event} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_location_item_a80ca01d3d5142e11699aa404b005cc9d}{\index{Location\-Item@{Location\-Item}!hover\-Leave\-Event@{hover\-Leave\-Event}}
+\index{hover\-Leave\-Event@{hover\-Leave\-Event}!LocationItem@{Location\-Item}}
+\subsubsection[{hover\-Leave\-Event}]{\setlength{\rightskip}{0pt plus 5cm}void Location\-Item\-::hover\-Leave\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Graphics\-Scene\-Hover\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}}}\label{class_location_item_a80ca01d3d5142e11699aa404b005cc9d}
+
+
+hover\-Leave\-Event 
+
+
+\begin{DoxyParams}{Parameters}
+{\em event} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_location_item_aeaa18d3bcdfd3afe7364e47ad59ecc55}{\index{Location\-Item@{Location\-Item}!mouse\-Press\-Event@{mouse\-Press\-Event}}
+\index{mouse\-Press\-Event@{mouse\-Press\-Event}!LocationItem@{Location\-Item}}
+\subsubsection[{mouse\-Press\-Event}]{\setlength{\rightskip}{0pt plus 5cm}void Location\-Item\-::mouse\-Press\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Graphics\-Scene\-Mouse\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{class_location_item_aeaa18d3bcdfd3afe7364e47ad59ecc55}
+
+
+Method triggered by clicking a \hyperlink{class_location_item}{Location\-Item} on scene. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em event} & \\
+\hline
+\end{DoxyParams}
+
+
+Reimplemented from \hyperlink{classmap_item_a6525f50a331be9b573c5f41bc7ecad60}{map\-Item}.
+
+\hypertarget{class_location_item_acf2aadefadabc9fcf37eacebc7df6b0d}{\index{Location\-Item@{Location\-Item}!paint@{paint}}
+\index{paint@{paint}!LocationItem@{Location\-Item}}
+\subsubsection[{paint}]{\setlength{\rightskip}{0pt plus 5cm}void Location\-Item\-::paint (
+\begin{DoxyParamCaption}
+\item[{Q\-Painter $\ast$}]{painter, }
+\item[{const Q\-Style\-Option\-Graphics\-Item $\ast$}]{option, }
+\item[{Q\-Widget $\ast$}]{widget = {\ttfamily nullptr}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}}}\label{class_location_item_acf2aadefadabc9fcf37eacebc7df6b0d}
+
+
+Draws the square items, their sprites and their names. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em painter} & \\
+\hline
+{\em option} & \\
+\hline
+{\em widget} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_location_item_a241a9da96a287caeb9ec2e7af88e33c1}{\index{Location\-Item@{Location\-Item}!set\-Demanded\-Resource@{set\-Demanded\-Resource}}
+\index{set\-Demanded\-Resource@{set\-Demanded\-Resource}!LocationItem@{Location\-Item}}
+\subsubsection[{set\-Demanded\-Resource}]{\setlength{\rightskip}{0pt plus 5cm}void Location\-Item\-::set\-Demanded\-Resource (
+\begin{DoxyParamCaption}
+\item[{std\-::shared\-\_\-ptr$<$ {\bf Interface\-::\-Common\-Resource} $>$ \&}]{res}
+\end{DoxyParamCaption}
+)}}\label{class_location_item_a241a9da96a287caeb9ec2e7af88e33c1}
+
+
+Sets a demanded resource for a location. Used for generating new resource demands. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em res,\-:} & Resource to be set for demand \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+New resource demand is generated properly and not the same as local resource 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+New demand is displayed on Popup window after one demand gets completed 
+\end{DoxyPostcond}
+\hypertarget{class_location_item_ad6b0c5f25ed3fc2e08f74ce537468c2d}{\index{Location\-Item@{Location\-Item}!set\-Local\-Resource@{set\-Local\-Resource}}
+\index{set\-Local\-Resource@{set\-Local\-Resource}!LocationItem@{Location\-Item}}
+\subsubsection[{set\-Local\-Resource}]{\setlength{\rightskip}{0pt plus 5cm}void Location\-Item\-::set\-Local\-Resource (
+\begin{DoxyParamCaption}
+\item[{std\-::shared\-\_\-ptr$<$ {\bf Interface\-::\-Common\-Resource} $>$ \&}]{res}
+\end{DoxyParamCaption}
+)}}\label{class_location_item_ad6b0c5f25ed3fc2e08f74ce537468c2d}
+
+
+set\-Local\-Resource 
+
+
+\begin{DoxyParams}{Parameters}
+{\em res} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_location_item_ae0057f8fa67c8cd5738fd574433254db}{\index{Location\-Item@{Location\-Item}!set\-Neighbours@{set\-Neighbours}}
+\index{set\-Neighbours@{set\-Neighbours}!LocationItem@{Location\-Item}}
+\subsubsection[{set\-Neighbours}]{\setlength{\rightskip}{0pt plus 5cm}void Location\-Item\-::set\-Neighbours (
+\begin{DoxyParamCaption}
+\item[{std\-::pair$<$ {\bf Location\-Item} $\ast$, {\bf Location\-Item} $\ast$ $>$}]{neighbours}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_location_item_ae0057f8fa67c8cd5738fd574433254db}
+
+
+set\-Neighbours 
+
+
+\begin{DoxyParams}{Parameters}
+{\em neighbours} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_location_item_aee0b13a778813517b94fde896eb8183a}{\index{Location\-Item@{Location\-Item}!type\-Of@{type\-Of}}
+\index{type\-Of@{type\-Of}!LocationItem@{Location\-Item}}
+\subsubsection[{type\-Of}]{\setlength{\rightskip}{0pt plus 5cm}const Q\-String Location\-Item\-::type\-Of (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}}\label{class_location_item_aee0b13a778813517b94fde896eb8183a}
+
+
+Test to see if an item is a \hyperlink{class_location_item}{Location\-Item}. 
+
+\begin{DoxyReturn}{Returns}
+Returns a string of it's type's name 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classmap_item_ac34ad651be6151f9ca9cc6310d1f6462}{map\-Item}.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+Student/locationitem.\-hh\item 
+Student/locationitem.\-cpp\end{DoxyCompactItemize}

@@ -1,0 +1,4 @@
+<map id="GameWindow::displayPlayerStats" name="GameWindow::displayPlayerStats">
+<area shape="rect" id="node2" href="$class_game_window.html#a6ebae40624b598fe99b59a15e8ab56a7" title="Lists all the available agents for the current player. " alt="" coords="269,5,454,32"/>
+<area shape="rect" id="node3" href="$class_game_window.html#a2a65088ddcbd4a3a2871c15cf4df816b" title="Displays all the influences a player has on Locations. " alt="" coords="262,56,461,83"/>
+</map>

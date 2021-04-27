@@ -1,0 +1,224 @@
+\hypertarget{class_interface_1_1_agent}{\section{Interface\-:\-:Agent Class Reference}
+\label{class_interface_1_1_agent}\index{Interface\-::\-Agent@{Interface\-::\-Agent}}
+}
+Inheritance diagram for Interface\-:\-:Agent\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_interface_1_1_agent}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_interface_1_1_agent_a63c7e259716686510c08b633d9fdfc92}{{\bfseries Agent} (Q\-String name, std\-::weak\-\_\-ptr$<$ Player $>$ owner)}\label{class_interface_1_1_agent_a63c7e259716686510c08b633d9fdfc92}
+
+\item 
+void \hyperlink{class_interface_1_1_agent_a403a06332c0ae5c588a404421cca59d8}{init\-Agent\-Resources} (Agent\-Resource\-Map agent\-Res\-Map)
+\begin{DoxyCompactList}\small\item\em Initializes the agent's resource map for each location and it's corresponding local resource. \end{DoxyCompactList}\item 
+Agent\-Resource\-Map \hyperlink{class_interface_1_1_agent_a34e1a14d13db26b657431b7b81de7187}{get\-Agent\-Resources} ()
+\begin{DoxyCompactList}\small\item\em Get the gathered resources of this agent. \end{DoxyCompactList}\item 
+void \hyperlink{class_interface_1_1_agent_a2449f4ef7f986db93d39eb075528b914}{add\-Resource} (std\-::shared\-\_\-ptr$<$ Location $>$ agent\-At, std\-::shared\-\_\-ptr$<$ \hyperlink{class_interface_1_1_common_resource}{Common\-Resource} $>$ res, int amount)
+\begin{DoxyCompactList}\small\item\em Adds resources to an agent. \end{DoxyCompactList}\item 
+void \hyperlink{class_interface_1_1_agent_a340484fa874c0b503d23e3c4688f5632}{remove\-Resource} (std\-::shared\-\_\-ptr$<$ Location $>$ \&agent\-At, int amount)
+\begin{DoxyCompactList}\small\item\em Removes resources from agents inventory. Used in trading resources for councilor cards. \end{DoxyCompactList}\item 
+bool \hyperlink{class_interface_1_1_agent_ac9e69bf4e1056e4f1a71378420262928}{add\-Council\-Card} (std\-::shared\-\_\-ptr$<$ Councilor $>$ card)
+\begin{DoxyCompactList}\small\item\em Attempts to give the agent a councilor card after a successful trade. \end{DoxyCompactList}\item 
+bool \hyperlink{class_interface_1_1_agent_a495ab8abaa5db8e949aa03a6e017a919}{has\-Council\-Card} ()
+\begin{DoxyCompactList}\small\item\em Check if agent is holding a councilor card. \end{DoxyCompactList}\item 
+std\-::shared\-\_\-ptr$<$ Councilor $>$ \hyperlink{class_interface_1_1_agent_ab572b2a6b41aff9681f8ccfe2bf21e98}{get\-Council\-Card} ()
+\begin{DoxyCompactList}\small\item\em Gets the pointer to the councilor card an agent is holding. \end{DoxyCompactList}\item 
+std\-::shared\-\_\-ptr\\*
+$<$ Interface\-::\-Location $>$ \hyperlink{class_interface_1_1_agent_ae660f44754175087bdbf6628bfc54d35}{where\-Is\-Agent} ()
+\begin{DoxyCompactList}\small\item\em Locates the agent. \end{DoxyCompactList}\item 
+\hypertarget{class_interface_1_1_agent_ac69eaac251e8fbd8ec00e73132cc9456}{virtual bool {\bfseries is\-Common} () const override}\label{class_interface_1_1_agent_ac69eaac251e8fbd8ec00e73132cc9456}
+
+\item 
+\hypertarget{class_interface_1_1_agent_a265788497bf9a1bb0a54218d195b0acf}{virtual std\-::weak\-\_\-ptr$<$ Location $>$ {\bfseries placement} () const override}\label{class_interface_1_1_agent_a265788497bf9a1bb0a54218d195b0acf}
+
+\item 
+\hypertarget{class_interface_1_1_agent_a992f138d19434cfcda3c5714124fc801}{virtual void {\bfseries set\-Placement} (std\-::weak\-\_\-ptr$<$ Location $>$ placement) override}\label{class_interface_1_1_agent_a992f138d19434cfcda3c5714124fc801}
+
+\item 
+\hypertarget{class_interface_1_1_agent_afea820c254c2c41e57581bdeadfeb196}{virtual unsigned short {\bfseries connections} () const override}\label{class_interface_1_1_agent_afea820c254c2c41e57581bdeadfeb196}
+
+\item 
+\hypertarget{class_interface_1_1_agent_a86bdf792b301d6df602dec6cda7ae38f}{virtual void {\bfseries set\-Connections} (unsigned short connections) override}\label{class_interface_1_1_agent_a86bdf792b301d6df602dec6cda7ae38f}
+
+\item 
+\hypertarget{class_interface_1_1_agent_a801663622789edb255ed8cbb3041fa26}{virtual void {\bfseries modify\-Connections} (short change) override}\label{class_interface_1_1_agent_a801663622789edb255ed8cbb3041fa26}
+
+\item 
+\hypertarget{class_interface_1_1_agent_abe1036a23de0bba526e152409779fffa}{virtual Q\-String {\bfseries type\-Name} () const override}\label{class_interface_1_1_agent_abe1036a23de0bba526e152409779fffa}
+
+\item 
+\hypertarget{class_interface_1_1_agent_a20afb2d67ccf84e6b38b276836708215}{virtual Q\-String {\bfseries name} () const override}\label{class_interface_1_1_agent_a20afb2d67ccf84e6b38b276836708215}
+
+\item 
+\hypertarget{class_interface_1_1_agent_a8bb169d6c8cda34630a15ee6b13b51c1}{virtual Q\-String {\bfseries title} () const override}\label{class_interface_1_1_agent_a8bb169d6c8cda34630a15ee6b13b51c1}
+
+\item 
+\hypertarget{class_interface_1_1_agent_a59e2e6b0faa6733321b4276283712323}{virtual std\-::weak\-\_\-ptr$<$ Player $>$ {\bfseries owner} () const override}\label{class_interface_1_1_agent_a59e2e6b0faa6733321b4276283712323}
+
+\item 
+\hypertarget{class_interface_1_1_agent_a1aa282f98021c3ba328f2db5c6b5fed1}{virtual void {\bfseries set\-Owner} (std\-::weak\-\_\-ptr$<$ Player $>$ owner) override}\label{class_interface_1_1_agent_a1aa282f98021c3ba328f2db5c6b5fed1}
+
+\item 
+\hypertarget{class_interface_1_1_agent_adedb779e1cdd53666b1d2f8f545d8bc2}{virtual std\-::weak\-\_\-ptr$<$ Location $>$ {\bfseries location} () const override}\label{class_interface_1_1_agent_adedb779e1cdd53666b1d2f8f545d8bc2}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_interface_1_1_agent_ac9e69bf4e1056e4f1a71378420262928}{\index{Interface\-::\-Agent@{Interface\-::\-Agent}!add\-Council\-Card@{add\-Council\-Card}}
+\index{add\-Council\-Card@{add\-Council\-Card}!Interface::Agent@{Interface\-::\-Agent}}
+\subsubsection[{add\-Council\-Card}]{\setlength{\rightskip}{0pt plus 5cm}bool Interface\-::\-Agent\-::add\-Council\-Card (
+\begin{DoxyParamCaption}
+\item[{std\-::shared\-\_\-ptr$<$ Councilor $>$}]{card}
+\end{DoxyParamCaption}
+)}}\label{class_interface_1_1_agent_ac9e69bf4e1056e4f1a71378420262928}
+
+
+Attempts to give the agent a councilor card after a successful trade. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em card,\-:} & Whose councilor card is being given \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+If agent has an empty card holder, returns true. Otherwise returns false. 
+\end{DoxyReturn}
+\hypertarget{class_interface_1_1_agent_a2449f4ef7f986db93d39eb075528b914}{\index{Interface\-::\-Agent@{Interface\-::\-Agent}!add\-Resource@{add\-Resource}}
+\index{add\-Resource@{add\-Resource}!Interface::Agent@{Interface\-::\-Agent}}
+\subsubsection[{add\-Resource}]{\setlength{\rightskip}{0pt plus 5cm}void Interface\-::\-Agent\-::add\-Resource (
+\begin{DoxyParamCaption}
+\item[{std\-::shared\-\_\-ptr$<$ Location $>$}]{agent\-At, }
+\item[{std\-::shared\-\_\-ptr$<$ {\bf Common\-Resource} $>$}]{res, }
+\item[{int}]{amount}
+\end{DoxyParamCaption}
+)}}\label{class_interface_1_1_agent_a2449f4ef7f986db93d39eb075528b914}
+
+
+Adds resources to an agent. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em agent\-At,\-:} & Location where agent is residing and collecting resources \\
+\hline
+{\em res,\-:} & Resource to be added to agent \\
+\hline
+{\em amount,\-:} & How much resource agent is getting \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+\hyperlink{class_interface_1_1_agent}{Agent} is in a location to be collecting resources 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Resources get added to the agents inventory 
+\end{DoxyPostcond}
+\hypertarget{class_interface_1_1_agent_a34e1a14d13db26b657431b7b81de7187}{\index{Interface\-::\-Agent@{Interface\-::\-Agent}!get\-Agent\-Resources@{get\-Agent\-Resources}}
+\index{get\-Agent\-Resources@{get\-Agent\-Resources}!Interface::Agent@{Interface\-::\-Agent}}
+\subsubsection[{get\-Agent\-Resources}]{\setlength{\rightskip}{0pt plus 5cm}Agent\-Resource\-Map Interface\-::\-Agent\-::get\-Agent\-Resources (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_interface_1_1_agent_a34e1a14d13db26b657431b7b81de7187}
+
+
+Get the gathered resources of this agent. 
+
+\begin{DoxyReturn}{Returns}
+Return an agent's inventory of resources collected per location 
+\end{DoxyReturn}
+\hypertarget{class_interface_1_1_agent_ab572b2a6b41aff9681f8ccfe2bf21e98}{\index{Interface\-::\-Agent@{Interface\-::\-Agent}!get\-Council\-Card@{get\-Council\-Card}}
+\index{get\-Council\-Card@{get\-Council\-Card}!Interface::Agent@{Interface\-::\-Agent}}
+\subsubsection[{get\-Council\-Card}]{\setlength{\rightskip}{0pt plus 5cm}std\-::shared\-\_\-ptr$<$ Councilor $>$ Interface\-::\-Agent\-::get\-Council\-Card (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_interface_1_1_agent_ab572b2a6b41aff9681f8ccfe2bf21e98}
+
+
+Gets the pointer to the councilor card an agent is holding. 
+
+\begin{DoxyReturn}{Returns}
+Pointer to councilor. 
+\end{DoxyReturn}
+\hypertarget{class_interface_1_1_agent_a495ab8abaa5db8e949aa03a6e017a919}{\index{Interface\-::\-Agent@{Interface\-::\-Agent}!has\-Council\-Card@{has\-Council\-Card}}
+\index{has\-Council\-Card@{has\-Council\-Card}!Interface::Agent@{Interface\-::\-Agent}}
+\subsubsection[{has\-Council\-Card}]{\setlength{\rightskip}{0pt plus 5cm}bool Interface\-::\-Agent\-::has\-Council\-Card (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_interface_1_1_agent_a495ab8abaa5db8e949aa03a6e017a919}
+
+
+Check if agent is holding a councilor card. 
+
+\begin{DoxyReturn}{Returns}
+True if card holder is empty. False if not. 
+\end{DoxyReturn}
+\hypertarget{class_interface_1_1_agent_a403a06332c0ae5c588a404421cca59d8}{\index{Interface\-::\-Agent@{Interface\-::\-Agent}!init\-Agent\-Resources@{init\-Agent\-Resources}}
+\index{init\-Agent\-Resources@{init\-Agent\-Resources}!Interface::Agent@{Interface\-::\-Agent}}
+\subsubsection[{init\-Agent\-Resources}]{\setlength{\rightskip}{0pt plus 5cm}void Interface\-::\-Agent\-::init\-Agent\-Resources (
+\begin{DoxyParamCaption}
+\item[{Agent\-Resource\-Map}]{agent\-Res\-Map}
+\end{DoxyParamCaption}
+)}}\label{class_interface_1_1_agent_a403a06332c0ae5c588a404421cca59d8}
+
+
+Initializes the agent's resource map for each location and it's corresponding local resource. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em agent\-Res\-Map,\-:} & An empty resourcemap for each agent consisting of locations and their resources \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+\hyperlink{class_interface_1_1_agent}{Agent} exists and initial resource maps have been created 
+\end{DoxyPrecond}
+\hypertarget{class_interface_1_1_agent_a340484fa874c0b503d23e3c4688f5632}{\index{Interface\-::\-Agent@{Interface\-::\-Agent}!remove\-Resource@{remove\-Resource}}
+\index{remove\-Resource@{remove\-Resource}!Interface::Agent@{Interface\-::\-Agent}}
+\subsubsection[{remove\-Resource}]{\setlength{\rightskip}{0pt plus 5cm}void Interface\-::\-Agent\-::remove\-Resource (
+\begin{DoxyParamCaption}
+\item[{std\-::shared\-\_\-ptr$<$ Location $>$ \&}]{agent\-At, }
+\item[{int}]{amount}
+\end{DoxyParamCaption}
+)}}\label{class_interface_1_1_agent_a340484fa874c0b503d23e3c4688f5632}
+
+
+Removes resources from agents inventory. Used in trading resources for councilor cards. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em agent\-At,\-:} & Where current agent is making the trade \\
+\hline
+{\em amount,\-:} & How many resources need to be deleted \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+\hyperlink{class_interface_1_1_agent}{Agent} is in a location and made a successful trade for a councilor card 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Resources are removed and agent gaing a councilor card 
+\end{DoxyPostcond}
+\hypertarget{class_interface_1_1_agent_ae660f44754175087bdbf6628bfc54d35}{\index{Interface\-::\-Agent@{Interface\-::\-Agent}!where\-Is\-Agent@{where\-Is\-Agent}}
+\index{where\-Is\-Agent@{where\-Is\-Agent}!Interface::Agent@{Interface\-::\-Agent}}
+\subsubsection[{where\-Is\-Agent}]{\setlength{\rightskip}{0pt plus 5cm}std\-::shared\-\_\-ptr$<$ Location $>$ Interface\-::\-Agent\-::where\-Is\-Agent (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_interface_1_1_agent_ae660f44754175087bdbf6628bfc54d35}
+
+
+Locates the agent. 
+
+\begin{DoxyReturn}{Returns}
+Return a pointer to the location an agent is now placed in 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+Student/agent.\-hh\item 
+Student/agent.\-cpp\end{DoxyCompactItemize}

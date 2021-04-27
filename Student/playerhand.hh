@@ -8,6 +8,12 @@
 #include "carditem.hh"
 #include "agentitem.hh"
 
+/**
+ * @file
+ * @brief Graphic Card Item for actioncards
+ */
+
+
 class CardItem;
 
 class PlayerHand : public mapItem

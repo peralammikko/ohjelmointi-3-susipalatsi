@@ -6,6 +6,10 @@
 #include <QApplication>
 #include "settingsscreen.hh"
 
+/**
+ * @file
+ * @brief starting UI
+ */
 namespace Ui {
 class StartingScreen;
 }

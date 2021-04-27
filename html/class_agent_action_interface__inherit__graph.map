@@ -1,0 +1,6 @@
+<map id="AgentActionInterface" name="AgentActionInterface">
+<area shape="rect" id="node3" href="$class_card_payment_action.html" title="CardPaymentAction" alt="" coords="5,155,155,181"/>
+<area shape="rect" id="node4" href="$class_pass_action.html" title="PassAction" alt="" coords="179,155,271,181"/>
+<area shape="rect" id="node5" href="$class_send_agent_action.html" title="SendAgentAction" alt="" coords="296,155,429,181"/>
+<area shape="rect" id="node6" href="$class_withdraw_agent_action.html" title="WithdrawAgentAction" alt="" coords="453,155,616,181"/>
+</map>

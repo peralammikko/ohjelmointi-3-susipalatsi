@@ -11,6 +11,11 @@
 #include "../Course/random.h"
 #include <cmath>
 
+/**
+ * @file
+ * @brief Locationitem is the graphic representation of a location on map
+ */
+
 class agentItem;
 
 class LocationItem : public mapItem

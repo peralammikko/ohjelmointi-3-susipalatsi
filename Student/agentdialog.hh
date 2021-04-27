@@ -4,6 +4,11 @@
 #include <QDialog>
 #include "agent.hh"
 
+/**
+ * @file
+ * @brief  a popup dialog which shows where agent is and what it is carrying
+ */
+
 namespace Ui {
 class AgentDialog;
 }

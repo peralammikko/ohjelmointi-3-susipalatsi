@@ -1,0 +1,134 @@
+\hypertarget{class_card_item}{\section{Card\-Item Class Reference}
+\label{class_card_item}\index{Card\-Item@{Card\-Item}}
+}
+Inheritance diagram for Card\-Item\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_card_item}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_card_item_a51b7eddbca34cef6672dbb03ea75017b}{Card\-Item} (std\-::shared\-\_\-ptr$<$ Interface\-::\-Card\-Interface $>$ card, Q\-Object $\ast$parent)
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_card_item}{Card\-Item} a card which can be moved around on the game screen. Mainly used to pay actions. \end{DoxyCompactList}\item 
+\hypertarget{class_card_item_a9668ea52f1ded61e4c845d4a42bc3e26}{\hyperlink{class_card_item_a9668ea52f1ded61e4c845d4a42bc3e26}{$\sim$\-Card\-Item} ()}\label{class_card_item_a9668ea52f1ded61e4c845d4a42bc3e26}
+
+\begin{DoxyCompactList}\small\item\em $\sim$\-Card\-Item deconstructor \end{DoxyCompactList}\item 
+std\-::shared\-\_\-ptr\\*
+$<$ Interface\-::\-Card\-Interface $>$ \hyperlink{class_card_item_a25b9a7fc1a81e13fbe8555e2195d305b}{get\-Card} ()
+\begin{DoxyCompactList}\small\item\em get\-Card \end{DoxyCompactList}\item 
+\hypertarget{class_card_item_ae6e82cb724cfa2f342ee50326ed92f2c}{Q\-Rect\-F {\bfseries bounding\-Rect} () const override}\label{class_card_item_ae6e82cb724cfa2f342ee50326ed92f2c}
+
+\item 
+\hypertarget{class_card_item_a180ebb36fd13715c206ac51ff9ac6248}{void {\bfseries paint} (Q\-Painter $\ast$painter, const Q\-Style\-Option\-Graphics\-Item $\ast$option, Q\-Widget $\ast$widget=nullptr) override}\label{class_card_item_a180ebb36fd13715c206ac51ff9ac6248}
+
+\item 
+const Q\-String \hyperlink{class_card_item_a5805490ab3170c1e8cdfa4f96bfa7b35}{type\-Of} () override
+\begin{DoxyCompactList}\small\item\em type\-Of returns \char`\"{}carditem\char`\"{} \end{DoxyCompactList}\item 
+\hypertarget{class_card_item_a95b36a1aaf30ca2d6d21e69d0c648ff7}{void \hyperlink{class_card_item_a95b36a1aaf30ca2d6d21e69d0c648ff7}{rearrange} () override}\label{class_card_item_a95b36a1aaf30ca2d6d21e69d0c648ff7}
+
+\begin{DoxyCompactList}\small\item\em Re-\/arrange all child items in its own layout. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \hyperlink{class_card_item_a2f610872d75d1cb5952aca0082d8c217}{hover\-Enter\-Event} (Q\-Graphics\-Scene\-Hover\-Event $\ast$event) override
+\begin{DoxyCompactList}\small\item\em hover\-Enter\-Event makes the card slightly larger and different coloured by making is\-Hovered\-\_\- true which is checked in painter. \end{DoxyCompactList}\item 
+virtual void \hyperlink{class_card_item_aa75cbb683013ed417b7936f66998b154}{hover\-Leave\-Event} (Q\-Graphics\-Scene\-Hover\-Event $\ast$event) override
+\begin{DoxyCompactList}\small\item\em hover\-Leave\-Event sets is\-Hovered to false \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_card_item_a51b7eddbca34cef6672dbb03ea75017b}{\index{Card\-Item@{Card\-Item}!Card\-Item@{Card\-Item}}
+\index{Card\-Item@{Card\-Item}!CardItem@{Card\-Item}}
+\subsubsection[{Card\-Item}]{\setlength{\rightskip}{0pt plus 5cm}Card\-Item\-::\-Card\-Item (
+\begin{DoxyParamCaption}
+\item[{std\-::shared\-\_\-ptr$<$ Interface\-::\-Card\-Interface $>$}]{card, }
+\item[{Q\-Object $\ast$}]{parent}
+\end{DoxyParamCaption}
+)}}\label{class_card_item_a51b7eddbca34cef6672dbb03ea75017b}
+
+
+\hyperlink{class_card_item}{Card\-Item} a card which can be moved around on the game screen. Mainly used to pay actions. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em card} & the card interface with all of the relevant information about the card \\
+\hline
+{\em parent} & Q\-Object parent \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_card_item_a25b9a7fc1a81e13fbe8555e2195d305b}{\index{Card\-Item@{Card\-Item}!get\-Card@{get\-Card}}
+\index{get\-Card@{get\-Card}!CardItem@{Card\-Item}}
+\subsubsection[{get\-Card}]{\setlength{\rightskip}{0pt plus 5cm}std\-::shared\-\_\-ptr$<$ Interface\-::\-Card\-Interface $>$ Card\-Item\-::get\-Card (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_card_item_a25b9a7fc1a81e13fbe8555e2195d305b}
+
+
+get\-Card 
+
+\begin{DoxyReturn}{Returns}
+Card interface with card information 
+\end{DoxyReturn}
+\hypertarget{class_card_item_a2f610872d75d1cb5952aca0082d8c217}{\index{Card\-Item@{Card\-Item}!hover\-Enter\-Event@{hover\-Enter\-Event}}
+\index{hover\-Enter\-Event@{hover\-Enter\-Event}!CardItem@{Card\-Item}}
+\subsubsection[{hover\-Enter\-Event}]{\setlength{\rightskip}{0pt plus 5cm}void Card\-Item\-::hover\-Enter\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Graphics\-Scene\-Hover\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_card_item_a2f610872d75d1cb5952aca0082d8c217}
+
+
+hover\-Enter\-Event makes the card slightly larger and different coloured by making is\-Hovered\-\_\- true which is checked in painter. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em event} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_card_item_aa75cbb683013ed417b7936f66998b154}{\index{Card\-Item@{Card\-Item}!hover\-Leave\-Event@{hover\-Leave\-Event}}
+\index{hover\-Leave\-Event@{hover\-Leave\-Event}!CardItem@{Card\-Item}}
+\subsubsection[{hover\-Leave\-Event}]{\setlength{\rightskip}{0pt plus 5cm}void Card\-Item\-::hover\-Leave\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Graphics\-Scene\-Hover\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{class_card_item_aa75cbb683013ed417b7936f66998b154}
+
+
+hover\-Leave\-Event sets is\-Hovered to false 
+
+
+\begin{DoxyParams}{Parameters}
+{\em event} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_card_item_a5805490ab3170c1e8cdfa4f96bfa7b35}{\index{Card\-Item@{Card\-Item}!type\-Of@{type\-Of}}
+\index{type\-Of@{type\-Of}!CardItem@{Card\-Item}}
+\subsubsection[{type\-Of}]{\setlength{\rightskip}{0pt plus 5cm}const Q\-String Card\-Item\-::type\-Of (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{class_card_item_a5805490ab3170c1e8cdfa4f96bfa7b35}
+
+
+type\-Of returns \char`\"{}carditem\char`\"{} 
+
+\begin{DoxyReturn}{Returns}
+\char`\"{}carditem\char`\"{} 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classmap_item_ac34ad651be6151f9ca9cc6310d1f6462}{map\-Item}.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+Student/carditem.\-hh\item 
+Student/carditem.\-cpp\end{DoxyCompactItemize}

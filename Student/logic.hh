@@ -21,6 +21,11 @@
 
 class ActionCard;
 
+/**
+ * @file
+ * @brief Logic handles gamerules, victory check and roundswitching
+ */
+
 
 class Logic : public QObject
 {

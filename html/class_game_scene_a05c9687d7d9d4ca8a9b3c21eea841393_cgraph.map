@@ -1,0 +1,6 @@
+<map id="GameScene::addActionCardForPlayer" name="GameScene::addActionCardForPlayer">
+<area shape="rect" id="node2" href="$class_game_scene.html#aa9cca2fe921183eca8d44d7d57cd2c11" title="Recieved when a mapItem (Agent or a CardItem) is dragged and dropped and the item has recognized a va..." alt="" coords="257,56,479,83"/>
+<area shape="rect" id="node3" href="$classmap_item.html#ac34ad651be6151f9ca9cc6310d1f6462" title="returns the type of MapItem as a string. Can be at least a location, agent or an actionCard. " alt="" coords="533,5,667,32"/>
+<area shape="rect" id="node4" href="$class_card_item.html#a25b9a7fc1a81e13fbe8555e2195d305b" title="getCard " alt="" coords="529,56,671,83"/>
+<area shape="rect" id="node5" href="$classmap_item.html#a4186737ffce9680d0ba0bc0130533f26" title="mapitem is moved to homeCoordinatesOnScene_ in time milliseconds " alt="" coords="528,107,672,133"/>
+</map>

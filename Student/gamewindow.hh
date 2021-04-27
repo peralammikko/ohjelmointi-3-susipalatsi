@@ -25,6 +25,11 @@
 
 #include <QTimer>
 
+
+/**
+ * @file
+ * @brief The largest window which includes gamescene's view
+ */
 namespace Ui {
     class GameWindow;
 

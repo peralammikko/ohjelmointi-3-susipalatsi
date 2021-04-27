@@ -1,0 +1,72 @@
+\hypertarget{class_popup_dialog}{\section{Popup\-Dialog Class Reference}
+\label{class_popup_dialog}\index{Popup\-Dialog@{Popup\-Dialog}}
+}
+Inheritance diagram for Popup\-Dialog\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_popup_dialog}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_popup_dialog_a5161bb6334d565f09e824a6483f6fc8e}{{\bfseries Popup\-Dialog} (\hyperlink{class_location_item}{Location\-Item} $\ast$\&loc, std\-::shared\-\_\-ptr$<$ Interface\-::\-Player $>$ \&player, Q\-Widget $\ast$parent=0)}\label{class_popup_dialog_a5161bb6334d565f09e824a6483f6fc8e}
+
+\item 
+void \hyperlink{class_popup_dialog_abc7a1bd56e396fa828570ecfdd2035b5}{fill\-Area\-Agents\-List} (std\-::set$<$ std\-::shared\-\_\-ptr$<$ Interface\-::\-Agent\-Interface $>$$>$ \&agents\-Here)
+\begin{DoxyCompactList}\small\item\em fills dialog's agent list with agents currently residing there \end{DoxyCompactList}\item 
+void \hyperlink{class_popup_dialog_a61bf9175e5ffc57318b3be5a20336b5b}{check\-Agent\-Resources} (std\-::set$<$ std\-::shared\-\_\-ptr$<$ Interface\-::\-Agent\-Interface $>$$>$ \&agents\-Here)
+\begin{DoxyCompactList}\small\item\em Checks if any of current player's agents have enough resources to make trade for councilor card. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_popup_dialog_a61bf9175e5ffc57318b3be5a20336b5b}{\index{Popup\-Dialog@{Popup\-Dialog}!check\-Agent\-Resources@{check\-Agent\-Resources}}
+\index{check\-Agent\-Resources@{check\-Agent\-Resources}!PopupDialog@{Popup\-Dialog}}
+\subsubsection[{check\-Agent\-Resources}]{\setlength{\rightskip}{0pt plus 5cm}void Popup\-Dialog\-::check\-Agent\-Resources (
+\begin{DoxyParamCaption}
+\item[{std\-::set$<$ std\-::shared\-\_\-ptr$<$ Interface\-::\-Agent\-Interface $>$$>$ \&}]{agents\-Here}
+\end{DoxyParamCaption}
+)}}\label{class_popup_dialog_a61bf9175e5ffc57318b3be5a20336b5b}
+
+
+Checks if any of current player's agents have enough resources to make trade for councilor card. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em agents\-Here,\-:} & List of agents in location \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+Player in turn has agents in clicked locations 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+Trade-\/button is enabled and highlighted for active player if agents has enough demanded resources 
+\end{DoxyPostcond}
+\hypertarget{class_popup_dialog_abc7a1bd56e396fa828570ecfdd2035b5}{\index{Popup\-Dialog@{Popup\-Dialog}!fill\-Area\-Agents\-List@{fill\-Area\-Agents\-List}}
+\index{fill\-Area\-Agents\-List@{fill\-Area\-Agents\-List}!PopupDialog@{Popup\-Dialog}}
+\subsubsection[{fill\-Area\-Agents\-List}]{\setlength{\rightskip}{0pt plus 5cm}void Popup\-Dialog\-::fill\-Area\-Agents\-List (
+\begin{DoxyParamCaption}
+\item[{std\-::set$<$ std\-::shared\-\_\-ptr$<$ Interface\-::\-Agent\-Interface $>$$>$ \&}]{agents\-Here}
+\end{DoxyParamCaption}
+)}}\label{class_popup_dialog_abc7a1bd56e396fa828570ecfdd2035b5}
+
+
+fills dialog's agent list with agents currently residing there 
+
+
+\begin{DoxyParams}{Parameters}
+{\em agents\-Here,\-:} & List of agents in a locations \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+Location has agents in it 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+All present agents and their respective owners are listed in the popup dialog 
+\end{DoxyPostcond}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+Student/popupdialog.\-hh\item 
+Student/popupdialog.\-cpp\end{DoxyCompactItemize}

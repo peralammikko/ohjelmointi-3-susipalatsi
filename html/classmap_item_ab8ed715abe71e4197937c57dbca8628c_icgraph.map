@@ -1,0 +1,3 @@
+<map id="mapItem::setHome" name="mapItem::setHome">
+<area shape="rect" id="node2" href="$class_game_scene.html#aff91a4c8ac929067c540765db170bd36" title="Sets the declaring mapitem in a visible place, and draw arrows from its original position to its targ..." alt="" coords="203,5,421,32"/>
+</map>

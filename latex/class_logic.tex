@@ -1,0 +1,168 @@
+\hypertarget{class_logic}{\section{Logic Class Reference}
+\label{class_logic}\index{Logic@{Logic}}
+}
+Inheritance diagram for Logic\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_logic}
+\end{center}
+\end{figure}
+\subsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_logic_ad5c6773e8383ec792eec4195ba281f49}{void {\bfseries on\-Action\-Declared} (std\-::shared\-\_\-ptr$<$ Interface\-::\-Action\-Interface $>$ action)}\label{class_logic_ad5c6773e8383ec792eec4195ba281f49}
+
+\item 
+\hypertarget{class_logic_aee80f41550e3f6901e8fe3771d46d0be}{void {\bfseries on\-Player\-Changed} (std\-::shared\-\_\-ptr$<$ const Interface\-::\-Player $>$ acting\-Player)}\label{class_logic_aee80f41550e3f6901e8fe3771d46d0be}
+
+\item 
+void \hyperlink{class_logic_a8a95c59a2d66e5045921a233f0c944ac}{on\-Action\-Performed} (std\-::shared\-\_\-ptr$<$ const Interface\-::\-Player $>$ player, std\-::shared\-\_\-ptr$<$ Interface\-::\-Action\-Interface $>$ action)
+\begin{DoxyCompactList}\small\item\em on\-Action\-Performed sent by runner, connected in setup \end{DoxyCompactList}\item 
+\hypertarget{class_logic_af3143d6c45439366d3137282aea7ffcc}{void \hyperlink{class_logic_af3143d6c45439366d3137282aea7ffcc}{on\-Interphase\-Timeout} ()}\label{class_logic_af3143d6c45439366d3137282aea7ffcc}
+
+\begin{DoxyCompactList}\small\item\em on\-Interphase\-Timeout Calls the game to move on to the next player, which in turn signals on\-Player\-Changed (if the game is still ongoing) \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{class_logic_a6e1e8882f6c7ca631882020fd852913e}{entered\-Event\-Phase} ()
+\begin{DoxyCompactList}\small\item\em entered\-Event\-Phase when every player has passed the game proceeds to the event phase which makes history list widget update \end{DoxyCompactList}\item 
+void \hyperlink{class_logic_a559f80e48e71f7e7c214d8b03e0a1b10}{ready\-To\-Reward\-Resources} ()
+\begin{DoxyCompactList}\small\item\em ready\-To\-Reward\-Resources signals the resourcedealer to deal resources for every agent \end{DoxyCompactList}\item 
+void \hyperlink{class_logic_a8d11ba8efc65dc62dcf95b93b042d422}{entering\-Next\-Round} ()
+\begin{DoxyCompactList}\small\item\em entering\-Next\-Round informs the gamescene that the game is ready for the next round, and tells the gamescene to shuffle locations \end{DoxyCompactList}\item 
+void \hyperlink{class_logic_a85f2736c83fcf1f59dc844de5a165e36}{request\-Interphase} (int time)
+\begin{DoxyCompactList}\small\item\em request\-Interphase tells the \hyperlink{class_game_window}{Game\-Window} to disable graphicsview for a while \end{DoxyCompactList}\item 
+void \hyperlink{class_logic_ad7243d4c58db75ae3eb74121607df5c4}{on\-Winners\-Found} (std\-::set$<$ std\-::shared\-\_\-ptr$<$ Interface\-::\-Player $>$$>$ winnerset)
+\begin{DoxyCompactList}\small\item\em on\-Winners\-Found informs the gamewindow that the game is now over \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_logic_a92ee72cbcb682af9f6d19296db2fd141}{{\bfseries Logic} (std\-::shared\-\_\-ptr$<$ Interface\-::\-Runner $>$ runner, std\-::shared\-\_\-ptr$<$ Interface\-::\-Game $>$ game)}\label{class_logic_a92ee72cbcb682af9f6d19296db2fd141}
+
+\item 
+\hypertarget{class_logic_ade84f567829a90cb80695c41a052f644}{void {\bfseries do\-The\-Running} ()}\label{class_logic_ade84f567829a90cb80695c41a052f644}
+
+\item 
+\hypertarget{class_logic_a051d051686757cfb1deaae1e85314253}{void {\bfseries launch\-Game} ()}\label{class_logic_a051d051686757cfb1deaae1e85314253}
+
+\item 
+\hypertarget{class_logic_accf45e133230ca4902979bee7292fe5e}{void {\bfseries create\-Locations} ()}\label{class_logic_accf45e133230ca4902979bee7292fe5e}
+
+\item 
+\hypertarget{class_logic_a4c57f0b38ada540c9f38de7f9a372015}{std\-::set$<$ std\-::shared\-\_\-ptr\\*
+$<$ Interface\-::\-Player $>$ $>$ {\bfseries check\-Win} (std\-::vector$<$ std\-::shared\-\_\-ptr$<$ Interface\-::\-Player $>$$>$ players)}\label{class_logic_a4c57f0b38ada540c9f38de7f9a372015}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_logic_a6e1e8882f6c7ca631882020fd852913e}{\index{Logic@{Logic}!entered\-Event\-Phase@{entered\-Event\-Phase}}
+\index{entered\-Event\-Phase@{entered\-Event\-Phase}!Logic@{Logic}}
+\subsubsection[{entered\-Event\-Phase}]{\setlength{\rightskip}{0pt plus 5cm}void Logic\-::entered\-Event\-Phase (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_logic_a6e1e8882f6c7ca631882020fd852913e}
+
+
+entered\-Event\-Phase when every player has passed the game proceeds to the event phase which makes history list widget update 
+
+\begin{DoxyPrecond}{Precondition}
+Connected to gameswindow 
+\end{DoxyPrecond}
+\hypertarget{class_logic_a8d11ba8efc65dc62dcf95b93b042d422}{\index{Logic@{Logic}!entering\-Next\-Round@{entering\-Next\-Round}}
+\index{entering\-Next\-Round@{entering\-Next\-Round}!Logic@{Logic}}
+\subsubsection[{entering\-Next\-Round}]{\setlength{\rightskip}{0pt plus 5cm}void Logic\-::entering\-Next\-Round (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_logic_a8d11ba8efc65dc62dcf95b93b042d422}
+
+
+entering\-Next\-Round informs the gamescene that the game is ready for the next round, and tells the gamescene to shuffle locations 
+
+\begin{DoxyPrecond}{Precondition}
+connected to gamescene 
+\end{DoxyPrecond}
+\hypertarget{class_logic_a8a95c59a2d66e5045921a233f0c944ac}{\index{Logic@{Logic}!on\-Action\-Performed@{on\-Action\-Performed}}
+\index{on\-Action\-Performed@{on\-Action\-Performed}!Logic@{Logic}}
+\subsubsection[{on\-Action\-Performed}]{\setlength{\rightskip}{0pt plus 5cm}void Logic\-::on\-Action\-Performed (
+\begin{DoxyParamCaption}
+\item[{std\-::shared\-\_\-ptr$<$ const Interface\-::\-Player $>$}]{player, }
+\item[{std\-::shared\-\_\-ptr$<$ Interface\-::\-Action\-Interface $>$}]{action}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_logic_a8a95c59a2d66e5045921a233f0c944ac}
+
+
+on\-Action\-Performed sent by runner, connected in setup 
+
+\begin{DoxyPrecond}{Precondition}
+the action is legal 
+
+connected to runner 
+\end{DoxyPrecond}
+
+\begin{DoxyParams}{Parameters}
+{\em player} & \\
+\hline
+{\em action} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_logic_ad7243d4c58db75ae3eb74121607df5c4}{\index{Logic@{Logic}!on\-Winners\-Found@{on\-Winners\-Found}}
+\index{on\-Winners\-Found@{on\-Winners\-Found}!Logic@{Logic}}
+\subsubsection[{on\-Winners\-Found}]{\setlength{\rightskip}{0pt plus 5cm}void Logic\-::on\-Winners\-Found (
+\begin{DoxyParamCaption}
+\item[{std\-::set$<$ std\-::shared\-\_\-ptr$<$ Interface\-::\-Player $>$$>$}]{winnerset}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_logic_ad7243d4c58db75ae3eb74121607df5c4}
+
+
+on\-Winners\-Found informs the gamewindow that the game is now over 
+
+
+\begin{DoxyParams}{Parameters}
+{\em winnerset} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+connected to gamewindow 
+\end{DoxyPrecond}
+\hypertarget{class_logic_a559f80e48e71f7e7c214d8b03e0a1b10}{\index{Logic@{Logic}!ready\-To\-Reward\-Resources@{ready\-To\-Reward\-Resources}}
+\index{ready\-To\-Reward\-Resources@{ready\-To\-Reward\-Resources}!Logic@{Logic}}
+\subsubsection[{ready\-To\-Reward\-Resources}]{\setlength{\rightskip}{0pt plus 5cm}void Logic\-::ready\-To\-Reward\-Resources (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_logic_a559f80e48e71f7e7c214d8b03e0a1b10}
+
+
+ready\-To\-Reward\-Resources signals the resourcedealer to deal resources for every agent 
+
+\begin{DoxyPrecond}{Precondition}
+connected to a resourcedealer 
+\end{DoxyPrecond}
+\hypertarget{class_logic_a85f2736c83fcf1f59dc844de5a165e36}{\index{Logic@{Logic}!request\-Interphase@{request\-Interphase}}
+\index{request\-Interphase@{request\-Interphase}!Logic@{Logic}}
+\subsubsection[{request\-Interphase}]{\setlength{\rightskip}{0pt plus 5cm}void Logic\-::request\-Interphase (
+\begin{DoxyParamCaption}
+\item[{int}]{time}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_logic_a85f2736c83fcf1f59dc844de5a165e36}
+
+
+request\-Interphase tells the \hyperlink{class_game_window}{Game\-Window} to disable graphicsview for a while 
+
+
+\begin{DoxyParams}{Parameters}
+{\em time} & the amount of time to be disabled in ms \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+the gamewindow must exist, and the gamewindow must be connected to this signal 
+\end{DoxyPrecond}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+Student/logic.\-hh\item 
+Student/logic.\-cpp\end{DoxyCompactItemize}

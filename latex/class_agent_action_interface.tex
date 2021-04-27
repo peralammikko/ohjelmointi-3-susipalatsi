@@ -1,0 +1,63 @@
+\hypertarget{class_agent_action_interface}{\section{Agent\-Action\-Interface Class Reference}
+\label{class_agent_action_interface}\index{Agent\-Action\-Interface@{Agent\-Action\-Interface}}
+}
+Inheritance diagram for Agent\-Action\-Interface\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.978723cm]{class_agent_action_interface}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_agent_action_interface_a31c983273793ac196ae185e112625829}{\hyperlink{class_agent_action_interface_a31c983273793ac196ae185e112625829}{Agent\-Action\-Interface} ()=default}\label{class_agent_action_interface_a31c983273793ac196ae185e112625829}
+
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_agent_action_interface}{Agent\-Action\-Interface} this is the modified version of the course's Action interface. \end{DoxyCompactList}\item 
+virtual \hyperlink{classmap_item}{map\-Item} $\ast$ \hyperlink{class_agent_action_interface_a0fecde84d3d50533ecc26fbc44bb746d}{get\-Target\-Map\-Item} ()
+\begin{DoxyCompactList}\small\item\em get\-Target\-Map\-Item Some of our actions have targets, which we wanted to store in actions. \end{DoxyCompactList}\item 
+virtual Q\-String \hyperlink{class_agent_action_interface_a940bd8035e48c8682eb030be937df6e6}{past\-Tense\-Description} ()=0
+\begin{DoxyCompactList}\small\item\em past\-Tense\-Description a brief description of what just happened \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_agent_action_interface_a0fecde84d3d50533ecc26fbc44bb746d}{\index{Agent\-Action\-Interface@{Agent\-Action\-Interface}!get\-Target\-Map\-Item@{get\-Target\-Map\-Item}}
+\index{get\-Target\-Map\-Item@{get\-Target\-Map\-Item}!AgentActionInterface@{Agent\-Action\-Interface}}
+\subsubsection[{get\-Target\-Map\-Item}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf map\-Item}$\ast$ Agent\-Action\-Interface\-::get\-Target\-Map\-Item (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{class_agent_action_interface_a0fecde84d3d50533ecc26fbc44bb746d}
+
+
+get\-Target\-Map\-Item Some of our actions have targets, which we wanted to store in actions. 
+
+\begin{DoxyReturn}{Returns}
+Returns 1 map item which the action targets, or a nullptr if it does not have one. 
+\end{DoxyReturn}
+
+
+Reimplemented in \hyperlink{class_send_agent_action_a0111cf6a2957790b34c905ad1535b6e8}{Send\-Agent\-Action}, \hyperlink{class_pass_action_acec5d52148d449d35db2e0f3c53fd5fe}{Pass\-Action}, \hyperlink{class_withdraw_agent_action_ae2531701ba456e81f488303f218afffe}{Withdraw\-Agent\-Action}, and \hyperlink{class_card_payment_action_ac729bee3b4c5d89fd045c30da2fd4071}{Card\-Payment\-Action}.
+
+\hypertarget{class_agent_action_interface_a940bd8035e48c8682eb030be937df6e6}{\index{Agent\-Action\-Interface@{Agent\-Action\-Interface}!past\-Tense\-Description@{past\-Tense\-Description}}
+\index{past\-Tense\-Description@{past\-Tense\-Description}!AgentActionInterface@{Agent\-Action\-Interface}}
+\subsubsection[{past\-Tense\-Description}]{\setlength{\rightskip}{0pt plus 5cm}virtual Q\-String Agent\-Action\-Interface\-::past\-Tense\-Description (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_agent_action_interface_a940bd8035e48c8682eb030be937df6e6}
+
+
+past\-Tense\-Description a brief description of what just happened 
+
+\begin{DoxyReturn}{Returns}
+returns a string which can be displayed on history list widget 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{class_send_agent_action_a80cfcff4f904152b3aa1a3f16ecb9f24}{Send\-Agent\-Action}, \hyperlink{class_pass_action_a88d891a53fc296646e4455abe997a6c8}{Pass\-Action}, \hyperlink{class_withdraw_agent_action_a62491bc88210e3100d289e9b04cf2798}{Withdraw\-Agent\-Action}, and \hyperlink{class_card_payment_action_a1ef5f7ef2034bc123de43107c70928ec}{Card\-Payment\-Action}.
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+Student/agentactioninterface.\-hh\end{DoxyCompactItemize}

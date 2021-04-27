@@ -1,0 +1,3 @@
+<map id="GameWindow::onInterphaseRequested" name="GameWindow::onInterphaseRequested">
+<area shape="rect" id="node2" href="$class_logic.html#af3143d6c45439366d3137282aea7ffcc" title="onInterphaseTimeout Calls the game to move on to the next player, which in turn signals onPlayerChang..." alt="" coords="259,12,461,39"/>
+</map>

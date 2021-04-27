@@ -1,0 +1,73 @@
+\hypertarget{class_player_hand}{\section{Player\-Hand Class Reference}
+\label{class_player_hand}\index{Player\-Hand@{Player\-Hand}}
+}
+Inheritance diagram for Player\-Hand\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_player_hand}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_player_hand_a1e9c7e7f016a848e2cc6e7c7ec4e5f15}{{\bfseries Player\-Hand} (std\-::shared\-\_\-ptr$<$ const Interface\-::\-Player $>$ player)}\label{class_player_hand_a1e9c7e7f016a848e2cc6e7c7ec4e5f15}
+
+\item 
+\hypertarget{class_player_hand_a21ecf33831fd13b0e133d9a7a79ef556}{Q\-Rect\-F {\bfseries bounding\-Rect} () const override}\label{class_player_hand_a21ecf33831fd13b0e133d9a7a79ef556}
+
+\item 
+\hypertarget{class_player_hand_aab157c0dbab0b0c17bde904a2a2ee55e}{void {\bfseries paint} (Q\-Painter $\ast$painter, const Q\-Style\-Option\-Graphics\-Item $\ast$option, Q\-Widget $\ast$widget) override}\label{class_player_hand_aab157c0dbab0b0c17bde904a2a2ee55e}
+
+\item 
+virtual const Q\-String \hyperlink{class_player_hand_afc80409390272a9f5c44899b015e69d0}{type\-Of} () override
+\begin{DoxyCompactList}\small\item\em returns the type of Map\-Item as a string. Can be at least a location, agent or an action\-Card. \end{DoxyCompactList}\item 
+\hypertarget{class_player_hand_a870059bc3b346c04d5fadffce5c79af1}{void {\bfseries add\-Map\-Item} (\hyperlink{classmap_item}{map\-Item} $\ast$m\-Item)}\label{class_player_hand_a870059bc3b346c04d5fadffce5c79af1}
+
+\item 
+\hypertarget{class_player_hand_a1c0c4db8433ff1c0b9ed4566b1ae7600}{void {\bfseries set\-Actability} (bool can\-Act)}\label{class_player_hand_a1c0c4db8433ff1c0b9ed4566b1ae7600}
+
+\item 
+\hypertarget{class_player_hand_a27dd9d428f7b3b2c89017d1947a07006}{std\-::shared\-\_\-ptr$<$ const \\*
+Interface\-::\-Player $>$ {\bfseries get\-Owner} ()}\label{class_player_hand_a27dd9d428f7b3b2c89017d1947a07006}
+
+\item 
+\hypertarget{class_player_hand_abe3ca6df372931db501726da3a482efd}{std\-::vector$<$ \hyperlink{classagent_item}{agent\-Item} $\ast$ $>$ {\bfseries get\-Agent\-Items} ()}\label{class_player_hand_abe3ca6df372931db501726da3a482efd}
+
+\item 
+\hypertarget{class_player_hand_a377f42bbd5586b9f10af70f4d6dc2998}{std\-::vector$<$ \hyperlink{class_card_item}{Card\-Item} $\ast$ $>$ {\bfseries get\-Card\-Items} ()}\label{class_player_hand_a377f42bbd5586b9f10af70f4d6dc2998}
+
+\item 
+\hypertarget{class_player_hand_a2e1794c54ae07c87b148ad5430a20c06}{void {\bfseries remove\-Action\-Cards} ()}\label{class_player_hand_a2e1794c54ae07c87b148ad5430a20c06}
+
+\item 
+\hypertarget{class_player_hand_aa683cf5603c9d6e5a47efef96337ec27}{void \hyperlink{class_player_hand_aa683cf5603c9d6e5a47efef96337ec27}{rearrange} () override}\label{class_player_hand_aa683cf5603c9d6e5a47efef96337ec27}
+
+\begin{DoxyCompactList}\small\item\em Re-\/arrange all child items in its own layout. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_player_hand_afc80409390272a9f5c44899b015e69d0}{\index{Player\-Hand@{Player\-Hand}!type\-Of@{type\-Of}}
+\index{type\-Of@{type\-Of}!PlayerHand@{Player\-Hand}}
+\subsubsection[{type\-Of}]{\setlength{\rightskip}{0pt plus 5cm}const Q\-String Player\-Hand\-::type\-Of (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{class_player_hand_afc80409390272a9f5c44899b015e69d0}
+
+
+returns the type of Map\-Item as a string. Can be at least a location, agent or an action\-Card. 
+
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classmap_item_ac34ad651be6151f9ca9cc6310d1f6462}{map\-Item}.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+Student/playerhand.\-hh\item 
+Student/playerhand.\-cpp\end{DoxyCompactItemize}
