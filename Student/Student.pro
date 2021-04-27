@@ -24,6 +24,7 @@ SOURCES += \
     passaction.cpp \
     playerhand.cpp \
     popupdialog.cpp \
+    resourcedealer.cpp \
     scenearrow.cpp \
     sendagentaction.cpp \
     settingsscreen.cpp \
@@ -73,6 +74,7 @@ HEADERS += \
     passaction.hh \
     playerhand.hh \
     popupdialog.hh \
+    resourcedealer.hh \
     scenearrow.hh \
     sendagentaction.hh \
     settingsscreen.hh \

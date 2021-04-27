@@ -8,6 +8,8 @@
 #include "agentdialog.hh"
 #include "playerhand.hh"
 
+class LocationItem;
+class AgentActionInterface;
 
 class agentItem : public mapItem
 {

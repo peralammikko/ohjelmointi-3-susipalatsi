@@ -2,14 +2,16 @@
 #include "gamesetup.hh"
 
 
-GameSetup::GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game, std::shared_ptr<Interface::Runner> courseRunner, std::shared_ptr<Logic> logic, std::vector<QString> playerNames, std::vector<int> customSettings, int bots)
-    : gameScene_(gameScene), game_(game), courseRunner_(courseRunner), logic_(logic), BOTCOUNT(bots)
+GameSetup::GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game, std::shared_ptr<Interface::Runner> courseRunner, std::shared_ptr<Logic> logic, std::vector<QString> playerNames, std::vector<int> customSettings, int bots, std::shared_ptr<ResourceDealer> resDealer)
+    : gameScene_(gameScene), game_(game), courseRunner_(courseRunner), logic_(logic), BOTCOUNT(bots), resDealer_(resDealer)
 {
     Interface::SettingsReader& reader = Interface::SettingsReader::READER;
     reader.readSettings();
     PLAYERCOUNT = reader.getValue("PLAYERS").toInt();
 
     game_.get()->connect(game_.get(), &Interface::Game::playerChanged, logic_.get(), &Logic::onPlayerChanged);
+    game_.get()->connect(game_.get(), &Interface::Game::playerChanged, gameScene_, &GameScene::onPlayerChanged);
+
     courseRunner_->connect(courseRunner_.get(), &Interface::Runner::actionPerformed, logic_.get(), &Logic::onActionPerformed);
 
     checkStartingInfo(playerNames, customSettings);
@@ -20,7 +22,9 @@ GameSetup::GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game
     initLocItems();
     initLocDecks();
 
-    initLogic();
+    initResDealer();
+    logic_.get()->connect(gameScene_, &GameScene::actionDeclared, logic_.get(), &Logic::onActionDeclared);
+    logic_.get()->connect(logic_.get(), &Logic::enteredEventPhase, gameScene_, &GameScene::onEnteringNextRound);
 
     initPlayers();
     initPlayerHands();
@@ -195,9 +199,9 @@ void GameSetup::initLocDecks()
 
 }
 
-void GameSetup::initLogic()
+void GameSetup::initResDealer()
 {
-    logic_->infoResourceMaps(initResourceMap_, councillorDemandsMap_, WINCONDITION);
+    resDealer_->infoResourceMaps(initResourceMap_, councillorDemandsMap_);
 }
 
 void GameSetup::initPlayers()
@@ -224,6 +228,7 @@ void GameSetup::initPlayerHands()
     {
         auto player = players.at(i);
         gameScene_->initHands(player);
+        // TODO: use some rearrangement method in scene instead
         if ( i != 0)//player != game_->currentPlayer())
         {
             // Player who is not in turn has their hand hidden
