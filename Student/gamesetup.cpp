@@ -1,7 +1,8 @@
 #include <QDirIterator>
 #include "gamesetup.hh"
 
-GameSetup::GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game, std::shared_ptr<GameRunner> courseRunner, std::shared_ptr<Logic> logic, std::vector<QString> playerNames, std::vector<int> customSettings, int bots, std::shared_ptr<ResourceDealer> resDealer)
+
+GameSetup::GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game, std::shared_ptr<Interface::Runner> courseRunner, std::shared_ptr<Logic> logic, std::vector<QString> playerNames, std::vector<int> customSettings, int bots, std::shared_ptr<ResourceDealer> resDealer)
     : gameScene_(gameScene), game_(game), courseRunner_(courseRunner), logic_(logic), BOTCOUNT(bots), resDealer_(resDealer)
 {
     Interface::SettingsReader& reader = Interface::SettingsReader::READER;
@@ -9,6 +10,8 @@ GameSetup::GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game
     PLAYERCOUNT = reader.getValue("PLAYERS").toInt();
 
     game_.get()->connect(game_.get(), &Interface::Game::playerChanged, logic_.get(), &Logic::onPlayerChanged);
+    game_.get()->connect(game_.get(), &Interface::Game::playerChanged, gameScene_, &GameScene::onPlayerChanged);
+
     courseRunner_->connect(courseRunner_.get(), &Interface::Runner::actionPerformed, logic_.get(), &Logic::onActionPerformed);
 
     checkStartingInfo(playerNames, customSettings);
@@ -21,7 +24,7 @@ GameSetup::GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game
 
     initResDealer();
     logic_.get()->connect(gameScene_, &GameScene::actionDeclared, logic_.get(), &Logic::onActionDeclared);
-    logic_.get()->connect(logic_.get(), &Logic::enteringNextRound, gameScene_, &GameScene::onEnteringNextRound);
+    logic_.get()->connect(logic_.get(), &Logic::enteredEventPhase, gameScene_, &GameScene::onEnteringNextRound);
 
     initPlayers();
     initPlayerHands();

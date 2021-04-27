@@ -8,14 +8,12 @@ CONFIG += c++14
 SOURCES += \
     actioncard.cpp \
     agent.cpp \
-    agentactioninterface.cpp \
     agentdialog.cpp \
     agentitem.cpp \
     aicontrol.cpp \
     cardpaymentaction.cpp \
     commonresource.cpp \
     carditem.cpp \
-    gamerunner.cpp \
     gamescene.cpp \
     gamewindow.cpp \
     gamesetup.cpp \
@@ -67,7 +65,6 @@ HEADERS += \
     cardpaymentaction.hh \
     commonresource.hh \
     carditem.hh \
-    gamerunner.hh \
     gamescene.hh \
     gamewindow.hh \
     gamesetup.hh \

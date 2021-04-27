@@ -81,7 +81,7 @@ void Logic::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlaye
 
             emit(enteredEventPhase());
             emit(readyToRewardResources());
-            emit(enteringNextRound());
+            emit(enteredEventPhase());
             actingPlayer_ = nullptr;
             game_->nextPlayer();
         } else {
@@ -133,6 +133,7 @@ void Logic::onActionPerformed(std::shared_ptr<const Interface::Player> player, s
 
 void Logic::onInterphaseTimeout()
 {
+    // TODO: check if the game is actually over ( there is a winner )
     game_->setActive(true);
 
     doTheRunning();

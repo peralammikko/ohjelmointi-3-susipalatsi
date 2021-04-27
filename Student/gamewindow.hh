@@ -16,15 +16,11 @@
 #include "controlinterface.h"
 #include "agentactioninterface.hh"
 #include "passaction.hh"
-
-
 #include "logic.hh"
 #include "resourcedealer.hh"
 #include "../Course/game.h"
 #include "../Course/runner.h"
-
 #include "commonresource.hh"
-#include "gamerunner.hh"
 #include "random.h"
 
 #include <QTimer>
@@ -166,7 +162,7 @@ private:
     Ui::GameWindow *gameui_;
     GameScene *gameScene_;
     std::shared_ptr<Interface::Game> game_ = nullptr;
-    std::shared_ptr<GameRunner> courseRunner = nullptr;
+    std::shared_ptr<Interface::Runner> courseRunner = nullptr;
 
 
     std::shared_ptr<Logic> logic_;
