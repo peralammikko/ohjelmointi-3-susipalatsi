@@ -9,12 +9,19 @@ StartingScreen::StartingScreen(QWidget *parent) :
 {
     settings = new SettingsScreen(this);
     ui->setupUi(this);
+    const QPixmap logo = QPixmap(":/img/background/logo.png");
+
     ui->nameFrame->hide();
     ui->errorLabel->hide();
+    ui->cpuFrame->hide();
     connect(settings, &SettingsScreen::sendInfo, this, &StartingScreen::getSettings);
+    this->setWindowTitle("Susipalatsi");
+    ui->logoLabel->setPixmap(logo.scaled(ui->logoLabel->width(),ui->logoLabel->height(),Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    QString styleSheet("background-image:url(:/img/background/background.png);");
+    this->setStyleSheet(styleSheet);
 
     ui->namesLayout->setAlignment(Qt::AlignTop);
-
+    ui->cpuLayout->setAlignment(Qt::AlignTop);
     qlist.push_back(ui->nameLine1);
     qlist.push_back(ui->nameLine2);
 }
@@ -41,14 +48,15 @@ void StartingScreen::on_quitButton_clicked()
 
 void StartingScreen::on_addPlayerBtn_clicked()
 {
-    if (qlist.count() < 5) {
+    if (qlist.count()+botPlayers < 5) {
         QLineEdit *lineEd = new QLineEdit;
+        lineEd->setStyleSheet("color: white");
+        // lineEd->setFont(consoleFont);
         qlist.push_back(lineEd);
         ui->namesLayout->addWidget(lineEd);
 
-        // lineEd->setObjectName("nameLine"+QString::number(qlist.count()));
     } else {
-        ui->errorLabel->setText("Maximum player capacity reached");
+        ui->errorLabel->setText("Maximum player capacity reached (5)");
         ui->errorLabel->show();
         QTimer::singleShot(4000, ui->errorLabel, &QLabel::hide);
 
@@ -58,13 +66,18 @@ void StartingScreen::on_addPlayerBtn_clicked()
 void StartingScreen::on_removePlayerBtn_clicked()
 {
     QWidget *child;
-    if (qlist.count() > 2) {
+    if (qlist.count() > 1 and botPlayers > 0) {
+        if ((child = ui->namesLayout->takeAt(qlist.count()-1)->widget()) != 0 ) {
+            delete child;
+            qlist.removeLast();
+        }
+    } else if (qlist.count() > 2 and botPlayers == 0) {
         if ((child = ui->namesLayout->takeAt(qlist.count()-1)->widget()) != 0 ) {
             delete child;
             qlist.removeLast();
         }
     } else {
-        ui->errorLabel->setText("Two players required");
+        ui->errorLabel->setText("At least two players required");
         ui->errorLabel->show();
         QTimer::singleShot(4000, ui->errorLabel, &QLabel::hide);
     }
@@ -78,7 +91,7 @@ void StartingScreen::getSettings(int agentCount, int locCount, int winCardCount)
 
 }
 
-void StartingScreen::on_pushButton_clicked()
+void StartingScreen::on_startButton_clicked()
 {
     for (auto line : qlist) {
         QString name = line->text().trimmed();
@@ -91,6 +104,55 @@ void StartingScreen::on_pushButton_clicked()
             playerNames.push_back(name);
         }
     }
-    emit sendStartingInfo(playerNames, customSettings);
+    emit sendStartingInfo(playerNames, customSettings, botPlayers);
     accept();
+}
+
+void StartingScreen::on_closeFrameButton_clicked()
+{
+    ui->nameFrame->close();
+}
+
+void StartingScreen::on_aiCheckbox_stateChanged(int arg1)
+{
+    if (arg1) {
+        ui->cpuFrame->show();
+    } else {
+        int botCount = botPlayers;
+        for (int i = 0; i < botCount; i++) {
+            on_removeCPUbtn_clicked();
+        }
+        ui->cpuFrame->hide();
+    }
+}
+
+void StartingScreen::on_addCPUbtn_clicked()
+{
+    if (botPlayers + qlist.count() < 5) {
+        botPlayers++;
+        QLineEdit *lineEd = new QLineEdit;
+        lineEd->setStyleSheet("color: white");
+        lineEd->setText("CPU"+QString::number(botPlayers));
+        lineEd->setReadOnly(true);
+        ui->cpuLayout->addWidget(lineEd);
+    } else {
+        ui->errorLabel->setText("Maximum player capacity reached (5)");
+        ui->errorLabel->show();
+        QTimer::singleShot(4000, ui->errorLabel, &QLabel::hide);
+    }
+}
+
+void StartingScreen::on_removeCPUbtn_clicked()
+{
+    QWidget *child;
+    if (botPlayers > 0 and qlist.count() > 1) {
+        if ((child = ui->cpuLayout->takeAt(botPlayers-1)->widget()) != 0 ) {
+            delete child;
+            botPlayers--;
+        }
+    } else {
+        ui->errorLabel->setText("At least two players required");
+        ui->errorLabel->show();
+        QTimer::singleShot(4000, ui->errorLabel, &QLabel::hide);
+    }
 }

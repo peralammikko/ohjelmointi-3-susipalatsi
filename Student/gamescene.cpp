@@ -9,14 +9,10 @@
 #include "agentdialog.hh"
 #include "game.h"
 
-#include "../Course/game.h"
+#include "player.h"
 
 
-// RUNNER TESTING
 
-
-// required for signaling??
-#include <QObject>
 
 GameScene::GameScene(QWidget *parent, std::weak_ptr<Interface::Game> game) : QGraphicsScene(parent), game_(game)
 {
@@ -24,7 +20,6 @@ GameScene::GameScene(QWidget *parent, std::weak_ptr<Interface::Game> game) : QGr
     addItem(arrow1_);
     arrow2_ = new SceneArrow(nullptr, nullptr);
     addItem(arrow2_);
-
 }
 
 GameScene::~GameScene()
@@ -34,13 +29,6 @@ GameScene::~GameScene()
 
 }
 
-void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-    qDebug() << "mouse pos on click:" <<event->scenePos();
-    update();
-    QGraphicsScene::mousePressEvent(event);
-}
-
 void GameScene::drawLocations(std::vector<std::pair<std::shared_ptr<Interface::Location>, std::vector<std::pair<QString, QString>>>> locationInformation)
 {
     std::shared_ptr<Interface::Location> currentLocation = nullptr;
@@ -48,13 +36,13 @@ void GameScene::drawLocations(std::vector<std::pair<std::shared_ptr<Interface::L
 
     for (int i = 0; i < locationCount; i++) {
         currentLocation = locationInformation.at(i).first;
-        LocationItem* locItem = new LocationItem(currentLocation, locationInformation.at(i).second);
+        std::shared_ptr<Interface::CommonResource> localRes = resMap_.at(currentLocation);
+        std::shared_ptr<Interface::CommonResource> demandRes = demandsMap_.at(currentLocation);
+
+        LocationItem* locItem = new LocationItem(currentLocation, locationInformation.at(i).second, localRes, demandRes);
         connect(locItem, &LocationItem::locationItemPressed, this, &GameScene::onLocationItemClicked);
-        Interface::CommonResource localRes = resMap_.at(currentLocation);
-        locItem->setLocalResource(localRes);
-        Interface::CommonResource demandRes = demandsMap_.at(currentLocation);
-        locItem->setDemandedResource(demandRes);
-        drawItem(locItem);
+
+        addItem(locItem);
         locItem->setParent(this);
         locationItems_.push_back(locItem);
     }
@@ -63,14 +51,9 @@ void GameScene::drawLocations(std::vector<std::pair<std::shared_ptr<Interface::L
     resetLocationNeighbours();
 }
 
-void GameScene::drawItem(mapItem *item)
-{
-    addItem(item);
-}
-
 void GameScene::initPlayerHandFor(std::shared_ptr<Interface::Player> player)
 {
-    playerHands_.insert(std::make_pair(player, new PlayerHand(this, player)));
+    playerHands_.insert(std::make_pair(player, new PlayerHand(player)));
 }
 
 void GameScene::resourceInfo(ResourceMap &rmap, ResourceMap &dmap)
@@ -109,7 +92,7 @@ void GameScene::prepareForAction(std::shared_ptr<Interface::ActionInterface> act
 
 void GameScene::resetAction()
 {
-    if (declaringMapItem_ != nullptr and declaringMapItem_->parentItem() != nullptr){
+    if (declaringMapItem_ and declaringMapItem_->parentItem()){
         auto parentMapItem = dynamic_cast<mapItem*>(declaringMapItem_->parentItem());
         if (parentMapItem){
             parentMapItem->rearrange();
@@ -147,6 +130,38 @@ std::vector<LocationItem *> GameScene::GetLocItems()
 ResourceMap GameScene::getResMap()
 {
     return resMap_;
+}
+
+std::vector<agentItem*> GameScene::getAgentItemsForPlayer(std::shared_ptr<Interface::Player> player)
+{
+    std::vector<agentItem*> items;
+    auto locitems = GetLocItems();
+
+    std::map<std::shared_ptr<Interface::Location>, std::vector<std::shared_ptr<Interface::Agent>>> agentmap;
+    for (auto locItm : locitems) {
+        auto pair = std::make_pair(locItm->getObject(), std::vector<std::shared_ptr<Interface::Agent>>());
+        agentmap.insert(pair);
+    }
+
+    auto cards = player->cards();
+    for (auto card : cards){
+        std::shared_ptr<Interface::Agent> agentPtr = std::dynamic_pointer_cast<Interface::Agent>(card);
+        if (agentPtr){
+            auto loc = agentPtr->location().lock();
+            if (loc != nullptr){
+                agentmap.at(loc).push_back(agentPtr);
+            }
+        }
+    }
+
+    for (auto locItm : locitems) {
+        auto locObj = locItm->getObject();
+        auto agentvec = agentmap.at(locObj);
+        for (auto agent : agentvec){
+            items.push_back(locItm->getAgentItemFor(agent));
+        }
+    }
+    return items;
 }
 
 void GameScene::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer)
@@ -197,21 +212,13 @@ void GameScene::onPlayerChanged(std::shared_ptr<const Interface::Player> actingP
 
     } else {
         // The current player most likely got a new card in their hand, so rearrange the hand.
-        qDebug() << "Player changed, turn was not changed";
        playerHands_.at(actingPlayer)->rearrange();
     }
 }
 
-void GameScene::nextRound()
-{
-    shuffleLocationItems();
-    rearrangeLocationItems();
-    resetLocationNeighbours();
-}
-
 void GameScene::initHands(std::shared_ptr<const Interface::Player> player)
 {
-    PlayerHand* hand = new PlayerHand(this, player);
+    PlayerHand* hand = new PlayerHand(player);
     this->addItem(hand);
     playerHands_.insert(std::pair<std::shared_ptr<const Interface::Player>,PlayerHand*>(player, hand));
     hand->setPos(600, 400);
@@ -234,9 +241,6 @@ void GameScene::turnInfo(std::shared_ptr<Interface::Player> &currentplayer)
 
 void GameScene::onMapItemMouseDragged(mapItem* mapitem)
 {
-    // TODO: Discuss with game logic and highlight/scale up items that are valid targets
-    // ie. when agent is hovered on a building, it scales the closest building up a little, but not carditems or other agentitems.
-    // Get every item under cardboundaries
     QList<QGraphicsItem*> items = mapitem->collidingItems();
 
     int count =0;
@@ -274,7 +278,6 @@ void GameScene::onLocationItemClicked(LocationItem* locItem)
 void GameScene::shuffleLocationItems()
 {
     // for now we just shuffle EVERYTHING
-    std::pair<LocationItem*, LocationItem*> neighbours;
     unsigned int locCount = locationItems_.size();
     for (unsigned int i = 1; i < locCount; ++i)
     {
@@ -288,7 +291,6 @@ void GameScene::shuffleLocationItems()
 
 void GameScene::rearrangeLocationItems()
 {
-
     solarsystemCenter_ = QPointF(this->width()/2, this->height()*2/6);
     const int radius = 320;
     int locationCount = locationItems_.size();
@@ -305,7 +307,7 @@ void GameScene::rearrangeLocationItems()
         // Squash the y a little bit
         float y = solarsystemCenter_.y()  - 0.7* radius * std::sin(angleRad);
         currentLocItem->setHome(QPointF(x,y));
-        currentLocItem->goHome();
+        currentLocItem->goHome(1000);
     }
 }
 
@@ -339,7 +341,6 @@ void GameScene::onActionDeclared(std::shared_ptr<Interface::ActionInterface> act
     if (game_.lock() and game_.lock()->active())
     {
         if (resetting){
-            qDebug() << "Resetting action";
             resetAction();
             return;
         }
@@ -374,5 +375,12 @@ void GameScene::onActionDeclared(std::shared_ptr<Interface::ActionInterface> act
         qDebug() << "Action was declared on scene but there is no game";
         return;
     }
+}
+
+void GameScene::onEnteringNextRound()
+{
+    shuffleLocationItems();
+    rearrangeLocationItems();
+    resetLocationNeighbours();
 }
 

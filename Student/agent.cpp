@@ -26,7 +26,7 @@ AgentResourceMap Agent::getAgentResources()
     return gatheredResources_;
 }
 
-void Agent::addResource(std::shared_ptr<Interface::Location> agentAt, CommonResource res, int amount)
+void Agent::addResource(std::shared_ptr<Interface::Location> agentAt, std::shared_ptr<CommonResource> res, int amount)
 {
     AgentResourceMap::iterator iter = gatheredResources_.find(agentAt);
     for (int i = 0; i < amount; i++) {
@@ -36,9 +36,12 @@ void Agent::addResource(std::shared_ptr<Interface::Location> agentAt, CommonReso
 
 void Agent::removeResource(std::shared_ptr<Location> &agentAt,  int amount)
 {
+    int resourcesAt = gatheredResources_.at(agentAt).size();
+    if (resourcesAt >= amount) {
         for (int i = 0; i < amount; i++) {
             gatheredResources_.at(agentAt).pop_back();
         }
+    }
 }
 
 bool Agent::addCouncilCard(std::shared_ptr<Councilor> card)
@@ -129,7 +132,7 @@ std::weak_ptr<Player> Agent::owner() const
 
 void Agent::setOwner(std::weak_ptr<Player> owner)
 {
-
+    owner_ = owner;
 }
 
 

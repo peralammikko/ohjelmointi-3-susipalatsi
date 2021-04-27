@@ -3,6 +3,10 @@
 
 #include <QDialog>
 
+/**
+ * @file
+ * @brief For user's custom settings
+ */
 namespace Ui {
 class SettingsScreen;
 }
@@ -17,11 +21,23 @@ public:
 
 
 signals:
+    /**
+     * @brief Sends information about game's settings
+     * @param agentCount: Number of starting agents for each player
+     * @param locCount: Number of locations in game
+     * @param winCount: Number of councilor cards needed for winning the game
+     */
     void sendInfo(int agentCount, int locCount, int winCount);
 
 private slots:
+    /**
+     * @brief Closes the settings window without saving and sending the settings info
+     */
     void on_returnButton_clicked();
 
+    /**
+     * @brief Closes the settings window and sends settings information back to starting screen.
+     */
     void on_saveButton_clicked();
 
 private:

@@ -1,22 +1,22 @@
-#include <QDebug>
-
 #include "locationitem.hh"
 #include "gamescene.hh"
 
-LocationItem::LocationItem(const std::shared_ptr<Interface::Location> location, std::vector<std::pair<QString, QString> > spritePaths) : locationObject_(location), basevalue_(1), isSelected(false), isHovered_(false)
+LocationItem::LocationItem(const std::shared_ptr<Interface::Location> location, std::vector<std::pair<QString, QString> > spritePaths, std::shared_ptr<Interface::CommonResource> localRes, std::shared_ptr<Interface::CommonResource> demandRes) :
+    locationObject_(location),
+    basevalue_(1),  
+    isSelected(false),
+    isHovered_(false),
+    localRes_(localRes),
+    demandRes_(demandRes)
+
 {
-    // Default sprites
-    planetImage_ = new QPixmap(":/img/planets/img/some sprites/planet iridium.png");
-    governorImage_ = new QPixmap(":/img/governors/img/governors/2.png");
     setAcceptHoverEvents(true);
-    for (int i = 0; i < spritePaths.size(); ++i){
+    for (unsigned int i = 0; i < spritePaths.size(); ++i){
         QString spritePath = spritePaths.at(i).second;
         if (spritePaths.at(i).first == "planet"){
-            delete planetImage_;
             planetImage_ = new QPixmap(spritePath);
         }
         if (spritePaths.at(i).first == "governorLbl") {
-            delete governorImage_;
             governorImage_ = new QPixmap(spritePath);
         }
     }
@@ -40,14 +40,16 @@ void LocationItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     QRectF govrect = QRectF(30, 30, 30, 30);
     painter->setBrush(QColor(145, 145, 145, 125));
     painter->drawEllipse(govrect);
-    painter->drawPixmap(govrect.x()+5, govrect.y()+5, govrect.width()-10, govrect.height()-10, localRes_.getSpritePath());
+    painter->drawPixmap(govrect.x()+5, govrect.y()+5, govrect.width()-10, govrect.height()-10, localRes_->getSpritePath());
 
-    QPoint upperpos(boundingRect().x()+20, 20);
-    QPoint lowerpos(0, boundingRect().height()-20);
+    
+    int xPos = boundingRect().x();
+    int yPos = boundingRect().y();
+    int yPadding = 70;
     QString placeName = this->getObject()->name();
-    QPen pen;
-    painter->drawText(upperpos, placeName);
-    // painter->drawText(lowerpos, "Base value: " + QString::number(this->getBasevalue()));
+    QRect nameRect(xPos, yPos-yPadding, boundingRect().width(),boundingRect().height());
+
+    painter->drawText(nameRect, Qt::AlignCenter, placeName);
 
 }
 
@@ -71,10 +73,6 @@ void LocationItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 void LocationItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     isHovered_ = true;
-    if (childItems().size())
-    {
-      //  setRotation(rotation()+45);
-    }
     update();
     QGraphicsItem::hoverEnterEvent(event);
 }
@@ -89,8 +87,6 @@ void LocationItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 
 std::vector<int> LocationItem::calculateRewards(std::shared_ptr<Interface::Player> &player)
 {
-    // WORK IN PROGRESS
-
     std::vector<int> numbers(3);
     int sum = basevalue_;
     int ownAgents = 0;
@@ -99,9 +95,7 @@ std::vector<int> LocationItem::calculateRewards(std::shared_ptr<Interface::Playe
     for (auto agent : locPtr->agents()) {
         std::shared_ptr<Interface::Player> agentOwner = agent->owner().lock();
         std::shared_ptr<Interface::Location>agentPlacement = agent->placement().lock();
-        if (!agentPlacement) {
-            qDebug() << "owner not found";
-        } else {
+        if (agentPlacement) {
             if (agentOwner == player) {
                 ownAgents += 1;
             } else {
@@ -120,16 +114,15 @@ std::vector<int> LocationItem::calculateRewards(std::shared_ptr<Interface::Playe
 
 }
 
-void LocationItem::setDemandedResource(Interface::CommonResource &res)
+void LocationItem::setDemandedResource(std::shared_ptr<Interface::CommonResource> &res)
 {
     demandRes_ = res;
 }
 
-Interface::CommonResource LocationItem::getDemandedResource()
+std::shared_ptr<Interface::CommonResource> LocationItem::getDemandedResource()
 {
     return demandRes_;
 }
-
 
 void LocationItem::generateNewDemand()
 {
@@ -144,7 +137,7 @@ void LocationItem::generateNewDemand()
             if (it->first != locationObject_) {
                 demandRes_ = it->second;
                 int amount = 2+ Interface::Random::RANDOM.uint(3);
-                demandRes_.setAmountTo(amount);
+                demandRes_->setAmountTo(amount);
                 break;
             }
         }
@@ -160,8 +153,6 @@ void LocationItem::rearrange()
     QList<QGraphicsItem *> const items = childItems();
     int count = items.size();
     if (count) {
-
-        // TODO: Separate agents between players
         for (int i = 0; i < count; ++i) {
             auto mItem = dynamic_cast<mapItem*>(items.at(i));
             if (mItem){
@@ -205,15 +196,16 @@ agentItem *LocationItem::getAgentItemFor(std::shared_ptr<Interface::AgentInterfa
             }
         }
     }
+    return nullptr;
 }
 
 
-void LocationItem::setLocalResource(Interface::CommonResource &res)
+void LocationItem::setLocalResource(std::shared_ptr<Interface::CommonResource> &res)
 {
     localRes_ = res;
 }
 
-Interface::CommonResource LocationItem::getLocalResource()
+std::shared_ptr<Interface::CommonResource> LocationItem::getLocalResource()
 {
     return localRes_;
 }

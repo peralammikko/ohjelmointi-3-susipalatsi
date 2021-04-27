@@ -4,6 +4,9 @@
         <file>img/some sprites/spacecowboy.png</file>
         <file>img/some sprites/spacecowboyBIG.png</file>
         <file>img/hand.png</file>
+        <file>img/some sprites/spacegoon.png</file>
+        <file>img/some sprites/spaceagent.png</file>
+        <file>img/some sprites/partygoon.png</file>
     </qresource>
     <qresource prefix="/img/res">
         <file>img/resources/Plasmastone.png</file>
@@ -37,5 +40,17 @@
         <file>img/some sprites/planet orange.png</file>
         <file>img/some sprites/planet pale.png</file>
         <file>img/some sprites/planet red.png</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>img/background/background.png</file>
+        <file>img/background/logo.png</file>
+    </qresource>
+    <qresource prefix="/settings">
+        <file>defaultsettings.dat</file>
+    </qresource>
+    <qresource prefix="/textfiles">
+        <file>helpText</file>
+        <file>startingText</file>
+        <file>winningText</file>
     </qresource>
 </RCC>

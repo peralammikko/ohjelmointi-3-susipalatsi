@@ -1,0 +1,6 @@
+<map id="mapItem" name="mapItem">
+<area shape="rect" id="node4" href="$classagent_item.html" title="agentItem" alt="" coords="5,155,93,181"/>
+<area shape="rect" id="node5" href="$class_card_item.html" title="CardItem" alt="" coords="119,155,201,181"/>
+<area shape="rect" id="node6" href="$class_location_item.html" title="LocationItem" alt="" coords="225,155,332,181"/>
+<area shape="rect" id="node7" href="$class_player_hand.html" title="PlayerHand" alt="" coords="357,155,453,181"/>
+</map>

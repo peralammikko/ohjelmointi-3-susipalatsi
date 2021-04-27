@@ -6,7 +6,9 @@
 
 void mapItem::goHome(int time)
 {
-    // TODO: memory leaking
+    if (homingTimer_ != nullptr){
+        delete homingTimer_;
+    }
     homingTimer_ = new QTimer(this);
     homingTimer_->setSingleShot(true);
     homing_ = true;

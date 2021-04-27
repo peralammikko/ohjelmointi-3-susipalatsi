@@ -6,6 +6,7 @@ SettingsScreen::SettingsScreen(QWidget *parent) :
     ui(new Ui::SettingsScreen)
 {
     ui->setupUi(this);
+    this->setWindowTitle("Settings");
 
     ui->agentNumBox->setRange(1,4);
     ui->agentNumBox->setValue(3);

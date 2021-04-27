@@ -1,0 +1,5 @@
+<map id="GameScene::onActionDeclared" name="GameScene::onActionDeclared">
+<area shape="rect" id="node2" href="$classmap_item.html#ac34ad651be6151f9ca9cc6310d1f6462" title="returns the type of MapItem as a string. Can be at least a location, agent or an actionCard. " alt="" coords="283,5,416,32"/>
+<area shape="rect" id="node3" href="$class_card_item.html#a25b9a7fc1a81e13fbe8555e2195d305b" title="getCard " alt="" coords="279,56,420,83"/>
+<area shape="rect" id="node4" href="$classmap_item.html#a4186737ffce9680d0ba0bc0130533f26" title="mapitem is moved to homeCoordinatesOnScene_ in time milliseconds " alt="" coords="277,107,421,133"/>
+</map>

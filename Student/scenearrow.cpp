@@ -28,15 +28,15 @@ void SceneArrow::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     p.setColor(color_);
     painter->setPen(p);
     painter->setBrush(color_);
-
     painter->drawLine(line());
-
 }
 
 QRectF SceneArrow::boundingRect() const
 {
     // Credits for this part: QT's official qtwidgets-graphicsview-diagramscene-example
-    // I would love to change this part somehow but honestly I have no idea
+    // I would love to change this part somehow so it would be really written by me, but honestly I have no idea.
+    // I suppose I just could make the bounding rect REALLY big? Does not sound very efficient and I liked this tutorial anyway
+    // Link to the tutorial:
     // https://doc.qt.io/qt-5/qtwidgets-graphicsview-diagramscene-example.html#arrow-class-definition
     qreal extra = (pen().width() + 20) / 2.0;
 

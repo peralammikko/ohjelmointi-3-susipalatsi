@@ -1,0 +1,6 @@
+<map id="mapItem::goHome" name="mapItem::goHome">
+<area shape="rect" id="node2" href="$class_game_scene.html#aff91a4c8ac929067c540765db170bd36" title="Sets the declaring mapitem in a visible place, and draw arrows from its original position to its targ..." alt="" coords="200,5,419,32"/>
+<area shape="rect" id="node3" href="$class_game_scene.html#aa9cca2fe921183eca8d44d7d57cd2c11" title="Recieved when a mapItem (Agent or a CardItem) is dragged and dropped and the item has recognized a va..." alt="" coords="198,56,421,83"/>
+<area shape="rect" id="node5" href="$classmap_item.html#a5a056109cc0e26053c33d4f639c9ce73" title="Emits mapItemMouseReleased(mapItem*) if a dragging leftmousebutton is released and isMousePressed..." alt="" coords="199,107,420,133"/>
+<area shape="rect" id="node4" href="$class_game_scene.html#a05c9687d7d9d4ca8a9b3c21eea841393" title="Adds an action card to players hand. " alt="" coords="469,49,672,90"/>
+</map>

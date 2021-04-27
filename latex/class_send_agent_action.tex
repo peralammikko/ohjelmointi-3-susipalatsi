@@ -1,0 +1,120 @@
+\hypertarget{class_send_agent_action}{\section{Send\-Agent\-Action Class Reference}
+\label{class_send_agent_action}\index{Send\-Agent\-Action@{Send\-Agent\-Action}}
+}
+Inheritance diagram for Send\-Agent\-Action\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_send_agent_action}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_send_agent_action_a4009dd9cd725c151782b82d41d91e4c5}{Send\-Agent\-Action} (\hyperlink{class_location_item}{Location\-Item} $\ast$new\-Loc\-Item, \hyperlink{classagent_item}{agent\-Item} $\ast$a\-Item)
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_send_agent_action}{Send\-Agent\-Action} Sending agent from either hand or from a location to a location. \end{DoxyCompactList}\item 
+\hypertarget{class_send_agent_action_a88397721900aefec425027d17bf616b8}{\hyperlink{class_send_agent_action_a88397721900aefec425027d17bf616b8}{$\sim$\-Send\-Agent\-Action} ()}\label{class_send_agent_action_a88397721900aefec425027d17bf616b8}
+
+\begin{DoxyCompactList}\small\item\em destructor \end{DoxyCompactList}\item 
+virtual bool \hyperlink{class_send_agent_action_a26005ee46256f7b133079bc4aecc28cc}{can\-Perform} () const override
+\begin{DoxyCompactList}\small\item\em can\-Perform Sees where the agent is and where it target location item (new\-Loc\-Item) is \end{DoxyCompactList}\item 
+virtual void \hyperlink{class_send_agent_action_a2a3a88e5385724b502d1185f5ca7c9d9}{perform} () override
+\begin{DoxyCompactList}\small\item\em perform Moves the agent to its target location item. \end{DoxyCompactList}\item 
+virtual \hyperlink{classmap_item}{map\-Item} $\ast$ \hyperlink{class_send_agent_action_a0111cf6a2957790b34c905ad1535b6e8}{get\-Target\-Map\-Item} () override
+\begin{DoxyCompactList}\small\item\em get\-Target\-Map\-Item Some of our actions have targets, which we wanted to store in actions. \end{DoxyCompactList}\item 
+virtual Q\-String \hyperlink{class_send_agent_action_a80cfcff4f904152b3aa1a3f16ecb9f24}{past\-Tense\-Description} () override
+\begin{DoxyCompactList}\small\item\em past\-Tense\-Description a brief description of what just happened \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_send_agent_action_a4009dd9cd725c151782b82d41d91e4c5}{\index{Send\-Agent\-Action@{Send\-Agent\-Action}!Send\-Agent\-Action@{Send\-Agent\-Action}}
+\index{Send\-Agent\-Action@{Send\-Agent\-Action}!SendAgentAction@{Send\-Agent\-Action}}
+\subsubsection[{Send\-Agent\-Action}]{\setlength{\rightskip}{0pt plus 5cm}Send\-Agent\-Action\-::\-Send\-Agent\-Action (
+\begin{DoxyParamCaption}
+\item[{{\bf Location\-Item} $\ast$}]{new\-Loc\-Item, }
+\item[{{\bf agent\-Item} $\ast$}]{a\-Item}
+\end{DoxyParamCaption}
+)}}\label{class_send_agent_action_a4009dd9cd725c151782b82d41d91e4c5}
+
+
+\hyperlink{class_send_agent_action}{Send\-Agent\-Action} Sending agent from either hand or from a location to a location. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\-Loc\-Item} & The targeted location item of this action \\
+\hline
+{\em a\-Item} & The agent item calling this action \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_send_agent_action_a26005ee46256f7b133079bc4aecc28cc}{\index{Send\-Agent\-Action@{Send\-Agent\-Action}!can\-Perform@{can\-Perform}}
+\index{can\-Perform@{can\-Perform}!SendAgentAction@{Send\-Agent\-Action}}
+\subsubsection[{can\-Perform}]{\setlength{\rightskip}{0pt plus 5cm}bool Send\-Agent\-Action\-::can\-Perform (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{class_send_agent_action_a26005ee46256f7b133079bc4aecc28cc}
+
+
+can\-Perform Sees where the agent is and where it target location item (new\-Loc\-Item) is 
+
+\begin{DoxyReturn}{Returns}
+true if agent in hand or in a location adjacent to the new\-Loc\-Item 
+\end{DoxyReturn}
+\hypertarget{class_send_agent_action_a0111cf6a2957790b34c905ad1535b6e8}{\index{Send\-Agent\-Action@{Send\-Agent\-Action}!get\-Target\-Map\-Item@{get\-Target\-Map\-Item}}
+\index{get\-Target\-Map\-Item@{get\-Target\-Map\-Item}!SendAgentAction@{Send\-Agent\-Action}}
+\subsubsection[{get\-Target\-Map\-Item}]{\setlength{\rightskip}{0pt plus 5cm}{\bf map\-Item} $\ast$ Send\-Agent\-Action\-::get\-Target\-Map\-Item (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{class_send_agent_action_a0111cf6a2957790b34c905ad1535b6e8}
+
+
+get\-Target\-Map\-Item Some of our actions have targets, which we wanted to store in actions. 
+
+\begin{DoxyReturn}{Returns}
+Returns 1 map item which the action targets, or a nullptr if it does not have one. 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{class_agent_action_interface_a0fecde84d3d50533ecc26fbc44bb746d}{Agent\-Action\-Interface}.
+
+\hypertarget{class_send_agent_action_a80cfcff4f904152b3aa1a3f16ecb9f24}{\index{Send\-Agent\-Action@{Send\-Agent\-Action}!past\-Tense\-Description@{past\-Tense\-Description}}
+\index{past\-Tense\-Description@{past\-Tense\-Description}!SendAgentAction@{Send\-Agent\-Action}}
+\subsubsection[{past\-Tense\-Description}]{\setlength{\rightskip}{0pt plus 5cm}Q\-String Send\-Agent\-Action\-::past\-Tense\-Description (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{class_send_agent_action_a80cfcff4f904152b3aa1a3f16ecb9f24}
+
+
+past\-Tense\-Description a brief description of what just happened 
+
+\begin{DoxyReturn}{Returns}
+returns a string which can be displayed on history list widget 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{class_agent_action_interface_a940bd8035e48c8682eb030be937df6e6}{Agent\-Action\-Interface}.
+
+\hypertarget{class_send_agent_action_a2a3a88e5385724b502d1185f5ca7c9d9}{\index{Send\-Agent\-Action@{Send\-Agent\-Action}!perform@{perform}}
+\index{perform@{perform}!SendAgentAction@{Send\-Agent\-Action}}
+\subsubsection[{perform}]{\setlength{\rightskip}{0pt plus 5cm}void Send\-Agent\-Action\-::perform (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{class_send_agent_action_a2a3a88e5385724b502d1185f5ca7c9d9}
+
+
+perform Moves the agent to its target location item. 
+
+\begin{DoxyPostcond}{Postcondition}
+agent is now in a new location, and its parent\-Item has been changed to the correct G\-U\-I-\/item 
+\end{DoxyPostcond}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+Student/sendagentaction.\-hh\item 
+Student/sendagentaction.\-cpp\end{DoxyCompactItemize}

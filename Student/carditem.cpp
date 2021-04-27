@@ -9,21 +9,13 @@ CardItem::CardItem(std::shared_ptr<Interface::CardInterface> card, QObject *pare
 
     card_ = card;
     setFlags(ItemIsMovable | ItemIsSelectable);
-    isPressed_ = false;
     isHovered_ = false;
     // This will be useful when we want card to be snapped back after dragging
     homeCoords_ = QPointF(x(), y());
 
     QString path = ":/img/governors/img/governors/1.png";
     centerimage_ = new QPixmap(path);
-    /*
 
-    if (not  centerimage_->load(path)) {
-       qDebug() << "Image failed to load";
-    } else {
-        centerimage_ = new QPixmap(path);
-    }
-*/
     // Required for mousehovering magics
     setAcceptHoverEvents(true);
 
@@ -49,27 +41,17 @@ void CardItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 {
     QRectF rec = boundingRect();
     QBrush brush(Qt::gray);
-    if (isPressed_) {
-        brush.setColor(Qt::green);
-    }
 
-    if (isHovered_ and not isPressed_) {
+
+    if (isHovered_) {
         brush.setColor(Qt::yellow);
     }
 
     painter->fillRect(rec, brush);
     painter->drawRect(rec);
-
     painter->drawText(5,18, card_->name());
 
-    //qDebug() << centerimage_->height() << centerimage_->width();
-
     painter->drawPixmap(0, 20, boundingRect().width(), boundingRect().height()/5 *2.5,  *centerimage_);
-}
-
-void CardItem::setHighLighted(bool state)
-{
-    isHovered_ = state;
 }
 
 const QString CardItem::typeOf()

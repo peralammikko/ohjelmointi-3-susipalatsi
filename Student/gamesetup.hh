@@ -23,35 +23,67 @@
 #include "../Course/runner.h"
 
 // reads settings
-#include "../Course/settingsreader.h"
 
 #include <cmath>
-
+#include "resourcedealer.hh"
 // Maybe do not need these?
 
-#include "../Course/player.h"
-#include "../Course/actioninterface.h"
-#include "../Course/controlinterface.h"
+#include "aicontrol.hh"
+#include "gamescene.hh"
+#include "startingscreen.hh"
+#include "../Course/settingsreader.h"
 
+/**
+ * @file
+ * @brief Sets up most of the stuff for the game
+ */
 
 class GameSetup
 {
 public:
-    GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game, std::shared_ptr<GameRunner> courseRunner, std::shared_ptr<Logic> logic,
-              std::vector<QString> playerNames, std::vector<int> customSettings);
+
+GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game, std::shared_ptr<Interface::Runner> courseRunner, std::shared_ptr<Logic> logic,
+	      std::vector<QString> playerNames, std::vector<int> customSettings,int bots,  std::shared_ptr<ResourceDealer> resDealer);
+
 private:
     void checkStartingInfo(std::vector<QString> playerNames, std::vector<int> customSettings);
 
+    /**
+     * @brief initLocations
+     */
     void initLocations();
+
+    /**
+     * @brief initLocationDecks
+     */
     void initLocationDecks();
+
+    /**
+     * @brief initResourceMaps
+     */
     void initResourceMaps();
+
+    /**
+     * @brief initDemandMaps
+     */
     void initDemandMaps();
+
+    /**
+     * @brief initLocItems
+     */
     void initLocItems();
+
+    /**
+     * @brief initLocDecks
+     */
     void initLocDecks();
+
+    /**
+     * @brief initSceneArrows
+     */
     void initSceneArrows();
 
-    // TODO: logic needed in constructor? Logic needed to return?
-    void initLogic();
+    void initResDealer();
 
     void initPlayers();
     void initPlayerHands();
@@ -66,12 +98,15 @@ private:
 
     GameScene* gameScene_;
     std::shared_ptr<Interface::Game> game_;
-    std::shared_ptr<GameRunner> courseRunner_;
+    std::shared_ptr<Interface::Runner> courseRunner_;
     std::shared_ptr<Logic> logic_;
 
     ResourceMap initResourceMap_;
     ResourceMap councillorDemandsMap_;
+    // std::map<std::shared_ptr<Interface::Location>, std::unique_ptr<Interface::CommonResource>> councillorDemandsMap_;
     AgentResourceMap initAgentBackpack_;
+
+    std::shared_ptr<ResourceDealer> resDealer_;
 
     std::vector<QString> playerNames_ = {};
 
@@ -79,8 +114,8 @@ private:
     unsigned int AGENTCOUNT;
     unsigned int LOCATIONS;
     unsigned int WINCONDITION;
+    unsigned int BOTCOUNT;
 
-    bool useCustomSettings = false;
 };
 
 #endif // GAMESETUP_HH

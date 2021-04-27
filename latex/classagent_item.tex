@@ -1,0 +1,154 @@
+\hypertarget{classagent_item}{\section{agent\-Item Class Reference}
+\label{classagent_item}\index{agent\-Item@{agent\-Item}}
+}
+Inheritance diagram for agent\-Item\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classagent_item}
+\end{center}
+\end{figure}
+\subsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classagent_item_a653a5f546c032b56e20c815b5ed7ec6b}{action\-Sent} (std\-::shared\-\_\-ptr$<$ Interface\-::\-Action\-Interface $>$ action)
+\begin{DoxyCompactList}\small\item\em action\-Sent \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classagent_item_a6d87887e2240103221eab8a6917bb0bd}{{\bfseries agent\-Item} (std\-::shared\-\_\-ptr$<$ \hyperlink{class_interface_1_1_agent}{Interface\-::\-Agent} $>$ \&agentinterface)}\label{classagent_item_a6d87887e2240103221eab8a6917bb0bd}
+
+\item 
+std\-::shared\-\_\-ptr$<$ \hyperlink{class_interface_1_1_agent}{Interface\-::\-Agent} $>$ \hyperlink{classagent_item_af468ed5f7e555583153d2e92742a7ea9}{get\-Agent\-Class} ()
+\begin{DoxyCompactList}\small\item\em Get the object the Agent\-Item is connected to for methods. \end{DoxyCompactList}\item 
+\hypertarget{classagent_item_afe2bae8bc4a79e3460dfa4c0435b1cb4}{Q\-Rect\-F \hyperlink{classagent_item_afe2bae8bc4a79e3460dfa4c0435b1cb4}{bounding\-Rect} () const override}\label{classagent_item_afe2bae8bc4a79e3460dfa4c0435b1cb4}
+
+\begin{DoxyCompactList}\small\item\em Map\-Item class overrides. \end{DoxyCompactList}\item 
+\hypertarget{classagent_item_ad9f32b1e5fbf18a30a744c3e861b05f7}{void {\bfseries paint} (Q\-Painter $\ast$painter, const Q\-Style\-Option\-Graphics\-Item $\ast$option, Q\-Widget $\ast$widget=nullptr) override}\label{classagent_item_ad9f32b1e5fbf18a30a744c3e861b05f7}
+
+\item 
+const Q\-String \hyperlink{classagent_item_abd6f80f1240de5abd8e54838d55c3794}{type\-Of} () override
+\begin{DoxyCompactList}\small\item\em Returns the name of the type of this object. \end{DoxyCompactList}\item 
+\hypertarget{classagent_item_a0b703d94f5e5d039a3563907d75054ed}{void \hyperlink{classagent_item_a0b703d94f5e5d039a3563907d75054ed}{rearrange} () override}\label{classagent_item_a0b703d94f5e5d039a3563907d75054ed}
+
+\begin{DoxyCompactList}\small\item\em rearrange \end{DoxyCompactList}\item 
+void \hyperlink{classagent_item_a42f6ff3f74e0ec4770cd60d288884066}{display\-Resource\-Change} (int amount, Q\-String path)
+\begin{DoxyCompactList}\small\item\em Displays the resources an Agent\-Item on scene may have received during reward distribution (Event phase). \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classagent_item_acfee6b34092e37adfe54a52e58abe70e}{bool {\bfseries is\-Selected} = false}\label{classagent_item_acfee6b34092e37adfe54a52e58abe70e}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classagent_item_a7ddc98130f06d02a306b4ab38410b4e7}{virtual void {\bfseries hover\-Enter\-Event} (Q\-Graphics\-Scene\-Hover\-Event $\ast$event) override}\label{classagent_item_a7ddc98130f06d02a306b4ab38410b4e7}
+
+\item 
+\hypertarget{classagent_item_a393eecdd9dc63d93961bbfbdfc809638}{virtual void {\bfseries hover\-Leave\-Event} (Q\-Graphics\-Scene\-Hover\-Event $\ast$event) override}\label{classagent_item_a393eecdd9dc63d93961bbfbdfc809638}
+
+\item 
+virtual std\-::shared\-\_\-ptr\\*
+$<$ Interface\-::\-Action\-Interface $>$ \hyperlink{classagent_item_ab2a2ca88a377fcc6b2f479487b7d80a7}{get\-Drag\-Release\-Action} () override
+\begin{DoxyCompactList}\small\item\em get\-Drag\-Release\-Action \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classagent_item_a653a5f546c032b56e20c815b5ed7ec6b}{\index{agent\-Item@{agent\-Item}!action\-Sent@{action\-Sent}}
+\index{action\-Sent@{action\-Sent}!agentItem@{agent\-Item}}
+\subsubsection[{action\-Sent}]{\setlength{\rightskip}{0pt plus 5cm}void agent\-Item\-::action\-Sent (
+\begin{DoxyParamCaption}
+\item[{std\-::shared\-\_\-ptr$<$ Interface\-::\-Action\-Interface $>$}]{action}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{classagent_item_a653a5f546c032b56e20c815b5ed7ec6b}
+
+
+action\-Sent 
+
+
+\begin{DoxyParams}{Parameters}
+{\em action} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{classagent_item_a42f6ff3f74e0ec4770cd60d288884066}{\index{agent\-Item@{agent\-Item}!display\-Resource\-Change@{display\-Resource\-Change}}
+\index{display\-Resource\-Change@{display\-Resource\-Change}!agentItem@{agent\-Item}}
+\subsubsection[{display\-Resource\-Change}]{\setlength{\rightskip}{0pt plus 5cm}void agent\-Item\-::display\-Resource\-Change (
+\begin{DoxyParamCaption}
+\item[{int}]{amount, }
+\item[{Q\-String}]{path}
+\end{DoxyParamCaption}
+)}}\label{classagent_item_a42f6ff3f74e0ec4770cd60d288884066}
+
+
+Displays the resources an Agent\-Item on scene may have received during reward distribution (Event phase). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em amount,\-:} & How much resource an agent received \\
+\hline
+{\em path,\-:} & Sprite for corresponding resource \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+Agent\-Item is on a location and not in hand 
+\end{DoxyPrecond}
+\hypertarget{classagent_item_af468ed5f7e555583153d2e92742a7ea9}{\index{agent\-Item@{agent\-Item}!get\-Agent\-Class@{get\-Agent\-Class}}
+\index{get\-Agent\-Class@{get\-Agent\-Class}!agentItem@{agent\-Item}}
+\subsubsection[{get\-Agent\-Class}]{\setlength{\rightskip}{0pt plus 5cm}std\-::shared\-\_\-ptr$<$ {\bf Interface\-::\-Agent} $>$ agent\-Item\-::get\-Agent\-Class (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classagent_item_af468ed5f7e555583153d2e92742a7ea9}
+
+
+Get the object the Agent\-Item is connected to for methods. 
+
+\begin{DoxyReturn}{Returns}
+Returns the Agent object 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+Agent\-Object exists 
+\end{DoxyPrecond}
+\hypertarget{classagent_item_ab2a2ca88a377fcc6b2f479487b7d80a7}{\index{agent\-Item@{agent\-Item}!get\-Drag\-Release\-Action@{get\-Drag\-Release\-Action}}
+\index{get\-Drag\-Release\-Action@{get\-Drag\-Release\-Action}!agentItem@{agent\-Item}}
+\subsubsection[{get\-Drag\-Release\-Action}]{\setlength{\rightskip}{0pt plus 5cm}std\-::shared\-\_\-ptr$<$ Interface\-::\-Action\-Interface $>$ agent\-Item\-::get\-Drag\-Release\-Action (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{classagent_item_ab2a2ca88a377fcc6b2f479487b7d80a7}
+
+
+get\-Drag\-Release\-Action 
+
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{classmap_item_ad67b22927103d57c1dc4136eb9115771}{map\-Item}.
+
+\hypertarget{classagent_item_abd6f80f1240de5abd8e54838d55c3794}{\index{agent\-Item@{agent\-Item}!type\-Of@{type\-Of}}
+\index{type\-Of@{type\-Of}!agentItem@{agent\-Item}}
+\subsubsection[{type\-Of}]{\setlength{\rightskip}{0pt plus 5cm}const Q\-String agent\-Item\-::type\-Of (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{classagent_item_abd6f80f1240de5abd8e54838d55c3794}
+
+
+Returns the name of the type of this object. 
+
+\begin{DoxyReturn}{Returns}
+Return a string of this objects type 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classmap_item_ac34ad651be6151f9ca9cc6310d1f6462}{map\-Item}.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+Student/agentitem.\-hh\item 
+Student/agentitem.\-cpp\end{DoxyCompactItemize}

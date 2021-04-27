@@ -8,13 +8,12 @@ CONFIG += c++14
 SOURCES += \
     actioncard.cpp \
     agent.cpp \
-    agentactioninterface.cpp \
     agentdialog.cpp \
     agentitem.cpp \
+    aicontrol.cpp \
     cardpaymentaction.cpp \
     commonresource.cpp \
     carditem.cpp \
-    gamerunner.cpp \
     gamescene.cpp \
     gamewindow.cpp \
     gamesetup.cpp \
@@ -25,6 +24,7 @@ SOURCES += \
     passaction.cpp \
     playerhand.cpp \
     popupdialog.cpp \
+    resourcedealer.cpp \
     scenearrow.cpp \
     sendagentaction.cpp \
     settingsscreen.cpp \
@@ -61,10 +61,10 @@ HEADERS += \
     agentactioninterface.hh \
     agentdialog.hh \
     agentitem.hh \
+    aicontrol.hh \
     cardpaymentaction.hh \
     commonresource.hh \
     carditem.hh \
-    gamerunner.hh \
     gamescene.hh \
     gamewindow.hh \
     gamesetup.hh \
@@ -74,6 +74,7 @@ HEADERS += \
     passaction.hh \
     playerhand.hh \
     popupdialog.hh \
+    resourcedealer.hh \
     scenearrow.hh \
     sendagentaction.hh \
     settingsscreen.hh \
@@ -91,5 +92,5 @@ RESOURCES += \
     studentresources.qrc
 
 DISTFILES += \
-    defaultsettings.dat \
-    moon.png
+    helpText \
+    startingText

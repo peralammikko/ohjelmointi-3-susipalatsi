@@ -4,13 +4,19 @@
 
 
 
-
+/**
+ * @file
+ * @brief Visual representation of an action card
+ */
 
 namespace Interface {
 
 class ActionCard : public Interface::CardInterface
 {
 public:
+    /**
+     * @brief ActionCard is a type of a card which is used for paying agent actions
+     */
     explicit ActionCard();
     ~ActionCard();
 
