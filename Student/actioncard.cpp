@@ -1,11 +1,17 @@
 #include "actioncard.hh"
+#include "location.h"
 
 namespace Interface {
 
-ActionCard::ActionCard() :
-    name_("Action Card"), title_("title"), description_("Olen kortti. Minut pelatessasi tapahtuu jotain (description)")
+ActionCard::ActionCard(std::weak_ptr<Location> location) :
+    name_("Action Card"), title_("title"), description_(""), location_(location)
 {
-
+    if (location.lock()){
+        auto locatio = location.lock();
+        description_ = "Drawn in " + location.lock()->name();
+    } else {
+        description_ = "Regular action card";
+    }
 }
 
 ActionCard::~ActionCard(){}

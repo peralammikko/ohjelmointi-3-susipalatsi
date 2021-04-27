@@ -17,7 +17,7 @@ public:
     /**
      * @brief ActionCard is a type of a card which is used for paying agent actions
      */
-    explicit ActionCard();
+    explicit ActionCard(std::weak_ptr<Location> location);
     ~ActionCard();
 
     QString typeName() const override;
@@ -26,6 +26,7 @@ public:
     std::weak_ptr<Location> location() const override;
     std::weak_ptr<Player> owner() const override;
     void setOwner(std::weak_ptr<Player> owner) override;
+    QString description(){return  description_;}
 
 private:
     QString name_;

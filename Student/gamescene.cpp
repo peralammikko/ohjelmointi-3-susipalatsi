@@ -226,8 +226,16 @@ void GameScene::initHands(std::shared_ptr<const Interface::Player> player)
 
 void GameScene::addActionCardForPlayer(std::shared_ptr<const Interface::Player> player, std::shared_ptr<Interface::ActionCard> card)
 {
+    QString spritePath = "";
     if (card->owner().lock() == player){
-        CardItem* cardItem = new CardItem(card, this);
+        if (card->location().lock()){
+            for (auto locitem : locationItems_){
+                if (locitem->getObject()->id() == card->location().lock()->id()){
+                    spritePath = locitem->planetSpritePath();
+                }
+            }
+        }
+        CardItem* cardItem = new CardItem(card, this, spritePath);
         connect(cardItem, &CardItem::actionDeclared, this, &GameScene::onActionDeclared);
         addItem(cardItem);
         playerHands_.at(player)->addMapItem(cardItem);

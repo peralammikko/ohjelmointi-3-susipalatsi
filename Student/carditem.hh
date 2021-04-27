@@ -2,8 +2,8 @@
 #define CARDITEM_HH
 
 #include "mapitem.hh"
-#include "../Course/cardinterface.h"
 #include "cardpaymentaction.hh"
+#include "actioncard.hh"
 
 
 /**
@@ -22,7 +22,7 @@ public:
      * @param card the card interface with all of the relevant information about the card
      * @param parent QObject parent
      */
-    CardItem(std::shared_ptr<Interface::CardInterface> card, QObject *parent);
+    CardItem(std::shared_ptr<Interface::ActionCard> card, QObject *parent, QString spritePath);
 
     /**
      * @brief ~CardItem deconstructor
@@ -61,7 +61,7 @@ private:
     /**
      * @brief card_ Interface from which this item takes all its data (name, owner etc.)
      */
-    std::shared_ptr<Interface::CardInterface> card_;
+    std::shared_ptr<Interface::ActionCard> card_;
 
     /**
      * @brief getDragReleaseAction gives cardpayment action only if it is dropped on an agent which is waiting for an action

@@ -191,7 +191,7 @@ void GameSetup::initLocDecks()
 
             for  (int j = 0; j < 10; j++) {
                 location->deck()->addCard(std::make_shared<Interface::CommonResource>(resource->name(), location, resource->getSpritePath(), 1));
-                location->deck()->addCard(std::make_shared<Interface::ActionCard>());
+                location->deck()->addCard(std::make_shared<Interface::ActionCard>(location));
             }
             location->deck()->shuffle();
         }
@@ -249,7 +249,7 @@ void GameSetup::addPlayerSetupCards()
         std::shared_ptr<Interface::Player> player = game_->players().at(i);
 
         for (int j=0; j < cards; ++j) {
-            std::shared_ptr<Interface::ActionCard> card = std::make_shared<Interface::ActionCard>();
+            std::shared_ptr<Interface::ActionCard> card = std::make_shared<Interface::ActionCard>(std::shared_ptr<Interface::Location>());
             player->addCard(card);
             gameScene_->addActionCardForPlayer(player, card);
         }

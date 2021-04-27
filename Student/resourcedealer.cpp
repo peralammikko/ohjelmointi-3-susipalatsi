@@ -24,7 +24,7 @@ void ResourceDealer::rewardResources()
         std::set<std::shared_ptr<Interface::Location>> locationsBeen = {};
 
         // Always give players one action card so they don't get stuck!
-        std::shared_ptr<Interface::ActionCard> card = std::make_shared<Interface::ActionCard>();
+        std::shared_ptr<Interface::ActionCard> card = std::make_shared<Interface::ActionCard>(std::shared_ptr<Interface::Location>());
         player->addCard(card);
         gameScene_->addActionCardForPlayer(player, card);
 

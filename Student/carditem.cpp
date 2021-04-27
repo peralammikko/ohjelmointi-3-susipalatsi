@@ -3,7 +3,7 @@
 
 #include "gamescene.hh"
 
-CardItem::CardItem(std::shared_ptr<Interface::CardInterface> card, QObject *parent)
+CardItem::CardItem(std::shared_ptr<Interface::ActionCard> card, QObject *parent, QString spritePath ="")
 {
     Q_UNUSED(parent);
 
@@ -13,8 +13,11 @@ CardItem::CardItem(std::shared_ptr<Interface::CardInterface> card, QObject *pare
     // This will be useful when we want card to be snapped back after dragging
     homeCoords_ = QPointF(x(), y());
 
-    QString path = ":/img/governors/img/governors/1.png";
-    centerimage_ = new QPixmap(path);
+    if (spritePath == ""){
+        spritePath = ":/img/governors/img/governors/1.png";
+    }
+
+    centerimage_ = new QPixmap(spritePath);
 
     // Required for mousehovering magics
     setAcceptHoverEvents(true);
@@ -52,6 +55,7 @@ void CardItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     painter->drawText(5,18, card_->name());
 
     painter->drawPixmap(0, 20, boundingRect().width(), boundingRect().height()/5 *2.5,  *centerimage_);
+   // painter->drawText(5,boundingRect().height()/5 *2.5, card_->description());
 }
 
 const QString CardItem::typeOf()

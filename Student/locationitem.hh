@@ -145,6 +145,8 @@ public:
     QPixmap* governorPixmap(){return governorImage_;}
     QPixmap* resourcePixmap(){return resourceImage_;}
 
+    QString planetSpritePath(){return planetSpritePath_;}
+
 
 signals:
     void locationItemPressed(LocationItem*);
@@ -163,6 +165,7 @@ private:
 
     std::pair<LocationItem*, LocationItem*> neighbours_;
 
+    QString planetSpritePath_ = "";
     QPixmap* governorImage_;
     QPixmap* planetImage_;
     QPixmap* resourceImage_;

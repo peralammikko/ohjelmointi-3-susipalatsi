@@ -15,6 +15,7 @@ LocationItem::LocationItem(const std::shared_ptr<Interface::Location> location, 
         QString spritePath = spritePaths.at(i).second;
         if (spritePaths.at(i).first == "planet"){
             planetImage_ = new QPixmap(spritePath);
+            planetSpritePath_ = spritePath;
         }
         if (spritePaths.at(i).first == "governorLbl") {
             governorImage_ = new QPixmap(spritePath);
