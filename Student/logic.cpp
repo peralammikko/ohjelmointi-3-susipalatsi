@@ -79,7 +79,6 @@ void Logic::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlaye
             // "We have gone a full circle of players with no action cards. Proceeding to event phase"
             checkWin(game_->players());
 
-            emit(enteredEventPhase());
             emit(readyToRewardResources());
             emit(enteredEventPhase());
             actingPlayer_ = nullptr;
