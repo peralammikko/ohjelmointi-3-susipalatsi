@@ -6,7 +6,6 @@
 
 void mapItem::goHome(int time)
 {
-    // TODO: memory leaking
     if (homingTimer_ != nullptr){
         delete homingTimer_;
     }
