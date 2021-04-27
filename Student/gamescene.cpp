@@ -242,9 +242,6 @@ void GameScene::turnInfo(std::shared_ptr<Interface::Player> &currentplayer)
 
 void GameScene::onMapItemMouseDragged(mapItem* mapitem)
 {
-    // TODO: Discuss with game logic and highlight/scale up items that are valid targets
-    // ie. when agent is hovered on a building, it scales the closest building up a little, but not carditems or other agentitems.
-    // Get every item under cardboundaries
     QList<QGraphicsItem*> items = mapitem->collidingItems();
 
     int count =0;

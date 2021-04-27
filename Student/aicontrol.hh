@@ -15,7 +15,11 @@ class AiControl : public ControlInterface
 {
     typedef void (AiControl::*somefunc)();
 public:
-
+    /**
+     * @brief AiControl a fairly smart AI control interface for robot players
+     * @param gameScene
+     * @param player
+     */
     explicit AiControl(GameScene* gameScene, std::shared_ptr<Player> player);
 
     virtual ~AiControl() = default;
@@ -25,20 +29,6 @@ public:
     void setNextAction(std::shared_ptr<ActionInterface> action);
 
 private:
-    // Calculates or randomizes a move for one of its agents. By default it returns a pass action.
-    // If any of the agents can get a Councilor card in its location item, it also gathers that card.
-    void ponderActions();
-
-    // Checks if one of AI's agents is legible to get a councilor card in its current placement.
-    bool canGetCounilorCard(agentItem *aitem, LocationItem* locItem);
-
-
-    LocationItem* findHomeItemFor(agentItem* aItem);
-
-    // Pre: agent can get councilor card from location and is in that location
-    // Post: agent has councilor card of locItem
-    void getCouncilorCard(agentItem *aitem, LocationItem* locItem);
-
     std::shared_ptr<ActionInterface> action_;
     GameScene* gameScene_;
     std::shared_ptr<Player> player_;
@@ -46,6 +36,42 @@ private:
     std::vector<agentItem*> aitems_;
     std::vector<LocationItem*> locItems_;
 
+    /**
+     * @brief Goes through a list of actions and sees if any of them are possible and good game moves
+     */
+    void ponderActions();
+
+    /**
+     * @brief canGetCounilorCard sees if the agent in locItem fills requisites for gatherin councilor cad
+     * @param aitem
+     * @param locItem
+     * @return
+     */
+    bool canGetCounilorCard(agentItem *aitem, LocationItem* locItem);
+
+    /**
+     * @brief findHomeItemFor tries to find locationitem in which agent resides
+     * @param aItem
+     * @return the locationitem where agent is or nullptr
+     */
+    LocationItem* findHomeItemFor(agentItem* aItem);
+
+    /**
+     * @brief awardCouncilorCard
+     * @pre gent can get councilor card from location (has enough of the needed resources)
+     * @param aitem
+     * @param locItem
+     * @post agent has councilor card of locItem
+     */
+    void awardCouncilorCard(agentItem *aitem, LocationItem* locItem);
+
+    // Member functions ending in int are pondering functions
+
+    /**
+     * @brief seeIfCanGetCouncilorCard First in line of actions. If there are possible councilor cards to be harvested (same as in the loc pop-up), the AI takes it.
+     * @return
+     */
+    int seeIfCanGetCouncilorCard();
     /**
      * @brief considerSendingFromHand tries to send an agent from hand to a random location
      * @pre -
@@ -71,10 +97,10 @@ private:
      */
     int considerRandomMoving();
 
-
     // Stores consideration functions. When the AI needs to generate a new action, it goes this in order (from first to last)
     // which means that you can modify action "priority" by changing its index
     std::vector< int (AiControl::*)()> considerationsVector = {
+            &AiControl::seeIfCanGetCouncilorCard,
             &AiControl::considerSendingFromHand,
             &AiControl::considerWithdrawing,
             &AiControl::considerSmartMoving,
