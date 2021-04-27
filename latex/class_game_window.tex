@@ -1,0 +1,196 @@
+\hypertarget{class_game_window}{\section{Game\-Window Class Reference}
+\label{class_game_window}\index{Game\-Window@{Game\-Window}}
+}
+Inheritance diagram for Game\-Window\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_game_window}
+\end{center}
+\end{figure}
+\subsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{class_game_window_a5b28dc68943f74e53f7f289c7a38b2f8}{on\-Interphase\-Requested} (int time)
+\begin{DoxyCompactList}\small\item\em on\-Interphase\-Requested disables the gamescene and starts a timer, which on time-\/out calls on\-Interphase\-Timeout \end{DoxyCompactList}\item 
+\hypertarget{class_game_window_ad7bb7e90967445ef29f022c03f682fd2}{void {\bfseries on\-Winners\-Found} (std\-::set$<$ std\-::shared\-\_\-ptr$<$ Interface\-::\-Player $>$$>$ winners)}\label{class_game_window_ad7bb7e90967445ef29f022c03f682fd2}
+
+\end{DoxyCompactItemize}
+\subsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{class_game_window_a0a2e1537be9e7d811774e0b2fa2e524b}{action\-Declared} (std\-::shared\-\_\-ptr$<$ Interface\-::\-Action\-Interface $>$ action)
+\begin{DoxyCompactList}\small\item\em Sends information about player performing an action. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_game_window_ac3eeb92ff59cb36fd579f290013db4d5}{{\bfseries Game\-Window} (Q\-Widget $\ast$parent=nullptr)}\label{class_game_window_ac3eeb92ff59cb36fd579f290013db4d5}
+
+\item 
+const std\-::vector\\*
+$<$ std\-::shared\-\_\-ptr\\*
+$<$ Interface\-::\-Location $>$ $>$ \hyperlink{class_game_window_ad4135d0860c707bbdb886960fd987c9d}{get\-Locations} ()
+\begin{DoxyCompactList}\small\item\em Returns all locations in game in a vector. \end{DoxyCompactList}\item 
+void \hyperlink{class_game_window_ad87474fba49f18ccc7c58c6a9b2bf718}{set\-Size} (int width, int height)
+\begin{DoxyCompactList}\small\item\em set\-Size\-: \end{DoxyCompactList}\item 
+void \hyperlink{class_game_window_a1dae2240eb2db87efd565f5bc76f8697}{draw\-Item} (\hyperlink{classmap_item}{map\-Item} $\ast$item)
+\begin{DoxyCompactList}\small\item\em draw\-Item \end{DoxyCompactList}\item 
+\hypertarget{class_game_window_ad651fee2b907d4c61d806f8fbe0bdd13}{void \hyperlink{class_game_window_ad651fee2b907d4c61d806f8fbe0bdd13}{show\-Hand} ()}\label{class_game_window_ad651fee2b907d4c61d806f8fbe0bdd13}
+
+\begin{DoxyCompactList}\small\item\em show\-Hand \end{DoxyCompactList}\item 
+void \hyperlink{class_game_window_a1dabab97e9c9c2b012d44d0572fb566a}{display\-Player\-Stats} ()
+\begin{DoxyCompactList}\small\item\em Updates the player stats for the player in turn. \end{DoxyCompactList}\item 
+void \hyperlink{class_game_window_a6ebae40624b598fe99b59a15e8ab56a7}{list\-Agents} (std\-::shared\-\_\-ptr$<$ Interface\-::\-Player $>$ \&current\-Player)
+\begin{DoxyCompactList}\small\item\em Lists all the available agents for the current player. \end{DoxyCompactList}\item 
+void \hyperlink{class_game_window_a2a65088ddcbd4a3a2871c15cf4df816b}{list\-Influence} (std\-::shared\-\_\-ptr$<$ Interface\-::\-Player $>$ \&current\-Player)
+\begin{DoxyCompactList}\small\item\em Displays all the influences a player has on Locations. \end{DoxyCompactList}\item 
+\hypertarget{class_game_window_a16fcc70acdc4b5efc393d33fdae6605d}{void \hyperlink{class_game_window_a16fcc70acdc4b5efc393d33fdae6605d}{list\-Council\-Cards} ()}\label{class_game_window_a16fcc70acdc4b5efc393d33fdae6605d}
+
+\begin{DoxyCompactList}\small\item\em Displays and lists score as council cards collected for all players. \end{DoxyCompactList}\item 
+\hypertarget{class_game_window_aa07c43fde986d572a348c974fc801965}{void \hyperlink{class_game_window_aa07c43fde986d572a348c974fc801965}{starting\-Dialog} ()}\label{class_game_window_aa07c43fde986d572a348c974fc801965}
+
+\begin{DoxyCompactList}\small\item\em Gives a brief explanation to players about the game's goal and objectives. \end{DoxyCompactList}\item 
+\hypertarget{class_game_window_a2986eb3364881078424ca5f353faeca9}{void {\bfseries gameover\-Dialog} (std\-::set$<$ std\-::shared\-\_\-ptr$<$ Interface\-::\-Player $>$ $>$ winners)}\label{class_game_window_a2986eb3364881078424ca5f353faeca9}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_game_window_a0a2e1537be9e7d811774e0b2fa2e524b}{\index{Game\-Window@{Game\-Window}!action\-Declared@{action\-Declared}}
+\index{action\-Declared@{action\-Declared}!GameWindow@{Game\-Window}}
+\subsubsection[{action\-Declared}]{\setlength{\rightskip}{0pt plus 5cm}void Game\-Window\-::action\-Declared (
+\begin{DoxyParamCaption}
+\item[{std\-::shared\-\_\-ptr$<$ Interface\-::\-Action\-Interface $>$}]{action}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [signal]}}}\label{class_game_window_a0a2e1537be9e7d811774e0b2fa2e524b}
+
+
+Sends information about player performing an action. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em action,\-:} & Action performed by player (in this case Pass) \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_game_window_a1dabab97e9c9c2b012d44d0572fb566a}{\index{Game\-Window@{Game\-Window}!display\-Player\-Stats@{display\-Player\-Stats}}
+\index{display\-Player\-Stats@{display\-Player\-Stats}!GameWindow@{Game\-Window}}
+\subsubsection[{display\-Player\-Stats}]{\setlength{\rightskip}{0pt plus 5cm}void Game\-Window\-::display\-Player\-Stats (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_game_window_a1dabab97e9c9c2b012d44d0572fb566a}
+
+
+Updates the player stats for the player in turn. 
+
+\begin{DoxyPrecond}{Precondition}
+Game has players and turns are being switched 
+\end{DoxyPrecond}
+\hypertarget{class_game_window_a1dae2240eb2db87efd565f5bc76f8697}{\index{Game\-Window@{Game\-Window}!draw\-Item@{draw\-Item}}
+\index{draw\-Item@{draw\-Item}!GameWindow@{Game\-Window}}
+\subsubsection[{draw\-Item}]{\setlength{\rightskip}{0pt plus 5cm}void Game\-Window\-::draw\-Item (
+\begin{DoxyParamCaption}
+\item[{{\bf map\-Item} $\ast$}]{item}
+\end{DoxyParamCaption}
+)}}\label{class_game_window_a1dae2240eb2db87efd565f5bc76f8697}
+
+
+draw\-Item 
+
+
+\begin{DoxyParams}{Parameters}
+{\em item} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_game_window_ad4135d0860c707bbdb886960fd987c9d}{\index{Game\-Window@{Game\-Window}!get\-Locations@{get\-Locations}}
+\index{get\-Locations@{get\-Locations}!GameWindow@{Game\-Window}}
+\subsubsection[{get\-Locations}]{\setlength{\rightskip}{0pt plus 5cm}const std\-::vector$<$ std\-::shared\-\_\-ptr$<$ Interface\-::\-Location $>$ $>$ Game\-Window\-::get\-Locations (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_game_window_ad4135d0860c707bbdb886960fd987c9d}
+
+
+Returns all locations in game in a vector. 
+
+\begin{DoxyReturn}{Returns}
+Vector consisting of shared pointers of Locations 
+\end{DoxyReturn}
+\hypertarget{class_game_window_a6ebae40624b598fe99b59a15e8ab56a7}{\index{Game\-Window@{Game\-Window}!list\-Agents@{list\-Agents}}
+\index{list\-Agents@{list\-Agents}!GameWindow@{Game\-Window}}
+\subsubsection[{list\-Agents}]{\setlength{\rightskip}{0pt plus 5cm}void Game\-Window\-::list\-Agents (
+\begin{DoxyParamCaption}
+\item[{std\-::shared\-\_\-ptr$<$ Interface\-::\-Player $>$ \&}]{current\-Player}
+\end{DoxyParamCaption}
+)}}\label{class_game_window_a6ebae40624b598fe99b59a15e8ab56a7}
+
+
+Lists all the available agents for the current player. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em current\-Player,\-:} & player in turn \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+Game has players and player has agents 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+All of players (available) agents are displayed in the side panel 
+\end{DoxyPostcond}
+\hypertarget{class_game_window_a2a65088ddcbd4a3a2871c15cf4df816b}{\index{Game\-Window@{Game\-Window}!list\-Influence@{list\-Influence}}
+\index{list\-Influence@{list\-Influence}!GameWindow@{Game\-Window}}
+\subsubsection[{list\-Influence}]{\setlength{\rightskip}{0pt plus 5cm}void Game\-Window\-::list\-Influence (
+\begin{DoxyParamCaption}
+\item[{std\-::shared\-\_\-ptr$<$ Interface\-::\-Player $>$ \&}]{current\-Player}
+\end{DoxyParamCaption}
+)}}\label{class_game_window_a2a65088ddcbd4a3a2871c15cf4df816b}
+
+
+Displays all the influences a player has on Locations. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em current\-Player,\-:} & player in turn \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_game_window_a5b28dc68943f74e53f7f289c7a38b2f8}{\index{Game\-Window@{Game\-Window}!on\-Interphase\-Requested@{on\-Interphase\-Requested}}
+\index{on\-Interphase\-Requested@{on\-Interphase\-Requested}!GameWindow@{Game\-Window}}
+\subsubsection[{on\-Interphase\-Requested}]{\setlength{\rightskip}{0pt plus 5cm}void Game\-Window\-::on\-Interphase\-Requested (
+\begin{DoxyParamCaption}
+\item[{int}]{time = {\ttfamily 1300}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [slot]}}}\label{class_game_window_a5b28dc68943f74e53f7f289c7a38b2f8}
+
+
+on\-Interphase\-Requested disables the gamescene and starts a timer, which on time-\/out calls on\-Interphase\-Timeout 
+
+
+\begin{DoxyParams}{Parameters}
+{\em time} & time in mseconds \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_game_window_ad87474fba49f18ccc7c58c6a9b2bf718}{\index{Game\-Window@{Game\-Window}!set\-Size@{set\-Size}}
+\index{set\-Size@{set\-Size}!GameWindow@{Game\-Window}}
+\subsubsection[{set\-Size}]{\setlength{\rightskip}{0pt plus 5cm}void Game\-Window\-::set\-Size (
+\begin{DoxyParamCaption}
+\item[{int}]{width, }
+\item[{int}]{height}
+\end{DoxyParamCaption}
+)}}\label{class_game_window_ad87474fba49f18ccc7c58c6a9b2bf718}
+
+
+set\-Size\-: 
+
+
+\begin{DoxyParams}{Parameters}
+{\em width,\-:} & \\
+\hline
+{\em height,\-:} & \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+Student/gamewindow.\-hh\item 
+Student/gamewindow.\-cpp\end{DoxyCompactItemize}

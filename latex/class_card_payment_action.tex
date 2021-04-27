@@ -1,0 +1,70 @@
+\hypertarget{class_card_payment_action}{\section{Card\-Payment\-Action Class Reference}
+\label{class_card_payment_action}\index{Card\-Payment\-Action@{Card\-Payment\-Action}}
+}
+Inheritance diagram for Card\-Payment\-Action\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_card_payment_action}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_card_payment_action_a451ba754ccc41cdceb422a4a4b131312}{{\bfseries Card\-Payment\-Action} (\hyperlink{classagent_item}{agent\-Item} $\ast$a\-Item)}\label{class_card_payment_action_a451ba754ccc41cdceb422a4a4b131312}
+
+\item 
+\hypertarget{class_card_payment_action_ac8bc92ac610060b14e12ee4ca4dc5291}{virtual bool {\bfseries can\-Perform} () const override}\label{class_card_payment_action_ac8bc92ac610060b14e12ee4ca4dc5291}
+
+\item 
+\hypertarget{class_card_payment_action_a44b911c39d354a62c2caee88a8837a30}{virtual void {\bfseries perform} () override}\label{class_card_payment_action_a44b911c39d354a62c2caee88a8837a30}
+
+\item 
+virtual \hyperlink{classmap_item}{map\-Item} $\ast$ \hyperlink{class_card_payment_action_ac729bee3b4c5d89fd045c30da2fd4071}{get\-Target\-Map\-Item} () override
+\begin{DoxyCompactList}\small\item\em get\-Target\-Map\-Item Some of our actions have targets, which we wanted to store in actions. \end{DoxyCompactList}\item 
+virtual Q\-String \hyperlink{class_card_payment_action_a1ef5f7ef2034bc123de43107c70928ec}{past\-Tense\-Description} () override
+\begin{DoxyCompactList}\small\item\em past\-Tense\-Description a brief description of what just happened \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_card_payment_action_ac729bee3b4c5d89fd045c30da2fd4071}{\index{Card\-Payment\-Action@{Card\-Payment\-Action}!get\-Target\-Map\-Item@{get\-Target\-Map\-Item}}
+\index{get\-Target\-Map\-Item@{get\-Target\-Map\-Item}!CardPaymentAction@{Card\-Payment\-Action}}
+\subsubsection[{get\-Target\-Map\-Item}]{\setlength{\rightskip}{0pt plus 5cm}virtual {\bf map\-Item}$\ast$ Card\-Payment\-Action\-::get\-Target\-Map\-Item (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}}\label{class_card_payment_action_ac729bee3b4c5d89fd045c30da2fd4071}
+
+
+get\-Target\-Map\-Item Some of our actions have targets, which we wanted to store in actions. 
+
+\begin{DoxyReturn}{Returns}
+Returns 1 map item which the action targets, or a nullptr if it does not have one. 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{class_agent_action_interface_a0fecde84d3d50533ecc26fbc44bb746d}{Agent\-Action\-Interface}.
+
+\hypertarget{class_card_payment_action_a1ef5f7ef2034bc123de43107c70928ec}{\index{Card\-Payment\-Action@{Card\-Payment\-Action}!past\-Tense\-Description@{past\-Tense\-Description}}
+\index{past\-Tense\-Description@{past\-Tense\-Description}!CardPaymentAction@{Card\-Payment\-Action}}
+\subsubsection[{past\-Tense\-Description}]{\setlength{\rightskip}{0pt plus 5cm}Q\-String Card\-Payment\-Action\-::past\-Tense\-Description (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{class_card_payment_action_a1ef5f7ef2034bc123de43107c70928ec}
+
+
+past\-Tense\-Description a brief description of what just happened 
+
+\begin{DoxyReturn}{Returns}
+returns a string which can be displayed on history list widget 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{class_agent_action_interface_a940bd8035e48c8682eb030be937df6e6}{Agent\-Action\-Interface}.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+Student/cardpaymentaction.\-hh\item 
+Student/cardpaymentaction.\-cpp\end{DoxyCompactItemize}

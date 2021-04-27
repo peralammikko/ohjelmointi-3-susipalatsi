@@ -1,0 +1,70 @@
+\hypertarget{class_withdraw_agent_action}{\section{Withdraw\-Agent\-Action Class Reference}
+\label{class_withdraw_agent_action}\index{Withdraw\-Agent\-Action@{Withdraw\-Agent\-Action}}
+}
+Inheritance diagram for Withdraw\-Agent\-Action\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_withdraw_agent_action}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_withdraw_agent_action_af4324d8e755a3b8effeeffbb66c14be1}{{\bfseries Withdraw\-Agent\-Action} (\hyperlink{class_player_hand}{Player\-Hand} $\ast$hand, \hyperlink{classagent_item}{agent\-Item} $\ast$a\-Item)}\label{class_withdraw_agent_action_af4324d8e755a3b8effeeffbb66c14be1}
+
+\item 
+\hypertarget{class_withdraw_agent_action_ae3d4834fba93ba2d98daa6286c007dec}{virtual bool {\bfseries can\-Perform} () const override}\label{class_withdraw_agent_action_ae3d4834fba93ba2d98daa6286c007dec}
+
+\item 
+\hypertarget{class_withdraw_agent_action_a9ca28581e0422dcb7734b6f793a57abf}{virtual void {\bfseries perform} () override}\label{class_withdraw_agent_action_a9ca28581e0422dcb7734b6f793a57abf}
+
+\item 
+virtual \hyperlink{classmap_item}{map\-Item} $\ast$ \hyperlink{class_withdraw_agent_action_ae2531701ba456e81f488303f218afffe}{get\-Target\-Map\-Item} () override
+\begin{DoxyCompactList}\small\item\em get\-Target\-Map\-Item Some of our actions have targets, which we wanted to store in actions. \end{DoxyCompactList}\item 
+virtual Q\-String \hyperlink{class_withdraw_agent_action_a62491bc88210e3100d289e9b04cf2798}{past\-Tense\-Description} () override
+\begin{DoxyCompactList}\small\item\em past\-Tense\-Description a brief description of what just happened \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_withdraw_agent_action_ae2531701ba456e81f488303f218afffe}{\index{Withdraw\-Agent\-Action@{Withdraw\-Agent\-Action}!get\-Target\-Map\-Item@{get\-Target\-Map\-Item}}
+\index{get\-Target\-Map\-Item@{get\-Target\-Map\-Item}!WithdrawAgentAction@{Withdraw\-Agent\-Action}}
+\subsubsection[{get\-Target\-Map\-Item}]{\setlength{\rightskip}{0pt plus 5cm}{\bf map\-Item} $\ast$ Withdraw\-Agent\-Action\-::get\-Target\-Map\-Item (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{class_withdraw_agent_action_ae2531701ba456e81f488303f218afffe}
+
+
+get\-Target\-Map\-Item Some of our actions have targets, which we wanted to store in actions. 
+
+\begin{DoxyReturn}{Returns}
+Returns 1 map item which the action targets, or a nullptr if it does not have one. 
+\end{DoxyReturn}
+
+
+Reimplemented from \hyperlink{class_agent_action_interface_a0fecde84d3d50533ecc26fbc44bb746d}{Agent\-Action\-Interface}.
+
+\hypertarget{class_withdraw_agent_action_a62491bc88210e3100d289e9b04cf2798}{\index{Withdraw\-Agent\-Action@{Withdraw\-Agent\-Action}!past\-Tense\-Description@{past\-Tense\-Description}}
+\index{past\-Tense\-Description@{past\-Tense\-Description}!WithdrawAgentAction@{Withdraw\-Agent\-Action}}
+\subsubsection[{past\-Tense\-Description}]{\setlength{\rightskip}{0pt plus 5cm}Q\-String Withdraw\-Agent\-Action\-::past\-Tense\-Description (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}}\label{class_withdraw_agent_action_a62491bc88210e3100d289e9b04cf2798}
+
+
+past\-Tense\-Description a brief description of what just happened 
+
+\begin{DoxyReturn}{Returns}
+returns a string which can be displayed on history list widget 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{class_agent_action_interface_a940bd8035e48c8682eb030be937df6e6}{Agent\-Action\-Interface}.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+Student/withdrawagentaction.\-hh\item 
+Student/withdrawagentaction.\-cpp\end{DoxyCompactItemize}

@@ -1,0 +1,102 @@
+\hypertarget{class_scene_arrow}{\section{Scene\-Arrow Class Reference}
+\label{class_scene_arrow}\index{Scene\-Arrow@{Scene\-Arrow}}
+}
+Inheritance diagram for Scene\-Arrow\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_scene_arrow}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_scene_arrow_a0ee21a9c77e7a437d1af6e3302cefb9b}{Scene\-Arrow} (\hyperlink{classmap_item}{map\-Item} $\ast$start\-Item, \hyperlink{classmap_item}{map\-Item} $\ast$end\-Item, Q\-Graphics\-Item $\ast$parent=nullptr)
+\begin{DoxyCompactList}\small\item\em \hyperlink{class_scene_arrow}{Scene\-Arrow} When actions are selected, graphicsview spawns two arrows to point from where map item is going and where it came from. \end{DoxyCompactList}\item 
+void \hyperlink{class_scene_arrow_a90f3abb2a74dacb199b8ac1dfb2bd857}{set\-Start\-Item} (\hyperlink{classmap_item}{map\-Item} $\ast$start\-Item)
+\begin{DoxyCompactList}\small\item\em set\-Start\-Item the item which the arrow is \char`\"{}rooted to\char`\"{}. It's center serves as a control point \end{DoxyCompactList}\item 
+void \hyperlink{class_scene_arrow_a407e126958287e870fd3fcaf28038624}{set\-End\-Item} (\hyperlink{classmap_item}{map\-Item} $\ast$end\-Item)
+\begin{DoxyCompactList}\small\item\em set\-Start\-Item the other control point item \end{DoxyCompactList}\item 
+\hypertarget{class_scene_arrow_ad53bf7d32377f1a7d26a74181555a923}{void {\bfseries set\-Color} (const Q\-Color \&color)}\label{class_scene_arrow_ad53bf7d32377f1a7d26a74181555a923}
+
+\item 
+\hypertarget{class_scene_arrow_a712c5c3407b8b1a7c87f212ba1924b61}{void {\bfseries update\-Position} ()}\label{class_scene_arrow_a712c5c3407b8b1a7c87f212ba1924b61}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_scene_arrow_a74373b6adde4d3cc36280b23059200ce}{void {\bfseries paint} (Q\-Painter $\ast$painter, const Q\-Style\-Option\-Graphics\-Item $\ast$option, Q\-Widget $\ast$widget=nullptr) override}\label{class_scene_arrow_a74373b6adde4d3cc36280b23059200ce}
+
+\item 
+\hypertarget{class_scene_arrow_a1d9c050cd632e990e89aca156d8814b6}{Q\-Rect\-F {\bfseries bounding\-Rect} () const override}\label{class_scene_arrow_a1d9c050cd632e990e89aca156d8814b6}
+
+\item 
+\hypertarget{class_scene_arrow_a3bb4cd50c5460bbab6f5ccf2b3991b81}{virtual void {\bfseries advance} (int phase) override}\label{class_scene_arrow_a3bb4cd50c5460bbab6f5ccf2b3991b81}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_scene_arrow_a0ee21a9c77e7a437d1af6e3302cefb9b}{\index{Scene\-Arrow@{Scene\-Arrow}!Scene\-Arrow@{Scene\-Arrow}}
+\index{Scene\-Arrow@{Scene\-Arrow}!SceneArrow@{Scene\-Arrow}}
+\subsubsection[{Scene\-Arrow}]{\setlength{\rightskip}{0pt plus 5cm}Scene\-Arrow\-::\-Scene\-Arrow (
+\begin{DoxyParamCaption}
+\item[{{\bf map\-Item} $\ast$}]{start\-Item, }
+\item[{{\bf map\-Item} $\ast$}]{end\-Item, }
+\item[{Q\-Graphics\-Item $\ast$}]{parent = {\ttfamily nullptr}}
+\end{DoxyParamCaption}
+)}}\label{class_scene_arrow_a0ee21a9c77e7a437d1af6e3302cefb9b}
+
+
+\hyperlink{class_scene_arrow}{Scene\-Arrow} When actions are selected, graphicsview spawns two arrows to point from where map item is going and where it came from. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em start\-Item} & control point parent item for the arrow \\
+\hline
+{\em end\-Item} & control point parent item for the arrow \\
+\hline
+{\em parent} & \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_scene_arrow_a407e126958287e870fd3fcaf28038624}{\index{Scene\-Arrow@{Scene\-Arrow}!set\-End\-Item@{set\-End\-Item}}
+\index{set\-End\-Item@{set\-End\-Item}!SceneArrow@{Scene\-Arrow}}
+\subsubsection[{set\-End\-Item}]{\setlength{\rightskip}{0pt plus 5cm}void Scene\-Arrow\-::set\-End\-Item (
+\begin{DoxyParamCaption}
+\item[{{\bf map\-Item} $\ast$}]{end\-Item}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_scene_arrow_a407e126958287e870fd3fcaf28038624}
+
+
+set\-Start\-Item the other control point item 
+
+
+\begin{DoxyParams}{Parameters}
+{\em start\-Item} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_scene_arrow_a90f3abb2a74dacb199b8ac1dfb2bd857}{\index{Scene\-Arrow@{Scene\-Arrow}!set\-Start\-Item@{set\-Start\-Item}}
+\index{set\-Start\-Item@{set\-Start\-Item}!SceneArrow@{Scene\-Arrow}}
+\subsubsection[{set\-Start\-Item}]{\setlength{\rightskip}{0pt plus 5cm}void Scene\-Arrow\-::set\-Start\-Item (
+\begin{DoxyParamCaption}
+\item[{{\bf map\-Item} $\ast$}]{start\-Item}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_scene_arrow_a90f3abb2a74dacb199b8ac1dfb2bd857}
+
+
+set\-Start\-Item the item which the arrow is \char`\"{}rooted to\char`\"{}. It's center serves as a control point 
+
+
+\begin{DoxyParams}{Parameters}
+{\em start\-Item} & \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+Student/scenearrow.\-hh\item 
+Student/scenearrow.\-cpp\end{DoxyCompactItemize}

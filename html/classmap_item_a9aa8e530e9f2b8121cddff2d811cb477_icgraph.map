@@ -1,0 +1,3 @@
+<map id="mapItem::isWaitingForAction" name="mapItem::isWaitingForAction">
+<area shape="rect" id="node2" href="$classmap_item.html#a5a056109cc0e26053c33d4f639c9ce73" title="Emits mapItemMouseReleased(mapItem*) if a dragging leftmousebutton is released and isMousePressed..." alt="" coords="264,5,485,32"/>
+</map>

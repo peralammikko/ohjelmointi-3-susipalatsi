@@ -1,0 +1,259 @@
+\hypertarget{classmap_item}{\section{map\-Item Class Reference}
+\label{classmap_item}\index{map\-Item@{map\-Item}}
+}
+Inheritance diagram for map\-Item\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classmap_item}
+\end{center}
+\end{figure}
+\subsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classmap_item_acc8a3aafaf30f2647488c1d74b20580e}{virtual void {\bfseries action\-Declared} (std\-::shared\-\_\-ptr$<$ Interface\-::\-Action\-Interface $>$, \hyperlink{classmap_item}{map\-Item} $\ast$, bool resetting)}\label{classmap_item_acc8a3aafaf30f2647488c1d74b20580e}
+
+\item 
+\hypertarget{classmap_item_abb04390cb6e6bee21b34a89006ceefd2}{void {\bfseries map\-Item\-Mouse\-Released} (\hyperlink{classmap_item}{map\-Item} $\ast$)}\label{classmap_item_abb04390cb6e6bee21b34a89006ceefd2}
+
+\item 
+\hypertarget{classmap_item_a5533463a4d8c8fce25e87e510d213c7d}{void {\bfseries map\-Item\-Mouse\-Dragged} (\hyperlink{classmap_item}{map\-Item} $\ast$)}\label{classmap_item_a5533463a4d8c8fce25e87e510d213c7d}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual const Q\-String \hyperlink{classmap_item_ac34ad651be6151f9ca9cc6310d1f6462}{type\-Of} ()=0
+\begin{DoxyCompactList}\small\item\em returns the type of Map\-Item as a string. Can be at least a location, agent or an action\-Card. \end{DoxyCompactList}\item 
+virtual void \hyperlink{classmap_item_a4186737ffce9680d0ba0bc0130533f26}{go\-Home} (int time=350)
+\begin{DoxyCompactList}\small\item\em mapitem is moved to home\-Coordinates\-On\-Scene\-\_\- in time milliseconds \end{DoxyCompactList}\item 
+virtual void \hyperlink{classmap_item_ab8ed715abe71e4197937c57dbca8628c}{set\-Home} (Q\-Point\-F newhome=Q\-Point(0, 0))
+\begin{DoxyCompactList}\small\item\em sets home to somewhere else \end{DoxyCompactList}\item 
+virtual void \hyperlink{classmap_item_a1b50fc0ce2d93062c677fd8bcda29ac2}{set\-Waiting\-For\-Action} (bool state)
+\begin{DoxyCompactList}\small\item\em set\-Waiting\-For\-Action \end{DoxyCompactList}\item 
+virtual bool \hyperlink{classmap_item_a9aa8e530e9f2b8121cddff2d811cb477}{is\-Waiting\-For\-Action} ()
+\begin{DoxyCompactList}\small\item\em is\-Waiting\-For\-Action \end{DoxyCompactList}\item 
+\hypertarget{classmap_item_a7fb148237b42f68d844f9318311b20bd}{virtual void \hyperlink{classmap_item_a7fb148237b42f68d844f9318311b20bd}{rearrange} ()=0}\label{classmap_item_a7fb148237b42f68d844f9318311b20bd}
+
+\begin{DoxyCompactList}\small\item\em Re-\/arrange all child items in its own layout. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \hyperlink{classmap_item_a6525f50a331be9b573c5f41bc7ecad60}{mouse\-Press\-Event} (Q\-Graphics\-Scene\-Mouse\-Event $\ast$event) override
+\begin{DoxyCompactList}\small\item\em Mouse moving event. \end{DoxyCompactList}\item 
+virtual void \hyperlink{classmap_item_aaa14fe9b384115c559b99086d46860fc}{mouse\-Move\-Event} (Q\-Graphics\-Scene\-Mouse\-Event $\ast$event) override
+\begin{DoxyCompactList}\small\item\em Emits map\-Item\-Mouse\-Dragged(map\-Item$\ast$) if moving while is\-Mouse\-Pressed\-\_\- is true. \end{DoxyCompactList}\item 
+virtual std\-::shared\-\_\-ptr\\*
+$<$ Interface\-::\-Action\-Interface $>$ \hyperlink{classmap_item_ad67b22927103d57c1dc4136eb9115771}{get\-Drag\-Release\-Action} ()
+\begin{DoxyCompactList}\small\item\em get\-Drag\-Release\-Action \end{DoxyCompactList}\item 
+virtual void \hyperlink{classmap_item_a5a056109cc0e26053c33d4f639c9ce73}{mouse\-Release\-Event} (Q\-Graphics\-Scene\-Mouse\-Event $\ast$event) override
+\begin{DoxyCompactList}\small\item\em Emits map\-Item\-Mouse\-Released(map\-Item$\ast$) if a dragging leftmousebutton is released and is\-Mouse\-Pressed. \end{DoxyCompactList}\item 
+virtual void \hyperlink{classmap_item_abbeec47258ff3f78b2ffada56c13bb69}{advance} (int phase) override
+\begin{DoxyCompactList}\small\item\em advance \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classmap_item_afd58aabee3e9cc094f4ad89f1e4e9cbd}{Q\-Point\-F \hyperlink{classmap_item_afd58aabee3e9cc094f4ad89f1e4e9cbd}{home\-Coords\-\_\-} = Q\-Point\-F(0,0)}\label{classmap_item_afd58aabee3e9cc094f4ad89f1e4e9cbd}
+
+\begin{DoxyCompactList}\small\item\em Coordinates in which the item will home to. It is in parent item's coordinate system, like pos() is. \end{DoxyCompactList}\item 
+\hypertarget{classmap_item_a7209370d0eb168210bda07883d987384}{bool {\bfseries is\-Mouse\-Pressed\-\_\-} = 0}\label{classmap_item_a7209370d0eb168210bda07883d987384}
+
+\item 
+\hypertarget{classmap_item_a1a8f09989b17537136a605c496ad53a0}{bool {\bfseries waiting\-For\-Action\-Card\-\_\-} = false}\label{classmap_item_a1a8f09989b17537136a605c496ad53a0}
+
+\item 
+\hypertarget{classmap_item_aec95609c094589ef6799669208e7c300}{Q\-Timer $\ast$ {\bfseries homing\-Timer\-\_\-} = nullptr}\label{classmap_item_aec95609c094589ef6799669208e7c300}
+
+\item 
+\hypertarget{classmap_item_a3ec8d031a8fa34907c395f7544d7d0f9}{bool {\bfseries homing\-\_\-} = false}\label{classmap_item_a3ec8d031a8fa34907c395f7544d7d0f9}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classmap_item_abbeec47258ff3f78b2ffada56c13bb69}{\index{map\-Item@{map\-Item}!advance@{advance}}
+\index{advance@{advance}!mapItem@{map\-Item}}
+\subsubsection[{advance}]{\setlength{\rightskip}{0pt plus 5cm}void map\-Item\-::advance (
+\begin{DoxyParamCaption}
+\item[{int}]{phase}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{classmap_item_abbeec47258ff3f78b2ffada56c13bb69}
+
+
+advance 
+
+
+\begin{DoxyParams}{Parameters}
+{\em phase} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{classmap_item_ad67b22927103d57c1dc4136eb9115771}{\index{map\-Item@{map\-Item}!get\-Drag\-Release\-Action@{get\-Drag\-Release\-Action}}
+\index{get\-Drag\-Release\-Action@{get\-Drag\-Release\-Action}!mapItem@{map\-Item}}
+\subsubsection[{get\-Drag\-Release\-Action}]{\setlength{\rightskip}{0pt plus 5cm}std\-::shared\-\_\-ptr$<$ Interface\-::\-Action\-Interface $>$ map\-Item\-::get\-Drag\-Release\-Action (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{classmap_item_ad67b22927103d57c1dc4136eb9115771}
+
+
+get\-Drag\-Release\-Action 
+
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+Reimplemented in \hyperlink{classagent_item_ab2a2ca88a377fcc6b2f479487b7d80a7}{agent\-Item}.
+
+\hypertarget{classmap_item_a4186737ffce9680d0ba0bc0130533f26}{\index{map\-Item@{map\-Item}!go\-Home@{go\-Home}}
+\index{go\-Home@{go\-Home}!mapItem@{map\-Item}}
+\subsubsection[{go\-Home}]{\setlength{\rightskip}{0pt plus 5cm}void map\-Item\-::go\-Home (
+\begin{DoxyParamCaption}
+\item[{int}]{time = {\ttfamily 350}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classmap_item_a4186737ffce9680d0ba0bc0130533f26}
+
+
+mapitem is moved to home\-Coordinates\-On\-Scene\-\_\- in time milliseconds 
+
+
+\begin{DoxyParams}{Parameters}
+{\em time,\-:} & Time for agent to move \\
+\hline
+\end{DoxyParams}
+\begin{DoxyAttention}{Attention}
+\-: B\-U\-G\-: item should not be grabbable while this is in effect 
+\end{DoxyAttention}
+\hypertarget{classmap_item_a9aa8e530e9f2b8121cddff2d811cb477}{\index{map\-Item@{map\-Item}!is\-Waiting\-For\-Action@{is\-Waiting\-For\-Action}}
+\index{is\-Waiting\-For\-Action@{is\-Waiting\-For\-Action}!mapItem@{map\-Item}}
+\subsubsection[{is\-Waiting\-For\-Action}]{\setlength{\rightskip}{0pt plus 5cm}bool map\-Item\-::is\-Waiting\-For\-Action (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classmap_item_a9aa8e530e9f2b8121cddff2d811cb477}
+
+
+is\-Waiting\-For\-Action 
+
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\hypertarget{classmap_item_aaa14fe9b384115c559b99086d46860fc}{\index{map\-Item@{map\-Item}!mouse\-Move\-Event@{mouse\-Move\-Event}}
+\index{mouse\-Move\-Event@{mouse\-Move\-Event}!mapItem@{map\-Item}}
+\subsubsection[{mouse\-Move\-Event}]{\setlength{\rightskip}{0pt plus 5cm}void map\-Item\-::mouse\-Move\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Graphics\-Scene\-Mouse\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{classmap_item_aaa14fe9b384115c559b99086d46860fc}
+
+
+Emits map\-Item\-Mouse\-Dragged(map\-Item$\ast$) if moving while is\-Mouse\-Pressed\-\_\- is true. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em event,\-:} & Mouse moved on a Map\-Item \\
+\hline
+\end{DoxyParams}
+\hypertarget{classmap_item_a6525f50a331be9b573c5f41bc7ecad60}{\index{map\-Item@{map\-Item}!mouse\-Press\-Event@{mouse\-Press\-Event}}
+\index{mouse\-Press\-Event@{mouse\-Press\-Event}!mapItem@{map\-Item}}
+\subsubsection[{mouse\-Press\-Event}]{\setlength{\rightskip}{0pt plus 5cm}void map\-Item\-::mouse\-Press\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Graphics\-Scene\-Mouse\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{classmap_item_a6525f50a331be9b573c5f41bc7ecad60}
+
+
+Mouse moving event. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em event,\-:} & Mouse press on a Mapitem \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+When item is clicked on a left mouse button and the item is not already pressed sets is\-Mouse\-Pressed\-\_\- to true 
+\end{DoxyPostcond}
+\begin{DoxyAttention}{Attention}
+In order for these to run, a child must have Q\-\_\-\-U\-N\-U\-S\-E\-D(\-Q\-Widget $\ast$parent) or similar in its constructor If the item needs to be moved, it also reuires following line called somewhere set\-Flags(Item\-Is\-Movable $|$ Item\-Is\-Selectable); 
+\end{DoxyAttention}
+
+
+Reimplemented in \hyperlink{class_location_item_aeaa18d3bcdfd3afe7364e47ad59ecc55}{Location\-Item}.
+
+\hypertarget{classmap_item_a5a056109cc0e26053c33d4f639c9ce73}{\index{map\-Item@{map\-Item}!mouse\-Release\-Event@{mouse\-Release\-Event}}
+\index{mouse\-Release\-Event@{mouse\-Release\-Event}!mapItem@{map\-Item}}
+\subsubsection[{mouse\-Release\-Event}]{\setlength{\rightskip}{0pt plus 5cm}void map\-Item\-::mouse\-Release\-Event (
+\begin{DoxyParamCaption}
+\item[{Q\-Graphics\-Scene\-Mouse\-Event $\ast$}]{event}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}}\label{classmap_item_a5a056109cc0e26053c33d4f639c9ce73}
+
+
+Emits map\-Item\-Mouse\-Released(map\-Item$\ast$) if a dragging leftmousebutton is released and is\-Mouse\-Pressed. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em event,\-:} & Mouse released on a clicked mapitem \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPostcond}{Postcondition}
+If the item is dragged, triest to send action\-Declared signal 
+\end{DoxyPostcond}
+\hypertarget{classmap_item_ab8ed715abe71e4197937c57dbca8628c}{\index{map\-Item@{map\-Item}!set\-Home@{set\-Home}}
+\index{set\-Home@{set\-Home}!mapItem@{map\-Item}}
+\subsubsection[{set\-Home}]{\setlength{\rightskip}{0pt plus 5cm}void map\-Item\-::set\-Home (
+\begin{DoxyParamCaption}
+\item[{Q\-Point\-F}]{newhome = {\ttfamily QPoint(0,0)}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classmap_item_ab8ed715abe71e4197937c57dbca8628c}
+
+
+sets home to somewhere else 
+
+
+\begin{DoxyParams}{Parameters}
+{\em newhome,\-:} & Targeted home for item \\
+\hline
+\end{DoxyParams}
+\hypertarget{classmap_item_a1b50fc0ce2d93062c677fd8bcda29ac2}{\index{map\-Item@{map\-Item}!set\-Waiting\-For\-Action@{set\-Waiting\-For\-Action}}
+\index{set\-Waiting\-For\-Action@{set\-Waiting\-For\-Action}!mapItem@{map\-Item}}
+\subsubsection[{set\-Waiting\-For\-Action}]{\setlength{\rightskip}{0pt plus 5cm}void map\-Item\-::set\-Waiting\-For\-Action (
+\begin{DoxyParamCaption}
+\item[{bool}]{state}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{classmap_item_a1b50fc0ce2d93062c677fd8bcda29ac2}
+
+
+set\-Waiting\-For\-Action 
+
+
+\begin{DoxyParams}{Parameters}
+{\em state} & \\
+\hline
+\end{DoxyParams}
+\hypertarget{classmap_item_ac34ad651be6151f9ca9cc6310d1f6462}{\index{map\-Item@{map\-Item}!type\-Of@{type\-Of}}
+\index{type\-Of@{type\-Of}!mapItem@{map\-Item}}
+\subsubsection[{type\-Of}]{\setlength{\rightskip}{0pt plus 5cm}virtual const Q\-String map\-Item\-::type\-Of (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{classmap_item_ac34ad651be6151f9ca9cc6310d1f6462}
+
+
+returns the type of Map\-Item as a string. Can be at least a location, agent or an action\-Card. 
+
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{class_location_item_aee0b13a778813517b94fde896eb8183a}{Location\-Item}, \hyperlink{class_card_item_a5805490ab3170c1e8cdfa4f96bfa7b35}{Card\-Item}, \hyperlink{classagent_item_abd6f80f1240de5abd8e54838d55c3794}{agent\-Item}, and \hyperlink{class_player_hand_afc80409390272a9f5c44899b015e69d0}{Player\-Hand}.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+Student/mapitem.\-hh\item 
+Student/mapitem.\-cpp\end{DoxyCompactItemize}

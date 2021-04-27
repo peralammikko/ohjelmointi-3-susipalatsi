@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node2" href="$class_agent_action_interface.html" title="AgentActionInterface" alt="" coords="177,81,335,108"/>
+<area shape="rect" id="node3" href="$class_card_payment_action.html" title="CardPaymentAction" alt="" coords="390,5,541,32"/>
+<area shape="rect" id="node4" href="$class_pass_action.html" title="PassAction" alt="" coords="419,56,511,83"/>
+<area shape="rect" id="node5" href="$class_send_agent_action.html" title="SendAgentAction" alt="" coords="399,107,532,133"/>
+<area shape="rect" id="node6" href="$class_withdraw_agent_action.html" title="WithdrawAgentAction" alt="" coords="384,157,547,184"/>
+</map>

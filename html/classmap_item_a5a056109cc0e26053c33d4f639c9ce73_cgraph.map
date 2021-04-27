@@ -1,0 +1,5 @@
+<map id="mapItem::mouseReleaseEvent" name="mapItem::mouseReleaseEvent">
+<area shape="rect" id="node2" href="$classmap_item.html#a9aa8e530e9f2b8121cddff2d811cb477" title="isWaitingForAction " alt="" coords="287,5,497,32"/>
+<area shape="rect" id="node3" href="$classmap_item.html#ad67b22927103d57c1dc4136eb9115771" title="getDragReleaseAction " alt="" coords="275,56,509,83"/>
+<area shape="rect" id="node4" href="$classmap_item.html#a4186737ffce9680d0ba0bc0130533f26" title="mapitem is moved to homeCoordinatesOnScene_ in time milliseconds " alt="" coords="320,107,464,133"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="GameScene::prepareForAction" name="GameScene::prepareForAction">
+<area shape="rect" id="node2" href="$classmap_item.html#ab8ed715abe71e4197937c57dbca8628c" title="sets home to somewhere else " alt="" coords="307,5,455,32"/>
+<area shape="rect" id="node3" href="$classmap_item.html#a4186737ffce9680d0ba0bc0130533f26" title="mapitem is moved to homeCoordinatesOnScene_ in time milliseconds " alt="" coords="309,56,453,83"/>
+<area shape="rect" id="node4" href="$classmap_item.html#a1b50fc0ce2d93062c677fd8bcda29ac2" title="setWaitingForAction " alt="" coords="272,107,491,133"/>
+</map>
