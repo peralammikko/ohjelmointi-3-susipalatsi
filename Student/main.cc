@@ -6,15 +6,6 @@
 
 #include <QApplication>
 
-enum PAIKKANIMET {
-    Marketti,
-    Kirkko,
-    Taverna,
-    Kauppiaiden_kilta,
-    Menomesta,
-    Salapaikka
-};
-
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);

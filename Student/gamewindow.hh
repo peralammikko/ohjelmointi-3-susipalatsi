@@ -96,12 +96,16 @@ public:
      */
     void startingDialog();
 
+    void gameoverDialog(std::set<std::shared_ptr<Interface::Player> > winners);
+
 public slots:
     /**
      * @brief onInterphaseRequested disables the gamescene and starts a timer, which on time-out calls onInterphaseTimeout
      * @param time time in mseconds
      */
     void onInterphaseRequested(int time);
+
+    void onWinnersFound(std::set<std::shared_ptr<Interface::Player>> winners);
 
 private slots:
     /**

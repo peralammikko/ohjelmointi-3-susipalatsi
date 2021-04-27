@@ -71,6 +71,8 @@ signals:
      */
     void requestInterphase(int time);
 
+    void onWinnersFound(std::set<std::shared_ptr<Interface::Player>> winnerset);
+
 private:
     void setNextAction();
     bool thereIsWinner();

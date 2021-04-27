@@ -47,6 +47,10 @@ std::set<std::shared_ptr<Interface::Player>> Logic::checkWin(std::vector<std::sh
             winners.insert(player);
         }
     }
+    if (winners.size() > 0) {
+        emit onWinnersFound(winners);
+        // LOCK GAME SOMEHOW
+    }
     return winners;
 }
 
@@ -73,6 +77,8 @@ void Logic::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlaye
         // If we are just looking for a player who has action cards but could not find one, proceed to even phase
         if (actingPlayer_ != nullptr and actingPlayer_ == actingPlayer){
             // "We have gone a full circle of players with no action cards. Proceeding to event phase"
+            checkWin(game_->players());
+
             emit(enteredEventPhase());
             emit(readyToRewardResources());
             emit(enteringNextRound());

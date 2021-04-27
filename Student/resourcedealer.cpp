@@ -87,7 +87,7 @@ void ResourceDealer::rewardResources()
 
 
                         ///////////// CHEAT CODE ///////////////
-                        agentPtr->addResource(agentAt, res, 100);
+                        // agentPtr->addResource(agentAt, res, 100);
                         ////////////////////////////////////////
 
                     } else {
@@ -101,7 +101,7 @@ void ResourceDealer::rewardResources()
         for (auto loc : game_->locations()) {
 
             /////// CHEAT CODE ///////////
-            loc->setInfluence(player, 50);
+            // loc->setInfluence(player, 50);
             /////////////////////////////
 
             if (locationsBeen.find(loc) != locationsBeen.end()) {

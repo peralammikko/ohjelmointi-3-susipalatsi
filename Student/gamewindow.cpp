@@ -59,7 +59,7 @@ GameWindow::GameWindow(QWidget *parent) :
 
     resDealer_ = std::make_shared<ResourceDealer>(gameScene_, game_);
     connect(logic_.get(), &Logic::readyToRewardResources, resDealer_.get(), &ResourceDealer::onReadyForResources);
-
+    connect(logic_.get(), &Logic::onWinnersFound, this, &GameWindow::onWinnersFound);
     connect(game_.get(), &Interface::Game::playerChanged, this, &GameWindow::onPlayerChanged);
     connect(courseRunner.get(), &Interface::Runner::actionPerformed, this, &GameWindow::onActionPerformed);
     connect(this, &GameWindow::actionDeclared, logic_.get(), &Logic::onActionDeclared);
@@ -70,6 +70,11 @@ GameWindow::GameWindow(QWidget *parent) :
 
     displayPlayerStats();
     startingDialog();
+    /*
+    std::shared_ptr<Interface::Player> p1 = std::make_shared<Interface::Player>(game_,8,"Makke");
+    winners_.insert(p1);
+    gameoverDialog();
+    */
 }
 
 GameWindow::~GameWindow()
@@ -93,7 +98,7 @@ void GameWindow::listAgents(std::shared_ptr<Interface::Player> &currentPlayer)
             if (agentAt != nullptr) {
                 gameui_->agentListWidget->addItem(agentCard->name() + " @ " + agentAt->name());
             } else {
-                gameui_->agentListWidget->addItem(agentCard->name() + " @ Base");
+                gameui_->agentListWidget->addItem(agentCard->name() + " @ Mother Base");
             }
         }
     }
@@ -101,7 +106,6 @@ void GameWindow::listAgents(std::shared_ptr<Interface::Player> &currentPlayer)
 
 void GameWindow::listInfluence(std::shared_ptr<Interface::Player> &currentPlayer)
 {
-    // int id = currentPlayer->id();
     gameui_->influenceList->clear();
     for (auto loc : game_->locations()) {
         int playerInf = loc->influence(currentPlayer);
@@ -230,6 +234,36 @@ void GameWindow::startingDialog()
     infoBox_->show();
 }
 
+void GameWindow::gameoverDialog(std::set<std::shared_ptr<Interface::Player>> winners)
+{
+    infoBox_ = new QMessageBox();
+    infoBox_->setWindowTitle("Attention!");
+    infoBox_->setStyleSheet("background-image: url(:/img/background/background.png); border: none; font-family: Console; color: white;");
+    QString winnerNames = "";
+    for (auto i : winners) {
+        winnerNames += i->name() + " ";
+    }
+    infoBox_->setText("The council has finally come to a conclusion. \n"
+                      "The next ruler(s) of our realm will be... \n" +
+                      winnerNames);
+    infoBox_->exec();
+
+    QFile *textfile = new QFile(":/textfiles/winningText");
+    if (textfile->open(QIODevice::ReadOnly) == true) {
+        infoBox_->setText(QString (textfile->readLine(0)));
+        textfile->close();
+    }
+    QPixmap pic = QPixmap(":/img/img/some sprites/partygoon.png");
+    infoBox_->setIconPixmap(pic);
+    infoBox_->exec();
+
+    infoBox_->setText("Maybe the real SUSIPALATSI was the friends we made along the way... \n"
+                          "\n"
+                          "Thank you for playing!");
+    infoBox_->setIconPixmap(pic);
+    infoBox_->exec();
+}
+
 void GameWindow::onInterphaseTimeout()
 {
     gameui_->graphicsView->setMouseTracking(true);
@@ -248,4 +282,9 @@ void GameWindow::onInterphaseRequested(int time = 1500)
     gameui_->graphicsView->setEnabled(false);
     connect(interphaseTimer_, &QTimer::timeout, this, &GameWindow::onInterphaseTimeout);
     connect(interphaseTimer_, &QTimer::timeout, logic_.get(), &Logic::onInterphaseTimeout);
+}
+
+void GameWindow::onWinnersFound(std::set<std::shared_ptr<Interface::Player>> winners)
+{
+    gameoverDialog(winners);
 }
