@@ -264,7 +264,7 @@ void GameWindow::onInterphaseTimeout()
     gameui_->graphicsView->setEnabled(true);
 }
 
-void GameWindow::onInterphaseRequested(int time = 1500)
+void GameWindow::onInterphaseRequested(int time = 1300)
 {
     if (gameOver_){
         return;

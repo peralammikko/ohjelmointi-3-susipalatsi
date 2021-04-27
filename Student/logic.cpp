@@ -2,6 +2,8 @@
 #include <algorithm>
 #include "ioexception.h"
 #include "councilor.h"
+#include "../Course/deck.h"
+#include "deck.h"
 
 Logic::Logic(std::shared_ptr<Interface::Runner> runner, std::shared_ptr<Interface::Game> game)
     : runner_(runner), game_(game)
@@ -76,13 +78,17 @@ void Logic::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlaye
     {
         // If we are just looking for a player who has action cards but could not find one, proceed to even phase
         if (actingPlayer_ != nullptr and actingPlayer_ == actingPlayer){
-            // "We have gone a full circle of players with no action cards. Proceeding to event phase"
-            checkWin(game_->players());
-
-            emit(readyToRewardResources());
-            emit(enteredEventPhase());
-            actingPlayer_ = nullptr;
-            game_->nextPlayer();
+            // We have gone a full circle of players with no action cards. Proceeding to event phase
+            auto winners = checkWin(game_->players());
+            if (!winners.size()){
+                emit(readyToRewardResources());
+                emit(enteredEventPhase());
+                reshuffleLocationDecks();
+                actingPlayer_ = nullptr;
+                game_->nextPlayer();
+            } else {
+                return;
+            }
         } else {
             // check if new player has action cards
             std::vector<std::weak_ptr<const Interface::CardInterface>> actionCards;
@@ -94,7 +100,7 @@ void Logic::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlaye
                 //gameScene_->onPlayerChanged(actingPlayer);
                 actingPlayer_ = nullptr;
             } else {
-                qDebug() << "Chaning player DOES NOT HAVE action cards";
+                // "Chaning player DOES NOT HAVE action cards";
                 if (not actingPlayer_){
                     actingPlayer_ = actingPlayer;
                 }
@@ -103,20 +109,6 @@ void Logic::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlaye
         }
     }
     
-}
-
-void Logic::deckChanged(std::shared_ptr<const Interface::Location> location) const
-{
-    if (!location->deck()->canDraw()){
-        if(!location->discards()->canDraw()){
-            // Here I would shuffle the discards back to the main deck, but the signal gives me a const which I can't change unless I am to break a contract, and location doesn't have a reshuffle method anyway.
-            // So I guess I wont Reshuffle the deck and it will eventually dry out. Too bad! I won't even connect this slot
-            //while(location->discards()->size()){
-            //    auto card = location->discards()->cardAt(0);
-
-           // }
-        }
-    }
 }
 
 void Logic::onActionPerformed(std::shared_ptr<const Interface::Player> player, std::shared_ptr<Interface::ActionInterface> action)
@@ -136,4 +128,21 @@ void Logic::onInterphaseTimeout()
     game_->setActive(true);
 
     doTheRunning();
+}
+
+void Logic::reshuffleLocationDecks()
+{
+    auto locs = game_->locations();
+    for (auto loc : locs){
+        if (!loc->deck()->canDraw()){
+            qDebug() << "Could not draw from "<< loc->name();
+            auto discards = loc->discards();
+            while (discards->canDraw()){
+                auto card = discards->draw();
+                loc->deck()->addCard(card);
+            }
+            loc->deck()->shuffle();
+            qDebug() << "deck size "<< loc->deck().get()->size();
+        }
+    }
 }
