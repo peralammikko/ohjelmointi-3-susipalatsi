@@ -68,7 +68,7 @@ void GameSetup::checkStartingInfo(std::vector<QString> names, std::vector<int> s
 void GameSetup::initLocations()
 {
 
-    const std::vector<QString> places_ = {"Trading Outpost", "Zaggit Zagoo", "Assassin Hideout", "The Third Temple", "Zyglrox", "Institute of Tuh-Nii"};
+    const std::vector<QString> places_ = {"Trading Outpost", "Zhiggy Diggy", "Assassin Hideout", "The Third Temple", "Zyglrox", "Institute of Tuh-Nii"};
     const std::vector<QString> councillors = {"Red Ditor", "Mu'min Paap", "Squad Lider", "Terryble Sparrow", "Stan", "Grd'Ehr Cr-eeh'Tickal"};
     const std::vector<QString> ctitles = {"Diamond Hands", "Loves broccoli", "Born to die", "Divine Intellect", "(just Stan)", "Master of boomerangs" };
 
