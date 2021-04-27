@@ -184,6 +184,7 @@ private:
     int bots_ = 0;
     int winCondition = 3;
 
+    bool gameOver_ = false;
     QMessageBox* infoBox_;
 
 };

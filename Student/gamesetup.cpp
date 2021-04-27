@@ -67,7 +67,6 @@ void GameSetup::checkStartingInfo(std::vector<QString> names, std::vector<int> s
 
 void GameSetup::initLocations()
 {
-    // TODO: move names to settingsreader file maybe
     const std::vector<QString> paikat_ = {"Marketti", "Kirkko", "Taverna", "Kauppiaiden kilta", "Menomesta", "Salapaikka"};
     const std::vector<QString> councillors = {"KKK Kauppias", "Paavi", "Baarimikko", "Aallon kylteri", "Shaq O'Neil", "Muumipappa"};
 
@@ -228,7 +227,6 @@ void GameSetup::initPlayerHands()
     {
         auto player = players.at(i);
         gameScene_->initHands(player);
-        // TODO: use some rearrangement method in scene instead
         if ( i != 0)//player != game_->currentPlayer())
         {
             // Player who is not in turn has their hand hidden
@@ -261,7 +259,6 @@ void GameSetup::addPlayerSetupCards()
 
 void GameSetup::initPlayerControls()
 {
-    // TODO: maybe other than manual controls too like the AI Stuff? doubt we have time for that
     auto players = game_->players();
     for (unsigned int i = 0; i < players.size(); ++i)
     {
@@ -275,7 +272,6 @@ void GameSetup::initPlayerControls()
 
 void GameSetup::initAgentInterfaces()
 {
-    // TODO: Make names not hard coded maybe
     std::vector<QString> some_names = {"Perry", "Karhu", "Valdemar", "Pontsi", "Kumi",
                                        "Kahlis", "Veitsi", "Sahaniska", "Krapula", "Vahtimestari", "Lakritsiportteri",
                                       "Tyttö", "Kovistelija", "Klovni", "Jäätelö", "Rasvakeitin", "Jeppu", "Salalabra",

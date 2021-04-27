@@ -30,7 +30,6 @@ void WithdrawAgentAction::perform()
 
     if (agent->hasCouncilCard()) {
         agent->owner().lock()->addCard(agent->getCouncilCard());
-        qDebug() << "Council card added";
         agent->addCouncilCard(nullptr);
     }
 }

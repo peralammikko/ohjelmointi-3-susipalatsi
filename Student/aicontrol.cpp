@@ -26,7 +26,6 @@ std::shared_ptr<ActionInterface> AiControl::nextAction()
          }
          delete paymentcard;
          hand_->rearrange();
-         qDebug() << "12342423";
          return action_;
      }
 }
@@ -59,8 +58,6 @@ bool AiControl::canGetCounilorCard(agentItem *aitem, LocationItem *locItem)
     }
     if (locItem->getObject()->influence(player_) < 5){
         return false;
-    } else {
-        qDebug() << "AI has agent with 5 or more influence in a location";
     }
 
     auto neededRes = locItem->getDemandedResource();
@@ -188,7 +185,6 @@ LocationItem* AiControl::findHomeItemFor(agentItem *aItem)
 
 void AiControl::awardCouncilorCard(agentItem *aitem, LocationItem *locItem)
 {
-    qDebug() << "GETTING";
     auto neededRes = locItem->getDemandedResource();
     int reqAmount = neededRes->amount();
 
