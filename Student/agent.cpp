@@ -48,7 +48,6 @@ bool Agent::addCouncilCard(std::shared_ptr<Councilor> card)
 {
     if (councilCardHolder == nullptr) {
         councilCardHolder = card;
-        qDebug() << this->name() << "is now holding " << card->name() << " card";
         return true;
     } else {
         return false;
@@ -101,12 +100,14 @@ unsigned short Agent::connections() const
 
 void Agent::setConnections(unsigned short connections)
 {
-
+    Q_UNUSED(connections);
+    return;
 }
 
 void Agent::modifyConnections(short change)
 {
-
+   Q_UNUSED(change);
+   return ;
 }
 
 

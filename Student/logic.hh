@@ -37,7 +37,6 @@ public :
     void doTheRunning();
     // Attempting to move almost everything in mainwindow which is related to game rule intialisation here
     void launchGame();
-    void createLocations();
     std::set<std::shared_ptr<Interface::Player>> checkWin(std::vector<std::shared_ptr<Interface::Player>> players);
 
 public slots:

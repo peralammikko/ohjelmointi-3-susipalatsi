@@ -80,10 +80,6 @@ void ResourceDealer::rewardResources()
                             }
                         }
                         aItem->displayResourceChange(resourceTotalAmount, resSpritePth);
-                        // Agents earning resources passively by staying at location. Keep or not?
-
-                        // agentPtr->addResource(agentAt, res, rewardAmount);
-
 
                         ///////////// CHEAT CODE ///////////////
                         // agentPtr->addResource(agentAt, res, 100);
@@ -92,23 +88,19 @@ void ResourceDealer::rewardResources()
                     } else {
                         throw Interface::StateException(QString("Agent "+agentPtr->name() +" could not be found during a parliamentary day"));
                     }
-                } else {
-                    qDebug() << agentPtr->name() << " not in any location";
                 }
             }
         }
         for (auto loc : game_->locations()) {
-
-            /////// CHEAT CODE ///////////
-            // loc->setInfluence(player, 50);
-            /////////////////////////////
-
             if (locationsBeen.find(loc) != locationsBeen.end()) {
                 int inf = loc->influence(player);
                 if (inf < 5) {
                     loc->setInfluence(player, inf+1);
                 }
             }
+            /////// CHEAT CODE ///////////
+            // loc->setInfluence(player, 50);
+            /////////////////////////////
         }
     }
 }

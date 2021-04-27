@@ -30,9 +30,11 @@ PopupDialog::PopupDialog(LocationItem* &loc, std::shared_ptr<Interface::Player> 
     ui->locationNameLabel->setText(location_->name());
     ui->councillorDemandsLabel->setText(neededRes_->name() + " x " + QString::number(neededRes_->amount()));
     ui->councillorNameLabel->setText(location_->councilor()->name());
+    ui->councilorTitle->setText(location_->councilor()->title());
     ui->demandLocLabel->setText("(in " + demandLoc->name() + ")");
-    ui->councillorCardText->setText("Councillor card: \n"
-                                    + location_->councilor()->name());
+    QString cardBottomText = "(" + location_->councilor()->name() + ")";
+    ui->councillorCardText->setText("Councillor card \n"
+                                    + cardBottomText);
 
     ui->localResLbl->setPixmap(QPixmap(loc->getLocalResource()->getSpritePath()).scaled(ui->localResLbl->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
     ui->demandSpriteLbl->setPixmap(QPixmap(loc->getDemandedResource()->getSpritePath()).scaled(ui->demandSpriteLbl->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
@@ -79,7 +81,7 @@ void PopupDialog::checkAgentResources(std::set<std::shared_ptr<Interface::AgentI
             auto agentResources = agent->getAgentResources();
 
             if (!demandLoc) {
-                qDebug() << "no go";
+                return;
             } else {
                 agentHas = agentResources.at(demandLoc).size();
             }
@@ -95,7 +97,7 @@ void PopupDialog::checkAgentResources(std::set<std::shared_ptr<Interface::AgentI
 
                 return;
             } else {
-                qDebug() << "not enough stuff";
+               return;
             }
         }
     }
@@ -107,7 +109,7 @@ void PopupDialog::fillAreaAgentsList(std::set<std::shared_ptr<Interface::AgentIn
         std::shared_ptr<Interface::Player> agentOwner = agent->owner().lock();
 
         if (!agentOwner) {
-            qDebug() << "owner not found";
+            return;
         } else {
             ui->agentListWidget->addItem(agent->name() + " (" + agentOwner->name() + ")");
         }
@@ -165,7 +167,7 @@ void PopupDialog::on_tradeButton_clicked()
             }
 
         } else {
-            qDebug() << "Card not found";
+            return;
         }
     }
 }

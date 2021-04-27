@@ -34,7 +34,7 @@ QRectF LocationItem::boundingRect() const
     return QRectF(0, 0, 180,180);
 }
 
-void LocationItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void LocationItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     painter->drawPixmap(20, 20, boundingRect().width()-70, boundingRect().height()-70,  *planetImage_);
 
@@ -198,12 +198,6 @@ agentItem *LocationItem::getAgentItemFor(std::shared_ptr<Interface::AgentInterfa
         }
     }
     return nullptr;
-}
-
-
-void LocationItem::setLocalResource(std::shared_ptr<Interface::CommonResource> &res)
-{
-    localRes_ = res;
 }
 
 std::shared_ptr<Interface::CommonResource> LocationItem::getLocalResource()

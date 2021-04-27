@@ -49,6 +49,8 @@ private slots:
 
     void on_removeCPUbtn_clicked();
 
+    void on_helpButton_clicked();
+
 private:
     Ui::StartingScreen *ui;
     SettingsScreen* settings = nullptr;
@@ -58,6 +60,7 @@ private:
 
     std::vector<int> customSettings = {};
     int botPlayers = 0;
+
 };
 
 #endif // STARTINGSCREEN_HH
