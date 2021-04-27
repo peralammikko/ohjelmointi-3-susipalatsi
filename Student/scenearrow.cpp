@@ -1,7 +1,5 @@
 #include "scenearrow.hh"
 
-#include <QDebug>
-
 SceneArrow::SceneArrow(mapItem *startItem, mapItem *endItem, QGraphicsItem *parent)
     : startItem_(startItem), endItem_(endItem)
 {

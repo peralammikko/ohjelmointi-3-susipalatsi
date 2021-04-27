@@ -37,7 +37,7 @@ QRectF CardItem::boundingRect() const
     return QRectF(0,0,80,120);
 }
 
-void CardItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void CardItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     QRectF rec = boundingRect();
     QBrush brush(Qt::gray);
@@ -84,7 +84,6 @@ std::shared_ptr<Interface::ActionInterface> CardItem::getDragReleaseAction()
         agentItem* aItem = dynamic_cast<agentItem*>(collisions.at(i));
         if (aItem and aItem->isWaitingForAction())
         {
-            qDebug() << "Carditem succesfully dragged on a waiting agent";
             action = std::make_shared<CardPaymentAction>(aItem);
         }
     }

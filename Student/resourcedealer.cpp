@@ -88,8 +88,6 @@ void ResourceDealer::rewardResources()
                     } else {
                         throw Interface::StateException(QString("Agent "+agentPtr->name() +" could not be found during a parliamentary day"));
                     }
-                } else {
-                    qDebug() << agentPtr->name() << " not in any location";
                 }
             }
         }

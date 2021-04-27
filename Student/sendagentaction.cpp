@@ -42,8 +42,7 @@ void SendAgentAction::perform()
     aItem_->setPos(newLocItem_->mapFromScene(currentPos));
     aItem_->setParentItem(newLocItem_);
     newLocItem_->rearrange();
-   // aItem_->setHome(QPointF(0,0));
-   // aItem_->goHome();
+
 }
 
 mapItem *SendAgentAction::getTargetMapItem()

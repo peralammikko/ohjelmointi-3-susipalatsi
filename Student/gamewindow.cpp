@@ -164,6 +164,7 @@ void GameWindow::onActionPerformed(std::shared_ptr<const Interface::Player> play
 
 void GameWindow::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer)
 {
+    Q_UNUSED(actingPlayer);
     displayPlayerStats();
     listCouncilCards();
 }

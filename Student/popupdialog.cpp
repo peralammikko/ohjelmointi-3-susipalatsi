@@ -81,7 +81,7 @@ void PopupDialog::checkAgentResources(std::set<std::shared_ptr<Interface::AgentI
             auto agentResources = agent->getAgentResources();
 
             if (!demandLoc) {
-                qDebug() << "no go";
+                return;
             } else {
                 agentHas = agentResources.at(demandLoc).size();
             }
@@ -97,7 +97,7 @@ void PopupDialog::checkAgentResources(std::set<std::shared_ptr<Interface::AgentI
 
                 return;
             } else {
-                qDebug() << "not enough stuff";
+               return;
             }
         }
     }
@@ -109,7 +109,7 @@ void PopupDialog::fillAreaAgentsList(std::set<std::shared_ptr<Interface::AgentIn
         std::shared_ptr<Interface::Player> agentOwner = agent->owner().lock();
 
         if (!agentOwner) {
-            qDebug() << "owner not found";
+            return;
         } else {
             ui->agentListWidget->addItem(agent->name() + " (" + agentOwner->name() + ")");
         }
@@ -167,7 +167,7 @@ void PopupDialog::on_tradeButton_clicked()
             }
 
         } else {
-            qDebug() << "Card not found";
+            return;
         }
     }
 }

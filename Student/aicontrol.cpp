@@ -121,6 +121,7 @@ int AiControl::considerWithdrawing()
             }
         }
     }
+    return 1;
 }
 
 int AiControl::considerSmartMoving()

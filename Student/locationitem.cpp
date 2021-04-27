@@ -33,7 +33,7 @@ QRectF LocationItem::boundingRect() const
     return QRectF(0, 0, 180,180);
 }
 
-void LocationItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void LocationItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     painter->drawPixmap(20, 20, boundingRect().width()-70, boundingRect().height()-70,  *planetImage_);
 

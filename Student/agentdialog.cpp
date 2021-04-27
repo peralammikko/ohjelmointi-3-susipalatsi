@@ -10,12 +10,12 @@ AgentDialog::AgentDialog(std::shared_ptr<Interface::Agent> agentClicked, QWidget
 {
     ui->setupUi(this);
 
-    // Frameless windows cool as HECK
+    // Spawn a frameless window
     setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
     ui->agentNameLabel->setText(agent_->name());
     std::shared_ptr<Interface::Location> agentLocation = agent_->placement().lock();
     if (!agentLocation) {
-        ui->locationBox->setText("Mother Ship");
+        ui->locationBox->setText("Mothership");
     } else {
         ui->locationBox->setText(agentLocation->name());
     }
@@ -30,7 +30,7 @@ AgentDialog::~AgentDialog()
 
 void AgentDialog::listResources()
 {
-
+    // Lists out all resources an agent is carrying
     for (auto res : agent_->getAgentResources()) {
         int resAmount = res.second.size();
         if (resAmount > 0) {
@@ -43,6 +43,7 @@ void AgentDialog::listResources()
 
 void AgentDialog::displayCouncilCard()
 {
+    // Display a council card if an agent has one
     if (agent_->hasCouncilCard()) {
         ui->cardBox->setText(agent_->getCouncilCard()->name());
     }

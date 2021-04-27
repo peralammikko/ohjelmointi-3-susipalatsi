@@ -2,7 +2,6 @@
 #include "ui_startingscreen.h"
 #include "settingsscreen.hh"
 #include <QTimer>
-#include <QDebug>
 #include <QMessageBox>
 
 StartingScreen::StartingScreen(QWidget *parent) :
