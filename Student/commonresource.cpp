@@ -1,5 +1,5 @@
 #include "commonresource.hh"
-#include <QDebug>
+
 using std::shared_ptr;
 
 namespace Interface {
@@ -40,12 +40,12 @@ std::weak_ptr<Location> CommonResource::location() const
 
 std::weak_ptr<Player> CommonResource::owner() const
 {
-
+    return owner_;
 }
 
 void CommonResource::setOwner(std::weak_ptr<Player> owner)
 {
-
+    owner_ = owner;
 }
 
 void CommonResource::setAmountTo(int num)

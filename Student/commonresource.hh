@@ -56,6 +56,7 @@ private:
     std::weak_ptr<Location> location_;
     int amount_;
     QString spritePath_;
+    std::weak_ptr<Player> owner_;
 
 };
 

@@ -107,7 +107,11 @@ void GameWindow::listInfluence(std::shared_ptr<Interface::Player> &currentPlayer
     gameui_->influenceList->clear();
     for (auto loc : game_->locations()) {
         int playerInf = loc->influence(currentPlayer);
-        gameui_->influenceList->addItem(loc->name() + ": " + QString::number(playerInf));
+        if (playerInf < 5) {
+            gameui_->influenceList->addItem(loc->name() + ": " + QString::number(playerInf));
+        } else {
+            gameui_->influenceList->addItem(loc->name() + ": 5");
+        }
     }
 }
 
@@ -130,7 +134,6 @@ void GameWindow::listCouncilCards()
 void GameWindow::displayPlayerStats() {
 
     std::shared_ptr<Interface::Player> currentPlayer = game_->currentPlayer();
-    gameui_->currentRoundLabel->setText("Current round: " + QString::number(current_round));
 
     gameui_->playerNameLabel->setText(currentPlayer->name());
     listAgents(currentPlayer);
@@ -161,6 +164,7 @@ void GameWindow::onActionPerformed(std::shared_ptr<const Interface::Player> play
 
 void GameWindow::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlayer)
 {
+    Q_UNUSED(actingPlayer);
     displayPlayerStats();
     listCouncilCards();
 }
@@ -231,14 +235,15 @@ void GameWindow::startingDialog()
 void GameWindow::gameoverDialog(std::set<std::shared_ptr<Interface::Player>> winners)
 {
     infoBox_ = new QMessageBox();
-    infoBox_->setWindowTitle("Attention!");
+    infoBox_->setWindowTitle("Game finished!");
     infoBox_->setStyleSheet("background-image: url(:/img/background/background.png); border: none; font-family: Console; color: white;");
     QString winnerNames = "";
     for (auto i : winners) {
         winnerNames += i->name() + " ";
     }
     infoBox_->setText("The council has finally come to a conclusion. \n"
-                      "The next ruler(s) of our realm will be... \n" +
+                      "The next ruler(s) of our realm will be... \n"
+                      "\n" +
                       winnerNames);
     infoBox_->exec();
 
@@ -251,9 +256,9 @@ void GameWindow::gameoverDialog(std::set<std::shared_ptr<Interface::Player>> win
     infoBox_->setIconPixmap(pic);
     infoBox_->exec();
 
-    infoBox_->setText("Maybe the real SUSIPALATSI was the friends we made along the way... \n"
+    infoBox_->setText("Or maybe the real SUSIPALATSI was the friends we made along the way... \n"
                           "\n"
-                          "Thank you for playing!");
+                          "Thanks for playing!");
     infoBox_->setIconPixmap(pic);
     infoBox_->exec();
 }

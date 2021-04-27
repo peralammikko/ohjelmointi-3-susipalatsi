@@ -3,7 +3,7 @@
 
 
 GameSetup::GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game, std::shared_ptr<Interface::Runner> courseRunner, std::shared_ptr<Logic> logic, std::vector<QString> playerNames, std::vector<int> customSettings, int bots, std::shared_ptr<ResourceDealer> resDealer)
-    : gameScene_(gameScene), game_(game), courseRunner_(courseRunner), logic_(logic), BOTCOUNT(bots), resDealer_(resDealer)
+    : gameScene_(gameScene), game_(game), courseRunner_(courseRunner), logic_(logic), resDealer_(resDealer), BOTCOUNT(bots)
 {
     Interface::SettingsReader& reader = Interface::SettingsReader::READER;
     reader.readSettings();
@@ -43,7 +43,7 @@ GameSetup::GameSetup(GameScene* gameScene, std::shared_ptr<Interface::Game> game
 void GameSetup::checkStartingInfo(std::vector<QString> names, std::vector<int> settings)
 {
     Interface::SettingsReader& reader = Interface::SettingsReader::READER;
-    std::vector<QString> some_names = {"RED", "BLUE", "KALJAMIES", "KURKI", "NAPANUORA", "VAIKKU", "LASKIJA"};
+    std::vector<QString> some_names = {"RED", "BLUE", "KALJA", "KURKI", "NAPANUORA", "VAIKKU", "LASKIJA"};
 
     for (unsigned int i = 0; i < names.size(); i++ ) {
         if (names.at(i).trimmed().isEmpty()) {
@@ -67,13 +67,15 @@ void GameSetup::checkStartingInfo(std::vector<QString> names, std::vector<int> s
 
 void GameSetup::initLocations()
 {
-    const std::vector<QString> paikat_ = {"Marketti", "Kirkko", "Taverna", "Kauppiaiden kilta", "Menomesta", "Salapaikka"};
-    const std::vector<QString> councillors = {"KKK Kauppias", "Paavi", "Baarimikko", "Aallon kylteri", "Shaq O'Neil", "Muumipappa"};
+
+    const std::vector<QString> places_ = {"Trading Outpost", "Zhiggy Diggy", "Assassin Hideout", "The Third Temple", "Zyglrox", "Institute of Tuh-Nii"};
+    const std::vector<QString> councillors = {"Red Ditor", "Mu'min Paap", "Squad Lider", "Terryble Sparrow", "Stan", "Grd'Ehr Cr-eeh'Tickal"};
+    const std::vector<QString> ctitles = {"Diamond Hands", "Loves broccoli", "Born to die", "Divine Intellect", "(just Stan)", "Master of boomerangs" };
 
     // Luodaan location-oliot
     for (unsigned int i = 0; i < LOCATIONS; i++) {
-        std::shared_ptr<Interface::Location> location = std::make_shared<Interface::Location>(i, paikat_.at(i));
-        std::shared_ptr<Interface::Councilor> areaCouncillor = std::make_shared<Interface::Councilor>(councillors.at(i), "Councillor", location);
+        std::shared_ptr<Interface::Location> location = std::make_shared<Interface::Location>(i, places_.at(i));
+        std::shared_ptr<Interface::Councilor> areaCouncillor = std::make_shared<Interface::Councilor>(councillors.at(i), ctitles.at(i), location);
         location->initialize();
 
         location->setCouncilor(areaCouncillor);

@@ -61,12 +61,9 @@ void Logic::onActionDeclared(std::shared_ptr<Interface::ActionInterface> action)
     std::shared_ptr<Interface::ManualControl> manualCtrl = std::dynamic_pointer_cast<Interface::ManualControl>(ctrl_);
     if (manualCtrl)
     {
-        qDebug() << "Manual Control was found";
         manualCtrl->setNextAction(action_);
         doTheRunning();
     } else {
-        qDebug() << "Manual Control was not found";
-        // AI?
         doTheRunning();
     }
 }

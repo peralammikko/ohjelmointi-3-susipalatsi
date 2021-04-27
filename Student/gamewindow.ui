@@ -2769,7 +2769,7 @@
            </font>
           </property>
           <property name="text">
-           <string>Current round: X</string>
+           <string>Current player:</string>
           </property>
          </widget>
          <widget class="QLabel" name="playerNameLabel">

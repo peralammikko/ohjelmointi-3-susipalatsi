@@ -39,7 +39,7 @@ QRectF agentItem::boundingRect() const
     return QRectF(0, 0, 100, 100);
 }
 
-void agentItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void agentItem::paint(QPainter *painter, const QStyleOptionGraphicsItem*, QWidget *)
 {
     QRectF rect = boundingRect();
     // the text should always be withing boundingrect
@@ -69,10 +69,6 @@ void agentItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         painter->drawText(QPointF(rect.width()-60, rect.height()-10), displayRes_);
         painter->drawPixmap(rect.width()-40, rect.height()-40, 40, 40,displayResSprite_);
     }
-
-
-
-
 }
 
 const QString agentItem::typeOf()
@@ -82,6 +78,7 @@ const QString agentItem::typeOf()
 
 void agentItem::displayResourceChange(int amount, QString path)
 {
+    // Display a sprite if there is a change in resource gain
     if (amount > 0 ){
         QString resourceAmount = QString::number(amount);
         displayRes_ = "+" + resourceAmount;

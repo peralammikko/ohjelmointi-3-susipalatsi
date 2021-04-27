@@ -257,7 +257,6 @@ void GameScene::onMapItemMouseDragged(mapItem* mapitem)
         count +=1;
         if (items.at(i) != mapitem) {
             // Followin allows us to get ANY type of interaface data under the rect
-            // todo: prettier class type checking
              LocationItem* location = dynamic_cast<LocationItem*>(items.at(i));
              if (location != nullptr)
              {
@@ -266,7 +265,7 @@ void GameScene::onMapItemMouseDragged(mapItem* mapitem)
                 agentItem* agent = dynamic_cast<agentItem*>(items.at(i));
                 if (agent != nullptr)
                 {
-
+                    return;
                 }
              }
         }
@@ -354,6 +353,7 @@ void GameScene::onActionDeclared(std::shared_ptr<Interface::ActionInterface> act
         }
         if (declaredAction_.get() and declaringMapItem_){
             if (declaringMapItem->typeOf()=="actioncard"){
+                
                 // Remove card from its owner's hand and put it in its home location's discard pile
                 auto card = dynamic_cast<CardItem*>(declaringMapItem);
                 auto cardOwner = card->getCard()->owner().lock();
@@ -364,10 +364,8 @@ void GameScene::onActionDeclared(std::shared_ptr<Interface::ActionInterface> act
                         location->discards().get()->addCard(card->getCard());
                     }
                 }
-                //declaringMapItem->~mapItem();
                 delete declaringMapItem;
                 playerHands_.at(game_.lock()->currentPlayer())->rearrange();
-                // TODO: rearrange building agents too
                 emit actionDeclared(declaredAction_);
                 resetAction();
             } else {
@@ -380,7 +378,6 @@ void GameScene::onActionDeclared(std::shared_ptr<Interface::ActionInterface> act
             prepareForAction(action, declaringMapItem);
         }
     } else {
-        qDebug() << "Action was declared on scene but there is no game";
         return;
     }
 }
