@@ -3,6 +3,7 @@
 #include "settingsscreen.hh"
 #include <QTimer>
 #include <QDebug>
+#include <QMessageBox>
 
 StartingScreen::StartingScreen(QWidget *parent) :
     QDialog(parent),
@@ -159,4 +160,15 @@ void StartingScreen::on_removeCPUbtn_clicked()
         ui->errorLabel->show();
         QTimer::singleShot(4000, ui->errorLabel, &QLabel::hide);
     }
+}
+
+void StartingScreen::on_helpButton_clicked()
+{
+    QMessageBox* mesBox = new QMessageBox();
+    mesBox->setStyleSheet("background-image: url(:/img/background/background.png); border: none; font-family: Console; color: white;");
+    mesBox->setText("Click the '?' icon in game window for a quick How to play reference! \n"
+                    "\n"
+                    "For full description of game rules and gameplay, please read the documentation.");
+    mesBox->exec();
+
 }

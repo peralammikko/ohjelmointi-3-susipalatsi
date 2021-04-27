@@ -68,13 +68,14 @@ void GameSetup::checkStartingInfo(std::vector<QString> names, std::vector<int> s
 void GameSetup::initLocations()
 {
     // TODO: move names to settingsreader file maybe
-    const std::vector<QString> paikat_ = {"Marketti", "Kirkko", "Taverna", "Kauppiaiden kilta", "Menomesta", "Salapaikka"};
-    const std::vector<QString> councillors = {"KKK Kauppias", "Paavi", "Baarimikko", "Aallon kylteri", "Shaq O'Neil", "Muumipappa"};
+    const std::vector<QString> places_ = {"Trading Outpost", "Muumilaakso", "Assassin Hideout", "Third Temple", "Zyglrox", "Salapaikka"};
+    const std::vector<QString> councillors = {"Red Ditor", "Mu'min Paap", "Squad Lider", "The Sparrow", "Stan", "Shaq O'Neil"};
+    const std::vector<QString> ctitles = {"Diamond Hands", "Loves broccoli", "Born to die", "Divine Intellect", " ", "Dunkkaa kovemmin" };
 
     // Luodaan location-oliot
     for (unsigned int i = 0; i < LOCATIONS; i++) {
-        std::shared_ptr<Interface::Location> location = std::make_shared<Interface::Location>(i, paikat_.at(i));
-        std::shared_ptr<Interface::Councilor> areaCouncillor = std::make_shared<Interface::Councilor>(councillors.at(i), "Councillor", location);
+        std::shared_ptr<Interface::Location> location = std::make_shared<Interface::Location>(i, places_.at(i));
+        std::shared_ptr<Interface::Councilor> areaCouncillor = std::make_shared<Interface::Councilor>(councillors.at(i), ctitles.at(i), location);
         location->initialize();
 
         location->setCouncilor(areaCouncillor);

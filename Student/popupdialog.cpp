@@ -30,9 +30,11 @@ PopupDialog::PopupDialog(LocationItem* &loc, std::shared_ptr<Interface::Player> 
     ui->locationNameLabel->setText(location_->name());
     ui->councillorDemandsLabel->setText(neededRes_->name() + " x " + QString::number(neededRes_->amount()));
     ui->councillorNameLabel->setText(location_->councilor()->name());
+    ui->councilorTitle->setText(location_->councilor()->title());
     ui->demandLocLabel->setText("(in " + demandLoc->name() + ")");
-    ui->councillorCardText->setText("Councillor card: \n"
-                                    + location_->councilor()->name());
+    QString cardBottomText = "(" + location_->councilor()->name() + ")";
+    ui->councillorCardText->setText("Councillor card \n"
+                                    + cardBottomText);
 
     ui->localResLbl->setPixmap(QPixmap(loc->getLocalResource()->getSpritePath()).scaled(ui->localResLbl->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
     ui->demandSpriteLbl->setPixmap(QPixmap(loc->getDemandedResource()->getSpritePath()).scaled(ui->demandSpriteLbl->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));

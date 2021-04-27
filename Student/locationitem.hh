@@ -87,11 +87,6 @@ public:
 
     // Methods for location's local resource
     /**
-     * @brief setLocalResource
-     * @param res
-     */
-    void setLocalResource(std::shared_ptr<Interface::CommonResource> &res); // Käytössä? Mikko tutkii
-    /**
      * @brief Get the locations local resource
      * @return Return a pointer to the local resource
      */
@@ -153,8 +148,6 @@ private:
     // Resources are initially set to a constant NULL to avoid errors
     std::shared_ptr<Interface::CommonResource> localRes_ = nullptr;
     std::shared_ptr<Interface::CommonResource> demandRes_ = nullptr;
-    
-    std::map<std::shared_ptr<Interface::Player>, int> playerInfluence_;
 
     std::pair<LocationItem*, LocationItem*> neighbours_;
 

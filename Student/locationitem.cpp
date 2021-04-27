@@ -211,12 +211,6 @@ agentItem *LocationItem::getAgentItemFor(std::shared_ptr<Interface::AgentInterfa
     return nullptr;
 }
 
-
-void LocationItem::setLocalResource(std::shared_ptr<Interface::CommonResource> &res)
-{
-    localRes_ = res;
-}
-
 std::shared_ptr<Interface::CommonResource> LocationItem::getLocalResource()
 {
     return localRes_;
