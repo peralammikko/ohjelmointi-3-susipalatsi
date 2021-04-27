@@ -119,13 +119,11 @@ void StartingScreen::on_aiCheckbox_stateChanged(int arg1)
 {
     if (arg1) {
         ui->cpuFrame->show();
-        qDebug() << "Playing against: " << botPlayers;
     } else {
         int botCount = botPlayers;
         for (int i = 0; i < botCount; i++) {
             on_removeCPUbtn_clicked();
         }
-        qDebug() << "Bots left: " << botPlayers;
         ui->cpuFrame->hide();
     }
 }
@@ -144,7 +142,6 @@ void StartingScreen::on_addCPUbtn_clicked()
         ui->errorLabel->show();
         QTimer::singleShot(4000, ui->errorLabel, &QLabel::hide);
     }
-    qDebug() << qlist.count() << "+" << botPlayers << "=" << botPlayers+qlist.count();
 }
 
 void StartingScreen::on_removeCPUbtn_clicked()

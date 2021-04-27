@@ -7,8 +7,6 @@
 #include "sendagentaction.hh"
 #include "withdrawagentaction.hh"
 
-#include <QDebug>
-
 
 agentItem::agentItem(std::shared_ptr<Interface::Agent> &agentInterface) : agentConnections_(0)
 {
@@ -48,7 +46,7 @@ void agentItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
     painter->drawPixmap(0, 0, boundingRect().width(), boundingRect().height(),  *centerimage_);
 
-    painter->setPen(QPen(Qt::yellow, 2));
+    painter->setPen(QPen(playerColor_, 2));
     QRect textBox(boundingRect().x(), boundingRect().y()+30, boundingRect().width(), boundingRect().height());
     painter->drawText(textBox, Qt::AlignCenter, agentObject_->name());
 

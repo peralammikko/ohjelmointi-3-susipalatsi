@@ -11,6 +11,7 @@ public:
     // DISCLAIMER:
     // This has been mostly done with the help of official doc.qt.io tutorial qtwidgets-graphicsview-diagramscene-example.html#arrow-class-definition
     // Full link to the tutorial: https://doc.qt.io/qt-5/qtwidgets-graphicsview-diagramscene-example.html#arrow-class-definition
+    // Responsibility: Vilho Hirvonen
     /**
      * @brief SceneArrow When actions are selected, graphicsview spawns two arrows to point from where map item is going and where it came from
      * @param startItem control point parent item for the arrow
@@ -18,8 +19,6 @@ public:
      * @param parent
      */
     SceneArrow(mapItem *startItem, mapItem *endItem, QGraphicsItem *parent = nullptr);
-
-
 
     /**
      * @brief setStartItem the item which the arrow is "rooted to". It's center serves as a control point
@@ -35,6 +34,7 @@ public:
 
     void setColor(const QColor &color){color_=color;}
     void updatePosition();
+
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
     QRectF boundingRect() const override;

@@ -1,5 +1,3 @@
-#include <QDebug>
-
 #include "locationitem.hh"
 #include "gamescene.hh"
 
@@ -75,10 +73,6 @@ void LocationItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 void LocationItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     isHovered_ = true;
-    if (childItems().size())
-    {
-      //  setRotation(rotation()+45);
-    }
     update();
     QGraphicsItem::hoverEnterEvent(event);
 }
@@ -93,8 +87,6 @@ void LocationItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 
 std::vector<int> LocationItem::calculateRewards(std::shared_ptr<Interface::Player> &player)
 {
-    // WORK IN PROGRESS
-
     std::vector<int> numbers(3);
     int sum = basevalue_;
     int ownAgents = 0;
@@ -103,9 +95,7 @@ std::vector<int> LocationItem::calculateRewards(std::shared_ptr<Interface::Playe
     for (auto agent : locPtr->agents()) {
         std::shared_ptr<Interface::Player> agentOwner = agent->owner().lock();
         std::shared_ptr<Interface::Location>agentPlacement = agent->placement().lock();
-        if (!agentPlacement) {
-            qDebug() << "owner not found";
-        } else {
+        if (agentPlacement) {
             if (agentOwner == player) {
                 ownAgents += 1;
             } else {
@@ -163,8 +153,6 @@ void LocationItem::rearrange()
     QList<QGraphicsItem *> const items = childItems();
     int count = items.size();
     if (count) {
-
-        // TODO: Separate agents between players
         for (int i = 0; i < count; ++i) {
             auto mItem = dynamic_cast<mapItem*>(items.at(i));
             if (mItem){

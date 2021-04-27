@@ -28,12 +28,6 @@ HEADERS += \
     ../Student/commonresource.hh \
     ../Student/logic.hh \
 
-
-
-#include "../Student/logic.hh"
-#include "../Student/logic.cpp"
-
-
 win32:CONFIG(release, debug|release): LIBS += \
     -L$$OUT_PWD/../course/Course/release/ -lCourse
 else:win32:CONFIG(debug, debug|release): LIBS += \
@@ -45,7 +39,6 @@ else:unix: LIBS += \
 INCLUDEPATH += \
     $$PWD/../course/Course \
     $$PWD/../Student \
-    $$PWD/Student
 
 DEPENDPATH += \
     $$PWD/../course/Course \

@@ -143,13 +143,12 @@ void GameWindow::displayPlayerStats() {
 void GameWindow::on_passButton_clicked()
 {
     if (!game_->active()){
+        // prevents pressing pass during pauses (such as interphases)
         return;
     }
     auto hand = gameScene_->playerHands().at(game_->currentPlayer());
     gameScene_->resetAction();
-
     emit actionDeclared(std::make_shared<PassAction>(hand));
-
     auto player = game_->currentPlayer();
 }
 
@@ -173,9 +172,8 @@ void GameWindow::onEnteringEventPhase()
 {
     gameui_->actionHistoryWidget->addItem(QString::number(gameui_->actionHistoryWidget->count()+1) + "==ROUND OVER==");
     gameui_->actionHistoryWidget->addItem("Councilors gather to discuss who is fit to rule Susipalatsi");
-    // TODO: Fix the logic victory check
-    if (false){
-        gameui_->actionHistoryWidget->addItem("Councilors have now decided!");
+    if (gameOver_){
+        gameui_->actionHistoryWidget->addItem("Councilors have now decided! Glory be to the new ruler of Susipalatsi!");
     } else {
         gameui_->actionHistoryWidget->addItem("Councilors did not decide the winner yet");
         gameui_->actionHistoryWidget->addItem("Cosmic Forces change the order of planets!");
@@ -270,15 +268,18 @@ void GameWindow::onInterphaseTimeout()
     gameui_->graphicsView->setEnabled(true);
 }
 
-void GameWindow::onInterphaseRequested(int time = 1500)
+void GameWindow::onInterphaseRequested(int time = 1300)
 {
+    if (gameOver_){
+        return;
+    }
     if (interphaseTimer_ != nullptr){
         delete interphaseTimer_;
     }
     interphaseTimer_ = new QTimer(this);
     interphaseTimer_->setSingleShot(true);
     interphaseTimer_->start(time);
-   // gameui_->graphicsView->setMouseTracking(false);
+
     gameui_->graphicsView->setEnabled(false);
     connect(interphaseTimer_, &QTimer::timeout, this, &GameWindow::onInterphaseTimeout);
     connect(interphaseTimer_, &QTimer::timeout, logic_.get(), &Logic::onInterphaseTimeout);
@@ -287,4 +288,12 @@ void GameWindow::onInterphaseRequested(int time = 1500)
 void GameWindow::onWinnersFound(std::set<std::shared_ptr<Interface::Player>> winners)
 {
     gameoverDialog(winners);
+    gameui_->graphicsView->setEnabled(false);
+    if (interphaseTimer_ != nullptr){
+        disconnect(interphaseTimer_, &QTimer::timeout, this, &GameWindow::onInterphaseTimeout);
+        disconnect(interphaseTimer_, &QTimer::timeout, logic_.get(), &Logic::onInterphaseTimeout);
+        interphaseTimer_->stop();
+    }
+    game_->setActive(false);
+    gameOver_ = true;
 }

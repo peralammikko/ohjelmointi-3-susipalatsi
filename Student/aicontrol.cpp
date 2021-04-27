@@ -26,7 +26,6 @@ std::shared_ptr<ActionInterface> AiControl::nextAction()
          }
          delete paymentcard;
          hand_->rearrange();
-         qDebug() << "12342423";
          return action_;
      }
 }
@@ -42,7 +41,6 @@ void AiControl::ponderActions()
     locItems_ = gameScene_->GetLocItems();
     // These aitems are in locations
     aitems_ =  gameScene_->getAgentItemsForPlayer(player_);
-
     for (unsigned int i = 0; i < considerationsVector.size(); ++i){
          if (action_.get() == nullptr){
             (this->*considerationsVector[i])();
@@ -60,8 +58,6 @@ bool AiControl::canGetCounilorCard(agentItem *aitem, LocationItem *locItem)
     }
     if (locItem->getObject()->influence(player_) < 5){
         return false;
-    } else {
-        qDebug() << "AI has agent with 5 or more influence in a location";
     }
 
     auto neededRes = locItem->getDemandedResource();
@@ -85,7 +81,6 @@ int AiControl::considerSendingFromHand()
 {
     Q_ASSERT(gameScene_ != nullptr);
     Q_ASSERT(hand_ != nullptr);
-    qDebug() << "Hmm!";
     auto handAgents = hand_->getAgentItems();
     auto locItems = gameScene_->GetLocItems();
     // These aitems are in locations
@@ -150,7 +145,7 @@ int AiControl::considerSmartMoving()
             }
         }
     }
-
+    return 1;
 }
 
 int AiControl::considerRandomMoving()
@@ -160,7 +155,7 @@ int AiControl::considerRandomMoving()
         Q_ASSERT(homeItem != nullptr);
         auto neighbours = homeItem->neighbours();
         int influence = homeItem->getObject()->influence(player_);
-        unsigned int rand = Interface::Random::RANDOM.uint(std::max(10-influence, 2));
+        unsigned int rand = Interface::Random::RANDOM.uint(std::max(10-influence, 5));
         if (rand == 0){
             auto ac = std::make_shared<SendAgentAction>(neighbours.first, aItem);
             if (ac->canPerform()){
@@ -168,12 +163,10 @@ int AiControl::considerRandomMoving()
                 return 1;
             }
         } else if (rand == 1) {
-            if (canGetCounilorCard(aItem, neighbours.second)){
-                auto ac = std::make_shared<SendAgentAction>(neighbours.second, aItem);
-                if (ac->canPerform()){
-                    action_ = ac;
-                    return 1;
-                }
+            auto ac = std::make_shared<SendAgentAction>(neighbours.second, aItem);
+            if (ac->canPerform()){
+                action_ = ac;
+                return 1;
             }
         }
     }
@@ -190,7 +183,7 @@ LocationItem* AiControl::findHomeItemFor(agentItem *aItem)
     return nullptr;
 }
 
-void AiControl::getCouncilorCard(agentItem *aitem, LocationItem *locItem)
+void AiControl::awardCouncilorCard(agentItem *aitem, LocationItem *locItem)
 {
     auto neededRes = locItem->getDemandedResource();
     int reqAmount = neededRes->amount();
@@ -202,8 +195,21 @@ void AiControl::getCouncilorCard(agentItem *aitem, LocationItem *locItem)
 
     aitem->getAgentClass()->addCouncilCard(locItem->getObject()->councilor());
     aitem->getAgentClass()->removeResource(demandLoc, reqAmount);
-    // TODO: emit signal to history
 
+
+}
+
+int AiControl::seeIfCanGetCouncilorCard()
+{
+    for (auto aitem : aitems_){
+        LocationItem* homeItem = findHomeItemFor(aitem);
+        if (!homeItem){
+            continue;
+        } else if (canGetCounilorCard(aitem, homeItem)){
+            awardCouncilorCard(aitem, homeItem);
+        }
+    }
+    return 1;
 }
 
 } // Interface
