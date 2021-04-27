@@ -2,20 +2,15 @@
 #include <memory>
 #include <algorithm>
 
-
 #include "../Student/agent.hh"
 #include "commonresource.hh"
-
 #include "../Course/game.h"
-
 #include "../Student/agentitem.hh"
 #include "settingsreader.h"
-
-
-// For game end check
 #include "../course/Course/runner.h"
 #include "../Student/logic.hh"
 #include "../course/Course/councilor.h"
+
 
 class StudentTest : public QObject
 {
@@ -23,12 +18,8 @@ class StudentTest : public QObject
 public:
     StudentTest();
 private:
-    QString test();
-    std::shared_ptr<Interface::Game> game_;
-    std::vector<std::shared_ptr<Interface::Location>> testLocations_;
 
 private slots:
-    void test_case1();
     void test_resources();
     void test_resources_data();
 
@@ -40,23 +31,6 @@ private slots:
 
 StudentTest::StudentTest()
 {
-    game_ = std::make_shared<Interface::Game>();
-}
-
-QString StudentTest::test()
-{
-    return "name";
-}
-
-void StudentTest::test_case1()
-{
-    //Interface::Game game_;
-
-    game_->setActive(true);
-
-
-    auto pl = std::make_shared<Interface::Player>(game_, 0, "");
-    qDebug() << "hey!";
 
 }
 
@@ -136,13 +110,6 @@ void StudentTest::test_game_end()
 
 void StudentTest::test_game_end_data()
 {
-    /*
-    QFETCH(unsigned int, numberOfCouncilorCards0);
-    QFETCH(unsigned int, numberOfCouncilorCards1);
-    QFETCH(unsigned int, requiredForVictory);
-    QFETCH(bool, player0ExpectedToWin);
-    QFETCH(bool, player1ExpectedToWin);*/
-
     QTest::addColumn<unsigned int>("numberOfCouncilorCards0");
     QTest::addColumn<unsigned int>("numberOfCouncilorCards1");
     QTest::addColumn<unsigned int>("requiredForVictory");
