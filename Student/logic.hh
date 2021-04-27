@@ -4,17 +4,11 @@
 #include <memory>
 
 #include "gamewindow.hh"
-//#include "ui_gamewindow.h"
 
 
 #include "gamescene.hh"
 #include <cmath>
 
-//#include "mapitem.hh"
-//#include "locationitem.hh"
-
-//#include "agent.hh"
-//#include "agentitem.hh"
 #include "actioncard.hh"
 
 #include "../Course/runner.h"
@@ -97,6 +91,11 @@ private:
 
     void setNextAction();
 
+    /**
+     * @brief reshuffleLocationDecks if the deck is empty, tries to reshuffle location's discard pile to main deck
+     * @pre locations have discards and decks initialized
+     * @post empty decks are now filled with cards from discard pile and shuffled, discards empty
+     */
     void reshuffleLocationDecks();
 
     std::shared_ptr<Interface::Runner> runner_;

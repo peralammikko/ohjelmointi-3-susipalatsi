@@ -1,4 +1,5 @@
 #include "resourcedealer.hh"
+#include "stateexception.h"
 
 ResourceDealer::ResourceDealer(GameScene *gameScene, std::shared_ptr<Interface::Game> game) : gameScene_(gameScene), game_(game)
 {
@@ -48,12 +49,9 @@ void ResourceDealer::rewardResources()
                                 auto rewards = loc->calculateRewards(player);
                                 rewardAmount = rewards.at(0);
                                 aItem = loc->getAgentItemFor(agentPtr);
-                                if (aItem == nullptr){
-                                    // TODO! OWN EXCEPTIONS
-                                    //throw Interface::IoException(QString("Agent "+agentPtr->name() +" could not have its agent item located during a parliamentary day"));
+                                if (aItem == nullptr){   
+                                    throw Interface::StateException(QString("Agent "+agentPtr->name() +" could not have its agent item located during a parliamentary day"));
                                 }
-                            } else {
-                               // throw Interface::IoException(QString("PD: Could not find location for "+agentPtr->name()));
                             }
                         }
                         for (int i = 0; i < rewardAmount; ++i)
@@ -74,8 +72,9 @@ void ResourceDealer::rewardResources()
                                         owner->addCard(action);
                                         gameScene_->addActionCardForPlayer(owner, action);
                                     } else {
-                                        // TODO! OWN EXCEPTIONS
-                                        // throw Interface::IoException(QString("Agent "+agentPtr->name() +" drew an unsupported type card "+ drawnCard->typeName() +" in " + agentAt->name()));
+                                        throw Interface::StateException(QString(("Agent "+agentPtr->name()
+                                                                                 +" drew an unsupported type card "+ drawnCard->typeName()
+                                                                                 +" in " + agentAt->name())));
                                     }
                                 }
                             }
@@ -91,7 +90,7 @@ void ResourceDealer::rewardResources()
                         ////////////////////////////////////////
 
                     } else {
-                        //throw Interface::IoException(QString("Agent "+agentPtr->name() +" could not be found during a parliamentary day"));
+                        throw Interface::StateException(QString("Agent "+agentPtr->name() +" could not be found during a parliamentary day"));
                     }
                 } else {
                     qDebug() << agentPtr->name() << " not in any location";

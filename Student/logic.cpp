@@ -1,6 +1,6 @@
 #include "logic.hh"
 #include <algorithm>
-#include "ioexception.h"
+#include "stateexception.h"
 #include "councilor.h"
 #include "../Course/deck.h"
 #include "deck.h"
@@ -27,8 +27,8 @@ void Logic::launchGame()
     {
 
     } else {
-        qDebug() << "Error: Logic tried to launch the game while it was already running";
-        return;
+
+        throw Interface::StateException(QString("Error: Logic tried to launch the game while it was already running"));
     }
     game_->setActive(true);
 }
@@ -51,7 +51,6 @@ std::set<std::shared_ptr<Interface::Player>> Logic::checkWin(std::vector<std::sh
     }
     if (winners.size() > 0) {
         emit onWinnersFound(winners);
-        // LOCK GAME SOMEHOW
     }
     return winners;
 }
@@ -113,20 +112,15 @@ void Logic::onPlayerChanged(std::shared_ptr<const Interface::Player> actingPlaye
 
 void Logic::onActionPerformed(std::shared_ptr<const Interface::Player> player, std::shared_ptr<Interface::ActionInterface> action)
 {
-    // Signal the gamewindow to disable gameview for a while.
     emit(requestInterphase(1200));
     game_->nextPlayer();
     game_->setActive(false);
-    //gameScene_->onPlayerChanged(game);
     actingPlayer_ = nullptr;
-
 }
 
 void Logic::onInterphaseTimeout()
 {
-    // TODO: check if the game is actually over ( there is a winner )
     game_->setActive(true);
-
     doTheRunning();
 }
 
@@ -135,14 +129,12 @@ void Logic::reshuffleLocationDecks()
     auto locs = game_->locations();
     for (auto loc : locs){
         if (!loc->deck()->canDraw()){
-            qDebug() << "Could not draw from "<< loc->name();
             auto discards = loc->discards();
             while (discards->canDraw()){
                 auto card = discards->draw();
                 loc->deck()->addCard(card);
             }
             loc->deck()->shuffle();
-            qDebug() << "deck size "<< loc->deck().get()->size();
         }
     }
 }
