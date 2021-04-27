@@ -11,6 +11,10 @@
 class LocationItem;
 class AgentActionInterface;
 
+/**
+ * @file
+ * @brief Visual representation of an agent on gamescene
+ */
 class agentItem : public mapItem
 {
 public:

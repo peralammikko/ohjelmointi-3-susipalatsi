@@ -3,12 +3,19 @@
 #include "agentactioninterface.hh"
 #include "playerhand.hh"
 
+/**
+ * @file
+ * @brief PassAction is the action where player simply discardes their hand of action cards.
+ */
+
+
 class PassAction : public AgentActionInterface
 {
 public:
     /**
-     * @brief PassAction is the action where player simply discardes their hand of action cards.
+     * @brief constructor
      * @param hand The HandItem where action cards visually reside
+     * @pre hand != nullptr
      */
     PassAction(PlayerHand* hand);
     /**

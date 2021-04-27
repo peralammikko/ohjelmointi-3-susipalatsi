@@ -11,6 +11,12 @@
 #include "agentactioninterface.hh"
 #include "../Course/cardinterface.h"
 
+/**
+ * @file
+ * @brief MapItem is for every moving part of the gamescene, such as locations, hands, cards and agents.
+ */
+
+
 namespace Interface {
     class CardInterface;
     class AgentActionInterface;

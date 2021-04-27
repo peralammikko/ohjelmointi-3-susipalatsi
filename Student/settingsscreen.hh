@@ -3,6 +3,10 @@
 
 #include <QDialog>
 
+/**
+ * @file
+ * @brief For user's custom settings
+ */
 namespace Ui {
 class SettingsScreen;
 }

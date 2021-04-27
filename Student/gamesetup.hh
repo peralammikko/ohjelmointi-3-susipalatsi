@@ -33,6 +33,10 @@
 #include "startingscreen.hh"
 #include "../Course/settingsreader.h"
 
+/**
+ * @file
+ * @brief Sets up most of the stuff for the game
+ */
 
 class GameSetup
 {

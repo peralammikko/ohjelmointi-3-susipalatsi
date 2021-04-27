@@ -7,6 +7,11 @@
 #include "locationitem.hh"
 #include "player.h"
 
+/**
+ * @file
+ * @brief A popup dialog with detailed information about a locationitem
+ */
+
 namespace Ui {
 class PopupDialog;
 }

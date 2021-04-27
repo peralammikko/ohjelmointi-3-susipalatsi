@@ -5,6 +5,11 @@
 #include "../Course/cardinterface.h"
 #include "cardpaymentaction.hh"
 
+
+/**
+ * @file
+ * @brief visual representation of an action card
+ */
 namespace Interface {
     class CardInterface;
 }

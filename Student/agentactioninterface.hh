@@ -4,6 +4,11 @@
 #include "mapitem.hh"
 
 class mapItem;
+
+/**
+ * @file
+ * @brief Modified actioninterface
+ */
 class AgentActionInterface : public Interface::ActionInterface
 {
 public:

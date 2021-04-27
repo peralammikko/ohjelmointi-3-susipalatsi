@@ -6,6 +6,11 @@
 #include "location.h"
 #include "cardinterface.h"
 
+/**
+ * @file
+ * @brief Commonresource is the type of card which agents carry and give to councilors
+ */
+
 namespace Interface {
 
 class CommonResource : public Interface::CardInterface

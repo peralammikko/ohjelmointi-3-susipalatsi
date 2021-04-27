@@ -3,10 +3,17 @@
 #include "agentactioninterface.hh"
 #include "agentitem.hh"
 
+/**
+ * @file
+ * @brief a pseudo-action for paying cards
+ */
 class CardPaymentAction : public AgentActionInterface
 {
 public:
-    // This class is for action when players are prompted to pay an action card on their agent
+    /**
+     * @brief CardPaymentAction This class is for action when players are prompted to pay an action card on their agent
+     * @param aItem
+     */
     CardPaymentAction(agentItem* aItem);
 
     virtual bool canPerform() const override;

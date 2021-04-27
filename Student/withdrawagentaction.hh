@@ -10,7 +10,10 @@
 class PlayerHand;
 class agentItem;
 
-
+/**
+ * @file
+ * @brief a basic action for agents to move them from a location to hand
+ */
 class WithdrawAgentAction : public AgentActionInterface
 {
 public:

@@ -4,6 +4,10 @@
 #include "mapitem.hh"
 
 
+/**
+ * @file
+ * @brief a visual arrow to show you where agent is coming or where agent is heading on the scene
+ */
 class SceneArrow : public QGraphicsLineItem
 {
 public:

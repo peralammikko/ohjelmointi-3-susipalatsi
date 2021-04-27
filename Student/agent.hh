@@ -15,7 +15,10 @@
 class LocationItem;
 
 namespace Interface {
-
+/**
+ * @file
+ * @brief own Agent class for agent related data
+ */
 class Agent : public AgentInterface
 {
 public:

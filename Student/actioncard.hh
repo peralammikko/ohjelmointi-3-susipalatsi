@@ -4,7 +4,10 @@
 
 
 
-
+/**
+ * @file
+ * @brief Visual representation of an action card
+ */
 
 namespace Interface {
 
