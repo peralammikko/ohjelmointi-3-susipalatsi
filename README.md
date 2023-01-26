@@ -3,7 +3,7 @@ Made by Mikko Perälä and Vilho Hirvonen
 
 Ohjelmointi 3: Tekniikat -kurssille pariharjoitustyönä toteutettu pienimuotoinen strategiapeli.
 
-!! Projektin compile ei tällä hetkellä toimi kurssin puolelta annetuista tiedostoista johtuen. !!
+**!! Projektin compile ei tällä hetkellä toimi kurssin puolelta annetuista tiedostoista johtuen. !!**
 
 Susipalatsi on 2–5 pelaajalle tarkoitettu peli, jossa tavoitteena on liikuttaa kerryttää resursseja ja vaihtaa niitä pisteinä toimiviin kortteihin liikuttelemalla pelaajan agentteja pelilaudalla.
 
